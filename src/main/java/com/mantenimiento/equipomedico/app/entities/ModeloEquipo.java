@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -8,14 +9,27 @@ import java.io.Serializable;
  * @author Brenda Quiñonez
  *
  */
+@Entity
+@Table(name = "modelo_equipo")
 public class ModeloEquipo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "modelo")
     private String modelo;
+
+    @Column(name = "marca")
     private String marca;
+
+    @Column(name = "clase")
     private String clase;
+
+    @Column(name = "regla_clasificacion")
     private String reglaClasificacion;
 
     /**

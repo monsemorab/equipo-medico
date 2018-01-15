@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,7 +10,8 @@ import java.util.Date;
  * @author Brenda Quiñonez
  *
  */
-
+@Entity
+@Table(name = "orden_trabajo")
 public class OrdenTrabajo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,14 +21,36 @@ public class OrdenTrabajo implements Serializable {
      */
     public enum SERVICIOS {PREVENTIVO, CORRECTIVO}
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "fecha")
     private Date fecha;
+
+    @Column(name = "estado")
     private String estado;
+
+    @Column(name = "equipo")
     private Equipo equipo;
+
+    @Column(name = "tipo_servicio")
     private SERVICIOS tipoServicio;
+
+    @Column(name = "diagnostico")
     private String diagnostico;
+
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="solicitud_repuesto_id")
     private SolicitudRepuesto solicitudRepuesto;
+
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="solicitud_servicio_id")
     private SolicitudServicio solicitudServicio;
+
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="mantenimiento_id")
     private Mantenimiento mantenimiento;
 
     /**

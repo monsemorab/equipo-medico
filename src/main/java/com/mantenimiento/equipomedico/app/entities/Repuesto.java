@@ -1,6 +1,7 @@
 package com.mantenimiento.equipomedico.app.entities;
 
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,19 +11,45 @@ import java.util.Date;
  * @author Brenda Quiñonez
  *
  */
+@Entity
+@Table(name = "repuesto")
 public class Repuesto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "codigo")
     private String codigo;
+
+    @Column(name = "descripcion_articulo")
     private String descripcionArticulo;
+
+    @Column(name = "precio")
     private Float precio;
+
+    @Column(name = "fecha_actualizacion")
     private Date fechaActualizacion;
+
+    @Column(name = "cantidad_adquirida")
     private Integer cantidadAdquirida;
+
+    @Column(name = "cantidad_restante")
     private Integer cantidadRestante;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="tipo_equipo_id")
     private TipoEquipo tipoEquipo;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="modelo_equipo_id")
     private ModeloEquipo modeloEquipo;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="representante_id")
     private Representante representante;
 
     /**

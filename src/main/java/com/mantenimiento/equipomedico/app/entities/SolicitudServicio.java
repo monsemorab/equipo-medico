@@ -1,6 +1,7 @@
 package com.mantenimiento.equipomedico.app.entities;
 
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,15 +11,28 @@ import java.util.Date;
  * @author Brenda Quiñonez
  *
  */
-
+@Entity
+@Table(name = "solicitud_servicio")
 public class SolicitudServicio implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "fecha_solicitud")
     private Date fechaSolicitud;
+
+    @Column(name = "tarea")
     private String tarea;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="representante_id")
     private Representante responsable;
+
+    @Column(name = "estado")
     private String estado;
 
     /**

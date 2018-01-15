@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -8,15 +9,27 @@ import java.io.Serializable;
  * @author Brenda Quiñonez
  *
  */
-
+@Entity
+@Table(name = "representante")
 public class Representante implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "nombre")
     private String nombre;
+
+    @Column(name = "direccion")
     private String direccion;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "telefono")
     private String telefono;
 
     /**

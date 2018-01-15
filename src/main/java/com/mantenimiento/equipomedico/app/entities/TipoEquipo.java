@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -9,17 +10,36 @@ import java.io.Serializable;
  *
  */
 
+@Entity
+@Table(name = "tipo_equipo")
 public class TipoEquipo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "tipo")
     private String tipo;
+
+    @Column(name = "nombre_generico")
     private String nombreGenerico;
+
+    @Column(name = "indice_gestion_equipo")
     private String indiceGestionEquipo;
+
+    @Column(name = "vida_util")
     private String vidaUtil;
+
+    @Column(name = "codigo_ECRI_UMDNS")
     private String codigoECRI_UMDNS;
+
+    @Column(name = "procedimiento_MP")
     private String procedimientoMP;
+
+    @Column(name = "MP_anho")
     private String MPaño;
 
     /**

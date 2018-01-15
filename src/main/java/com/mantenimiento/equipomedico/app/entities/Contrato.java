@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -10,19 +11,42 @@ import java.util.List;
  * @author Brenda Quiñonez
  *
  */
+@Entity
+@Table(name = "contrato")
 public class Contrato implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "numero_contrato")
     private Long numeroContrato;
+
+    @Column(name = "nombre_licitacion")
     private String nombreLicitacion;
+
+    @Column(name = "tipo_procedimiento")
     private String tipoProcedimiento;
+
+    @Column(name = "estado_contrato")
     private String estadoContrato;
+
+    @Column(name = "fecha_inicio")
     private Date fechaInicio;
+
+    @Column(name = "fecha_fin")
     private Date fechaFin;
+
+    @OneToMany(mappedBy="contrato")
     private List<Equipo> equipos;
+
+    @Column(name = "convocante")
     private String convocante;
+
+    @Column(name = "pdf")
     private String pdf;
 
     /**

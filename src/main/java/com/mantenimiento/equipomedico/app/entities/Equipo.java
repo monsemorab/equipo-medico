@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,27 +10,69 @@ import java.util.Date;
  * @author Brenda Quiñonez
  *
  */
+@Entity
+@Table(name = "equipo")
 public class Equipo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "numero_serie")
     private Long numeroSerie;
+
+    @Column(name = "numero_patrimonial")
     private Long numeroPatrimonial;
+
+    @Column(name = "numero_lote")
     private Long numeroLote;
+
+    @Column(name = "fecha_fabricacion")
     private Date fechaFabricacion;
+
+    @Column(name = "fecha_ven_garantia")
     private Date fechaVenGarantia;
+
+    @Column(name = "fecha_instalacion")
     private Date fechaInstalacion;
+
+    @Column(name = "fecha_compra")
     private Date fechaCompra;
+
+    @Column(name = "estado")
     private String estado;
+
+    @Column(name = "alim_electrica")
     private String alimElectrica;
+
+    @Column(name = "version_sw")
     private String versionSw;
+
+    @Column(name = "costo")
     private Float costo;
+
+    @Column(name = "descripcion_equipo")
     private String descripcionEquipo;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="representante_id")
     private Representante representante;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="tipo_equipo_id")
     private TipoEquipo tipoEquipo;
+
+    @Column(name = "modelo_equipo_id")
     private ModeloEquipo modeloEquipo;
+
+    @Column(name = "ubicacion_id")
     private Ubicacion ubicacion;
+
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name="contrato_id")
     private Contrato contrato;
 
     /**
