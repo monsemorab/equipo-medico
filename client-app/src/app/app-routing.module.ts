@@ -1,15 +1,28 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule, Routes} from '@angular/router';
+import {MantenimientosComponent} from "./mantenimientos/mantenimientos.component";
+import {EquipoComponent} from "./mantenimientos/equipo/equipo.component";
+import {AddEditEquipoComponent} from "./mantenimientos/equipo/add-edit-equipo/add-edit-equipo.component";
 
-const routes: Routes = [
+
+const appRoutes: Routes = [
+  {path: '', redirectTo: 'mantenimientos/equipos', pathMatch: 'full'},
   {
-    path: '',
-    children: []
-  }
+    path: 'mantenimientos', component: MantenimientosComponent,
+    children: [
+      {path: 'equipos', component: EquipoComponent},
+      {path: 'abmEquipo', component: AddEditEquipoComponent}
+    ]
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    CommonModule,
+    RouterModule.forRoot(appRoutes)
+  ],
+  declarations: []
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

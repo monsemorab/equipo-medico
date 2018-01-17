@@ -1,0 +1,13 @@
+.form-equipo-title {
+  font-weight: bold;
+  margin-top: 8px !important;
+}
+
+.selectEquipo {
+  background-color: darkgrey !important;
+}
+
+pre {
+  border: 0px solid #ccc !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}
