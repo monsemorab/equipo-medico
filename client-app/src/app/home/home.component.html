@@ -1,0 +1,36 @@
+<div class="main-container">
+  <header class="header header-4">
+    ...
+  </header>
+  <div class="content-container">
+    <div class="content-area">
+      <div class="container col-sm-12">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <nav class="sidenav">
+      <section class="sidenav-content">
+        <a routerLink="./equipos" class="nav-link" routerLinkActive="active">
+          Equipos
+        </a>
+        <a routerLink="./contratos" class="nav-link" routerLinkActive="active">
+          Contratos
+        </a>
+
+        <section class="nav-group">
+          <input id="mantenimiento" type="checkbox">
+          <label for="mantenimiento">Mantenimiento</label>
+          <ul class="nav-list">
+            <li><a class="nav-link" routerLinkActive="active">Repuestos</a></li>
+            <li><a class="nav-link" routerLinkActive="active">Orden</a></li>
+            <li><a class="nav-link" routerLinkActive="active">Solicitud</a></li>
+
+          </ul>
+        </section>
+        <a class="nav-link">
+          Informes
+        </a>
+      </section>
+    </nav>
+  </div>
+</div>

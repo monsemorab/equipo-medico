@@ -6,11 +6,12 @@ import {HttpModule} from "@angular/http";
 import {RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import {ClarityModule} from "@clr/angular";
+import {ClarityModule} from "clarity-angular";
 import {AppRoutingModule} from "./app-routing.module";
-import {MantenimientosModule} from "./mantenimientos/mantenimientos.module";
+import {HomeModule} from "./home/home.module";
 
 import {AppComponent} from './app.component';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import {AppComponent} from './app.component';
     RouterModule,
     ClarityModule,
     AppRoutingModule,
-    MantenimientosModule
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

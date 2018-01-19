@@ -15,8 +15,6 @@ export class EquipoComponent implements OnInit {
   selectedEquipo: Equipo;
 
   // modal
-  titleAction: string;
-  messageAction: string;
   modalConfirmOpen: boolean;
 
   // success actions
@@ -83,9 +81,9 @@ export class EquipoComponent implements OnInit {
    * Cuando se presiona el botón Add.
    */
   addEquipo() {
-    this.selectedEquipo = new Equipo(null, null, null, null, '', '',
-      '', '', null, null, null, null, null, null,
-      '', '', '');
+    this.selectedEquipo = new Equipo(null, null, null, null, '',
+      '', '', '', null, null, null,
+      null, null, null, '', '', '');
     this.equipoService.emitChangeEdit(false);
     this.equipoService.emitChangeEquipo(this.selectedEquipo);
     this.goAddEditForm();
@@ -95,7 +93,7 @@ export class EquipoComponent implements OnInit {
    * Redirecciona a la pagina de AddEditEquipo.
    */
   goAddEditForm(): void {
-    this.router.navigate(['mantenimientos/abmEquipo']);
+    this.router.navigate(['home/abmEquipo']);
   }
 
   /**
@@ -103,9 +101,18 @@ export class EquipoComponent implements OnInit {
    */
   deleteEquipo() {
     this.error = false;
-    // ver si es una eliminación lógica o fisica.
+    this.modalConfirmOpen = true;
+  }
+
+  /**
+   * Cuando se confirma la eliminación del equipo seleccionado.
+   */
+  confirmarEliminacion(): void {
+    // TODO: ver si es una eliminación lógica o fisica.
+    this.modalConfirmOpen = false;
     this.successMessage = 'Equipo eliminado exitosamente';
     this.success = true;
+    this.selectedEquipo = null;
     this.getSuccessMessage();
   }
 

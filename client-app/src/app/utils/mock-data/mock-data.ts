@@ -1,21 +1,28 @@
 /** Mock data*/
 import {Equipo} from "../../domain/equipo";
-import {Contrato} from "../../domain/contrato";
+import {Contrato, EstadoContrato} from "../../domain/contrato";
 import {Representante} from "../../domain/representante";
 import {TipoEquipo} from "../../domain/tipo-equipo";
 import {ModeloEquipo} from "../../domain/modelo-equipo";
 import {Ubicacion} from "../../domain/ubicacion";
 
+
+export const ESTADO_CONTRATO: EstadoContrato[] = [
+  new EstadoContrato('Vigente'),
+  new EstadoContrato('Finalizado'),
+  new EstadoContrato('Cancelado')
+];
+
 export const CONTRATOS: Contrato[] = [
-  new Contrato(1, 100, 'LIC.01', 'Proc.1', 'Estado1', '', [], '13/05/2017',
+  new Contrato(1, 100, 'LIC.01', 'Proc.1', ESTADO_CONTRATO[0].nombre, '', '', [], '13/05/2017',
     '13/12/2017'),
-  new Contrato(2, 101, 'LIC.02', 'Proc.2', 'Estado2', '', [], '13/05/2017',
+  new Contrato(2, 101, 'LIC.02', 'Proc.2', ESTADO_CONTRATO[0].nombre, '', '', [], '13/05/2017',
     '13/12/2017'),
-  new Contrato(3, 102, 'LIC.03', 'Proc.3', 'Estado3', '', [], '13/05/2017',
+  new Contrato(3, 102, 'LIC.03', 'Proc.3', ESTADO_CONTRATO[0].nombre, '', '', [], '13/05/2017',
     '13/12/2017'),
-  new Contrato(4, 103, 'LIC.04', 'Proc.4', 'Estado4', '', [], '13/05/2017',
+  new Contrato(4, 103, 'LIC.04', 'Proc.4', ESTADO_CONTRATO[0].nombre, '', '', [], '13/05/2017',
     '13/12/2017'),
-  new Contrato(5, 104, 'LIC.05', 'Proc.5', 'Estado5', '', [], '13/05/2017',
+  new Contrato(5, 104, 'LIC.05', 'Proc.5', ESTADO_CONTRATO[0].nombre, '', '', [], '13/05/2017',
     '13/12/2017')
 ];
 

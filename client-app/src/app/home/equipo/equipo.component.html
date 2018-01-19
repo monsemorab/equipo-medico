@@ -80,16 +80,19 @@
 </form>
 
 <!--confirmations of actions taken (add/remove/save/cancel) -->
-<clr-modal [(clrModalOpen)]="modalConfirmOpen" [clrModalClosable]="false">
-  <h3 class="modal-title">{{titleAction}}</h3>
+<clr-modal [(clrModalOpen)]="modalConfirmOpen"
+           [clrModalClosable]="false"
+           *ngIf="selectedEquipo">
+  <h3 class="modal-title">Eliminar Equipo</h3>
   <div class="modal-body">
-    <p>{{messageAction}}</p>
+    <p>Está seguro que desea eliminar el equipo {{selectedEquipo.numeroSerie}}?</p>
   </div>
   <div class="modal-footer">
     <button class="btn btn-outline" type="button"
             (click)="modalConfirmOpen = false">Cancel
     </button>
-    <button class="btn btn-primary" type="button">Ok
+    <button class="btn btn-primary" type="button"
+            (click)="confirmarEliminacion()">Ok
     </button>
   </div>
 </clr-modal>
