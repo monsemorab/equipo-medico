@@ -1,0 +1,135 @@
+<h5 class="form-addEditContrato-title">{{tituloForm }}</h5>
+<span class="spinner profile-view-spinner" *ngIf="!showInformation">
+    Loading...
+  </span>
+<form class="compact" *ngIf="showInformation" #contratoForm="ngForm">
+  <section class="form-block">
+    <div class="form-group row flex-items-xs-left">
+      <!--información gral del contrato-->
+      <div class="col-xs-6">
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3">
+            <label class="form-contrato-label" for="nroContrato">Nro. Contrato:</label>
+          </div>
+          <div class="col-xs-6">
+            <input class="form-control" id="nroContrato"
+                   name="nroContrato" [(ngModel)]="contrato.numeroContrato"
+                   #nroContratoInput="ngModel">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3">
+            <label class="form-contrato-label" for="licitacion">Licitación:</label>
+          </div>
+          <div class="col-xs-6">
+            <input class="form-control" id="licitacion"
+                   name="licitacion" [(ngModel)]="contrato.nombreLicitacion"
+                   #licitacionInput="ngModel">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3">
+            <label class="form-contrato-label" for="estado">Estado:</label>
+          </div>
+          <div class="col-xs-6">
+            <div class="select form-control">
+            <select id="estado" #selectEstado name="estado"
+                    [(ngModel)]="contrato.estadoContrato"
+                    (change)="onSelectedEstadoContrado(selectEstado.value)">
+              <option disabled>Seleccionar Estado</option>
+              <option *ngFor="let estado of estadosContrato"
+                      value={{estado.nombre}}>{{estado.nombre}}
+              </option>
+            </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3">
+            <label class="form-contrato-label" for="inicio">Inicio:</label>
+          </div>
+          <div class="col-xs-6">
+            <input class="form-control" type="date"
+                   id="inicio" size="35"
+                   name="inicio"
+                   [(ngModel)]="contrato.fechaInicio"
+                   #fechaIni="ngModel">
+          </div>
+        </div>
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3">
+            <label class="form-contrato-label" for="fin">Finalización:</label>
+          </div>
+          <div class="col-xs-6">
+            <input class="form-control" type="date"
+                   id="fin" size="35"
+                   name="fin"
+                   [(ngModel)]="contrato.fechaFin"
+                   #fechaFin="ngModel">
+          </div>
+        </div>
+      </div>
+
+      <!--lista de equipos-->
+      <div class="col-xs-6">
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-contrato-label" for="equipo">Equipos:</label>
+          </div>
+          <div class="col-xs-6">
+            <div class="select form-control">
+            <select id="equipo" #selectEquipo name="equipo"
+                    [(ngModel)]="equipoId"
+                    (change)="onSelectedEquipo(selectEquipo.value)">
+              <option *ngFor="let equipo of equipos"
+                      value={{equipo.id}}>{{equipo.numeroSerie}}
+              </option>
+            </select>
+            </div>
+          </div>
+          <div class="col-xs-1">
+            <button class="btn-select-equipo btn btn-sm btn-success"
+                    (click)="addEquipo()"
+                    [disabled]="equipoId == null">
+              <clr-icon shape="add"></clr-icon>
+              Add
+            </button>
+          </div>
+        </div>
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-6">
+            <clr-datagrid *ngIf="selectedEquipos.length > 0">
+              <clr-dg-column>Nro. Serie</clr-dg-column>
+              <clr-dg-column>Tipo</clr-dg-column>
+              <clr-dg-column>Modelo</clr-dg-column>
+              <clr-dg-column>Ubicación</clr-dg-column>
+              <clr-dg-row *ngFor="let equipo of selectedEquipos">
+                <clr-dg-cell>{{equipo.numeroSerie}}</clr-dg-cell>
+                <clr-dg-cell>{{equipo.tipoEquipo.nombreGenerico}}</clr-dg-cell>
+                <clr-dg-cell>{{equipo.modeloEquipo.modelo}}</clr-dg-cell>
+                <clr-dg-cell>{{equipo.ubicacion.numeroSala}}</clr-dg-cell>
+              </clr-dg-row>
+            </clr-datagrid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="form-block">
+    <button class="btn btn-sm btn-success"
+            [disabled]="(contratoForm.form.invalid )"
+            (click)="onSaveContrato()">
+      <clr-icon shape="thumbs-up"></clr-icon>
+      Save
+    </button>
+
+    <button class="btn btn-sm btn-secondary"
+            (click)="goBack()">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancel
+    </button>
+  </section>
+</form>

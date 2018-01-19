@@ -38,6 +38,14 @@ export class EquipoService {
   }
 
   /**
+   * Se obtiene la lista de los equipos nuevos o sin contratos.
+   * @returns {Observable<Equipo[]>}
+   */
+  getEquiposSinContratos(): Observable<Equipo[]> {
+    return Observable.of(this.equipos);
+  }
+
+  /**
    * Se obtiene un equipo por su Id.
    * @param {number} equipoId
    * @returns {Observable<Equipo>}

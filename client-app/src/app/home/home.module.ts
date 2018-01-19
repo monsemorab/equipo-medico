@@ -1,12 +1,15 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {RouterModule} from "@angular/router";
+import {ClarityModule} from "clarity-angular";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule} from "@angular/forms";
-import {RouterModule} from "@angular/router";
-import {ClarityModule} from "@clr/angular";
-import {MantenimientosComponent} from "./mantenimientos.component";
 import {EquipoModule} from "./equipo/equipo.module";
+import {ContratoModule} from "./contrato/contrato.module";
+import {MantenimientoModule} from "./mantenimiento/mantenimiento.module";
+
+import {HomeComponent} from "./home.component";
 
 
 @NgModule({
@@ -17,15 +20,16 @@ import {EquipoModule} from "./equipo/equipo.module";
     FormsModule,
     RouterModule,
     ClarityModule,
-    EquipoModule
+    EquipoModule,
+    ContratoModule,
+    MantenimientoModule
   ],
   exports: [
-    MantenimientosComponent
+    HomeComponent
   ],
-  providers: [],
   declarations: [
-    MantenimientosComponent
+    HomeComponent
   ]
 })
-export class MantenimientosModule {
+export class HomeModule {
 }

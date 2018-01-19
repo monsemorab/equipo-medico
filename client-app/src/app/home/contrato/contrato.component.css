@@ -1,9 +1,10 @@
-.form-equipo-title {
+.form-contrato-title {
   font-weight: bold;
-  margin-top: 8px !important;
+  font-size: 24px;
+  text-align: center;
 }
 
-.selectEquipo {
+.selectContrato {
   background-color: darkgrey !important;
 }
 

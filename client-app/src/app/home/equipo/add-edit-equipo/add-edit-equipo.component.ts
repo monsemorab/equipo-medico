@@ -14,25 +14,25 @@ import {Router} from "@angular/router";
 })
 export class AddEditEquipoComponent implements OnInit {
 
-  representante = new Representante(null, '', '', '', '');
-  equipo: Equipo;
+  // form
   tituloForm: string;
+  buttonTitle: string;
+  showInformation = false;
+  isEdit: boolean;
 
   // modal representante
   modalRepreOpen = false;
-  buttonTitle: string;
   modalTitle: string;
 
+  // equipo
+  equipo: Equipo;
   tipos: TipoEquipo[];
   selectedTipo: TipoEquipo;
   tipoEquipoNombre: string;
-
   modelos: ModeloEquipo[];
   selectedModelo: ModeloEquipo;
   modeloEquipoNombre: string;
-
-  showInformation = false;
-  isEdit: boolean;
+  representante = new Representante(null, '', '', '', '');
 
   // error
   errorMessage: string;
@@ -184,10 +184,10 @@ export class AddEditEquipoComponent implements OnInit {
    */
   goBack(): void {
     this.equipo = new Equipo(null, null, null, null, '', '',
-      '', '', null, null, null, null, null, null,
-      '', '', '');
+      '', '', null, null, null, null,
+      null, null, '', '', '');
     this.equipoService.emitChangeEquipo(this.equipo);
-    this.router.navigate(['mantenimientos/equipos']);
+    this.router.navigate(['home/equipos']);
   }
 
 }
