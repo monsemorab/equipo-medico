@@ -5,7 +5,15 @@ import {Representante} from "../../domain/representante";
 import {TipoEquipo} from "../../domain/tipo-equipo";
 import {ModeloEquipo} from "../../domain/modelo-equipo";
 import {Ubicacion} from "../../domain/ubicacion";
+import {Servicio} from "../../domain/orden-trabajo";
+import {SolicitudRepuesto, SolicitudServicio} from "../../domain/solicitud";
+import {Repuesto} from "../../domain/repuesto";
 
+
+export const SERVICIO: Servicio [] = [
+  new Servicio('PREVENTIVO'),
+  new Servicio('CORRECTIVO')
+]
 
 export const ESTADO_CONTRATO: EstadoContrato[] = [
   new EstadoContrato('Vigente'),
@@ -61,3 +69,18 @@ export const EQUIPOS: Equipo[] = [
   new Equipo(5, 233, null, null, '', '', '', '', null,
     REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[0], UBICACIONES[0], CONTRATOS[4], '', '', '', '')
 ];
+
+export const REPUESTOS: Repuesto[] = [
+  new Repuesto(1, '100', 'articulo1', 0, 1, 0, TIPO_EQUIPOS[0], MODELOS[0],
+    REPRESENTANTES[0], ''),
+  new Repuesto(2, '101', 'articulo2', 0, 1, 0, TIPO_EQUIPOS[1], MODELOS[1],
+    REPRESENTANTES[0], '')
+];
+
+export const SOLICITUD_REPUESTOS: SolicitudRepuesto[] = [
+  new SolicitudRepuesto(1, 'vigente', 'solicitud repuesto', REPUESTOS, '')
+];
+
+export const SOLICITUD_SERVICIO: SolicitudServicio[] = [
+  new SolicitudServicio(1, 'vigente', 'solicitud servicio', REPRESENTANTES[0], '')
+]

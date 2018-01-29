@@ -1,9 +1,5 @@
-<h5 class="form-addEditEquipo-title">{{tituloForm }}</h5>
-<span class="spinner profile-view-spinner" *ngIf="!showInformation">
-    Loading...
-  </span>
-<form class="compact" *ngIf="showInformation" #equipoForm="ngForm">
-
+<h5 class="form-add-edit-equipo-title">{{tituloForm }}</h5>
+<form class="compact" #equipoForm="ngForm">
   <section class="form-block">
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2">
@@ -193,12 +189,12 @@
     <button class="btn btn-sm btn-success"
             [disabled]="(equipoForm.form.invalid )"
             (click)="onSaveEquipo()">
-      <clr-icon shape="thumbs-up"></clr-icon>
+      <clr-icon shape="floppy"></clr-icon>
       Save
     </button>
 
     <button class="btn btn-sm btn-secondary"
-            (click)="goBack()">
+            (click)="onCancelAddEditEquipo()">
       <clr-icon shape="window-close"></clr-icon>
       Cancel
     </button>

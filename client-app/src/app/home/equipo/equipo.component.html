@@ -1,4 +1,4 @@
-<form class=" compact">
+<form class=" compact" *ngIf="!showFormAbmEquipo">
   <h5 class="form-equipo-title">Equipos</h5>
   <section>
     <div>
@@ -76,8 +76,16 @@
       </clr-dg-footer>
     </clr-datagrid>
   </section>
-
 </form>
+
+<app-add-edit-equipo
+  *ngIf="showFormAbmEquipo"
+  [equipo]='selectedEquipo'
+  [tituloForm]='formtitle'
+  [isEdit]= 'isEdit'
+  (onCanceled)="onCancelAddEditEquipo($event)"
+  (onFinished)="onCloseAddEditEquipo($event)">
+</app-add-edit-equipo>
 
 <!--confirmations of actions taken (add/remove/save/cancel) -->
 <clr-modal [(clrModalOpen)]="modalConfirmOpen"

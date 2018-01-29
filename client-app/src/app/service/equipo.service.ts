@@ -5,7 +5,6 @@ import {Equipo} from "../domain/equipo";
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {TipoEquipo} from "../domain/tipo-equipo";
 import {ModeloEquipo} from "../domain/modelo-equipo";
 
@@ -16,15 +15,6 @@ export class EquipoService {
   private tipoEquipos = TIPO_EQUIPOS;
   private modeloEquipos = MODELOS;
 
-  // Observable Equipo sources
-  private emitChangeSource = new BehaviorSubject<Equipo>(null);
-  // Observable Equipo streams
-  changeEmittedEquipo = this.emitChangeSource.asObservable();
-
-  // Observable boolean sources
-  private emitChangeSourceEdit = new BehaviorSubject<boolean>(null);
-  // Observable boolean streams
-  changeEmittedEdit = this.emitChangeSourceEdit.asObservable();
 
   constructor() {
   }
@@ -51,7 +41,7 @@ export class EquipoService {
    * @returns {Observable<Equipo>}
    */
   getEquipoById(equipoId: number): Observable<Equipo> {
-    return this.getEquipos().map(equipos => equipos.find(equipo => equipo.id === equipoId));
+    return this.getEquipos().map(equipos => equipos.find(equipo => equipo.id == equipoId));
   }
 
   /**
@@ -68,7 +58,7 @@ export class EquipoService {
    * @returns {Observable<TipoEquipo>}
    */
   getTipoEquipoById(tipoEquipoId: number): Observable<TipoEquipo> {
-    return this.getTipoEquipos().map(tipos => tipos.find(tipo => tipo.id === tipoEquipoId));
+    return this.getTipoEquipos().map(tipos => tipos.find(tipo => tipo.id == tipoEquipoId));
   }
 
   /**
@@ -81,22 +71,6 @@ export class EquipoService {
 
 
   getModeloEquipoById(modeloEquipoId: number): Observable<ModeloEquipo> {
-    return this.getModeloEquipos().map(modelos => modelos.find(modelo => modelo.id === modeloEquipoId));
-  }
-
-  /**
-   * Se utiliza para notificar cuando un equipo es seleccionado para su edición.
-   * @param {Equipo} equipo
-   */
-  emitChangeEquipo(equipo: Equipo) {
-    this.emitChangeSource.next(equipo);
-  }
-
-  /**
-   * Notifica si es una edición.
-   * @param {boolean} change
-   */
-  emitChangeEdit(change: boolean) {
-    this.emitChangeSourceEdit.next(change);
+    return this.getModeloEquipos().map(modelos => modelos.find(modelo => modelo.id == modeloEquipoId));
   }
 }

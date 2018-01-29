@@ -1,10 +1,9 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {Equipo} from "../../../domain/equipo";
 import {Representante} from "../../../domain/representante";
 import {TipoEquipo} from "../../../domain/tipo-equipo";
 import {ModeloEquipo} from "../../../domain/modelo-equipo";
 import {EquipoService} from "../../../service/equipo.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-edit-equipo',
@@ -14,18 +13,20 @@ import {Router} from "@angular/router";
 })
 export class AddEditEquipoComponent implements OnInit {
 
+  @Input() equipo: Equipo;
+  @Input() tituloForm: string;
+  @Input() isEdit: boolean;
+  @Output() onFinished: EventEmitter<any> = new EventEmitter();
+  @Output() onCanceled: EventEmitter<any> = new EventEmitter();
+
   // form
-  tituloForm: string;
   buttonTitle: string;
-  showInformation = false;
-  isEdit: boolean;
 
   // modal representante
   modalRepreOpen = false;
   modalTitle: string;
 
   // equipo
-  equipo: Equipo;
   tipos: TipoEquipo[];
   selectedTipo: TipoEquipo;
   tipoEquipoNombre: string;
@@ -38,32 +39,7 @@ export class AddEditEquipoComponent implements OnInit {
   errorMessage: string;
   error: boolean;
 
-  constructor(private equipoService: EquipoService,
-              private router: Router) {
-    /**
-     * Cuando se intenta editar un equipo seleccionado.
-     */
-    this.equipoService.changeEmittedEquipo.subscribe(
-      equipo => {
-        this.equipo = equipo;
-        console.log('equipo en edit form', this.equipo);
-        this.showInformation = true;
-      }
-    );
-
-    this.equipoService.changeEmittedEdit.subscribe(
-      isEdit => {
-        this.isEdit = isEdit;
-        console.log('isEdit', this.isEdit);
-        if (this.isEdit) {
-          this.buttonTitle = 'Edit';
-          this.tituloForm = 'Editar Equipo';
-        } else {
-          this.buttonTitle = 'Add';
-          this.tituloForm = 'Agregar Equipo';
-        }
-      }
-    );
+  constructor(private equipoService: EquipoService) {
   }
 
   ngOnInit() {
@@ -175,19 +151,22 @@ export class AddEditEquipoComponent implements OnInit {
    */
   onSaveEquipo(): void {
     console.log('onSaveEquipo() ', this.equipo);
-    this.goBack();
+    this.onCloseAddEditEquipo();
   }
 
 
   /**
-   * Se redirecciona a la pagina anterior.
+   * Cuando la edición o la creación de un equipo se finaliza.
    */
-  goBack(): void {
-    this.equipo = new Equipo(null, null, null, null, '', '',
-      '', '', null, null, null, null,
-      null, null, '', '', '');
-    this.equipoService.emitChangeEquipo(this.equipo);
-    this.router.navigate(['home/equipos']);
+  onCloseAddEditEquipo() {
+    this.onFinished.emit(true);
+  }
+
+  /**
+   * Cuando se cancela la edición o creación de un equipo.
+   */
+  onCancelAddEditEquipo() {
+    this.onCanceled.emit(true);
   }
 
 }

@@ -2,12 +2,13 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from "@angular/router";
 import {ClarityModule} from "clarity-angular";
-import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
 
-import {MantenimientoComponent} from "./mantenimiento.component";
-import {SolicitudModule} from "./solicitud/solicitud.module";
+import {SolicitudComponent} from "./solicitud.component";
+import {SolicitudService} from "../../../service/solicitud.service";
+import {AddEditSolicitudComponent} from "./add-edit-solicitud/add-edit-solicitud.component";
 
 @NgModule({
   imports: [
@@ -17,10 +18,14 @@ import {SolicitudModule} from "./solicitud/solicitud.module";
     FormsModule,
     RouterModule,
     ClarityModule,
-    SolicitudModule
   ],
-  exports: [MantenimientoComponent],
-  declarations: [MantenimientoComponent]
+  exports: [SolicitudComponent],
+  providers: [
+    SolicitudService
+  ],
+  declarations: [
+    SolicitudComponent,
+    AddEditSolicitudComponent]
 })
-export class MantenimientoModule {
+export class SolicitudModule {
 }

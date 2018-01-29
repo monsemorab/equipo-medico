@@ -14,6 +14,11 @@ export class EquipoComponent implements OnInit {
   // equipo
   selectedEquipo: Equipo;
 
+  // form
+  formtitle: string;
+  isEdit: boolean;
+  showFormAbmEquipo = false;
+
   // modal
   modalConfirmOpen: boolean;
 
@@ -30,8 +35,7 @@ export class EquipoComponent implements OnInit {
   total: number;
   equipos: Equipo[];
 
-  constructor(private equipoService: EquipoService,
-              private router: Router) {
+  constructor(private equipoService: EquipoService) {
   }
 
   ngOnInit() {
@@ -42,6 +46,10 @@ export class EquipoComponent implements OnInit {
     this.getEquipos();
   }
 
+
+  /**
+   * Se obtiene la lista de todos los equipos.
+   */
   getEquipos(): void {
     this.equipoService.getEquipos().subscribe(
       list => {
@@ -71,9 +79,9 @@ export class EquipoComponent implements OnInit {
    * Cuando se presiona el botón Edit.
    */
   editEquipo() {
-    this.equipoService.emitChangeEdit(true);
-    this.equipoService.emitChangeEquipo(this.selectedEquipo);
-    this.goAddEditForm();
+    this.formtitle = 'Editar Equipo';
+    this.isEdit = true;
+    this.showFormAbmEquipo = true;
 
   }
 
@@ -84,16 +92,9 @@ export class EquipoComponent implements OnInit {
     this.selectedEquipo = new Equipo(null, null, null, null, '',
       '', '', '', null, null, null,
       null, null, null, '', '', '');
-    this.equipoService.emitChangeEdit(false);
-    this.equipoService.emitChangeEquipo(this.selectedEquipo);
-    this.goAddEditForm();
-  }
-
-  /**
-   * Redirecciona a la pagina de AddEditEquipo.
-   */
-  goAddEditForm(): void {
-    this.router.navigate(['home/abmEquipo']);
+    this.formtitle = 'Crear Equipo';
+    this.isEdit = false;
+    this.showFormAbmEquipo = true;
   }
 
   /**
@@ -120,6 +121,32 @@ export class EquipoComponent implements OnInit {
     setTimeout(() => {
       this.success = false;
     }, 5000);
+  }
+
+  /**
+   * Respuesta recibida por el hijo al terminar una creación o editión de un equipo.
+   * @param {boolean} value
+   */
+  onCloseAddEditEquipo(value: boolean) {
+    this.showFormAbmEquipo = !value;
+    if (this.isEdit) {
+      this.successMessage = 'Equipo modificado exitosamente';
+      this.isEdit = false;
+    } else {
+      this.successMessage = 'Equipo creado exitosamente';
+    }
+    this.selectedEquipo = null;
+    this.getSuccessMessage();
+  }
+
+  /**
+   * Respuesta recibida desde el hijo cuando se cancela la edición o creación de un nuevo equipo.
+   * @param {boolean} value
+   */
+  onCancelAddEditEquipo(value: boolean) {
+    this.showFormAbmEquipo = !value;
+    this.isEdit = false;
+    this.selectedEquipo = null;
   }
 
 }
