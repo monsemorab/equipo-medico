@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Contrato} from "../../domain/contrato";
-import {Router} from "@angular/router";
 import {ContratoService} from "../../service/contrato.service";
 
 @Component({
@@ -13,6 +12,11 @@ export class ContratoComponent implements OnInit {
 
   // contrato
   selectedContrato: Contrato;
+
+  // form
+  formtitle: string;
+  isEdit: boolean;
+  showFormAbmContrato = false;
 
   // modal
   modalConfirmOpen: boolean;
@@ -30,8 +34,7 @@ export class ContratoComponent implements OnInit {
   total: number;
   contratos: Contrato[];
 
-  constructor(private contratoService: ContratoService,
-              private router: Router) {
+  constructor(private contratoService: ContratoService) {
   }
 
   ngOnInit() {
@@ -71,28 +74,20 @@ export class ContratoComponent implements OnInit {
    * Cuando se presiona el botón Edit.
    */
   editContrato() {
-    this.contratoService.emitChangeEdit(true);
-    this.contratoService.emitChangeContrato(this.selectedContrato);
-    this.goAddEditForm();
-
+    this.formtitle = 'Editar Contrato';
+    this.isEdit = true;
+    this.showFormAbmContrato = true;
   }
 
   /**
    * Cuando se presiona el botón Add.
    */
   addContrato() {
+    this.formtitle = 'Crear Contrato';
     this.selectedContrato = new Contrato(null, null, '', '',
-      '', '', '', [], '', '');
-    this.contratoService.emitChangeEdit(false);
-    this.contratoService.emitChangeContrato(this.selectedContrato);
-    this.goAddEditForm();
-  }
-
-  /**
-   * Redireccionar a la pagina de AddEditContrato.
-   */
-  goAddEditForm(): void {
-    this.router.navigate(['home/abmContrato']);
+      'Vigente', '', '', [], '', '');
+    this.isEdit = false;
+    this.showFormAbmContrato = true;
   }
 
   /**
@@ -118,6 +113,32 @@ export class ContratoComponent implements OnInit {
     setTimeout(() => {
       this.success = false;
     }, 5000);
+  }
+
+  /**
+   * Respuesta recibida por el hijo al terminar una creación o editión de un contrato.
+   * @param {boolean} value
+   */
+  onCloseAddEditContrato(value: boolean) {
+    this.showFormAbmContrato = !value;
+    if (this.isEdit) {
+      this.successMessage = 'Contrato modificado exitosamente';
+      this.isEdit = false;
+    } else {
+      this.successMessage = 'Contrato creado exitosamente';
+    }
+    this.selectedContrato = null;
+    this.getSuccessMessage();
+  }
+
+  /**
+   * Respuesta recibida desde el hijo cuando se cancela la edición o creación de un nuevo contrato.
+   * @param {boolean} value
+   */
+  onCancelAddEditContrato(value: boolean) {
+    this.showFormAbmContrato = !value;
+    this.isEdit = false;
+    this.selectedContrato = null;
   }
 
 }

@@ -1,8 +1,5 @@
 <h5 class="form-addEditContrato-title">{{tituloForm }}</h5>
-<span class="spinner profile-view-spinner" *ngIf="!showInformation">
-    Loading...
-  </span>
-<form class="compact" *ngIf="showInformation" #contratoForm="ngForm">
+<form class="compact" #contratoForm="ngForm">
   <section class="form-block">
     <div class="form-group row flex-items-xs-left">
       <!--información gral del contrato-->
@@ -38,7 +35,6 @@
             <select id="estado" #selectEstado name="estado"
                     [(ngModel)]="contrato.estadoContrato"
                     (change)="onSelectedEstadoContrado(selectEstado.value)">
-              <option disabled>Seleccionar Estado</option>
               <option *ngFor="let estado of estadosContrato"
                       value={{estado.nombre}}>{{estado.nombre}}
               </option>
@@ -100,7 +96,7 @@
           </div>
         </div>
         <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-6">
+          <div class="col-xs-12">
             <clr-datagrid *ngIf="selectedEquipos.length > 0">
               <clr-dg-column>Nro. Serie</clr-dg-column>
               <clr-dg-column>Tipo</clr-dg-column>
@@ -122,12 +118,12 @@
     <button class="btn btn-sm btn-success"
             [disabled]="(contratoForm.form.invalid )"
             (click)="onSaveContrato()">
-      <clr-icon shape="thumbs-up"></clr-icon>
+      <clr-icon shape="floppy"></clr-icon>
       Save
     </button>
 
     <button class="btn btn-sm btn-secondary"
-            (click)="goBack()">
+            (click)="onCancelAddEditContrato()">
       <clr-icon shape="window-close"></clr-icon>
       Cancel
     </button>

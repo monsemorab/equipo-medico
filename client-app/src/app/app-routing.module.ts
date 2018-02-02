@@ -4,9 +4,9 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {HomeComponent} from "./home/home.component";
 import {EquipoComponent} from "./home/equipo/equipo.component";
-import {AddEditEquipoComponent} from "./home/equipo/add-edit-equipo/add-edit-equipo.component";
 import {ContratoComponent} from "./home/contrato/contrato.component";
-import {AddEditContratoComponent} from "./home/contrato/add-edit-contrato/add-edit-contrato.component";
+import {MantenimientoComponent} from "./home/mantenimiento/mantenimiento.component";
+import {SolicitudComponent} from "./home/mantenimiento/solicitud/solicitud.component";
 
 
 const appRoutes: Routes = [
@@ -15,9 +15,13 @@ const appRoutes: Routes = [
     path: 'home', component: HomeComponent,
     children: [
       {path: 'equipos', component: EquipoComponent},
-      {path: 'abmEquipo', component: AddEditEquipoComponent},
       {path: 'contratos', component: ContratoComponent},
-      {path: 'abmContrato', component: AddEditContratoComponent}
+      {
+        path: 'mantenimiento', component: MantenimientoComponent,
+        children: [
+          {path: 'solicitud', component: SolicitudComponent}
+        ]
+      }
     ]
   },
 ];

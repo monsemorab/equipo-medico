@@ -1,6 +1,5 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {ContratoService} from "../../../service/contrato.service";
-import {Router} from "@angular/router";
 import {Contrato, EstadoContrato} from "../../../domain/contrato";
 import {EquipoService} from "../../../service/equipo.service";
 import {Equipo} from "../../../domain/equipo";
@@ -13,8 +12,13 @@ import {Equipo} from "../../../domain/equipo";
 })
 export class AddEditContratoComponent implements OnInit {
 
+  @Input() contrato: Contrato;
+  @Input() tituloForm: string;
+  @Input() isEdit: boolean;
+  @Output() onFinished: EventEmitter<any> = new EventEmitter();
+  @Output() onCanceled: EventEmitter<any> = new EventEmitter();
+
   // contrato
-  contrato: Contrato;
   estadosContrato: EstadoContrato[];
   estadoContratoNombre: string;
 
@@ -25,49 +29,19 @@ export class AddEditContratoComponent implements OnInit {
   equipoId: number;
 
   // form
-  tituloForm: string;
   buttonTitle: string;
-  showInformation = false;
-  isEdit: boolean;
 
   // error
   errorMessage: string;
   error: boolean;
 
   constructor(private contratoService: ContratoService,
-              private equipoService: EquipoService,
-              private router: Router) {
-    /**
-     * Cuando se intenta editar un contrato seleccionado.
-     */
-    this.contratoService.changeEmittedContrato.subscribe(
-      contrato => {
-        this.contrato = contrato;
-        console.log('contrato en edit form', this.contrato);
-        this.showInformation = true;
-      }
-    );
-
-    this.contratoService.changeEmittedEdit.subscribe(
-      isEdit => {
-        this.isEdit = isEdit;
-        console.log('isEdit', this.isEdit);
-        if (this.isEdit) {
-          this.buttonTitle = 'Edit';
-          this.tituloForm = 'Editar Contrato';
-        } else {
-          this.buttonTitle = 'Add';
-          this.tituloForm = 'Agregar Contrato';
-        }
-      }
-    );
-
+              private equipoService: EquipoService) {
   }
 
   ngOnInit() {
     this.getEquipos();
     this.getEstadoContratos();
-    this.onSelectedEstadoContrado('Seleccionar Estado');
   }
 
 
@@ -106,9 +80,7 @@ export class AddEditContratoComponent implements OnInit {
    * @param {string} value
    */
   onSelectedEstadoContrado(value: string): void {
-    if (value !== 'Seleccionar Estado') {
-      this.contrato.estadoContrato = value;
-    }
+    this.contrato.estadoContrato = value;
   }
 
   /**
@@ -149,19 +121,22 @@ export class AddEditContratoComponent implements OnInit {
    */
   onSaveContrato(): void {
     console.log('onSaveContrato() ', this.contrato);
-    this.goBack();
+    this.onCloseAddEditContrato();
   }
 
 
   /**
-   * Se redirecciona a la pagina anterior.
+   * Cuando la edición o la creación de un contrato se finaliza.
    */
-  goBack(): void {
-    this.contrato = new Contrato(null, null, '', '',
-      '', '', '', [], '', '');
-    this.contratoService.emitChangeEdit(false);
-    this.contratoService.emitChangeContrato(this.contrato);
-    this.router.navigate(['home/contratos']);
+  onCloseAddEditContrato() {
+    this.onFinished.emit(true);
+  }
+
+  /**
+   * Cuando se cancela la edición o creación de un contrato.
+   */
+  onCancelAddEditContrato() {
+    this.onCanceled.emit(true);
   }
 
 }

@@ -1,0 +1,141 @@
+<h5 class="form-add-edit-solicitud-title">{{tituloForm }}</h5>
+<form class="compact" *ngIf="selectedSolicitudServicio" #solicitudServicioForm="ngForm">
+  <section class="form-block">
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-2">
+        <label class="form-add-edit-solicitud-label" for="estado">Estado:</label>
+      </div>
+      <div class="col-xs-3">
+        <input class="form-control" id="estado"
+               name="estado" [(ngModel)]="solicitudServicio.estado"
+               #solicitudServicioEstado="ngModel">
+      </div>
+      <div class="col-xs-1"></div>
+      <div class="col-xs-2">
+        <label class="form-add-edit-solicitud-label" for="fechaSolicitud">Fecha:</label>
+      </div>
+      <div class="col-xs-3">
+        <input class="form-control" type="date"
+               id="fechaSolicitud" size="35"
+               name="fechaSolicitud"
+               [(ngModel)]="solicitudServicio.fechaSolicitud"
+               #fechaSol="ngModel">
+      </div>
+    </div>
+
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-2">
+        <label class="form-add-edit-solicitud-label">Responsable:</label>
+      </div>
+      <div class="col-xs-3" *ngIf="solicitudServicio.responsable != null">
+        <input class="form-control" id="responsable"
+               name="responsable" [(ngModel)]="solicitudServicio.responsable.nombre"
+               #solicitudServicioResponsable="ngModel"
+               disabled>
+      </div>
+
+      <div class="col-xs-3" *ngIf="solicitudServicio.responsable == null">
+        <input class="form-control" id="respons"
+               disabled>
+      </div>
+
+      <div class="col-xs-1">
+        <button class="form-add-edit-solicitud-btn-add-resp btn btn-sm btn-success"
+                (click)="addResponsables()">
+          <clr-icon shape="user"></clr-icon>
+          {{buttonTitle}}
+        </button>
+      </div>
+
+      <div class="col-xs-1">
+        <label class="form-add-edit-solicitu-label" for="tarea">Tarea:</label>
+      </div>
+      <div class="col-xs-4">
+            <textarea class="form-control" id="tarea" rows="5"
+                      maxlength="2000"
+                      name="tarea" [(ngModel)]="solicitudServicio.tarea"
+                      #solicitudServicioTarea="ngModel">
+            </textarea>
+      </div>
+    </div>
+  </section>
+  <section class="form-block">
+    <button class="btn btn-sm btn-success"
+            [disabled]="(solicitudServicioForm.form.invalid )"
+            (click)="onSaveSolicitud()">
+      <clr-icon shape="floppy"></clr-icon>
+      Save
+    </button>
+
+    <button class="btn btn-sm btn-secondary"
+            (click)="onCancelAddEditSolicitud()">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancel
+    </button>
+  </section>
+</form>
+
+
+<!--Modal para agregar o editar los datos de un responsable-->
+<clr-modal [(clrModalOpen)]="modalResponsableOpen" [clrModalClosable]="false">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+  <div class="modal-body">
+    <form class="compact" #responsableForm="ngForm">
+      <section class="form-block">
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-add-edit-solicitud-label" for="nombre">Nombre:</label>
+          </div>
+          <div class="col-xs-4">
+            <input class="form-control" id="nombre"
+                   name="nombre" [(ngModel)]="responsable.nombre"
+                   #nombreRepre="ngModel">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-add-edit-solicitud-label" for="direccion">Dirección:</label>
+          </div>
+          <div class="col-xs-8">
+            <input class="form-control" id="direccion"
+                   name="direccion" [(ngModel)]="responsable.direccion"
+                   #direRepre="ngModel">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-add-edit-solicitud-label" for="email">Email:</label>
+          </div>
+          <div class="col-xs-8">
+            <input class="form-control" id="email"
+                   name="email" [(ngModel)]="responsable.email"
+                   #emailRepre="ngModel">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-add-edit-solicitud-label" for="telefono">Telefono:</label>
+          </div>
+          <div class="col-xs-4">
+            <input class="form-control" id="telefono"
+                   name="telefono" [(ngModel)]="responsable.telefono"
+                   #telefonoRepre="ngModel">
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm" type="button"
+            (click)="modalResponsableOpen = false">Cancel
+    </button>
+    <button class="btn btn-sm btn-success" type="button"
+            [disabled]="(responsableForm.form.invalid )"
+            (click)="onAddResponsable()">Add
+    </button>
+  </div>
+</clr-modal>
+

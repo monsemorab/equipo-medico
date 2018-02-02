@@ -1,4 +1,4 @@
-<form class=" compact">
+<form class=" compact" *ngIf="!showFormAbmContrato">
   <h5 class="form-contrato-title">Contratos</h5>
   <section>
     <div>
@@ -76,8 +76,16 @@
       </clr-dg-footer>
     </clr-datagrid>
   </section>
-
 </form>
+
+<app-add-edit-contrato
+  *ngIf="showFormAbmContrato"
+  [contrato]='selectedContrato'
+  [tituloForm]='formtitle'
+  [isEdit]= 'isEdit'
+  (onCanceled)="onCancelAddEditContrato($event)"
+  (onFinished)="onCloseAddEditContrato($event)">
+</app-add-edit-contrato>
 
 <!--confirmations of actions taken (add/remove/save/cancel) -->
 <clr-modal [(clrModalOpen)]="modalConfirmOpen" [clrModalClosable]="false"
