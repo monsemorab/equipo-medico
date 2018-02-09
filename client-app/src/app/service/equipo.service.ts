@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {TipoEquipo} from "../domain/tipo-equipo";
 import {ModeloEquipo} from "../domain/modelo-equipo";
+import {Ubicacion} from "../domain/ubicacion";
 
 @Injectable()
 export class EquipoService {
@@ -69,8 +70,29 @@ export class EquipoService {
     return Observable.of(this.modeloEquipos);
   }
 
-
+  /**
+   * Se obtiene el modelo del equipo por su Id.
+   * @param {number} modeloEquipoId
+   * @returns {Observable<ModeloEquipo>}
+   */
   getModeloEquipoById(modeloEquipoId: number): Observable<ModeloEquipo> {
     return this.getModeloEquipos().map(modelos => modelos.find(modelo => modelo.id == modeloEquipoId));
+  }
+
+  /**
+   * Se obtiene la lista de las ubicaciones de los equipos.
+   * @returns {Observable<Ubicacion[]>}
+   */
+  getAllUbicaciones(): Observable<Ubicacion[]> {
+    return null;
+  }
+
+  /**
+   * Se obtiene la ubicación del equipo por su Id.
+   * @param {number} ubicacionId
+   * @returns {Observable<Ubicacion>}
+   */
+  getUbicacionById(ubicacionId: number): Observable<Ubicacion> {
+    return null;
   }
 }

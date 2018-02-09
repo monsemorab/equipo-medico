@@ -7,6 +7,6 @@ export class TipoEquipo {
               public vidaUtil: string,
               public codigoECRI_UMDNS: string,
               public procedimientoMP: string,
-              public MPaño: string) {
+              public mpano: string) {
   }
 }

@@ -2,7 +2,7 @@ import {Equipo} from "./equipo";
 import {SolicitudRepuesto} from "./solicitud";
 import {SolicitudService} from "../service/solicitud.service";
 
-export class Repuesto {
+export class OrdenTrabajo {
 
   constructor(public id: number,
               public estado: string,

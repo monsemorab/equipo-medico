@@ -85,7 +85,7 @@ export class ContratoComponent implements OnInit {
   addContrato() {
     this.formtitle = 'Crear Contrato';
     this.selectedContrato = new Contrato(null, null, '', '',
-      'Vigente', '', '', [], '', '');
+      'Vigente', '', '', [], null, '', '');
     this.isEdit = false;
     this.showFormAbmContrato = true;
   }

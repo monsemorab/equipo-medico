@@ -21,27 +21,31 @@ export const ESTADO_CONTRATO: EstadoContrato[] = [
   new EstadoContrato('Cancelado')
 ];
 
-export const CONTRATOS: Contrato[] = [
-  new Contrato(1, 100, 'LIC.01', 'Proc.1', ESTADO_CONTRATO[0].nombre, '', '', [], '13/05/2017',
-    '13/12/2017'),
-  new Contrato(2, 101, 'LIC.02', 'Proc.2', ESTADO_CONTRATO[0].nombre, '', '', [], '13/05/2017',
-    '13/12/2017'),
-  new Contrato(3, 102, 'LIC.03', 'Proc.3', ESTADO_CONTRATO[0].nombre, '', '', [], '13/05/2017',
-    '13/12/2017'),
-  new Contrato(4, 103, 'LIC.04', 'Proc.4', ESTADO_CONTRATO[0].nombre, '', '', [], '13/05/2017',
-    '13/12/2017'),
-  new Contrato(5, 104, 'LIC.05', 'Proc.5', ESTADO_CONTRATO[0].nombre, '', '', [], '13/05/2017',
-    '13/12/2017')
-];
-
 export const REPRESENTANTES: Representante[] = [
   new Representante(1, 'Juan Perez', ' ', ' ', '')
 ];
 
+export const CONTRATOS: Contrato[] = [
+  new Contrato(1, 100, 'LIC.01', 'Proc.1', ESTADO_CONTRATO[0].nombre,
+    '', '', [], REPRESENTANTES[0], '13/05/2017', '13/12/2017'),
+  new Contrato(2, 101, 'LIC.02', 'Proc.2', ESTADO_CONTRATO[0].nombre,
+    '', '', [], REPRESENTANTES[0], '13/05/2017', '13/12/2017'),
+  new Contrato(3, 102, 'LIC.03', 'Proc.3', ESTADO_CONTRATO[0].nombre,
+    '', '', [], REPRESENTANTES[0], '13/05/2017', '13/12/2017'),
+  new Contrato(4, 103, 'LIC.04', 'Proc.4', ESTADO_CONTRATO[0].nombre,
+    '', '', [], REPRESENTANTES[0], '13/05/2017', '13/12/2017'),
+  new Contrato(5, 104, 'LIC.05', 'Proc.5', ESTADO_CONTRATO[0].nombre,
+    '', '', [], REPRESENTANTES[0], '13/05/2017', '13/12/2017')
+];
+
+
 export const TIPO_EQUIPOS: TipoEquipo[] = [
-  new TipoEquipo(1, 'Dialisis', 'Dialisis', ' ', '', ' ', '', ' '),
-  new TipoEquipo(2, 'AXC', 'AXC', ' ', '', ' ', '', ' '),
-  new TipoEquipo(3, 'ABC', 'ABC', ' ', '', ' ', '', ' ')
+  new TipoEquipo(1, 'Dialisis', 'Dialisis', ' ', '', ' ',
+    '', ' '),
+  new TipoEquipo(2, 'AXC', 'AXC', ' ', '', ' ',
+    '', ' '),
+  new TipoEquipo(3, 'ABC', 'ABC', ' ', '', ' ',
+    '', ' ')
 ];
 
 export const MODELOS: ModeloEquipo[] = [
@@ -58,27 +62,32 @@ export const UBICACIONES: Ubicacion[] = [
 ];
 
 export const EQUIPOS: Equipo[] = [
-  new Equipo(1, 123, null, null, '', '', '', '', null,
-    REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[0], UBICACIONES[0], CONTRATOS[0], '21/01/2015', '', '', ''),
-  new Equipo(2, 456, null, null, '', '', '', '', null,
-    REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[1], UBICACIONES[0], CONTRATOS[1], '', '', '', ''),
-  new Equipo(3, 678, null, null, '', '', '', '', null,
-    REPRESENTANTES[0], TIPO_EQUIPOS[1], MODELOS[1], UBICACIONES[1], CONTRATOS[2], '', '', '', ''),
-  new Equipo(4, 891, null, null, '', '', '', '', null,
-    REPRESENTANTES[0], TIPO_EQUIPOS[2], MODELOS[0], UBICACIONES[1], CONTRATOS[3], '', '', '', ''),
-  new Equipo(5, 233, null, null, '', '', '', '', null,
-    REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[0], UBICACIONES[0], CONTRATOS[4], '', '', '', '')
+  new Equipo(1, 123, null, null, '', '', '',
+    '', null, REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[0], UBICACIONES[0], CONTRATOS[0],
+    '21/01/2015', '', '', ''),
+  new Equipo(2, 456, null, null, '', '', '',
+    '', null, REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[1], UBICACIONES[0], CONTRATOS[1],
+    '', '', '', ''),
+  new Equipo(3, 678, null, null, '', '', '',
+    '', null, REPRESENTANTES[0], TIPO_EQUIPOS[1], MODELOS[1], UBICACIONES[1], CONTRATOS[2],
+    '', '', '', ''),
+  new Equipo(4, 891, null, null, '', '', '',
+    '', null, REPRESENTANTES[0], TIPO_EQUIPOS[2], MODELOS[0], UBICACIONES[1], CONTRATOS[3],
+    '', '', '', ''),
+  new Equipo(5, 233, null, null, '', '', '',
+    '', null, REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[0], UBICACIONES[0], CONTRATOS[4],
+    '', '', '', '')
 ];
 
 export const REPUESTOS: Repuesto[] = [
-  new Repuesto(1, '100', 'articulo1', 0, 1, 0, TIPO_EQUIPOS[0], MODELOS[0],
-    REPRESENTANTES[0], ''),
-  new Repuesto(2, '101', 'articulo2', 0, 1, 0, TIPO_EQUIPOS[1], MODELOS[1],
-    REPRESENTANTES[0], '')
+  new Repuesto(1, '100', 'articulo1', 0, 1, 0,
+    TIPO_EQUIPOS[0], MODELOS[0], REPRESENTANTES[0], ''),
+  new Repuesto(2, '101', 'articulo2', 0, 1, 0,
+    TIPO_EQUIPOS[1], MODELOS[1], REPRESENTANTES[0], '')
 ];
 
 export const SOLICITUD_REPUESTOS: SolicitudRepuesto[] = [
-  new SolicitudRepuesto(1, 'vigente', 'solicitud repuesto', REPUESTOS, '')
+  new SolicitudRepuesto(1, 'vigente', REPUESTOS, '')
 ];
 
 export const SOLICITUD_SERVICIO: SolicitudServicio[] = [

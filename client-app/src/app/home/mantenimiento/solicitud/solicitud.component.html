@@ -17,14 +17,14 @@
           Edit
         </button>
       </div>
-      <div class="col-xs-2">
-        <button class="btn btn-sm btn-warning"
-                *ngIf="selectedSolicitud"
-                (click)="deleteSolicitud()">
-          <clr-icon shape="trash"></clr-icon>
-          Delete
-        </button>
-      </div>
+      <!--<div class="col-xs-2">-->
+        <!--<button class="btn btn-sm btn-warning"-->
+                <!--*ngIf="selectedSolicitud"-->
+                <!--(click)="deleteSolicitud()">-->
+          <!--<clr-icon shape="trash"></clr-icon>-->
+          <!--Delete-->
+        <!--</button>-->
+      <!--</div>-->
       <div class="col-xs-4"></div>
       <div class="col-xs-1">
         <label class="form-solicitud-label"
@@ -69,6 +69,10 @@
           <span class="alert-text">{{errorMessage}}</span>
         </div>
       </div>
+      <button type="button" class="close" aria-label="Close"
+              (click)="error = false">
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
     </div>
     <!--lista de solicitudes de servicios-->
     <clr-datagrid *ngIf="showSolicitudServicio" [clrDgLoading]="loading">
