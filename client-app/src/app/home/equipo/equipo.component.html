@@ -14,12 +14,12 @@
         Edit
       </button>
 
-      <button class="btn btn-sm btn-warning"
-              *ngIf="selectedEquipo != null"
-              (click)="deleteEquipo()">
-        <clr-icon shape="trash"></clr-icon>
-        Delete
-      </button>
+      <!--<button class="btn btn-sm btn-warning"-->
+              <!--*ngIf="selectedEquipo != null"-->
+              <!--(click)="deleteEquipo()">-->
+        <!--<clr-icon shape="trash"></clr-icon>-->
+        <!--Delete-->
+      <!--</button>-->
     </div>
     <!--success action-->
     <div class="alert alert-success alert-sm" *ngIf="success">
@@ -49,6 +49,10 @@
           <span class="alert-text">{{errorMessage}}</span>
         </div>
       </div>
+      <button type="button" class="close" aria-label="Close"
+              (click)="error = false">
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
     </div>
 
     <clr-datagrid [clrDgLoading]="loading">

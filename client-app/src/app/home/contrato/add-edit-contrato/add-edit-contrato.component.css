@@ -1,16 +1,20 @@
-.form-contrato-label {
+.form-add-edit-contrato-label {
   font-weight: bold;
 }
 
-.form-addEditContrato-title {
+.form-add-edit-contrato-title {
   font-weight: bold;
   font-size: 24px;
   text-align: center;
 }
 
-.btn-select-equipo {
+.form-add-edit-contrato-btn-select-equipo {
   position: absolute;
   right: 0%;
   left: 1%;
   top: -16%;
+}
+
+.selectEquipo {
+  background-color: darkgrey !important;
 }

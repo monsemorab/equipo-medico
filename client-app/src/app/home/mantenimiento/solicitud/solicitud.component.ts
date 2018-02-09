@@ -40,7 +40,7 @@ export class SolicitudComponent implements OnInit {
   // datagrid
   loading = true;
   total: number;
-  solicitudServicios:SolicitudServicio[];
+  solicitudServicios: SolicitudServicio[];
   solicitudRepuestos: SolicitudRepuesto[];
 
   constructor(private solicitudService: SolicitudService) {
@@ -139,9 +139,8 @@ export class SolicitudComponent implements OnInit {
         null, '');
       this.formtitle = 'Crear Solicitud de Servicio';
     } else {
-      this.selectedSolicitudRepuesto = new SolicitudRepuesto(null, '', '',
-        null, '');
-      this.formtitle = 'Crear Solicitud Repuesto';
+      this.selectedSolicitudRepuesto = new SolicitudRepuesto(null, '', null, '');
+      this.formtitle = 'Crear Solicitud de Repuestos';
     }
     this.modalTipoSolicitudOpen = false;
     this.showFormAbmSolicitud = true;
@@ -152,7 +151,7 @@ export class SolicitudComponent implements OnInit {
     if (this.isSolicitudServicio) {
       this.formtitle = 'Editar Solicitud de Servicio';
     } else {
-      this.formtitle = 'Editar Solicitud Repuesto';
+      this.formtitle = 'Editar Solicitud de Repuestos';
     }
     this.isEdit = true;
     this.showFormAbmSolicitud = true;

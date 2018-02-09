@@ -4,6 +4,6 @@ export class Ubicacion {
               public servicio: string,
               public bloque: string,
               public numeroSala: string,
-              public vidaUtil: string) {
+              public nivel: string) {
   }
 }

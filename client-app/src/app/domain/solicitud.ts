@@ -16,7 +16,6 @@ export class SolicitudRepuesto {
 
   constructor(public id: number,
               public estado: string,
-              public tarea: string,
               public repuestos: Repuesto[],
               public fechaSolicitud?: any) {
   }

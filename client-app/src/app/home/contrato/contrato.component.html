@@ -14,12 +14,12 @@
         Edit
       </button>
 
-      <button class="btn btn-sm btn-warning"
-              *ngIf="selectedContrato != null"
-              (click)="deleteContrato()">
-        <clr-icon shape="trash"></clr-icon>
-        Delete
-      </button>
+      <!--<button class="btn btn-sm btn-warning"-->
+      <!--*ngIf="selectedContrato != null"-->
+      <!--(click)="deleteContrato()">-->
+      <!--<clr-icon shape="trash"></clr-icon>-->
+      <!--Delete-->
+      <!--</button>-->
     </div>
     <!--success action-->
     <div class="alert alert-success alert-sm" *ngIf="success">
@@ -49,22 +49,34 @@
           <span class="alert-text">{{errorMessage}}</span>
         </div>
       </div>
+      <button type="button" class="close" aria-label="Close"
+              (click)="error = false">
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
     </div>
 
     <clr-datagrid [clrDgLoading]="loading">
+      <clr-dg-column [clrDgSortBy]="'id'">ID</clr-dg-column>
       <clr-dg-column [clrDgSortBy]="'numeroContrato'">Nro. Contrato</clr-dg-column>
-      <clr-dg-column>Licitación</clr-dg-column>
+      <clr-dg-column>Nombre Licitación</clr-dg-column>
       <clr-dg-column>Tipo</clr-dg-column>
       <clr-dg-column>Estado</clr-dg-column>
+      <clr-dg-column>Equipos</clr-dg-column>
       <clr-dg-column>Inicio</clr-dg-column>
       <clr-dg-column>Finalización</clr-dg-column>
 
       <clr-dg-row *ngFor="let contrato of contratos" (click)="selectContrato(contrato)"
                   [class.selectContrato]="contrato === selectedContrato">
+        <clr-dg-cell>{{contrato.id}}</clr-dg-cell>
         <clr-dg-cell>{{contrato.numeroContrato}}</clr-dg-cell>
         <clr-dg-cell>{{contrato.nombreLicitacion}}</clr-dg-cell>
         <clr-dg-cell>{{contrato.tipoProcedimiento}}</clr-dg-cell>
         <clr-dg-cell>{{contrato.estadoContrato}}</clr-dg-cell>
+        <clr-dg-cell>
+          <ul class="list-unstyled" *ngFor="let equipo of contrato.equipos">
+            <li>{{equipo.numeroSerie}}-{{equipo.descripcionEquipo}}</li>
+          </ul>
+        </clr-dg-cell>
         <clr-dg-cell>{{contrato.fechaInicio}}</clr-dg-cell>
         <clr-dg-cell>{{contrato.fechaFin}}</clr-dg-cell>
       </clr-dg-row>
@@ -82,7 +94,7 @@
   *ngIf="showFormAbmContrato"
   [contrato]='selectedContrato'
   [tituloForm]='formtitle'
-  [isEdit]= 'isEdit'
+  [isEdit]='isEdit'
   (onCanceled)="onCancelAddEditContrato($event)"
   (onFinished)="onCloseAddEditContrato($event)">
 </app-add-edit-contrato>
