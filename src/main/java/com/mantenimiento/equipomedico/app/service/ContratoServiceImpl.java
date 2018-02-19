@@ -3,9 +3,12 @@ package com.mantenimiento.equipomedico.app.service;
 import com.mantenimiento.equipomedico.app.entidad.Contrato;
 import com.mantenimiento.equipomedico.app.repository.ContratoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ContratoServiceImpl implements ContratoService {
 
     @Autowired
@@ -51,6 +54,6 @@ public class ContratoServiceImpl implements ContratoService {
      */
     @Override
     public List<Contrato> getAll() {
-        return contratoRepository.findAll();
+        return (ArrayList<Contrato>)contratoRepository.findAll();
     }
 }
