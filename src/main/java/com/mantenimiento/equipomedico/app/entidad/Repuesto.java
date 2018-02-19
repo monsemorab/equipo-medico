@@ -1,4 +1,4 @@
-package com.mantenimiento.equipomedico.app.entities;
+package com.mantenimiento.equipomedico.app.entidad;
 
 
 import javax.persistence.*;

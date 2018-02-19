@@ -1,4 +1,4 @@
-package com.mantenimiento.equipomedico.app.entities;
+package com.mantenimiento.equipomedico.app.entidad;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -65,10 +65,12 @@ public class Equipo implements Serializable {
     @JoinColumn(name="tipo_equipo_id")
     private TipoEquipo tipoEquipo;
 
-    @Column(name = "modelo_equipo_id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "modelo_equipo_id")
     private ModeloEquipo modeloEquipo;
 
-    @Column(name = "ubicacion_id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
 
     @ManyToOne(fetch= FetchType.LAZY)

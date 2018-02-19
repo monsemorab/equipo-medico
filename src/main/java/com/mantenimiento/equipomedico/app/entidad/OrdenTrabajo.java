@@ -1,4 +1,4 @@
-package com.mantenimiento.equipomedico.app.entities;
+package com.mantenimiento.equipomedico.app.entidad;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -32,7 +32,8 @@ public class OrdenTrabajo implements Serializable {
     @Column(name = "estado")
     private String estado;
 
-    @Column(name = "equipo")
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="equipo_id")
     private Equipo equipo;
 
     @Column(name = "tipo_servicio")
