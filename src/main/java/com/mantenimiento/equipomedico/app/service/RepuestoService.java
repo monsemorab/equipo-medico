@@ -1,0 +1,42 @@
+package com.mantenimiento.equipomedico.app.service;
+
+import com.mantenimiento.equipomedico.app.entidad.Repuesto;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public interface RepuestoService {
+
+    /**
+     * Creación de un nuevo repuesto.
+     *
+     * @param repuesto
+     * @return
+     */
+    Repuesto create(Repuesto repuesto);
+
+    /**
+     * Edición de un repuesto existente.
+     *
+     * @param repuesto
+     * @return
+     */
+    Repuesto update(Repuesto repuesto);
+
+    /**
+     * Obtiene el repuesto mediante su id.
+     *
+     * @param id
+     * @return
+     */
+    Repuesto get(Long id);
+
+    /**
+     * Obtiene todos los repuestos.
+     *
+     * @return
+     */
+    List<Repuesto> getAll();
+
+}

@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import {TipoEquipo} from "../domain/tipo-equipo";
 import {ModeloEquipo} from "../domain/modelo-equipo";
 import {Ubicacion} from "../domain/ubicacion";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class EquipoService {
@@ -15,17 +16,17 @@ export class EquipoService {
   private equipos = EQUIPOS;
   private tipoEquipos = TIPO_EQUIPOS;
   private modeloEquipos = MODELOS;
+  private url = "http://localhost:8080/api/equipos/";
 
 
-  constructor() {
-  }
+  constructor(private http:HttpClient) {}
 
   /**
    * Se obtiene todos los equipos.
    * @returns {Observable<Equipo[]>}
    */
   getEquipos(): Observable<Equipo[]> {
-    return Observable.of(this.equipos);
+    return this.http.get<Equipo[]>(this.url);
   }
 
   /**
