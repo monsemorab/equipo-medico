@@ -59,8 +59,8 @@ public class RepuestoController {
      * @return equipos lista de repuestos.
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Equipo> getAll() {
-        return repuestoService.getAll();
+    public List<Repuesto> getAll() {
+        return repuestoService.getAll ();
     }
 
     /**
