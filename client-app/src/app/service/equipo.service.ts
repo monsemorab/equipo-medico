@@ -9,6 +9,7 @@ import {TipoEquipo} from "../domain/tipo-equipo";
 import {ModeloEquipo} from "../domain/modelo-equipo";
 import {Ubicacion} from "../domain/ubicacion";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class EquipoService {
@@ -16,10 +17,11 @@ export class EquipoService {
   private equipos = EQUIPOS;
   private tipoEquipos = TIPO_EQUIPOS;
   private modeloEquipos = MODELOS;
-  private url = "http://localhost:8080/api/equipos/";
+  private url = environment.service_uri + '/equipos/';
 
 
-  constructor(private http:HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   /**
    * Se obtiene todos los equipos.
@@ -30,6 +32,7 @@ export class EquipoService {
   }
 
   /**
+   * TODO: falta un endpoint para obtener esta lista
    * Se obtiene la lista de los equipos nuevos o sin contratos.
    * @returns {Observable<Equipo[]>}
    */
@@ -47,6 +50,7 @@ export class EquipoService {
   }
 
   /**
+   * TODO: falta un endpoint para obtener esta lista
    * Se obtiene la lista de tipos de equipos.
    * @returns {Observable<TipoEquipo[]>}
    */
@@ -64,6 +68,7 @@ export class EquipoService {
   }
 
   /**
+   * TODO: falta un endpoint para obtener esta lista
    * Se obtiene la lista de modelos para los equipos.
    * @returns {Observable<ModeloEquipo[]>}
    */
@@ -81,6 +86,7 @@ export class EquipoService {
   }
 
   /**
+   * TODO: falta un endpoint para obtener esta lista
    * Se obtiene la lista de las ubicaciones de los equipos.
    * @returns {Observable<Ubicacion[]>}
    */

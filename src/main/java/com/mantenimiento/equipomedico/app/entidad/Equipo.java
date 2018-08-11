@@ -22,13 +22,13 @@ public class Equipo implements Serializable {
     private Long id;
 
     @Column(name = "numero_serie")
-    private Long numeroSerie;
+    private String numeroSerie;
 
     @Column(name = "numero_patrimonial")
-    private Long numeroPatrimonial;
+    private String numeroPatrimonial;
 
     @Column(name = "numero_lote")
-    private Long numeroLote;
+    private String numeroLote;
 
     @Column(name = "fecha_fabricacion")
     private Date fechaFabricacion;

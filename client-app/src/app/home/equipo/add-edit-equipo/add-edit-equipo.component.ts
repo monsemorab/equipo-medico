@@ -29,18 +29,17 @@ export class AddEditEquipoComponent implements OnInit {
   // modal representante
   modalRepreOpen = false;
   modalRepreTitle: string;
-  representante = new Representante(null, '', '', '', '');
+  representante = new Representante(null, '', '', '', '', '', '');
 
   // modal tipo equipo
   modalTipoOpen = false;
   modalTipoTitle: string;
-  tipoEquipo = new TipoEquipo(null, '', '', '', '', '',
-    '', '');
+  tipoEquipo = new TipoEquipo(null, '', '', '', '', '');
 
   // modal modelo equipo
   modalModeloOpen = false;
   modalModeloTitle: string;
-  modeloEquipo = new ModeloEquipo(null, '', '', '', '');
+  modeloEquipo = new ModeloEquipo(null, '', '', '');
 
   // modal ubicación equipo
   modalUbicacionOpen = false;
@@ -111,6 +110,7 @@ export class AddEditEquipoComponent implements OnInit {
   }
 
   /**
+   * TODO: falta este método
    * Se obtiene la lista de ubicaciones de los equipos.
    */
   getAllUbicaciones(): void {
@@ -165,6 +165,10 @@ export class AddEditEquipoComponent implements OnInit {
     this.equipo.tipoEquipo = this.tipoEquipo;
     this.buttonTitleTipo = 'Edit';
     this.modalTipoOpen = false
+  }
+
+  onSelectedEstado(value: string): void {
+    this.equipo.estado = value;
   }
 
   /**
@@ -268,6 +272,7 @@ export class AddEditEquipoComponent implements OnInit {
   }
 
   /**
+   * TODO: falta este método
    * Se obtiene la ubicación seleccionada para el equipo.
    * @param {number} id
    */

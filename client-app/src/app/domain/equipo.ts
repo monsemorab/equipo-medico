@@ -7,11 +7,10 @@ import {Ubicacion} from "./ubicacion";
 export class Equipo {
 
   constructor(public id: number,
-              public numeroSerie: number,
-              public numeroPatrimonial: number,
-              public numeroLote: number,
+              public numeroSerie: string,
+              public numeroPatrimonial: string,
+              public numeroLote: string,
               public estado: string,
-              public alimElectrica: string,
               public versionSw: string,
               public descripcionEquipo: string,
               public costo: number,
@@ -20,9 +19,10 @@ export class Equipo {
               public modeloEquipo: ModeloEquipo,
               public ubicacion: Ubicacion,
               public contrato: Contrato,
-              public  fechaFabricacion?: any,
-              public  fechaVenGarantia?: any,
-              public  fechaInstalacion?: any,
-              public  fechaCompra?: any) {
+              public licitacionCompra: string,
+              public fechaFabricacion: any,
+              public fechaVenGarantia: any,
+              public fechaInstalacion: any,
+              public fechaCompra?: any) {
   }
 }

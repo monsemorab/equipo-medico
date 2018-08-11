@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Equipo} from "../../domain/equipo";
 import {EquipoService} from "../../service/equipo.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-equipo',
@@ -15,7 +14,7 @@ export class EquipoComponent implements OnInit {
   selectedEquipo: Equipo;
 
   // form
-  formtitle: string;
+  formTitle: string;
   isEdit: boolean;
   showFormAbmEquipo = false;
 
@@ -79,7 +78,7 @@ export class EquipoComponent implements OnInit {
    * Cuando se presiona el botón Edit.
    */
   editEquipo() {
-    this.formtitle = 'Editar Equipo';
+    this.formTitle = 'Editar Equipo';
     this.isEdit = true;
     this.showFormAbmEquipo = true;
 
@@ -89,10 +88,10 @@ export class EquipoComponent implements OnInit {
    * Cuando se presiona el botón Add.
    */
   addEquipo() {
-    this.selectedEquipo = new Equipo(null, null, null, null, '',
-      '', '', '', null, null, null,
+    this.selectedEquipo = new Equipo(null, '', '', '', '',
+      '', '', null, null, null, null,
       null, null, null, '', '', '');
-    this.formtitle = 'Crear Equipo';
+    this.formTitle = 'Crear Equipo';
     this.isEdit = false;
     this.showFormAbmEquipo = true;
   }

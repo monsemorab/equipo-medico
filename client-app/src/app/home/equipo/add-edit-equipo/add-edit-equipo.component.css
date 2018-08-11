@@ -1,5 +1,5 @@
 .form-add-edit-equipo-label {
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 .form-add-edit-equipo-title {
@@ -10,4 +10,8 @@
 
 .form-add-edit-equipo-btn-add {
   margin-top: 1% !important;
+}
+
+.col-label-equipo {
+  text-align: right !important;
 }

@@ -18,12 +18,12 @@
         </button>
       </div>
       <!--<div class="col-xs-2">-->
-        <!--<button class="btn btn-sm btn-warning"-->
-                <!--*ngIf="selectedSolicitud"-->
-                <!--(click)="deleteSolicitud()">-->
-          <!--<clr-icon shape="trash"></clr-icon>-->
-          <!--Delete-->
-        <!--</button>-->
+      <!--<button class="btn btn-sm btn-warning"-->
+      <!--*ngIf="selectedSolicitud"-->
+      <!--(click)="deleteSolicitud()">-->
+      <!--<clr-icon shape="trash"></clr-icon>-->
+      <!--Delete-->
+      <!--</button>-->
       <!--</div>-->
       <div class="col-xs-4"></div>
       <div class="col-xs-1">
@@ -91,8 +91,8 @@
                   [class.selectSolicitud]="solicitud === selectedSolicitudServicio">
         <clr-dg-cell>{{solicitud.id}}</clr-dg-cell>
         <clr-dg-cell>{{solicitud.estado}}</clr-dg-cell>
-        <clr-dg-cell>{{solicitud.tarea}}</clr-dg-cell>
-        <clr-dg-cell>{{solicitud.responsable.nombre}}</clr-dg-cell>
+        <clr-dg-cell>{{solicitud.descripcionProblema}}</clr-dg-cell>
+        <clr-dg-cell>{{solicitud.personalReporte}}</clr-dg-cell>
         <clr-dg-cell>{{solicitud.fechaSolicitud}}</clr-dg-cell>
       </clr-dg-row>
 
@@ -176,21 +176,3 @@
   </div>
 </clr-modal>
 
-
-<!--confirmations of actions taken (add/remove/save/cancel) -->
-<clr-modal [(clrModalOpen)]="modalConfirmOpen"
-           [clrModalClosable]="false"
-           *ngIf="selectedSolicitud">
-  <h3 class="modal-title">Eliminar Solicitud</h3>
-  <div class="modal-body">
-    <p>Está seguro que desea eliminar el Solicitud {{selectedSolicitud.numeroSerie}}?</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-outline" type="button"
-            (click)="modalConfirmOpen = false">Cancel
-    </button>
-    <button class="btn btn-primary" type="button"
-            (click)="confirmarEliminacion()">Ok
-    </button>
-  </div>
-</clr-modal>

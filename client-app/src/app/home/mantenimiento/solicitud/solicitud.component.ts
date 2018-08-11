@@ -136,7 +136,7 @@ export class SolicitudComponent implements OnInit {
   addSolicitud(): void {
     if (this.isSolicitudServicio) {
       this.selectedSolicitudServicio = new SolicitudServicio(null, '', '',
-        null, '');
+        null, [], '');
       this.formtitle = 'Crear Solicitud de Servicio';
     } else {
       this.selectedSolicitudRepuesto = new SolicitudRepuesto(null, '', null, '');

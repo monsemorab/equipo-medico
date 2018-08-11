@@ -37,7 +37,7 @@ export class AddEditContratoComponent implements OnInit, AfterViewInit {
   // modal representante
   modalRepreOpen = false;
   modalTitle: string;
-  representante = new Representante(null, '', '', '', '');
+  representante = new Representante(null, '', '', '', '', '', '');
 
   // form
   buttonTitle: string;

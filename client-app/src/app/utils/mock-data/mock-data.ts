@@ -22,7 +22,7 @@ export const ESTADO_CONTRATO: EstadoContrato[] = [
 ];
 
 export const REPRESENTANTES: Representante[] = [
-  new Representante(1, 'Juan Perez', ' ', ' ', '')
+  new Representante(1, 'Test', ' ', ' ', '', '', '')
 ];
 
 export const CONTRATOS: Contrato[] = [
@@ -40,18 +40,15 @@ export const CONTRATOS: Contrato[] = [
 
 
 export const TIPO_EQUIPOS: TipoEquipo[] = [
-  new TipoEquipo(1, 'Dialisis', 'Dialisis', ' ', '', ' ',
-    '', ' '),
-  new TipoEquipo(2, 'AXC', 'AXC', ' ', '', ' ',
-    '', ' '),
-  new TipoEquipo(3, 'ABC', 'ABC', ' ', '', ' ',
-    '', ' ')
+  new TipoEquipo(1, 'Dialisis', 'xxx', '', '', ''),
+  new TipoEquipo(2, 'AXC', 'AXC', ' ', '', ' '),
+  new TipoEquipo(3, 'ABC', 'ABC', ' ', '', ' ')
 ];
 
 export const MODELOS: ModeloEquipo[] = [
-  new ModeloEquipo(1, 'XP-234', 'X', ' ', ''),
-  new ModeloEquipo(2, 'XP-111', 'Y', ' ', ''),
-  new ModeloEquipo(3, 'XP-689', 'Z', ' ', '')
+  new ModeloEquipo(1, 'XP-234', 'X', ''),
+  new ModeloEquipo(2, 'XP-111', 'Y', ' '),
+  new ModeloEquipo(3, 'XP-689', 'Z', ' ')
 ];
 
 export const UBICACIONES: Ubicacion[] = [
@@ -62,20 +59,20 @@ export const UBICACIONES: Ubicacion[] = [
 ];
 
 export const EQUIPOS: Equipo[] = [
-  new Equipo(1, 123, null, null, '', '', '',
-    '', null, REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[0], UBICACIONES[0], CONTRATOS[0],
+  new Equipo(1, '123', '0011-0456-0002-0675', '', '', '',
+    '', null,  REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[0], UBICACIONES[0], CONTRATOS[0],
     '21/01/2015', '', '', ''),
-  new Equipo(2, 456, null, null, '', '', '',
-    '', null, REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[1], UBICACIONES[0], CONTRATOS[1],
+  new Equipo(2, '456', '', '', '', '', '',
+    null, REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[1], UBICACIONES[0], CONTRATOS[1], '',
+    '', '', ''),
+  new Equipo(3, '678', '', '', '', '', '',
+    null, REPRESENTANTES[0], TIPO_EQUIPOS[1], MODELOS[1], UBICACIONES[1], CONTRATOS[2], '',
+    '', '', ''),
+  new Equipo(4, '891', '', '', '', '', '',
+    null, REPRESENTANTES[0], TIPO_EQUIPOS[2], MODELOS[0], UBICACIONES[1], CONTRATOS[3],
     '', '', '', ''),
-  new Equipo(3, 678, null, null, '', '', '',
-    '', null, REPRESENTANTES[0], TIPO_EQUIPOS[1], MODELOS[1], UBICACIONES[1], CONTRATOS[2],
-    '', '', '', ''),
-  new Equipo(4, 891, null, null, '', '', '',
-    '', null, REPRESENTANTES[0], TIPO_EQUIPOS[2], MODELOS[0], UBICACIONES[1], CONTRATOS[3],
-    '', '', '', ''),
-  new Equipo(5, 233, null, null, '', '', '',
-    '', null, REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[0], UBICACIONES[0], CONTRATOS[4],
+  new Equipo(5, '233', '', '', '', '', '',
+    null, REPRESENTANTES[0], TIPO_EQUIPOS[0], MODELOS[0], UBICACIONES[0], CONTRATOS[4],
     '', '', '', '')
 ];
 
@@ -91,5 +88,6 @@ export const SOLICITUD_REPUESTOS: SolicitudRepuesto[] = [
 ];
 
 export const SOLICITUD_SERVICIO: SolicitudServicio[] = [
-  new SolicitudServicio(1, 'vigente', 'solicitud servicio', REPRESENTANTES[0], '')
+  new SolicitudServicio(1, 'vigente', 'solicitud servicio','juan perez',
+    [], '')
 ]

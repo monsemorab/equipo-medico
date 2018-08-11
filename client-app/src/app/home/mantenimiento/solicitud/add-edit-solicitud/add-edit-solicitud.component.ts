@@ -31,7 +31,6 @@ export class AddEditSolicitudComponent implements OnInit {
   // modal responsable
   modalResponsableOpen = false;
   modalTitleRepre: string;
-  responsable = new Representante(null, '', '', '', '');
 
 
   // modal repuestos
@@ -47,6 +46,7 @@ export class AddEditSolicitudComponent implements OnInit {
   modelos: ModeloEquipo[];
   selectedModelo: ModeloEquipo;
   modeloEquipoNombre: string;
+  representante: Representante;
 
   // error
   errorMessage: string;
@@ -147,17 +147,19 @@ export class AddEditSolicitudComponent implements OnInit {
     );
   }
 
-  addResponsables(): void {
-    this.modalTitleRepre = 'Agregar Responsable';
+  addRepresentante(): void {
+    this.modalTitleRepre = 'Agregar Representante';
     if (this.isEdit) {
-      this.responsable = this.solicitudServicio.responsable;
-      this.modalTitleRepre = 'Editar Responsable';
+      this.representante = this.selectedRepuesto.representante;
+      this.modalTitleRepre = 'Editar Representante';
     }
     this.modalResponsableOpen = true;
   }
 
   onAddResponsable(): void {
-    this.solicitudServicio.responsable = this.responsable;
+    this.representante = new Representante(null, '', '', '', '', '',
+      '');
+    this.selectedRepuesto.representante = this.representante;
     this.buttonTitleRepre = 'Edit';
     this.modalResponsableOpen = false
   }

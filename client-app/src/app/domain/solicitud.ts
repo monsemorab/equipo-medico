@@ -1,12 +1,13 @@
-import {Representante} from "./representante";
 import {Repuesto} from "./repuesto";
+import {Equipo} from "./equipo";
 
 export class SolicitudServicio {
 
   constructor(public id: number,
               public estado: string,
-              public tarea: string,
-              public responsable: Representante,
+              public descripcionProblema: string,
+              public personalReporte: string,
+              public equipos: Equipo [],
               public fechaSolicitud?: any) {
   }
 }

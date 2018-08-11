@@ -85,7 +85,7 @@
 <app-add-edit-equipo
   *ngIf="showFormAbmEquipo"
   [equipo]='selectedEquipo'
-  [tituloForm]='formtitle'
+  [tituloForm]='formTitle'
   [isEdit]= 'isEdit'
   (onCanceled)="onCancelAddEditEquipo($event)"
   (onFinished)="onCloseAddEditEquipo($event)">
