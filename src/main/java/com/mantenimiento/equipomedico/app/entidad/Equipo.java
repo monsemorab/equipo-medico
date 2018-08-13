@@ -8,7 +8,6 @@ import java.util.Date;
  * Equipo
  *
  * @author Brenda Quiñonez
- *
  */
 @Entity
 @Table(name = "equipo")
@@ -57,24 +56,24 @@ public class Equipo implements Serializable {
     @Column(name = "descripcion_equipo")
     private String descripcionEquipo;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="representante_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "representante_id")
     private Representante representante;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="tipo_equipo_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_equipo_id")
     private TipoEquipo tipoEquipo;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "modelo_equipo_id")
     private ModeloEquipo modeloEquipo;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
 
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="contrato_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contrato_id")
     private Contrato contrato;
 
     /**
@@ -82,7 +81,7 @@ public class Equipo implements Serializable {
      *
      * @return value of numeroSerie
      */
-    public Long getNumeroSerie() {
+    public String getNumeroSerie() {
         return numeroSerie;
     }
 
@@ -91,7 +90,7 @@ public class Equipo implements Serializable {
      *
      * @param numeroSerie
      */
-    public void setNumeroSerie(Long numeroSerie) {
+    public void setNumeroSerie(String numeroSerie) {
         this.numeroSerie = numeroSerie;
     }
 
@@ -100,7 +99,7 @@ public class Equipo implements Serializable {
      *
      * @return value of numeroPatrimonial
      */
-    public Long getNumeroPatrimonial() {
+    public String getNumeroPatrimonial() {
         return numeroPatrimonial;
     }
 
@@ -109,7 +108,7 @@ public class Equipo implements Serializable {
      *
      * @param numeroPatrimonial
      */
-    public void setNumeroPatrimonial(Long numeroPatrimonial) {
+    public void setNumeroPatrimonial(String numeroPatrimonial) {
         this.numeroPatrimonial = numeroPatrimonial;
     }
 
@@ -118,7 +117,7 @@ public class Equipo implements Serializable {
      *
      * @return value of numeroLote
      */
-    public Long getNumeroLote() {
+    public String getNumeroLote() {
         return numeroLote;
     }
 
@@ -127,7 +126,7 @@ public class Equipo implements Serializable {
      *
      * @param numeroLote
      */
-    public void setNumeroLote(Long numeroLote) {
+    public void setNumeroLote(String numeroLote) {
         this.numeroLote = numeroLote;
     }
 

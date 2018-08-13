@@ -1,6 +1,7 @@
 package com.mantenimiento.equipomedico.app.controller;
 
 import com.mantenimiento.equipomedico.app.entidad.TipoEquipo;
+import com.mantenimiento.equipomedico.app.service.TipoEquipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
