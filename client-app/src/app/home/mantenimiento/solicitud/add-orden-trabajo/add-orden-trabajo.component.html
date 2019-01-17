@@ -1,0 +1,197 @@
+<form class="compact" #ordenTrabajoForm="ngForm" *ngIf="!showFormAbmSolicitudRepuesto">
+  <h5 class="form-order-trabajo-title">Orden de Trabajo</h5>
+  <section class="form-block">
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Reclamo realizado por:</label>
+      </div>
+      <div class="col-xs-4">
+        <input class="form-control" id="reclamo"
+               name="reclamo" readonly>
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Solicitud:</label>
+      </div>
+      <div class="col-xs-3">
+        <input class="form-control"
+               id="solicitud" readonly
+               name="solicitud">
+      </div>
+    </div>
+
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label" for="descriptionProb">Descripción del Problema:</label>
+      </div>
+      <div class="col-xs-4">
+            <textarea class="form-control" id="descriptionProb" rows="3"
+                      maxlength="2000"
+                      name="descriptionProb" readonly>
+            </textarea>
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Fecha Solicitud:</label>
+      </div>
+      <div class="col-xs-3">
+        <input class="form-control" type="date"
+               id="fechaSolicitud" readonly
+               name="fechaSolicitud">
+      </div>
+    </div>
+  </section>
+
+  <!--equipos-->
+  <h6 class="form-order-trabajo-title">Información del Equipo</h6>
+  <section class="form-block">
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Tipo:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="Tipo">
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Marca:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="marca">
+      </div>
+
+
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Modelo:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="modelo">
+      </div>
+    </div>
+
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Nro. Serie:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="serie">
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Ubicación:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="ubicación">
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Estado:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="estado">
+      </div>
+
+    </div>
+  </section>
+
+  <!--Registro de servicio-->
+  <section>
+    <h6 class="form-order-trabajo-title">Registro de servicio</h6>
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1">
+        <button class="btn btn-sm btn-success">
+          <clr-icon shape="plus"></clr-icon>
+          Add
+        </button>
+      </div>
+      <div class="col-xs-1">
+        <button class="btn btn-sm btn-success">
+          <clr-icon shape="pencil"></clr-icon>
+          Edit
+        </button>
+      </div>
+    </div>
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-12">
+        <clr-datagrid>
+          <clr-dg-column>Fecha</clr-dg-column>
+          <clr-dg-column>Tarea Realizada</clr-dg-column>
+          <clr-dg-column>Informe Nro.</clr-dg-column>
+          <clr-dg-column>Nombre del técnico</clr-dg-column>
+          <clr-dg-row>
+            <clr-dg-cell></clr-dg-cell>
+            <clr-dg-cell></clr-dg-cell>
+            <clr-dg-cell></clr-dg-cell>
+            <clr-dg-cell></clr-dg-cell>
+          </clr-dg-row>
+        </clr-datagrid>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h6 class="form-order-trabajo-title">Repuestos Solicitados</h6>
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1">
+        <button class="btn btn-sm btn-success"
+                (click)="addSolicitudRepuesto()">
+          <clr-icon shape="plus"></clr-icon>
+          Add
+        </button>
+      </div>
+      <div class="col-xs-1">
+        <button class="btn btn-sm btn-success">
+          <clr-icon shape="pencil"></clr-icon>
+          Edit
+        </button>
+      </div>
+    </div>
+    <clr-datagrid>
+      <clr-dg-column [clrDgSortBy]="'id'">ID</clr-dg-column>
+      <clr-dg-column>Estado</clr-dg-column> <!--estado del equipo-->
+      <clr-dg-column>Repuestos</clr-dg-column>
+      <clr-dg-column>Fecha</clr-dg-column>
+
+      <clr-dg-row *ngFor="let solicitud of solicitudRepuestos"
+                  (click)="selectSolicitudRepuesto(solicitud)"
+                  [class.selectSolicitud]="solicitud === selectedSolicitudRepuesto">
+        <clr-dg-cell>{{solicitud.id}}</clr-dg-cell>
+        <clr-dg-cell>{{solicitud.estado}}</clr-dg-cell>
+        <clr-dg-cell>
+          <ul class="list-unstyled" *ngFor="let repuesto of solicitud.repuestos">
+            <li>{{repuesto.descripcionArticulo}}</li>
+          </ul>
+        </clr-dg-cell>
+        <clr-dg-cell>{{solicitud.fechaSolicitud}}</clr-dg-cell>
+      </clr-dg-row>
+
+      <!--<clr-dg-footer>-->
+      <!--{{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}-->
+      <!--of {{total}} Solicitudes-->
+      <!--<clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>-->
+      <!--</clr-dg-footer>-->
+    </clr-datagrid>
+  </section>
+
+  <section class="form-block">
+    <button class="btn btn-sm btn-success"
+            [disabled]="(ordenTrabajoForm.form.invalid )">
+      <clr-icon shape="floppy"></clr-icon>
+      Save
+    </button>
+
+    <button class="btn btn-sm btn-secondary">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancel
+    </button>
+  </section>
+</form>
+
+
+<app-add-edit-solicitud-repuesto
+  *ngIf="showFormAbmSolicitudRepuesto"
+  [solicitudRepuesto]='selectedSolicitudRepuesto'
+  [tituloForm]='formtitle'
+  [isEdit]="isEdit">
+</app-add-edit-solicitud-repuesto>
+

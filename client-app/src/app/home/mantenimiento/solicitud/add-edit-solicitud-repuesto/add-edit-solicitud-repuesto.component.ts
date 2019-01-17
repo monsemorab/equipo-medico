@@ -1,25 +1,22 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SolicitudRepuesto, SolicitudServicio} from "../../../../domain/solicitud";
-import {Representante} from "../../../../domain/representante";
-import {SolicitudService} from "../../../../service/solicitud.service";
+import {SolicitudRepuesto} from "../../../../domain/solicitud";
 import {Repuesto} from "../../../../domain/repuesto";
-import {Equipo} from "../../../../domain/equipo";
-import {ModeloEquipo} from "../../../../domain/modelo-equipo";
 import {TipoEquipo} from "../../../../domain/tipo-equipo";
+import {Representante} from "../../../../domain/representante";
+import {ModeloEquipo} from "../../../../domain/modelo-equipo";
+import {SolicitudService} from "../../../../service/solicitud.service";
 import {EquipoService} from "../../../../service/equipo.service";
 
 @Component({
-  selector: 'app-add-edit-solicitud',
-  templateUrl: './add-edit-solicitud.component.html',
-  styleUrls: ['./add-edit-solicitud.component.css']
+  selector: 'app-add-edit-solicitud-repuesto',
+  templateUrl: './add-edit-solicitud-repuesto.component.html',
+  styleUrls: ['./add-edit-solicitud-repuesto.component.css']
 })
-export class AddEditSolicitudComponent implements OnInit {
-
+export class AddEditSolicitudRepuestoComponent implements OnInit {
   @Input() solicitudRepuesto: SolicitudRepuesto;
-  @Input() solicitudServicio: SolicitudServicio;
+  @Input() selectedSolicitudRepuesto: SolicitudRepuesto;
   @Input() tituloForm: string;
   @Input() isEdit: boolean;
-  @Input() selectedSolicitudServicio: boolean;
   @Output() onFinished: EventEmitter<any> = new EventEmitter();
   @Output() onCanceled: EventEmitter<any> = new EventEmitter();
 
@@ -50,22 +47,29 @@ export class AddEditSolicitudComponent implements OnInit {
 
   // error
   errorMessage: string;
-  error: boolean
+  error: boolean;
 
   constructor(private solicitudService: SolicitudService,
               private equipoService: EquipoService) {
   }
 
   ngOnInit() {
+
     this.tipoEquipoNombre = 'Agregar Tipo';
     this.modeloEquipoNombre = 'Agregar Modelo';
     this.buttonTitleRepre = 'Add';
-    this.buttonTitleResp = 'Add';
-    this.buttonTitleRepuesto = 'Add';
+    // this.buttonTitleResp = 'Add';
+    // this.buttonTitleRepuesto = 'Add';
+    if (this.isEdit) {
+      this.buttonTitleRepre = 'Edit';
+      // this.buttonTitleResp = 'Edit';
+      // this.buttonTitleRepuesto = 'Edit';
+    }
     this.isSelectedRepuesto = false;
     this.getAllTipos();
     this.getAllModelos();
   }
+
 
   /**
    * Se obtiene la lista de tipos de equipos.
@@ -147,23 +151,6 @@ export class AddEditSolicitudComponent implements OnInit {
     );
   }
 
-  addRepresentante(): void {
-    this.modalTitleRepre = 'Agregar Representante';
-    if (this.isEdit) {
-      this.representante = this.selectedRepuesto.representante;
-      this.modalTitleRepre = 'Editar Representante';
-    }
-    this.modalResponsableOpen = true;
-  }
-
-  onAddResponsable(): void {
-    this.representante = new Representante(null, '', '', '', '', '',
-      '');
-    this.selectedRepuesto.representante = this.representante;
-    this.buttonTitleRepre = 'Edit';
-    this.modalResponsableOpen = false
-  }
-
   /**
    * Al seleccionar el botón Add repuesto.
    */
@@ -216,27 +203,21 @@ export class AddEditSolicitudComponent implements OnInit {
     this.modalRepuestosOpen = true;
   }
 
-  /**
-   * Se guarda la información de la solicitud creada o editada.
-   */
-  onSaveSolicitud(): void {
-    console.log('onSaveSolicitud() ', this.solicitudServicio);
-    this.onCloseAddEditSolicitud();
+  addRepresentante(): void {
+    this.modalTitleRepre = 'Agregar Personal Responsable';
+    if (this.isEdit) {
+      this.representante = this.selectedRepuesto.representante;
+      this.modalTitleRepre = 'Editar Datos del Personal Responsabl';
+    }
+    this.modalResponsableOpen = true;
   }
 
-
-  /**
-   * Cuando la edición o la creación de una solicitud se finaliza.
-   */
-  onCloseAddEditSolicitud() {
-    this.onFinished.emit(true);
-  }
-
-  /**
-   * Cuando se cancela la edición o creación de una solicitud.
-   */
-  onCancelAddEditSolicitud() {
-    this.onCanceled.emit(true);
+  onAddRepresentante(): void {
+    this.representante = new Representante(null, '', '', '', '', '',
+      '');
+    this.selectedRepuesto.representante = this.representante;
+    this.buttonTitleRepre = 'Edit';
+    this.modalResponsableOpen = false
   }
 
 }

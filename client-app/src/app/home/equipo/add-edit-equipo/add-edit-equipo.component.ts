@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {Equipo} from "../../../domain/equipo";
 import {Representante} from "../../../domain/representante";
 import {TipoEquipo} from "../../../domain/tipo-equipo";
 import {ModeloEquipo} from "../../../domain/modelo-equipo";
 import {EquipoService} from "../../../service/equipo.service";
 import {Ubicacion} from "../../../domain/ubicacion";
+import {SubscriptionLike as ISubscription} from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-equipo',
@@ -12,7 +13,7 @@ import {Ubicacion} from "../../../domain/ubicacion";
   templateUrl: './add-edit-equipo.component.html',
   styleUrls: ['./add-edit-equipo.component.css']
 })
-export class AddEditEquipoComponent implements OnInit {
+export class AddEditEquipoComponent implements OnInit, OnDestroy {
 
   @Input() equipo: Equipo;
   @Input() tituloForm: string;
@@ -62,6 +63,9 @@ export class AddEditEquipoComponent implements OnInit {
   errorMessage: string;
   error: boolean;
 
+  // subscriptions
+  private subscriptionSaveEquipo: ISubscription;
+
   constructor(private equipoService: EquipoService) {
   }
 
@@ -76,6 +80,12 @@ export class AddEditEquipoComponent implements OnInit {
     this.getAllTipos();
     this.getAllModelos();
     this.getAllUbicaciones();
+  }
+
+  ngOnDestroy() {
+    if (this.subscriptionSaveEquipo != null) {
+      this.subscriptionSaveEquipo.unsubscribe();
+    }
   }
 
 
@@ -294,7 +304,44 @@ export class AddEditEquipoComponent implements OnInit {
    */
   onSaveEquipo(): void {
     console.log('onSaveEquipo() ', this.equipo);
-    this.onCloseAddEditEquipo();
+    if (this.isEdit) {
+      this.editEquipo();
+    } else {
+      this.saveEquipo();
+    }
+  }
+
+  /**
+   * Se crea un nuevo equipo.
+   */
+  saveEquipo(): void {
+    this.subscriptionSaveEquipo = this.equipoService.crearEquipo(this.equipo).subscribe(
+      equipo => {
+        this.equipo = equipo;
+        this.onCloseAddEditEquipo();
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Se actualizan los datos del equipo seleccionado.
+   */
+  editEquipo(): void {
+    this.subscriptionSaveEquipo = this.equipoService.editarEquipo(this.equipo).subscribe(
+      equipo => {
+        this.equipo = equipo;
+        this.onCloseAddEditEquipo();
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
+
+      }
+    );
   }
 
 

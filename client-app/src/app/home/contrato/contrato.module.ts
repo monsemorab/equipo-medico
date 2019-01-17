@@ -1,23 +1,13 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from "@angular/forms";
-import {RouterModule} from "@angular/router";
-import {BrowserModule} from "@angular/platform-browser";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ContratoComponent} from "./contrato.component";
-import {ClarityModule} from "clarity-angular";
 
 import {AddEditContratoComponent} from "./add-edit-contrato/add-edit-contrato.component";
 import {ContratoService} from "../../service/contrato.service";
+import {CommonModuleImportsModule} from "../../shared/common-module-imports.module";
 
 @NgModule({
   imports: [
-    CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    RouterModule,
-    ClarityModule,
+    CommonModuleImportsModule
   ],
   exports: [ContratoComponent],
   providers: [ContratoService],

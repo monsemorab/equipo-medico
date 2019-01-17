@@ -1,31 +1,25 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from "@angular/router";
-import {ClarityModule} from "clarity-angular";
-import {BrowserModule} from "@angular/platform-browser";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {FormsModule} from "@angular/forms";
 import {EquipoModule} from "./equipo/equipo.module";
 import {ContratoModule} from "./contrato/contrato.module";
 import {MantenimientoModule} from "./mantenimiento/mantenimiento.module";
 
 import {HomeComponent} from "./home.component";
+import {CommonModuleImportsModule} from "../shared/common-module-imports.module";
+import {ApiRequestService} from "../service/api-request.service";
 
 
 @NgModule({
   imports: [
-    CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    RouterModule,
-    ClarityModule,
+    CommonModuleImportsModule,
     EquipoModule,
     ContratoModule,
     MantenimientoModule
   ],
   exports: [
     HomeComponent
+  ],
+  providers: [
+    ApiRequestService
   ],
   declarations: [
     HomeComponent

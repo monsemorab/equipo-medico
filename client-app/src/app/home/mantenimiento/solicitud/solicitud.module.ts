@@ -1,23 +1,15 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from "@angular/router";
-import {ClarityModule} from "clarity-angular";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {BrowserModule} from "@angular/platform-browser";
-import {FormsModule} from "@angular/forms";
 
 import {SolicitudComponent} from "./solicitud.component";
 import {SolicitudService} from "../../../service/solicitud.service";
-import {AddEditSolicitudComponent} from "./add-edit-solicitud/add-edit-solicitud.component";
+import {AddEditSolicitudServicioComponent} from "./add-edit-solicitud-servicio/add-edit-solicitud-servicio.component";
+import {AddOrdenTrabajoComponent} from "./add-orden-trabajo/add-orden-trabajo.component";
+import {AddEditSolicitudRepuestoComponent} from "./add-edit-solicitud-repuesto/add-edit-solicitud-repuesto.component";
+import {CommonModuleImportsModule} from "../../../shared/common-module-imports.module";
 
 @NgModule({
   imports: [
-    CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    RouterModule,
-    ClarityModule,
+    CommonModuleImportsModule
   ],
   exports: [SolicitudComponent],
   providers: [
@@ -25,7 +17,9 @@ import {AddEditSolicitudComponent} from "./add-edit-solicitud/add-edit-solicitud
   ],
   declarations: [
     SolicitudComponent,
-    AddEditSolicitudComponent]
+    AddEditSolicitudServicioComponent,
+    AddOrdenTrabajoComponent,
+    AddEditSolicitudRepuestoComponent]
 })
 export class SolicitudModule {
 }

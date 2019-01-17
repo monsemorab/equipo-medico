@@ -1,10 +1,10 @@
-<form class=" compact" *ngIf="!showFormAbmSolicitud">
-  <h5 class="form-solicitud-title">Solicitudes</h5>
+<form class=" compact" *ngIf="!showFormAbmSolicitud && !openOrdenTrabajo">
+  <h5 class="form-solicitud-title">Solicitud de Servicio</h5>
   <section>
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-1">
         <button class="btn btn-sm btn-success"
-                (click)="openTipoSolicitudForm()">
+                (click)="addSolicitud()">
           <clr-icon shape="plus"></clr-icon>
           Add
         </button>
@@ -25,21 +25,21 @@
       <!--Delete-->
       <!--</button>-->
       <!--</div>-->
-      <div class="col-xs-4"></div>
-      <div class="col-xs-1">
-        <label class="form-solicitud-label"
-               for="select_tipoSolicitud">Solicitud:</label>
-      </div>
-      <div class="col-xs-2">
-        <div class="select">
-          <select id="select_tipoSolicitud" #selectTipoSolicitud name="solicitud"
-                  [(ngModel)]="tipoSolicitud"
-                  (change)="seleccionarTipoSolicitud(selectTipoSolicitud.value)">
-            <option>servicio</option>
-            <option>repuesto</option>
-          </select>
-        </div>
-      </div>
+      <!--<div class="col-xs-4"></div>-->
+      <!--<div class="col-xs-1">-->
+        <!--<label class="form-solicitud-label"-->
+               <!--for="select_tipoSolicitud">Solicitud:</label>-->
+      <!--</div>-->
+      <!--<div class="col-xs-2">-->
+        <!--<div class="select">-->
+          <!--<select id="select_tipoSolicitud" #selectTipoSolicitud name="solicitud"-->
+                  <!--[(ngModel)]="tipoSolicitud"-->
+                  <!--(change)="seleccionarTipoSolicitud(selectTipoSolicitud.value)">-->
+            <!--<option>servicio</option>-->
+            <!--<option>repuesto</option>-->
+          <!--</select>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
     <!--success action-->
     <div class="alert alert-success alert-sm" *ngIf="success">
@@ -75,12 +75,13 @@
       </button>
     </div>
     <!--lista de solicitudes de servicios-->
-    <clr-datagrid *ngIf="showSolicitudServicio" [clrDgLoading]="loading">
+    <clr-datagrid [clrDgLoading]="loading">
       <clr-dg-column [clrDgSortBy]="'id'">ID</clr-dg-column>
       <clr-dg-column>Estado</clr-dg-column>
       <clr-dg-column>Tarea</clr-dg-column>
       <clr-dg-column>Responsable</clr-dg-column>
       <clr-dg-column>Fecha</clr-dg-column>
+      <clr-dg-column>Acción</clr-dg-column>
       <clr-dg-placeholder>
         <div *ngIf="solicitudServicios && solicitudServicios.length === 0">
           No existen datos para la Solicitud
@@ -90,10 +91,15 @@
                   (click)="selectSolicitudServicio(solicitud)"
                   [class.selectSolicitud]="solicitud === selectedSolicitudServicio">
         <clr-dg-cell>{{solicitud.id}}</clr-dg-cell>
-        <clr-dg-cell>{{solicitud.estado}}</clr-dg-cell>
+        <clr-dg-cell>{{solicitud.estado}}</clr-dg-cell> <!--estado del equipo-->
         <clr-dg-cell>{{solicitud.descripcionProblema}}</clr-dg-cell>
         <clr-dg-cell>{{solicitud.personalReporte}}</clr-dg-cell>
         <clr-dg-cell>{{solicitud.fechaSolicitud}}</clr-dg-cell>
+        <clr-dg-cell>
+          <button class="btn btn-sm btn-success" (click)="atenderSolicitud()">
+            Atender
+          </button>
+        </clr-dg-cell>
       </clr-dg-row>
 
       <clr-dg-footer>
@@ -104,75 +110,44 @@
     </clr-datagrid>
 
     <!--lista de solicitudes de repuestos-->
-    <clr-datagrid *ngIf="!showSolicitudServicio" [clrDgLoading]="loading">
-      <clr-dg-column [clrDgSortBy]="'id'">ID</clr-dg-column>
-      <clr-dg-column>Estado</clr-dg-column>
-      <clr-dg-column>Tarea</clr-dg-column>
-      <clr-dg-column>Repuestos</clr-dg-column>
-      <clr-dg-column>Fecha</clr-dg-column>
+    <!--<clr-datagrid *ngIf="!showSolicitudServicio" [clrDgLoading]="loading">-->
+      <!--<clr-dg-column [clrDgSortBy]="'id'">ID</clr-dg-column>-->
+      <!--<clr-dg-column>Estado</clr-dg-column> &lt;!&ndash;estado del equipo&ndash;&gt;-->
+      <!--<clr-dg-column>Repuestos</clr-dg-column>-->
+      <!--<clr-dg-column>Fecha</clr-dg-column>-->
 
-      <clr-dg-row *ngFor="let solicitud of solicitudRepuestos"
-                  (click)="selectSolicitudRepuesto(solicitud)"
-                  [class.selectSolicitud]="solicitud === selectedSolicitudRepuesto">
-        <clr-dg-cell>{{solicitud.id}}</clr-dg-cell>
-        <clr-dg-cell>{{solicitud.estado}}</clr-dg-cell>
-        <clr-dg-cell>{{solicitud.tarea}}</clr-dg-cell>
-        <clr-dg-cell>
-          <ul class="list-unstyled" *ngFor="let repuesto of solicitud.repuestos">
-            <li>{{repuesto.descripcionArticulo}}</li>
-          </ul>
-        </clr-dg-cell>
-        <clr-dg-cell>{{solicitud.fechaSolicitud}}</clr-dg-cell>
-      </clr-dg-row>
+      <!--<clr-dg-row *ngFor="let solicitud of solicitudRepuestos"-->
+                  <!--(click)="selectSolicitudRepuesto(solicitud)"-->
+                  <!--[class.selectSolicitud]="solicitud === selectedSolicitudRepuesto">-->
+        <!--<clr-dg-cell>{{solicitud.id}}</clr-dg-cell>-->
+        <!--<clr-dg-cell>{{solicitud.estado}}</clr-dg-cell>-->
+        <!--<clr-dg-cell>-->
+          <!--<ul class="list-unstyled" *ngFor="let repuesto of solicitud.repuestos">-->
+            <!--<li>{{repuesto.descripcionArticulo}}</li>-->
+          <!--</ul>-->
+        <!--</clr-dg-cell>-->
+        <!--<clr-dg-cell>{{solicitud.fechaSolicitud}}</clr-dg-cell>-->
+      <!--</clr-dg-row>-->
 
-      <clr-dg-footer>
-        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-        of {{total}} Solicitudes
-        <clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>
-      </clr-dg-footer>
-    </clr-datagrid>
+      <!--<clr-dg-footer>-->
+        <!--{{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}-->
+        <!--of {{total}} Solicitudes-->
+        <!--<clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>-->
+      <!--</clr-dg-footer>-->
+    <!--</clr-datagrid>-->
   </section>
 </form>
 
-<app-add-edit-solicitud
+<!--agregar/editar solicitud de servicio-->
+<app-add-edit-solicitud-servicio
   *ngIf="showFormAbmSolicitud"
-  [solicitudRepuesto]='selectedSolicitudRepuesto'
   [solicitudServicio]='selectedSolicitudServicio'
   [tituloForm]='formtitle'
   [isEdit]="isEdit"
   [selectedSolicitudServicio]='selectedSolicitudServicio'
   (onCanceled)="onCancelAddEditSolicitud($event)"
   (onFinished)="onCloseAddEditSolicitud($event)">
-</app-add-edit-solicitud>
+</app-add-edit-solicitud-servicio>
 
-
-<!--seleccionar el tipo de servicio -->
-<clr-modal [(clrModalOpen)]="modalTipoSolicitudOpen"
-           [clrModalClosable]="false">
-  <h3 class="modal-title">Crear Solicitud</h3>
-  <div class="modal-body">
-    <div class="form-group">
-      <div class="radio-inline">
-        <input type="radio" name="servicio" id="servicio"
-               [checked]="isSolicitudServicio"
-               (click)="isSolicitudServicio = true">
-        <label for="servicio">Solicitud Servicio</label>
-      </div>
-      <div class="radio-inline">
-        <input type="radio" name="repuesto" id="repuesto"
-               [checked]="!isSolicitudServicio"
-               (click)="selectTipoRespuesto()">
-        <label for="repuesto">Solicitud Repuesto</label>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-outline" type="button"
-            (click)="modalTipoSolicitudOpen = false">Cancel
-    </button>
-    <button class="btn btn-primary" type="button"
-            (click)="addSolicitud()">Create
-    </button>
-  </div>
-</clr-modal>
-
+<!--Crear Orden de trabajo-->
+<app-add-orden-trabajo *ngIf="openOrdenTrabajo"></app-add-orden-trabajo>

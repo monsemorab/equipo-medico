@@ -1,32 +1,57 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs/Observable";
+import {Observable, of} from "rxjs";
 
 import {ESTADO_CONTRATO} from "../utils/mock-data/mock-data";
 import {Contrato, EstadoContrato} from "../domain/contrato";
-import {HttpClient} from "@angular/common/http";
+import {ApiRequestService} from "./api-request.service";
 
 @Injectable()
 export class ContratoService {
 
   private estadosContrato = ESTADO_CONTRATO;
-  private url = "http://localhost:8080/api/contratos/";
+  private urlContratos = "http://localhost:8080/api/contratos/";
 
-  constructor(private http:HttpClient) {}
+  constructor(private apiRequest: ApiRequestService) {}
 
   /**
+   * TODO: crear endpoint para obtener esto
    * Se obtienen todos los contratos.
    * @returns {Observable<Contrato[]>}
    */
   getContratos(): Observable<Contrato[]> {
-    return this.http.get<Contrato[]>(this.url);
+    // return this.http.get<Contrato[]>(this.url);
+    return this.apiRequest.get(this.urlContratos);
   }
 
   /**
    * Se obtiene la lista de los estados para un contrato.
+   * Esta lista no se obtiene de la BD, son datos predefinidos.
    * @returns {Observable<EstadoContrato[]>}
    */
   getEstadosContrato(): Observable<EstadoContrato[]> {
-    return Observable.of(this.estadosContrato);
+    return of(this.estadosContrato);
+  }
+
+  /**
+   * TODO: crear endpoint para obtener esto
+   * Se crea un nuevo contrato.
+   * @param {Contrato} contrato
+   * @returns {Observable<Contrato>}
+   */
+  crearContrato(contrato: Contrato): Observable<Contrato> {
+    const url = this.urlContratos;
+    return this.apiRequest.post(url, contrato);
+  }
+
+  /**
+   * TODO: crear endpoint para obtener esto
+   * Se actualiza un contrato existente.
+   * @param {Contrato} contrato
+   * @returns {Observable<Contrato>}
+   */
+  editarContrato(contrato: Contrato): Observable<Contrato> {
+    const url = this.urlContratos + '/' + contrato.id;
+    return this.apiRequest.put(url, contrato);
   }
 
 }

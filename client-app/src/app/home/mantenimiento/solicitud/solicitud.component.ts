@@ -14,8 +14,8 @@ export class SolicitudComponent implements OnInit {
   selectedSolicitudServicio: SolicitudServicio;
   isSolicitudServicio = true;
 
-  // solicitud repuesto
-  selectedSolicitudRepuesto: SolicitudRepuesto;
+  // // solicitud repuesto
+  // selectedSolicitudRepuesto: SolicitudRepuesto;
 
   // form
   formtitle: string;
@@ -41,7 +41,9 @@ export class SolicitudComponent implements OnInit {
   loading = true;
   total: number;
   solicitudServicios: SolicitudServicio[];
-  solicitudRepuestos: SolicitudRepuesto[];
+  // solicitudRepuestos: SolicitudRepuesto[];
+
+  openOrdenTrabajo: boolean;
 
   constructor(private solicitudService: SolicitudService) {
 
@@ -52,107 +54,114 @@ export class SolicitudComponent implements OnInit {
     this.showFormAbmSolicitud = false;
     this.modalTipoSolicitudOpen = false;
     this.selectedSolicitud = false;
+    this.getSolicitudServicio();
 
     /**
      * Se muestra por defecto la lista de solicitudes de servicios.
      */
-    this.seleccionarTipoSolicitud('servicio');
-    // this.tipoSolicitud ='servicio';
-    // this.showSolicitudServicio = true;
-    // this.getSolicitudServicio();
+  //   this.seleccionarTipoSolicitud('servicio');
+  //   this.tipoSolicitud ='servicio';
+  //   this.showSolicitudServicio = true;
+  //   this.getSolicitudServicio();
   }
 
   /**
    * Se selecciona el tipo de solicitud que se listara.
    * @param {string} tipoSolicitud
    */
-  seleccionarTipoSolicitud(tipoSolicitud: string): void {
-    this.tipoSolicitud = tipoSolicitud;
-    if (this.tipoSolicitud == 'servicio') {
-      this.isSolicitudServicio = true;
-      this.showSolicitudServicio = true;
-      this.getSolicitudServicio();
-    } else {
-      this.isSolicitudServicio = false;
-      this.showSolicitudServicio = false;
-      this.getSolicitudRepuesto();
-    }
-  }
+  // seleccionarTipoSolicitud(tipoSolicitud: string): void {
+  //   this.tipoSolicitud = tipoSolicitud;
+  //   if (this.tipoSolicitud == 'servicio') {
+  //     this.isSolicitudServicio = true;
+  //     this.showSolicitudServicio = true;
+  //     this.getSolicitudServicio();
+  //   } else {
+  //     this.isSolicitudServicio = false;
+  //     this.showSolicitudServicio = false;
+  //     this.getSolicitudRepuesto();
+  //   }
+  // }
 
   /**
    * Se obtiene la lista de las solicitudes de servicios.
    */
   getSolicitudServicio(): void {
-    this.solicitudService.getSolicitudServicios().subscribe(
-      servicios => {
-        this.solicitudServicios = servicios;
-        console.log(this.solicitudServicios);
-        this.loading = false;
-      },
-      error => {
-        this.errorMessage = error;
-        this.solicitudServicios = null;
-        this.loading = false;
-      }
-    );
+    // this.solicitudService.getSolicitudServicios().subscribe(
+    //   servicios => {
+    //     this.solicitudServicios = servicios;
+    //     console.log(this.solicitudServicios);
+    //     this.loading = false;
+    //   },
+    //   error => {
+    //     this.errorMessage = error;
+    //     this.solicitudServicios = null;
+    //     this.loading = false;
+    //   }
+    // );
   }
 
-  /**
-   * Se obtiene la lista de las solicitudes de repuestos.
-   */
-  getSolicitudRepuesto(): void {
-    this.solicitudService.getSolicitudRepuestos().subscribe(
-      repuestos => {
-        this.solicitudRepuestos = repuestos;
-        console.log(this.solicitudRepuestos);
-        this.loading = false;
-      },
-      error => {
-        this.errorMessage = error;
-        this.solicitudRepuestos = null;
-        this.loading = false;
-      }
-    );
-  }
+  // /**
+  //  * Se obtiene la lista de las solicitudes de repuestos.
+  //  */
+  // getSolicitudRepuesto(): void {
+  //   this.solicitudService.getSolicitudRepuestos().subscribe(
+  //     repuestos => {
+  //       this.solicitudRepuestos = repuestos;
+  //       console.log(this.solicitudRepuestos);
+  //       this.loading = false;
+  //     },
+  //     error => {
+  //       this.errorMessage = error;
+  //       this.solicitudRepuestos = null;
+  //       this.loading = false;
+  //     }
+  //   );
+  // }
 
-  selectTipoRespuesto(): void {
-    this.isSolicitudServicio = false;
-  }
+  // selectTipoRespuesto(): void {
+  //   this.isSolicitudServicio = false;
+  // }
 
   selectSolicitudServicio(solicitud: SolicitudServicio): void {
     this.selectedSolicitudServicio = solicitud;
     this.selectedSolicitud = true;
   }
 
-  selectSolicitudRepuesto(solicitud: SolicitudRepuesto): void {
-    this.selectedSolicitudRepuesto = solicitud;
-    this.selectedSolicitud = true;
-  }
+  // selectSolicitudRepuesto(solicitud: SolicitudRepuesto): void {
+  //   this.selectedSolicitudRepuesto = solicitud;
+  //   this.selectedSolicitud = true;
+  // }
 
-  openTipoSolicitudForm(): void {
-    this.modalTipoSolicitudOpen = true;
-  }
+  // openTipoSolicitudForm(): void {
+  //   this.modalTipoSolicitudOpen = true;
+  // }
 
   addSolicitud(): void {
-    if (this.isSolicitudServicio) {
-      this.selectedSolicitudServicio = new SolicitudServicio(null, '', '',
-        null, [], '');
-      this.formtitle = 'Crear Solicitud de Servicio';
-    } else {
-      this.selectedSolicitudRepuesto = new SolicitudRepuesto(null, '', null, '');
-      this.formtitle = 'Crear Solicitud de Repuestos';
-    }
-    this.modalTipoSolicitudOpen = false;
+    // if (this.isSolicitudServicio) {
+    //   this.selectedSolicitudServicio = new SolicitudServicio(null, '', '',
+    //     null, [], '');
+    //   this.formtitle = 'Crear Solicitud de Servicio';
+    // } else {
+    //   this.selectedSolicitudRepuesto = new SolicitudRepuesto(null, '', null, '');
+    //   this.formtitle = 'Crear Solicitud de Repuestos';
+    // }
+    // this.modalTipoSolicitudOpen = false;
+
+    this.selectedSolicitudServicio = new SolicitudServicio(null, '', '',
+      null, [], '');
+    this.formtitle = 'Crear Solicitud de Servicio';
     this.showFormAbmSolicitud = true;
     this.isEdit = false;
   }
 
   editSolicitud(): void {
-    if (this.isSolicitudServicio) {
-      this.formtitle = 'Editar Solicitud de Servicio';
-    } else {
-      this.formtitle = 'Editar Solicitud de Repuestos';
-    }
+    // if (this.isSolicitudServicio) {
+    //   this.formtitle = 'Editar Solicitud de Servicio';
+    // } else {
+    //   this.formtitle = 'Editar Solicitud de Repuestos';
+    // }
+
+    this.formtitle = 'Editar Solicitud de Servicio';
     this.isEdit = true;
     this.showFormAbmSolicitud = true;
   }
@@ -170,15 +179,19 @@ export class SolicitudComponent implements OnInit {
     this.showFormAbmSolicitud = !value;
     this.selectedSolicitud = false;
 
-    if (this.isSolicitudServicio) {
-      this.tipoSolicitud = 'servicio';
-      this.selectedSolicitudServicio = null;
-      this.getSolicitudServicio();
-    } else {
-      this.tipoSolicitud = 'repuestos';
-      this.selectedSolicitudRepuesto = null;
-      this.getSolicitudRepuesto();
-    }
+    // if (this.isSolicitudServicio) {
+    //   this.tipoSolicitud = 'servicio';
+    //   this.selectedSolicitudServicio = null;
+    //   this.getSolicitudServicio();
+    // } else {
+    //   this.tipoSolicitud = 'repuestos';
+    //   this.selectedSolicitudRepuesto = null;
+    //   this.getSolicitudRepuesto();
+    // }
+
+    this.tipoSolicitud = 'servicio';
+    this.selectedSolicitudServicio = null;
+    this.getSolicitudServicio();
 
     this.successMessage = 'Solicitud creada con éxito';
     if (this.isEdit) {
@@ -207,15 +220,23 @@ export class SolicitudComponent implements OnInit {
     this.isEdit = false;
     this.selectedSolicitud = false;
 
-    if (this.isSolicitudServicio) {
-      this.tipoSolicitud = 'servicio';
-      this.selectedSolicitudServicio = null;
-      this.getSolicitudServicio();
-    } else {
-      this.tipoSolicitud = 'repuestos';
-      this.selectedSolicitudRepuesto = null;
-      this.getSolicitudRepuesto();
-    }
+    this.tipoSolicitud = 'servicio';
+    this.selectedSolicitudServicio = null;
+    this.getSolicitudServicio();
+
+    // if (this.isSolicitudServicio) {
+    //   this.tipoSolicitud = 'servicio';
+    //   this.selectedSolicitudServicio = null;
+    //   this.getSolicitudServicio();
+    // } else {
+    //   this.tipoSolicitud = 'repuestos';
+    //   this.selectedSolicitudRepuesto = null;
+    //   this.getSolicitudRepuesto();
+    // }
+  }
+
+  atenderSolicitud(): void {
+    this.openOrdenTrabajo = true;
   }
 
 }

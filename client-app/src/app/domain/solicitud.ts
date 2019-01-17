@@ -14,7 +14,6 @@ export class SolicitudServicio {
 
 
 export class SolicitudRepuesto {
-
   constructor(public id: number,
               public estado: string,
               public repuestos: Repuesto[],

@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild,
+  AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import {ContratoService} from "../../../service/contrato.service";
@@ -7,6 +7,7 @@ import {Contrato, EstadoContrato} from "../../../domain/contrato";
 import {EquipoService} from "../../../service/equipo.service";
 import {Equipo} from "../../../domain/equipo";
 import {Representante} from "../../../domain/representante";
+import {SubscriptionLike as ISubscription} from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-contrato',
@@ -14,7 +15,7 @@ import {Representante} from "../../../domain/representante";
   templateUrl: './add-edit-contrato.component.html',
   styleUrls: ['./add-edit-contrato.component.css']
 })
-export class AddEditContratoComponent implements OnInit, AfterViewInit {
+export class AddEditContratoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('contratoId') contratoIdElement: ElementRef;
 
@@ -46,6 +47,9 @@ export class AddEditContratoComponent implements OnInit, AfterViewInit {
   errorMessage: string;
   error: boolean;
 
+  // subscriptions
+  private subscriptionSaveContrato: ISubscription;
+
   constructor(private contratoService: ContratoService,
               private equipoService: EquipoService) {
 
@@ -60,6 +64,12 @@ export class AddEditContratoComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.contratoIdElement.nativeElement.focus();
+  }
+
+  ngOnDestroy() {
+    if (this.subscriptionSaveContrato != null) {
+      this.subscriptionSaveContrato.unsubscribe();
+    }
   }
 
 
@@ -131,8 +141,8 @@ export class AddEditContratoComponent implements OnInit, AfterViewInit {
    */
   addEquipo(): void {
     this.selectedEquipos.push(this.selectedEquipo);
-    for(let i=0; i < this.equipos.length; i++) {
-      if(this.selectedEquipo = this.equipos[i]) {
+    for (let i = 0; i < this.equipos.length; i++) {
+      if (this.selectedEquipo = this.equipos[i]) {
         this.equipos.splice(i, 1);
       }
     }
@@ -184,9 +194,46 @@ export class AddEditContratoComponent implements OnInit, AfterViewInit {
    */
   onSaveContrato(): void {
     console.log('onSaveContrato() ', this.contrato);
-    this.onCloseAddEditContrato();
+    if (this.isEdit) {
+      this.editContrato();
+    } else {
+      this.saveContrato();
+    }
+
   }
 
+  /**
+   * Se crea un nuevo contrato.
+   */
+  saveContrato(): void {
+    this.subscriptionSaveContrato = this.contratoService.crearContrato(this.contrato).subscribe(
+      contrato => {
+        this.contrato = contrato;
+        this.onCloseAddEditContrato();
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Se actualizan los datos del contrato seleccionado.
+   */
+  editContrato(): void {
+    this.subscriptionSaveContrato = this.contratoService.editarContrato(this.contrato).subscribe(
+      contrato => {
+        this.contrato = contrato;
+        this.onCloseAddEditContrato();
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
+
+      }
+    );
+  }
 
   /**
    * Cuando la edición o la creación de un contrato se finaliza.
