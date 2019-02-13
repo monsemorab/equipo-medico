@@ -1,7 +1,7 @@
 package com.mantenimiento.equipomedico.app.service;
 
-import com.mantenimiento.equipomedico.app.entidad.Mantenimiento;
-import com.mantenimiento.equipomedico.app.repository.MantenimientoRepository;
+import com.mantenimiento.equipomedico.app.entidad.OrdenTrabajo;
+import com.mantenimiento.equipomedico.app.repository.OrdenTrabajoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,51 +9,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OrdenTrabajoServiceImpl implements MantenimientoService {
+public class OrdenTrabajoServiceImpl implements OrdenTrabajoService {
 
     @Autowired
-    private MantenimientoRepository mantenimientoRepository;
+    private OrdenTrabajoRepository ordenTrabajoRepository;
 
     /**
-     * Creación de un nuevo mantenimiento.
+     * Creación de una nueva orden de trabajo.
      *
-     * @param mantenimiento
+     * @param ordenTrabajo
      * @return
      */
     @Override
-    public Mantenimiento create(Mantenimiento mantenimiento) {
-        return mantenimientoRepository.save(mantenimiento);
+    public OrdenTrabajo create(OrdenTrabajo ordenTrabajo) {
+        return ordenTrabajoRepository.save(ordenTrabajo);
     }
 
     /**
-     * Edición de un mantenimiento existente.
+     * Edición de una orden de Trabajo existente.
      *
-     * @param mantenimiento
+     * @param ordenTrabajo
      * @return
      */
     @Override
-    public Mantenimiento update(Mantenimiento mantenimiento) {
-        return mantenimientoRepository.save(mantenimiento);
+    public OrdenTrabajo update(OrdenTrabajo ordenTrabajo) {
+        return ordenTrabajoRepository.save(ordenTrabajo);
     }
 
     /**
-     * Obtiene el mantenimiento mediante su id.
+     * Obtiene el orden de trabajo mediante su id.
      *
      * @param id
      * @return
      */
     @Override
-    public Mantenimiento get(Long id) {
-        return mantenimientoRepository.findOne(id);
+    public OrdenTrabajo get(Long id) {
+        return ordenTrabajoRepository.findOne(id);
     }
 
     /**
-     * Obtiene todos los mantenimientos.
+     * Obtiene todos las ordenes de trabajo.
      *
      * @return
      */
     @Override
-    public List<Mantenimiento> getAll() {
-        return (ArrayList<Mantenimiento>) mantenimientoRepository.findAll();
+    public List<OrdenTrabajo> getAll() {
+        return (ArrayList<OrdenTrabajo>) ordenTrabajoRepository.findAll();
     }
 }
