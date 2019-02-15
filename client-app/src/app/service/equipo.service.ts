@@ -9,7 +9,7 @@ import {ModeloEquipo} from "../domain/modelo-equipo";
 
 @Injectable()
 export class EquipoService {
-  private urlEquipos = environment.service_uri + '/equipos/';
+  private urlEquipos = environment.service_uri + '/equipos';
 
 
   constructor(private apiRequest: ApiRequestService) {
@@ -20,7 +20,6 @@ export class EquipoService {
    * @returns {Observable<Equipo[]>}
    */
   getEquipos(): Observable<Equipo[]> {
-    // return this.http.get<Equipo[]>(this.urlEquipos);
     return this.apiRequest.get(this.urlEquipos);
   }
 

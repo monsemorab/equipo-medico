@@ -4,12 +4,13 @@ import {Observable, of} from "rxjs";
 import {ESTADO_CONTRATO} from "../utils/mock-data/mock-data";
 import {Contrato, EstadoContrato} from "../domain/contrato";
 import {ApiRequestService} from "./api-request.service";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class ContratoService {
 
   private estadosContrato = ESTADO_CONTRATO;
-  private urlContratos = "http://localhost:8080/api/contratos/";
+  private urlContratos = environment.service_uri + '/contratos';
 
   constructor(private apiRequest: ApiRequestService) {}
 
@@ -19,7 +20,6 @@ export class ContratoService {
    * @returns {Observable<Contrato[]>}
    */
   getContratos(): Observable<Contrato[]> {
-    // return this.http.get<Contrato[]>(this.url);
     return this.apiRequest.get(this.urlContratos);
   }
 

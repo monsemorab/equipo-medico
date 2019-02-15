@@ -24,23 +24,17 @@ public class TipoEquipo implements Serializable {
     @Column(name = "tipo")
     private String tipo;
 
-    @Column(name = "nombre_generico")
-    private String nombreGenerico;
-
-    @Column(name = "indice_gestion_equipo")
-    private String indiceGestionEquipo;
-
-    @Column(name = "vida_util")
-    private String vidaUtil;
-
     @Column(name = "codigo_ECRI_UMDNS")
-    private String codigoECRI_UMDNS;
+    private String codigoECRIUMDNS;
 
-    @Column(name = "procedimiento_MP")
-    private String procedimientoMP;
+    @Column(name = "clase")
+    private String clase;
 
     @Column(name = "MP_anho")
-    private String MPaño;
+    private String mpano;
+
+    @Column(name = "personal_a_cargo")
+    private String personalACargo;
 
     /**
      * Gets id
@@ -79,110 +73,74 @@ public class TipoEquipo implements Serializable {
     }
 
     /**
-     * Gets nombreGenerico
+     * Gets codigoECRIUMDNS
      *
-     * @return value of nombreGenerico
+     * @return value of codigoECRIUMDNS
      */
-    public String getNombreGenerico() {
-        return nombreGenerico;
+    public String getCodigoECRIUMDNS() {
+        return codigoECRIUMDNS;
     }
 
     /**
-     * Set nombreGenerico
+     * Set codigoECRIUMDNS
      *
-     * @param nombreGenerico
+     * @param codigoECRIUMDNS
      */
-    public void setNombreGenerico(String nombreGenerico) {
-        this.nombreGenerico = nombreGenerico;
+    public void setCodigoECRIUMDNS(String codigoECRIUMDNS) {
+        this.codigoECRIUMDNS = codigoECRIUMDNS;
     }
 
     /**
-     * Gets indiceGestionEquipo
+     * Gets clase
      *
-     * @return value of indiceGestionEquipo
+     * @return value of clase
      */
-    public String getIndiceGestionEquipo() {
-        return indiceGestionEquipo;
+    public String getClase() {
+        return clase;
     }
 
     /**
-     * Set indiceGestionEquipo
+     * Set clase
      *
-     * @param indiceGestionEquipo
+     * @param clase
      */
-    public void setIndiceGestionEquipo(String indiceGestionEquipo) {
-        this.indiceGestionEquipo = indiceGestionEquipo;
+    public void setClase(String clase) {
+        this.clase = clase;
     }
 
     /**
-     * Gets vidaUtil
+     * Gets mpano
      *
-     * @return value of vidaUtil
+     * @return value of mpano
      */
-    public String getVidaUtil() {
-        return vidaUtil;
+    public String getMpano() {
+        return mpano;
     }
 
     /**
-     * Set vidaUtil
+     * Set mpano
      *
-     * @param vidaUtil
+     * @param mpano
      */
-    public void setVidaUtil(String vidaUtil) {
-        this.vidaUtil = vidaUtil;
+    public void setMpano(String mpano) {
+        this.mpano = mpano;
     }
 
     /**
-     * Gets codigoECRI_UMDNS
+     * Gets personalACargo
      *
-     * @return value of codigoECRI_UMDNS
+     * @return value of personalACargo
      */
-    public String getCodigoECRI_UMDNS() {
-        return codigoECRI_UMDNS;
+    public String getPersonalACargo() {
+        return personalACargo;
     }
 
     /**
-     * Set codigoECRI_UMDNS
+     * Set personalACargo
      *
-     * @param codigoECRI_UMDNS
+     * @param personalACargo
      */
-    public void setCodigoECRI_UMDNS(String codigoECRI_UMDNS) {
-        this.codigoECRI_UMDNS = codigoECRI_UMDNS;
-    }
-
-    /**
-     * Gets procedimientoMP
-     *
-     * @return value of procedimientoMP
-     */
-    public String getProcedimientoMP() {
-        return procedimientoMP;
-    }
-
-    /**
-     * Set procedimientoMP
-     *
-     * @param procedimientoMP
-     */
-    public void setProcedimientoMP(String procedimientoMP) {
-        this.procedimientoMP = procedimientoMP;
-    }
-
-    /**
-     * Gets MPaño
-     *
-     * @return value of MPaño
-     */
-    public String getMPaño() {
-        return MPaño;
-    }
-
-    /**
-     * Set MPaño
-     *
-     * @param MPaño
-     */
-    public void setMPaño(String MPaño) {
-        this.MPaño = MPaño;
+    public void setPersonalACargo(String personalACargo) {
+        this.personalACargo = personalACargo;
     }
 }

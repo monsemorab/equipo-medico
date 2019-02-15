@@ -26,11 +26,8 @@ public class ModeloEquipo implements Serializable {
     @Column(name = "marca")
     private String marca;
 
-    @Column(name = "clase")
-    private String clase;
-
-    @Column(name = "regla_clasificacion")
-    private String reglaClasificacion;
+    @Column(name = "imp")
+    private String imp;
 
     /**
      * Gets id
@@ -87,40 +84,20 @@ public class ModeloEquipo implements Serializable {
     }
 
     /**
-     * Gets clase
+     * Gets imp
      *
-     * @return value of clase
+     * @return value of imp
      */
-    public String getClase() {
-        return clase;
+    public String getImp() {
+        return imp;
     }
 
     /**
-     * Set clase
+     * Set imp
      *
-     * @param clase
+     * @param imp
      */
-    public void setClase(String clase) {
-        this.clase = clase;
+    public void setImp(String imp) {
+        this.imp = imp;
     }
-
-    /**
-     * Gets reglaClasificacion
-     *
-     * @return value of reglaClasificacion
-     */
-    public String getReglaClasificacion() {
-        return reglaClasificacion;
-    }
-
-    /**
-     * Set reglaClasificacion
-     *
-     * @param reglaClasificacion
-     */
-    public void setReglaClasificacion(String reglaClasificacion) {
-        this.reglaClasificacion = reglaClasificacion;
-    }
-
-
 }

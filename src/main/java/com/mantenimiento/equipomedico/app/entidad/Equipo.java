@@ -29,6 +29,41 @@ public class Equipo implements Serializable {
     @Column(name = "numero_lote")
     private String numeroLote;
 
+    @Column(name = "estado")
+    private String estado;
+
+    @Column(name = "version_sw")
+    private String versionSw;
+
+    @Column(name = "descripcion_equipo")
+    private String descripcionEquipo;
+
+    @Column(name = "costo")
+    private Float costo;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "representante_id")
+    private Representante representante;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tipo_equipo_id")
+    private TipoEquipo tipoEquipo;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "modelo_equipo_id")
+    private ModeloEquipo modeloEquipo;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ubicacion_id")
+    private Ubicacion ubicacion;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "contrato_id")
+    private Contrato contrato;
+
+    @Column(name = "licitacion_compra")
+    private String licitacionCompra;
+
     @Column(name = "fecha_fabricacion")
     private Date fechaFabricacion;
 
@@ -40,41 +75,7 @@ public class Equipo implements Serializable {
 
     @Column(name = "fecha_compra")
     private Date fechaCompra;
-
-    @Column(name = "estado")
-    private String estado;
-
-    @Column(name = "alim_electrica")
-    private String alimElectrica;
-
-    @Column(name = "version_sw")
-    private String versionSw;
-
-    @Column(name = "costo")
-    private Float costo;
-
-    @Column(name = "descripcion_equipo")
-    private String descripcionEquipo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "representante_id")
-    private Representante representante;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tipo_equipo_id")
-    private TipoEquipo tipoEquipo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "modelo_equipo_id")
-    private ModeloEquipo modeloEquipo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ubicacion_id")
-    private Ubicacion ubicacion;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contrato_id")
-    private Contrato contrato;
+    
 
     /**
      * Gets numeroSerie
@@ -218,24 +219,6 @@ public class Equipo implements Serializable {
      */
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    /**
-     * Gets alimElectrica
-     *
-     * @return value of alimElectrica
-     */
-    public String getAlimElectrica() {
-        return alimElectrica;
-    }
-
-    /**
-     * Set alimElectrica
-     *
-     * @param alimElectrica
-     */
-    public void setAlimElectrica(String alimElectrica) {
-        this.alimElectrica = alimElectrica;
     }
 
     /**

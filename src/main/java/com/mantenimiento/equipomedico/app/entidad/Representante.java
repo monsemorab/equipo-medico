@@ -32,6 +32,12 @@ public class Representante implements Serializable {
     @Column(name = "telefono")
     private String telefono;
 
+    @Column(name = "telefono_contacto")
+    private String telefonoContacto;
+
+    @Column(name = "celular")
+    private String celular;
+
     /**
      * Gets id
      *
@@ -120,5 +126,41 @@ public class Representante implements Serializable {
      */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    /**
+     * Gets telefonoContacto
+     *
+     * @return value of telefonoContacto
+     */
+    public String getTelefonoContacto() {
+        return telefonoContacto;
+    }
+
+    /**
+     * Set telefonoContacto
+     *
+     * @param telefonoContacto
+     */
+    public void setTelefonoContacto(String telefonoContacto) {
+        this.telefonoContacto = telefonoContacto;
+    }
+
+    /**
+     * Gets celular
+     *
+     * @return value of celular
+     */
+    public String getCelular() {
+        return celular;
+    }
+
+    /**
+     * Set celular
+     *
+     * @param celular
+     */
+    public void setCelular(String celular) {
+        this.celular = celular;
     }
 }
