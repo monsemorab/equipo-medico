@@ -47,7 +47,7 @@ public class EquipoController {
      */
     @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Equipo> update(@RequestBody Equipo equipo) throws URISyntaxException {
-        Equipo result = equipoService.update(equipo);
+        Equipo result = equipoService.create(equipo);
         return ResponseEntity.created(new URI("/api/equipos/" + result.getId()))
                 .body(result);
     }
@@ -60,6 +60,16 @@ public class EquipoController {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Equipo> getAll() {
         return equipoService.getAll();
+    }
+
+    /**
+     * Obtiene la lista de equipos sin contrato.
+     *
+     * @return equipos lista de equipos sin contrato
+     */
+    @RequestMapping(value = "/sincontrato",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Equipo> getSinContrato() {
+        return equipoService.getSinContrato();
     }
 
     /**

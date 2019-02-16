@@ -2,6 +2,8 @@ package com.mantenimiento.equipomedico.app.service;
 
 import com.mantenimiento.equipomedico.app.entidad.Contrato;
 import com.mantenimiento.equipomedico.app.repository.ContratoRepository;
+import com.mantenimiento.equipomedico.app.repository.EquipoRepository;
+import com.mantenimiento.equipomedico.app.repository.RepresentanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,10 @@ public class ContratoServiceImpl implements ContratoService {
 
     @Autowired
     private ContratoRepository contratoRepository;
+    @Autowired
+    private RepresentanteRepository representanteRepository;
+    @Autowired
+    private EquipoRepository equipoRepository;
 
     /**
      * Creación de un nuevo contrato.
@@ -22,18 +28,15 @@ public class ContratoServiceImpl implements ContratoService {
      */
     @Override
     public Contrato create(Contrato contrato) {
-        return contratoRepository.save(contrato);
-    }
-
-    /**
-     * Edición de un contrato existente.
-     *
-     * @param contrato
-     * @return
-     */
-    @Override
-    public Contrato update(Contrato contrato) {
-        return contratoRepository.save(contrato);
+        if(contrato.getRepresentante() != null){
+            contrato.setRepresentante(representanteRepository.save(contrato.getRepresentante()));
+        }
+        Contrato cont = contratoRepository.save(contrato);
+        contrato.getEquipos().forEach(equipo -> {
+            equipo.setContrato(cont);
+            equipoRepository.save(equipo);
+        });
+        return cont;
     }
 
     /**

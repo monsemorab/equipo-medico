@@ -15,7 +15,6 @@ export class ContratoService {
   constructor(private apiRequest: ApiRequestService) {}
 
   /**
-   * TODO: crear endpoint para obtener esto
    * Se obtienen todos los contratos.
    * @returns {Observable<Contrato[]>}
    */
@@ -33,7 +32,6 @@ export class ContratoService {
   }
 
   /**
-   * TODO: crear endpoint para obtener esto
    * Se crea un nuevo contrato.
    * @param {Contrato} contrato
    * @returns {Observable<Contrato>}
@@ -44,13 +42,12 @@ export class ContratoService {
   }
 
   /**
-   * TODO: crear endpoint para obtener esto
    * Se actualiza un contrato existente.
    * @param {Contrato} contrato
    * @returns {Observable<Contrato>}
    */
   editarContrato(contrato: Contrato): Observable<Contrato> {
-    const url = this.urlContratos + '/' + contrato.id;
+    const url = this.urlContratos;
     return this.apiRequest.put(url, contrato);
   }
 

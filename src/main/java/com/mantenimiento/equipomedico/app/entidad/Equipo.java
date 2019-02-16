@@ -1,5 +1,7 @@
 package com.mantenimiento.equipomedico.app.entidad;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -59,6 +61,7 @@ public class Equipo implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "contrato_id")
+    @JsonBackReference
     private Contrato contrato;
 
     @Column(name = "licitacion_compra")

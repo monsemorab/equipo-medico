@@ -17,14 +17,6 @@ public interface EquipoService {
     Equipo create(Equipo equipo);
 
     /**
-     * Edición de un equipo existente.
-     *
-     * @param equipo
-     * @return
-     */
-    Equipo update(Equipo equipo);
-
-    /**
      * Obtiene el equipo mediante su id.
      *
      * @param id
@@ -38,5 +30,12 @@ public interface EquipoService {
      * @return
      */
     List<Equipo> getAll();
+
+    /**
+     * Obtiene todos los equipos sin contrato
+     *
+     * @return
+     */
+    List<Equipo> getSinContrato();
 
 }

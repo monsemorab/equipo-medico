@@ -47,7 +47,7 @@ public class ContratoController {
      */
     @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Contrato> update(@RequestBody Contrato contrato) throws URISyntaxException {
-        Contrato result = contratoService.update(contrato);
+        Contrato result = contratoService.create(contrato);
         return ResponseEntity.created(new URI("/api/contratos/" + result.getNumeroContrato()))
                 .body(result);
     }

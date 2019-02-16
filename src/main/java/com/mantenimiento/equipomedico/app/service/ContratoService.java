@@ -17,14 +17,6 @@ public interface ContratoService {
     Contrato create(Contrato contrato);
 
     /**
-     * Edición de un contrato existente.
-     *
-     * @param contrato
-     * @return
-     */
-    Contrato update(Contrato contrato);
-
-    /**
      * Obtiene el contrato mediante su id.
      *
      * @param id

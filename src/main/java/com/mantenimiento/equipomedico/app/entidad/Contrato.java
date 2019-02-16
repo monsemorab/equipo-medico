@@ -1,5 +1,9 @@
 package com.mantenimiento.equipomedico.app.entidad;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -34,6 +38,16 @@ public class Contrato implements Serializable {
     @Column(name = "estado_contrato")
     private String estadoContrato;
 
+    @Column(name = "fecha_inicio")
+    private Date fechaInicio;
+
+    @Column(name = "fecha_fin")
+    private Date fechaFin;
+
+    @OneToMany(mappedBy="contrato")
+    @JsonManagedReference
+    private List<Equipo> equipos;
+
     @Column(name = "convocante")
     private String convocante;
 
@@ -43,12 +57,6 @@ public class Contrato implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "representante_id")
     private Representante representante;
-
-    @Column(name = "fecha_inicio")
-    private Date fechaInicio;
-
-    @Column(name = "fecha_fin")
-    private Date fechaFin;
 
     /**
      * Gets numeroContrato
@@ -177,6 +185,24 @@ public class Contrato implements Serializable {
     }
 
     /**
+     * Gets equipos
+     *
+     * @return value of equipos
+     */
+    public List<Equipo> getEquipos() {
+        return equipos;
+    }
+
+    /**
+     * Set equipos
+     *
+     * @param equipos
+     */
+    public void setEquipos(List<Equipo> equipos) {
+        this.equipos = equipos;
+    }
+
+    /**
      * Gets convocante
      *
      * @return value of convocante
@@ -211,7 +237,6 @@ public class Contrato implements Serializable {
     public void setPdf(String pdf) {
         this.pdf = pdf;
     }
-
 
     /**
      * Gets representante

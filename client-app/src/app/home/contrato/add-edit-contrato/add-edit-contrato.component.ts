@@ -193,7 +193,7 @@ export class AddEditContratoComponent implements OnInit, AfterViewInit, OnDestro
    * Se guarda la información del contrato creado o editado.
    */
   onSaveContrato(): void {
-    console.log('onSaveContrato() ', this.contrato);
+    this.contrato.equipos = this.selectedEquipos;
     if (this.isEdit) {
       this.editContrato();
     } else {

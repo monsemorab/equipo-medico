@@ -10,6 +10,9 @@ import {ModeloEquipo} from "../domain/modelo-equipo";
 @Injectable()
 export class EquipoService {
   private urlEquipos = environment.service_uri + '/equipos';
+  private urlTipoEquipos = environment.service_uri + '/tipos';
+  private urlModeloEquipos = environment.service_uri + '/modelos';
+  private urlUbicaciones = environment.service_uri + '/ubicaciones';
 
 
   constructor(private apiRequest: ApiRequestService) {
@@ -24,91 +27,82 @@ export class EquipoService {
   }
 
   /**
-   * TODO: crear endpoint para obtener la lista
    * Se obtiene la lista de los equipos nuevos o sin contratos.
    * @returns {Observable<Equipo[]>}
    */
   getEquiposSinContratos(): Observable<Equipo[]> {
-    const url = this.urlEquipos;
+    const url = this.urlEquipos+'/sincontrato';
     return this.apiRequest.get(url);
   }
 
   /**
-   * TODO: crear endpoint para obtener esto
    * Se obtiene un equipo por su Id.
    * @param {number} equipoId
    * @returns {Observable<Equipo>}
    */
   getEquipoById(equipoId: number): Observable<Equipo> {
-    const url = this.urlEquipos;
+    const url = this.urlEquipos+'/'+equipoId;
     return this.apiRequest.get(url);
   }
 
   /**
-   * TODO: crear endpoint para obtener la lista
    * Se obtiene la lista de tipos de equipos.
    * @returns {Observable<TipoEquipo[]>}
    */
   getTipoEquipos(): Observable<TipoEquipo[]> {
-    const url = this.urlEquipos;
+    const url = this.urlTipoEquipos;
     return this.apiRequest.get(url);
   }
 
   /**
-   * TODO: crear endpoint para obtener esto
    * Se obtiene el tipo del equipo por su Id.
    * @param {number} tipoEquipoId
    * @returns {Observable<TipoEquipo>}
    */
   getTipoEquipoById(tipoEquipoId: number): Observable<TipoEquipo> {
-    const url = this.urlEquipos;
+    const url = this.urlTipoEquipos+'/'+tipoEquipoId;
     return this.apiRequest.get(url);
   }
 
   /**
-   * TODO: crear endpoint para obtener la lista
    * Se obtiene la lista de modelos para los equipos.
    * @returns {Observable<ModeloEquipo[]>}
    */
   getModeloEquipos(): Observable<ModeloEquipo[]> {
-    const url = this.urlEquipos;
+    const url = this.urlModeloEquipos;
     return this.apiRequest.get(url);
   }
 
   /**
-   * TODO: crear endpoint para obtener esto
    * Se obtiene el modelo del equipo por su Id.
    * @param {number} modeloEquipoId
    * @returns {Observable<ModeloEquipo>}
    */
   getModeloEquipoById(modeloEquipoId: number): Observable<ModeloEquipo> {
-    const url = this.urlEquipos;
+    const url = this.urlModeloEquipos+'/'+modeloEquipoId;
     return this.apiRequest.get(url);
   }
 
   /**
-   * TODO: crear endpoint para obtener la lista
    * Se obtiene la lista de las ubicaciones de los equipos.
    * @returns {Observable<Ubicacion[]>}
    */
   getAllUbicaciones(): Observable<Ubicacion[]> {
-    const url = this.urlEquipos;
+    const url = this.urlUbicaciones;
     return this.apiRequest.get(url);
   }
 
   /**
-   * TODO: crear endpoint para obtener esto
    * Se obtiene la ubicación del equipo por su Id.
    * @param {number} ubicacionId
    * @returns {Observable<Ubicacion>}
    */
   getUbicacionById(ubicacionId: number): Observable<Ubicacion> {
-    const url = this.urlEquipos;
+    const url = this.urlUbicaciones+'/'+ubicacionId;
     return this.apiRequest.get(url);
   }
 
   /**
-   * TODO: crear endpoint para obtener esto
    * Se crea un nuevo equipo con los datos introducidos en el formulario.
    * @param {Equipo} equipo
    * @returns {Observable<Equipo>}
@@ -119,14 +113,12 @@ export class EquipoService {
   }
 
   /**
-   * TODO: crear endpoint para obtener esto
-   *
    * Se actualiza los datos de un equipo existente.
    * @param {Equipo} equipo
    * @returns {Observable<Equipo>}
    */
   editarEquipo(equipo: Equipo): Observable<Equipo> {
-    const url = this.urlEquipos + '/' + equipo.id;
+    const url = this.urlEquipos;
     return this.apiRequest.put(url, equipo);
   }
 }
