@@ -48,10 +48,10 @@
           </div>
           <div class="col-xs-6" *ngIf="tipos != null && tipos.length > 0">
             <div class="select form-control">
-              <select class="select-form-equipo"
+              <select class="select-form-equipo" #tipoSelected
                       id="tipo-select" name="tipo-select"
                       [(ngModel)]="equipo.tipoEquipo"
-                      (blur)="onSelectedTipoEquipo($event)">
+                      (change)="onSelectedTipoEquipo(tipoSelected.value.toString())">
                 <option *ngFor="let tipoE of tipos"
                         value={{tipoE.id}}>{{tipoE.tipo}}
                 </option>
@@ -85,7 +85,7 @@
               <select class="select-form-equipo" id="selectModelo" #selectedModelo
                       name="selectModelo"
                       [(ngModel)]="equipo.modeloEquipo"
-                      (blur)="onSelectedModeloEquipo($event)">
+                      (change)="onSelectedModeloEquipo(selectedModelo.value.toString())">
                 <option *ngFor="let modelo of modelos" value={{modelo.id}}>
                   {{modelo.modelo}}
                 </option>
@@ -161,10 +161,10 @@
 
           <div class="col-xs-5" *ngIf="representantes != null && representantes.length > 0">
             <div class="select form-control">
-              <select class="select-form-equipo" id="representante"
-                      name="representante"
+              <select class="select-form-equipo" #representanteSelected
+                      id="representante" name="representante"
                       [(ngModel)]="repreSeleccionado"
-                      (blur)="onSelectedRepresentante($event)">
+                      (change)="onSelectedRepresentante(representanteSelected.value.toString())">
                 <option *ngFor="let representante of representantes"
                         value={{representante.id}}>{{representante.nombre}}
                 </option>
@@ -194,10 +194,10 @@
           </div>
           <div class="col-xs-5" *ngIf="ubicaciones != null && ubicaciones.length > 0">
             <div class="select form-control">
-              <select class="select-form-equipo" id="selectUbicacion"
-                      name="selectUbicacion"
+              <select class="select-form-equipo" #selectedUbiEquipo
+                      id="selectUbicacion" name="selectUbicacion"
                       [(ngModel)]="equipo.ubicacion"
-                      (blur)="onSelectedUbicacionEquipo($event)">
+                      (change)="onSelectedUbicacionEquipo(selectedUbiEquipo.value.toString())">
                 <option *ngFor="let ubicacion of ubicaciones" value={{ubicacion.id}}>
                   {{ubicacion.numeroSala}} - {{ubicacion.bloque}} - {{ubicacion.nivel}}
                 </option>

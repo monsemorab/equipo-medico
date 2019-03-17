@@ -96,11 +96,6 @@ export class AddEditEquipoComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  onChange(event) {
-    console.log(event);
-  }
-
   /**
    * Se obtiene la lista de tipos de equipos.
    */
@@ -370,9 +365,9 @@ export class AddEditEquipoComponent implements OnInit, OnDestroy {
    * Se selecciona un tipo de equipo.
    * @param value
    */
-  onSelectedTipoEquipo(event): void {
-    if (event != '' && event.target.value != '') {
-      this.getTipoEquipoById(+event.target.value);
+  onSelectedTipoEquipo(value:any): void {
+    if (value != '') {
+      this.getTipoEquipoById(+value);
     } else {
       this.equipo.tipoEquipo = this.tipoEquipo;
     }
@@ -400,9 +395,9 @@ export class AddEditEquipoComponent implements OnInit, OnDestroy {
    * Se selecciona un modelo para el equipo.
    * @param value
    */
-  onSelectedModeloEquipo(event): void {
-    if (event != '') {
-      this.getModeloEquipoById(+event);
+  onSelectedModeloEquipo(value:any): void {
+    if (value != '') {
+      this.getModeloEquipoById(+value);
     } else {
       this.equipo.modeloEquipo = this.modeloEquipo;
     }
@@ -431,9 +426,9 @@ export class AddEditEquipoComponent implements OnInit, OnDestroy {
    * Se selecciona un representante de la lista.
    * @param value
    */
-  onSelectedRepresentante(event): void {
-    if (event != '' && event.target.value != '') {
-      this.getRepresentanteById(+event.target.value);
+  onSelectedRepresentante(value: any): void {
+    if (value != '') {
+      this.getRepresentanteById(+value);
     } else {
       this.equipo.representante = this.representante;
       this.repreSeleccionado = this.representante.nombre;
@@ -465,9 +460,9 @@ export class AddEditEquipoComponent implements OnInit, OnDestroy {
    * Se selecciona una ubicación para el equipo.
    * @param value
    */
-  onSelectedUbicacionEquipo(event): void {
-    if (event != '') {
-      this.getUbicacionEquipoById(+event);
+  onSelectedUbicacionEquipo(value: any): void {
+    if (value != '') {
+      this.getUbicacionEquipoById(+value);
     } else {
       this.equipo.ubicacion = this.ubicacion;
     }

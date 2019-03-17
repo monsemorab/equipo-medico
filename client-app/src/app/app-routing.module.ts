@@ -7,6 +7,7 @@ import {EquipoComponent} from "./home/equipo/equipo.component";
 import {ContratoComponent} from "./home/contrato/contrato.component";
 import {MantenimientoComponent} from "./home/mantenimiento/mantenimiento.component";
 import {SolicitudComponent} from "./home/mantenimiento/solicitud/solicitud.component";
+import {AddContratoComponent} from "./home/contrato/add-contrato/add-contrato.component";
 
 
 const appRoutes: Routes = [
@@ -15,7 +16,12 @@ const appRoutes: Routes = [
     path: 'home', component: HomeComponent,
     children: [
       {path: 'equipos', component: EquipoComponent},
-      {path: 'contratos', component: ContratoComponent},
+      {
+        path: 'contratos', component: ContratoComponent,
+        children: [
+          {path: 'crear-contrato', component: AddContratoComponent}
+        ]
+      },
       {
         path: 'mantenimiento', component: MantenimientoComponent,
         children: [
@@ -25,6 +31,7 @@ const appRoutes: Routes = [
     ]
   },
 ];
+
 
 @NgModule({
   imports: [

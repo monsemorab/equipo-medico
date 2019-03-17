@@ -14,7 +14,7 @@ export class ContratoComponent implements OnInit {
   selectedContrato: Contrato;
 
   // form
-  formtitle: string;
+  formTitle: string;
   isEdit: boolean;
   showFormAbmContrato = false;
 
@@ -74,7 +74,7 @@ export class ContratoComponent implements OnInit {
    * Cuando se presiona el botón Edit.
    */
   editContrato() {
-    this.formtitle = 'Editar Contrato';
+    this.formTitle = 'Editar Contrato';
     this.isEdit = true;
     this.showFormAbmContrato = true;
   }
@@ -83,7 +83,7 @@ export class ContratoComponent implements OnInit {
    * Cuando se presiona el botón Add.
    */
   addContrato() {
-    this.formtitle = 'Crear Contrato';
+    this.formTitle = 'Crear Contrato';
     this.selectedContrato = new Contrato(null, null, '', '',
       'Vigente', '', '', [], null, '', '');
     this.isEdit = false;
