@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SolicitudRepuesto} from "../../../../domain/solicitud";
-import {Repuesto} from "../../../../domain/repuesto";
-import {TipoEquipo} from "../../../../domain/tipo-equipo";
-import {Representante} from "../../../../domain/representante";
-import {ModeloEquipo} from "../../../../domain/modelo-equipo";
-import {SolicitudService} from "../../../../service/solicitud.service";
-import {EquipoService} from "../../../../service/equipo.service";
+import {SolicitudRepuesto} from "../../../domain/solicitud";
+import {Repuesto} from "../../../domain/repuesto";
+import {TipoEquipo} from "../../../domain/tipo-equipo";
+import {Representante} from "../../../domain/representante";
+import {ModeloEquipo} from "../../../domain/modelo-equipo";
+import {SolicitudService} from "../../../service/solicitud.service";
+import {EquipoService} from "../../../service/equipo.service";
 
 @Component({
   selector: 'app-add-edit-solicitud-repuesto',

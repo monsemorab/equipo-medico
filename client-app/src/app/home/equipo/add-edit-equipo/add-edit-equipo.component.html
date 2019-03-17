@@ -30,10 +30,10 @@
           </div>
           <div class="col-xs-6">
             <div class="select form-control">
-              <select id="estado" #selectedEstado name="estado"
+              <select class="select-form-equipo" id="estado" #selectedEstado
+                      name="estado"
                       [(ngModel)]="equipo.estado"
                       (change)="onSelectedEstado(selectedEstado.value)">
-                <option disabled>Seleccionar estado</option>
                 <option>Operativo</option>
                 <option>Inoperativo</option>
                 <option>Irreparable</option>
@@ -46,27 +46,29 @@
           <div class="col-xs-4 col-label-equipo">
             <label class="form-add-edit-equipo-label required">Tipo:</label>
           </div>
-          <div class="col-xs-6" *ngIf="equipo.tipoEquipo != null">
+          <div class="col-xs-6" *ngIf="tipos != null && tipos.length > 0">
             <div class="select form-control">
-              <select id="selectTipo" #selectedTipo name="selectTipo"
-                      [(ngModel)]="equipo.tipoEquipo.id"
-                      (change)="onSelectedTipoEquipo(selectedTipo.value)">
+              <select class="select-form-equipo"
+                      id="tipo-select" name="tipo-select"
+                      [(ngModel)]="equipo.tipoEquipo"
+                      (blur)="onSelectedTipoEquipo($event)">
                 <option *ngFor="let tipoE of tipos"
-                        value={{tipoE.id}}>{{tipoE.tipo}}, {{tipoE.codigoECRIUMDNS}}
+                        value={{tipoE.id}}>{{tipoE.tipo}}
                 </option>
               </select>
             </div>
+
           </div>
-          <div class="col-xs-6" *ngIf="equipo.tipoEquipo == null">
+          <div class="col-xs-6" *ngIf="tipos == null || tipos.length == 0">
             <div class="select form-control">
-              <select id="tipoE" disabled>
+              <select class="select-form-equipo" id="tipoE" disabled>
                 <option disabled>Agregar Tipo</option>
               </select>
             </div>
           </div>
 
-          <div class="col-xs-1">
-            <button class="form-add-edit-equipo-btn-add btn btn-sm btn-success"
+          <div class="col-xs-1 col-btn-add-edit-equipo" *ngIf="showBtnTipo">
+            <button class="btn-add-edit-equipo btn btn-sm btn-success"
                     (click)="addTipoEquipo()">
               <clr-icon shape="plus"></clr-icon>
               {{buttonTitleTipo}}
@@ -78,26 +80,28 @@
           <div class="col-xs-4 col-label-equipo">
             <label class="form-add-edit-equipo-label required">Modelo:</label>
           </div>
-          <div class="col-xs-6" *ngIf="equipo.modeloEquipo != null">
+          <div class="col-xs-6" *ngIf="modelos != null && modelos.length > 0">
             <div class="select form-control">
-              <select id="selectModelo" #selectedModelo name="selectModelo"
-                      [(ngModel)]="equipo.tipoEquipo.id"
-                      (change)="onSelectedModeloEquipo(selectedModelo.value)">
-                <option *ngFor="let modelo of modelos"
-                        value={{modelo.id}}>{{modelo.modelo}}, {{modelo.marca}}
+              <select class="select-form-equipo" id="selectModelo" #selectedModelo
+                      name="selectModelo"
+                      [(ngModel)]="equipo.modeloEquipo"
+                      (blur)="onSelectedModeloEquipo($event)">
+                <option *ngFor="let modelo of modelos" value={{modelo.id}}>
+                  {{modelo.modelo}}
                 </option>
               </select>
             </div>
+
           </div>
-          <div class="col-xs-6" *ngIf="equipo.modeloEquipo == null">
+          <div class="col-xs-6" *ngIf="modelos == null || modelos.length == 0">
             <div class="select form-control">
-              <select id="modeloE" name="modeloE" disabled>
+              <select class="select-form-equipo" id="modeloE" name="modeloE" disabled>
                 <option disabled>Agregar Modelo</option>
               </select>
             </div>
           </div>
-          <div class="col-xs-1">
-            <button class="form-add-edit-equipo-btn-add btn btn-sm btn-success"
+          <div class="col-xs-1 col-btn-add-edit-equipo" *ngIf="showBtnModelo">
+            <button class="btn-add-edit-equipo btn btn-sm btn-success"
                     (click)="addModeloEquipo()">
               <clr-icon shape="plus"></clr-icon>
               {{buttonTitleModelo}}
@@ -154,17 +158,29 @@
           <div class="col-xs-5 col-label-equipo">
             <label class="form-add-edit-equipo-label required">Representante:</label>
           </div>
-          <div class="col-xs-5" *ngIf="equipo.representante != null">
-            <input class="form-control" id="representante"
-                   name="representante" [(ngModel)]="equipo.representante.nombre"
-                   disabled>
+
+          <div class="col-xs-5" *ngIf="representantes != null && representantes.length > 0">
+            <div class="select form-control">
+              <select class="select-form-equipo" id="representante"
+                      name="representante"
+                      [(ngModel)]="repreSeleccionado"
+                      (blur)="onSelectedRepresentante($event)">
+                <option *ngFor="let representante of representantes"
+                        value={{representante.id}}>{{representante.nombre}}
+                </option>
+              </select>
+            </div>
           </div>
-          <div class="col-xs-5" *ngIf="equipo.representante == null">
-            <input class="form-control" id="repre"
-                   disabled>
+          <div class="col-xs-5" *ngIf="representantes == null || representantes.length == 0">
+            <div class="select form-control">
+              <select class="select-form-equipo" id="repre" disabled>
+                <option disabled>Agregar Representante</option>
+              </select>
+            </div>
           </div>
-          <div class="col-xs-1">
-            <button class="form-add-edit-equipo-btn-add btn btn-sm btn-success"
+
+          <div class="col-xs-1 col-btn-add-edit-equipo">
+            <button class="btn-add-edit-equipo btn btn-sm btn-success"
                     (click)="addRepresentante()">
               <clr-icon shape="user"></clr-icon>
               {{buttonTitleRepre}}
@@ -176,28 +192,27 @@
           <div class="col-xs-5 col-label-equipo">
             <label class="form-add-edit-equipo-label">Ubicación:</label>
           </div>
-          <div class="col-xs-5" *ngIf="equipo.ubicacion != null">
+          <div class="col-xs-5" *ngIf="ubicaciones != null && ubicaciones.length > 0">
             <div class="select form-control">
-              <select id="selectUbicacion" #selectedUbicacion
+              <select class="select-form-equipo" id="selectUbicacion"
                       name="selectUbicacion"
-                      [(ngModel)]="equipo.ubicacion.id"
-                      (change)="onSelectedUbicacionEquipo(selectedUbicacion.value)">
-                <option *ngFor="let ubicacion of ubicaciones"
-                        value={{ubicacion.id}}>{{ubicacion.numeroSala}} -
-                  {{ubicacion.bloque}} - {{ubicacion.nivel}}
+                      [(ngModel)]="equipo.ubicacion"
+                      (blur)="onSelectedUbicacionEquipo($event)">
+                <option *ngFor="let ubicacion of ubicaciones" value={{ubicacion.id}}>
+                  {{ubicacion.numeroSala}} - {{ubicacion.bloque}} - {{ubicacion.nivel}}
                 </option>
               </select>
             </div>
           </div>
-          <div class="col-xs-5" *ngIf="equipo.ubicacion == null">
+          <div class="col-xs-5" *ngIf="ubicaciones == null || ubicaciones.length == 0">
             <div class="select form-control">
-              <select id="UbicacionE" disabled>
+              <select class="select-form-equipo" id="UbicacionE" disabled>
                 <option disabled>Agregar Ubicación</option>
               </select>
             </div>
           </div>
-          <div class="col-xs-1">
-            <button class="form-add-edit-equipo-btn-add btn btn-sm btn-success"
+          <div class="col-xs-1 col-btn-add-edit-equipo" *ngIf="showBtnUbicacion">
+            <button class="btn-add-edit-equipo btn btn-sm btn-success"
                     (click)="addUbicacionEquipo()">
               <clr-icon shape="plus"></clr-icon>
               {{buttonTitleUbicacion}}
@@ -349,7 +364,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm" type="button"
-            (click)="modalRepreOpen = false">Cancel
+            (click)="onCancelRepresentante()">Cancel
     </button>
     <button class="btn btn-sm btn-success" type="button"
             [disabled]="(repreForm.form.invalid )"
@@ -420,7 +435,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm" type="button"
-            (click)="modalTipoOpen = false">Cancel
+            (click)="onCancelTipoEquipo()">Cancel
     </button>
     <button class="btn btn-sm btn-success" type="button"
             [disabled]="(tipoEquipoForm.form.invalid )"
@@ -455,22 +470,22 @@
           </div>
         </div>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 col-label-equipo">
-            <label class="form-add-edit-equipo-label">Procedimiento IMP:</label>
-          </div>
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-4 col-label-equipo">-->
+            <!--<label class="form-add-edit-equipo-label">Procedimiento IMP:</label>-->
+          <!--</div>-->
           <!--<div class="col-xs-6">-->
           <!--<input class="form-control" id="clase"-->
           <!--name="imp" [(ngModel)]="modeloEquipo.imp">-->
           <!--</div>-->
-        </div>
+        <!--</div>-->
 
       </section>
     </form>
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm" type="button"
-            (click)="modalModeloOpen = false">Cancel
+            (click)="onCancelModeloEquipo()">Cancel
     </button>
     <button class="btn btn-sm btn-success" type="button"
             [disabled]="(modeloEquipoForm.form.invalid )"
@@ -525,7 +540,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-sm" type="button"
-            (click)="modalUbicacionOpen = false">Cancel
+            (click)="onCancelUbicacionEquipo()">Cancel
     </button>
     <button class="btn btn-sm btn-success" type="button"
             [disabled]="(ubicacionForm.form.invalid )"

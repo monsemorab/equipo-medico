@@ -1,21 +1,15 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {SolicitudRepuesto, SolicitudServicio} from "../../../domain/solicitud";
-import {SolicitudService} from "../../../service/solicitud.service";
+import { Component, OnInit } from '@angular/core';
+import {SolicitudRepuesto} from "../../domain/solicitud";
 
 @Component({
-  selector: 'app-solicitud',
-  encapsulation: ViewEncapsulation.None,
-  templateUrl: './solicitud.component.html',
-  styleUrls: ['./solicitud.component.css']
+  selector: 'app-solicitud-repuesto',
+  templateUrl: './solicitud-repuesto.component.html',
+  styleUrls: ['./solicitud-repuesto.component.css']
 })
-export class SolicitudComponent implements OnInit {
+export class SolicitudRepuestoComponent implements OnInit {
 
-  // solicitud Servicio
-  selectedSolicitudServicio: SolicitudServicio;
-  isSolicitudServicio = true;
-
-  // // solicitud repuesto
-  // selectedSolicitudRepuesto: SolicitudRepuesto;
+  // solicitud repuesto
+  selectedSolicitudRepuesto: SolicitudRepuesto;
 
   // form
   formtitle: string;
@@ -40,29 +34,25 @@ export class SolicitudComponent implements OnInit {
   // datagrid
   loading = true;
   total: number;
-  solicitudServicios: SolicitudServicio[];
-  // solicitudRepuestos: SolicitudRepuesto[];
+  solicitudRepuestos: SolicitudRepuesto[];
 
   openOrdenTrabajo: boolean;
 
-  constructor(private solicitudService: SolicitudService) {
-
-  }
+  constructor() { }
 
   ngOnInit() {
     this.isEdit = false;
     this.showFormAbmSolicitud = false;
     this.modalTipoSolicitudOpen = false;
     this.selectedSolicitud = false;
-    this.getSolicitudServicio();
 
     /**
      * Se muestra por defecto la lista de solicitudes de servicios.
      */
-  //   this.seleccionarTipoSolicitud('servicio');
-  //   this.tipoSolicitud ='servicio';
-  //   this.showSolicitudServicio = true;
-  //   this.getSolicitudServicio();
+    //   this.seleccionarTipoSolicitud('servicio');
+    //   this.tipoSolicitud ='servicio';
+    //   this.showSolicitudServicio = true;
+    //   this.getSolicitudServicio();
   }
 
   /**
@@ -122,10 +112,10 @@ export class SolicitudComponent implements OnInit {
   //   this.isSolicitudServicio = false;
   // }
 
-  selectSolicitudServicio(solicitud: SolicitudServicio): void {
-    this.selectedSolicitudServicio = solicitud;
-    this.selectedSolicitud = true;
-  }
+  // selectSolicitudServicio(solicitud: SolicitudServicio): void {
+  //   this.selectedSolicitudServicio = solicitud;
+  //   this.selectedSolicitud = true;
+  // }
 
   // selectSolicitudRepuesto(solicitud: SolicitudRepuesto): void {
   //   this.selectedSolicitudRepuesto = solicitud;
@@ -147,11 +137,11 @@ export class SolicitudComponent implements OnInit {
     // }
     // this.modalTipoSolicitudOpen = false;
 
-    this.selectedSolicitudServicio = new SolicitudServicio(null, '', '',
-      null, '', [], '');
-    this.formtitle = 'Crear Solicitud de Servicio';
-    this.showFormAbmSolicitud = true;
-    this.isEdit = false;
+    // this.selectedSolicitudServicio = new SolicitudServicio(null, '', '',
+    //   null, [], '');
+    // this.formtitle = 'Crear Solicitud de Servicio';
+    // this.showFormAbmSolicitud = true;
+    // this.isEdit = false;
   }
 
   editSolicitud(): void {
@@ -190,7 +180,7 @@ export class SolicitudComponent implements OnInit {
     // }
 
     this.tipoSolicitud = 'servicio';
-    this.selectedSolicitudServicio = null;
+    // this.selectedSolicitudServicio = null;
     this.getSolicitudServicio();
 
     this.successMessage = 'Solicitud creada con éxito';
@@ -221,7 +211,7 @@ export class SolicitudComponent implements OnInit {
     this.selectedSolicitud = false;
 
     this.tipoSolicitud = 'servicio';
-    this.selectedSolicitudServicio = null;
+    // this.selectedSolicitudServicio = null;
     this.getSolicitudServicio();
 
     // if (this.isSolicitudServicio) {

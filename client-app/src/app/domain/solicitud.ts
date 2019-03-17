@@ -4,6 +4,7 @@ import {Equipo} from "./equipo";
 export class SolicitudServicio {
 
   constructor(public id: number,
+              public tipo: string,
               public estado: string,
               public descripcionProblema: string,
               public personalReporte: string,

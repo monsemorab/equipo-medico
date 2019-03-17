@@ -12,11 +12,13 @@ import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {NgIdleModule} from "@ng-idle/core";
 import {ApiService} from "./service/api.service";
+import { SolicitudServicioComponent } from './home/mantenimiento/solicitud-servicio/solicitud-servicio.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SolicitudServicioComponent
   ],
   imports: [
     CommonModule,

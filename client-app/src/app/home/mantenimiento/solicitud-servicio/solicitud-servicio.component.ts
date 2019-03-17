@@ -1,21 +1,17 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {SolicitudRepuesto, SolicitudServicio} from "../../../domain/solicitud";
+import { Component, OnInit } from '@angular/core';
+import {SolicitudServicio} from "../../../domain/solicitud";
 import {SolicitudService} from "../../../service/solicitud.service";
 
 @Component({
-  selector: 'app-solicitud',
-  encapsulation: ViewEncapsulation.None,
-  templateUrl: './solicitud.component.html',
-  styleUrls: ['./solicitud.component.css']
+  selector: 'app-solicitud-servicio',
+  templateUrl: './solicitud-servicio.component.html',
+  styleUrls: ['./solicitud-servicio.component.css']
 })
-export class SolicitudComponent implements OnInit {
+export class SolicitudServicioComponent implements OnInit {
 
   // solicitud Servicio
   selectedSolicitudServicio: SolicitudServicio;
   isSolicitudServicio = true;
-
-  // // solicitud repuesto
-  // selectedSolicitudRepuesto: SolicitudRepuesto;
 
   // form
   formtitle: string;
@@ -59,10 +55,10 @@ export class SolicitudComponent implements OnInit {
     /**
      * Se muestra por defecto la lista de solicitudes de servicios.
      */
-  //   this.seleccionarTipoSolicitud('servicio');
-  //   this.tipoSolicitud ='servicio';
-  //   this.showSolicitudServicio = true;
-  //   this.getSolicitudServicio();
+    //   this.seleccionarTipoSolicitud('servicio');
+    //   this.tipoSolicitud ='servicio';
+    //   this.showSolicitudServicio = true;
+    //   this.getSolicitudServicio();
   }
 
   /**

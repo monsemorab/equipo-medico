@@ -128,6 +128,7 @@ export class EquipoComponent implements OnInit {
    */
   onCloseAddEditEquipo(value: boolean) {
     this.showFormAbmEquipo = !value;
+    this.getEquipos();
     if (this.isEdit) {
       this.successMessage = 'Equipo modificado exitosamente';
       this.isEdit = false;
@@ -144,6 +145,7 @@ export class EquipoComponent implements OnInit {
    */
   onCancelAddEditEquipo(value: boolean) {
     this.showFormAbmEquipo = !value;
+    this.getEquipos();
     this.isEdit = false;
     this.selectedEquipo = null;
   }

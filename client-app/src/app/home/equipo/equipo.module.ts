@@ -4,11 +4,13 @@ import {EquipoService} from "../../service/equipo.service";
 
 import {AddEditEquipoComponent} from "./add-edit-equipo/add-edit-equipo.component";
 import {CommonModuleImportsModule} from "../../shared/common-module-imports.module";
+import {DropdownModule} from "primeng/primeng";
 
 
 @NgModule({
   imports: [
-    CommonModuleImportsModule
+    CommonModuleImportsModule,
+    DropdownModule
   ],
   exports: [EquipoComponent],
   providers: [EquipoService],
