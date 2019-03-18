@@ -294,84 +294,84 @@
 </form>
 
 <!--Modal para agregar o editar los datos de un representante-->
-<clr-modal [(clrModalOpen)]="modalRepreOpen" [clrModalClosable]="false">
-  <h3 class="modal-title form-add-edit-equipo-label">{{modalRepreTitle}}</h3>
-  <div class="modal-body">
-    <form class="compact" #repreForm="ngForm">
-      <section class="form-block">
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-equipo">
-            <label class="form-add-edit-equipo-label required" for="empresa">Nombre/Empresa:</label>
-          </div>
-          <div class="col-xs-9">
-            <input class="form-control" id="empresa"
-                   name="empresa" [(ngModel)]="representante.nombre"
-                   required>
-          </div>
-        </div>
+<!--<clr-modal [(clrModalOpen)]="modalRepreOpen" [clrModalClosable]="false">-->
+  <!--<h3 class="modal-title form-add-edit-equipo-label">{{modalRepreTitle}}</h3>-->
+  <!--<div class="modal-body">-->
+    <!--<form class="compact" #repreForm="ngForm">-->
+      <!--<section class="form-block">-->
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-3 col-label-equipo">-->
+            <!--<label class="form-add-edit-equipo-label required" for="empresa">Nombre/Empresa:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-9">-->
+            <!--<input class="form-control" id="empresa"-->
+                   <!--name="empresa" [(ngModel)]="representante.nombre"-->
+                   <!--required>-->
+          <!--</div>-->
+        <!--</div>-->
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-equipo">
-            <label class="form-add-edit-equipo-label" for="direccion">Dirección:</label>
-          </div>
-          <div class="col-xs-9">
-            <input class="form-control" id="direccion"
-                   name="direccion"
-                   [(ngModel)]="representante.direccion">
-          </div>
-        </div>
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-3 col-label-equipo">-->
+            <!--<label class="form-add-edit-equipo-label" for="direccion">Dirección:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-9">-->
+            <!--<input class="form-control" id="direccion"-->
+                   <!--name="direccion"-->
+                   <!--[(ngModel)]="representante.direccion">-->
+          <!--</div>-->
+        <!--</div>-->
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-equipo">
-            <label class="form-add-edit-equipo-label" for="email">Email:</label>
-          </div>
-          <div class="col-xs-9">
-            <input class="form-control" id="email"
-                   name="email" [(ngModel)]="representante.email">
-          </div>
-        </div>
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-3 col-label-equipo">-->
+            <!--<label class="form-add-edit-equipo-label" for="email">Email:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-9">-->
+            <!--<input class="form-control" id="email"-->
+                   <!--name="email" [(ngModel)]="representante.email">-->
+          <!--</div>-->
+        <!--</div>-->
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-equipo">
-            <label class="form-add-edit-equipo-label required" for="telefono">Telefono:</label>
-          </div>
-          <div class="col-xs-3">
-            <input class="form-control" id="telefono" required
-                   name="telefono" [(ngModel)]="representante.telefono">
-          </div>
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-3 col-label-equipo">-->
+            <!--<label class="form-add-edit-equipo-label required" for="telefono">Telefono:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-3">-->
+            <!--<input class="form-control" id="telefono" required-->
+                   <!--name="telefono" [(ngModel)]="representante.telefono">-->
+          <!--</div>-->
 
-          <div class="col-xs-3">
-            <label class="form-add-edit-equipo-label required" for="contacto">Nro. Contacto:</label>
-          </div>
-          <div class="col-xs-3">
-            <input class="form-control" id="contacto" required
-                   name="contacto" [(ngModel)]="representante.telefonoContacto">
-          </div>
-        </div>
+          <!--<div class="col-xs-3">-->
+            <!--<label class="form-add-edit-equipo-label required" for="contacto">Nro. Contacto:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-3">-->
+            <!--<input class="form-control" id="contacto" required-->
+                   <!--name="contacto" [(ngModel)]="representante.telefonoContacto">-->
+          <!--</div>-->
+        <!--</div>-->
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-equipo">
-            <label class="form-add-edit-equipo-label required" for="telefono">Cel.:</label>
-          </div>
-          <div class="col-xs-4">
-            <input class="form-control" id="cel" required
-                   name="cel" [(ngModel)]="representante.celular">
-          </div>
-        </div>
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-3 col-label-equipo">-->
+            <!--<label class="form-add-edit-equipo-label required" for="telefono">Cel.:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-4">-->
+            <!--<input class="form-control" id="cel" required-->
+                   <!--name="cel" [(ngModel)]="representante.celular">-->
+          <!--</div>-->
+        <!--</div>-->
 
-      </section>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-sm" type="button"
-            (click)="onCancelRepresentante()">Cancel
-    </button>
-    <button class="btn btn-sm btn-success" type="button"
-            [disabled]="(repreForm.form.invalid )"
-            (click)="onAddRepresentante()">Add
-    </button>
-  </div>
-</clr-modal>
+      <!--</section>-->
+    <!--</form>-->
+  <!--</div>-->
+  <!--<div class="modal-footer">-->
+    <!--<button class="btn btn-sm" type="button"-->
+            <!--(click)="onCancelRepresentante()">Cancel-->
+    <!--</button>-->
+    <!--<button class="btn btn-sm btn-success" type="button"-->
+            <!--[disabled]="(repreForm.form.invalid )"-->
+            <!--(click)="onAddRepresentante()">Add-->
+    <!--</button>-->
+  <!--</div>-->
+<!--</clr-modal>-->
 
 
 <!--Modal para agregar o editar los datos del tipo del equipo -->

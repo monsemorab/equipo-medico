@@ -12,11 +12,10 @@ import {RepresentanteService} from "../../../service/representante.service";
   templateUrl: './add-contrato.component.html',
   styleUrls: ['./add-contrato.component.css']
 })
-export class AddContratoComponent implements OnInit, AfterViewInit, OnDestroy {
-
-  @ViewChild('contratoId') contratoIdElement: ElementRef;
+export class AddContratoComponent implements OnInit, OnDestroy {
 
   // contrato
+  contrato: Contrato;
   contratoId: number;
   numeroContrato: number;
   nombreLicitacion: string;
@@ -26,8 +25,6 @@ export class AddContratoComponent implements OnInit, AfterViewInit, OnDestroy {
   pdf: string;
   fechaInicio: any;
   fechaFin: any;
-
-  contrato: Contrato;
 
   // estado contrato
   estadoSeleccionado: EstadoContrato;
@@ -41,17 +38,18 @@ export class AddContratoComponent implements OnInit, AfterViewInit, OnDestroy {
   equipoId: number;
   isSelectedEquipo: boolean;
 
-  // modal representante
-  modalRepreOpen = false;
+  // modal para agregar/editar representante
+  modalAddEditRepreOpen = false;
   modalTitle: string;
   // repreSeleccionado= new Representante(null, '', '', '', '', '', '');
   repreSeleccionado: Representante;
-  nombre: string;
-  direccion: string;
-  email: string;
-  telefono: string;
-  telefonoContacto: string;
-  celular: string;
+  // nombre: string;
+  // direccion: string;
+  // email: string;
+  // telefono: string;
+  // telefonoContacto: string;
+  // celular: string;
+  isEditRepre: boolean;
   representantes: Representante[];
 
   // form
@@ -62,6 +60,7 @@ export class AddContratoComponent implements OnInit, AfterViewInit, OnDestroy {
   error: boolean;
 
   // subscriptions
+  private subscriptionGetAllRepresentantes: ISubscription;
   private subscriptionSaveContrato: ISubscription;
 
   constructor(private contratoService: ContratoService,
@@ -78,11 +77,10 @@ export class AddContratoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getAllRepresentantes();
   }
 
-  ngAfterViewInit() {
-    this.contratoIdElement.nativeElement.focus();
-  }
-
   ngOnDestroy() {
+    if (this.subscriptionGetAllRepresentantes != null) {
+      this.subscriptionGetAllRepresentantes.unsubscribe();
+    }
     if (this.subscriptionSaveContrato != null) {
       this.subscriptionSaveContrato.unsubscribe();
     }
@@ -228,6 +226,38 @@ export class AddContratoComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
   }
+
+
+  /**
+   * El representante creado o editado es agregado a la lista de representantes.
+   */
+  addEditRepresentante(value: Representante) {
+    this.representantes.push(value);
+    this.repreSeleccionado = value;
+    this.modalAddEditRepreOpen = false;
+  }
+
+
+  /**
+   * Cuando se cancela la edición de un representante, el representante seleccionado se agrega de nuevo a la lista de
+   * representantes.
+   */
+  onCancelAddEditRepresentant(value: Representante) {
+    this.representantes = [];
+
+    this.subscriptionGetAllRepresentantes = this.representanteService.getAllRepresentantes().subscribe(
+        representantes => {
+          this.representantes = representantes;
+          this.representantes.push(value);
+        },
+        error => {
+          this.errorMessage = error;
+        }
+      );
+    this.modalAddEditRepreOpen = false;
+    this.isEditRepre = false;
+  }
+
 
   /**
    * Se guarda la información del contrato creado o editado.

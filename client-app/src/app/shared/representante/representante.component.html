@@ -1,0 +1,84 @@
+<!--Modal para agregar o editar los datos de un representante-->
+<clr-modal [(clrModalOpen)]="modalRepreOpen" [clrModalClosable]="false">
+  <h3 class="modal-title form-add-edit-equipo-label">{{modalRepreTitle}}</h3>
+  <div class="modal-body">
+    <form class="compact" #repreForm="ngForm">
+      <section class="form-block">
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3 col-label-equipo">
+            <label class="form-add-edit-equipo-label required" for="empresa">Nombre/Empresa:</label>
+          </div>
+          <div class="col-xs-9">
+            <input class="form-control" id="empresa"
+                   name="empresa" [(ngModel)]="nombre"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3 col-label-equipo">
+            <label class="form-add-edit-equipo-label" for="direccion">Dirección:</label>
+          </div>
+          <div class="col-xs-9">
+            <input class="form-control" id="direccion"
+                   name="direccion"
+                   [(ngModel)]="direccion">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3 col-label-equipo">
+            <label class="form-add-edit-equipo-label" for="email">Email:</label>
+          </div>
+          <div class="col-xs-9">
+            <input class="form-control" id="email"
+                   name="email" [(ngModel)]="email">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3 col-label-equipo">
+            <label class="form-add-edit-equipo-label required" for="telefono">Telefono:</label>
+          </div>
+          <div class="col-xs-3">
+            <input class="form-control" id="telefono" required
+                   name="telefono" [(ngModel)]="telefono">
+          </div>
+
+          <div class="col-xs-3">
+            <label class="form-add-edit-equipo-label required" for="contacto">Tel. Contacto:</label>
+          </div>
+          <div class="col-xs-3">
+            <input class="form-control" id="contacto" required
+                   name="contacto" [(ngModel)]="telefonoContacto">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3 col-label-equipo">
+            <label class="form-add-edit-equipo-label required" for="telefono">Cel.:</label>
+          </div>
+          <div class="col-xs-4">
+            <input class="form-control" id="cel" required
+                   name="cel" [(ngModel)]="celular">
+          </div>
+        </div>
+
+      </section>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-outline btn-sm" type="button"
+            (click)="onCancelAddEditRepresentante()">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancel
+    </button>
+    <button class="btn btn-success btn-sm" type="button"
+            (click)="addRepresentante()"
+            [disabled]="(repreForm.form.invalid)">
+      <clr-icon shape="check"></clr-icon>
+      Add
+    </button>
+  </div>
+</clr-modal>

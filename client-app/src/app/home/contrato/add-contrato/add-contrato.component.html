@@ -1,4 +1,4 @@
-<h5 class="form-add-edit-contrato-title">Crear Contrato</h5>
+<h5 class="form-add-contrato-title">Crear Contrato</h5>
 <form class="compact" #contratoForm="ngForm">
   <!-- errors -->
   <div class="alert alert-danger alert-sm" *ngIf="error">
@@ -21,16 +21,16 @@
   <section class="form-block">
     <!--información gral del contrato-->
     <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-2 col-label-contrato">
-        <label class="form-add-edit-contrato-label required" for="id">ID:</label>
+      <div class="col-xs-2 col-label-add-contrato">
+        <label class="form-add-contrato-label required" for="id">ID:</label>
       </div>
       <div class="col-xs-2">
         <input class="form-control" id="id" required
                name="id" [(ngModel)]="contratoId">
       </div>
 
-      <div class="col-xs-2 col-label-contrato">
-        <label class="form-add-edit-contrato-label" for="nroContrato">Nro. Contrato:</label>
+      <div class="col-xs-2 col-label-add-contrato">
+        <label class="form-add-contrato-label" for="nroContrato">Nro. Contrato:</label>
       </div>
       <div class="col-xs-2">
         <input class="form-control" id="nroContrato"
@@ -39,8 +39,8 @@
     </div>
 
     <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-2 col-label-contrato">
-        <label class="form-add-edit-contrato-label required" for="tipo">Tipo Procedimiento:</label>
+      <div class="col-xs-2 col-label-add-contrato">
+        <label class="form-add-contrato-label required" for="tipo">Tipo Procedimiento:</label>
       </div>
       <div class="col-xs-4">
         <input class="form-control" id="tipo" required
@@ -49,8 +49,8 @@
     </div>
 
     <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-2 col-label-contrato">
-        <label class="form-add-edit-contrato-label required" for="convocante">Convocante:</label>
+      <div class="col-xs-2 col-label-add-contrato">
+        <label class="form-add-contrato-label required" for="convocante">Convocante:</label>
       </div>
       <div class="col-xs-5">
         <input class="form-control" id="convocante" required
@@ -59,8 +59,8 @@
     </div>
 
     <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-2 col-label-contrato">
-        <label class="form-add-edit-contrato-label required" for="licitacion">Nombre Licitación:</label>
+      <div class="col-xs-2 col-label-add-contrato">
+        <label class="form-add-contrato-label required" for="licitacion">Nombre Licitación:</label>
       </div>
       <div class="col-xs-5">
         <input class="form-control" id="licitacion" required
@@ -69,8 +69,8 @@
     </div>
 
     <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-2 col-label-contrato">
-        <label class="form-add-edit-contrato-label" for="estado">Estado:</label>
+      <div class="col-xs-2 col-label-add-contrato">
+        <label class="form-add-contrato-label" for="estado">Estado:</label>
       </div>
       <div class="col-xs-2">
         <div class="select form-control">
@@ -84,16 +84,16 @@
         </div>
       </div>
 
-      <div class="col-xs-1 col-label-contrato">
-        <label class="form-add-edit-contrato-label required" for="inicio">Inicio:</label>
+      <div class="col-xs-1 col-label-add-contrato">
+        <label class="form-add-contrato-label required" for="inicio">Inicio:</label>
       </div>
       <div class="col-xs-2">
         <input class="form-control" type="date"
                id="inicio" required name="inicio"
                [(ngModel)]="fechaInicio">
       </div>
-      <div class="col-xs-2 col-label-contrato">
-        <label class="form-add-edit-contrato-label required" for="fin">Finalización:</label>
+      <div class="col-xs-2 col-label-add-contrato">
+        <label class="form-add-contrato-label required" for="fin">Finalización:</label>
       </div>
       <div class="col-xs-2">
         <input class="form-control" type="date"
@@ -103,8 +103,8 @@
     </div>
 
     <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-2 col-label-contrato">
-        <label class="form-add-edit-contrato-label required">Representante:</label>
+      <div class="col-xs-2 col-label-add-contrato">
+        <label class="form-add-contrato-label required">Representante:</label>
       </div>
 
       <div class="col-xs-5" *ngIf="representantes != null && representantes.length > 0">
@@ -128,8 +128,7 @@
       </div>
 
       <div class="col-xs-1 btn-add-representante">
-        <button class="btn-add-repre btn btn-sm btn-success"
-                (click)="addRepresentante()">
+        <button class="btn-add-repre btn btn-sm btn-success">
           <clr-icon shape="user"></clr-icon>
           {{buttonTitle}}
         </button>
@@ -139,8 +138,8 @@
 
     <!--lista de equipos-->
     <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-2 col-label-contrato">
-        <label class="form-add-edit-contrato-label" for="equipo">Equipos:</label>
+      <div class="col-xs-2 col-label-add-contrato">
+        <label class="form-add-contrato-label" for="equipo">Equipos:</label>
       </div>
       <div class="col-xs-5">
         <div class="select form-control">
@@ -210,77 +209,84 @@
 
 
 <!--Modal para agregar o editar los datos de un representante-->
-<clr-modal [(clrModalOpen)]="modalRepreOpen" [clrModalClosable]="false">
-  <h3 class="modal-title form-add-edit-contrato-label">{{modalTitle}}</h3>
-  <div class="modal-body">
-    <form class="compact" #repreForm="ngForm">
-      <section class="form-block">
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-contrato">
-            <label class="form-add-edit-contrato-label required" for="nombre">Nombre/Empresa:</label>
-          </div>
-          <div class="col-xs-9">
-            <input class="form-control" id="nombre" required
-                   name="nombre" [(ngModel)]="nombre">
-          </div>
-        </div>
+<app-representante *ngIf="modalAddEditRepreOpen"
+[representante] = "repreSeleccionado"
+[isEditRepre]="isEditRepre"
+(representanteToUpdate)="addEditRepresentante($event)"
+(cancelAddEditRepre)="onCancelAddEditRepresentant($event)">
+</app-representante>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-contrato">
-            <label class="form-add-edit-contrato-label" for="direccion">Dirección:</label>
-          </div>
-          <div class="col-xs-9">
-            <input class="form-control" id="direccion"
-                   name="direccion" [(ngModel)]="direccion">
-          </div>
-        </div>
+<!--<clr-modal [(clrModalOpen)]="modalRepreOpen" [clrModalClosable]="false">-->
+  <!--<h3 class="modal-title form-add-contrato-label">{{modalTitle}}</h3>-->
+  <!--<div class="modal-body">-->
+    <!--<form class="compact" #repreForm="ngForm">-->
+      <!--<section class="form-block">-->
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-3 col-label-add-contrato">-->
+            <!--<label class="form-add-contrato-label required" for="nombre">Nombre/Empresa:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-9">-->
+            <!--<input class="form-control" id="nombre" required-->
+                   <!--name="nombre" [(ngModel)]="nombre">-->
+          <!--</div>-->
+        <!--</div>-->
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-contrato">
-            <label class="form-add-edit-contrato-label" for="email">Email:</label>
-          </div>
-          <div class="col-xs-9">
-            <input class="form-control" id="email"
-                   name="email" [(ngModel)]="email">
-          </div>
-        </div>
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-3 col-label-add-contrato">-->
+            <!--<label class="form-add-contrato-label" for="direccion">Dirección:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-9">-->
+            <!--<input class="form-control" id="direccion"-->
+                   <!--name="direccion" [(ngModel)]="direccion">-->
+          <!--</div>-->
+        <!--</div>-->
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-contrato">
-            <label class="form-add-edit-contrato-label required" for="telefono">Telefono:</label>
-          </div>
-          <div class="col-xs-3">
-            <input class="form-control" id="telefono" required
-                   name="telefono" [(ngModel)]="telefono">
-          </div>
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-3 col-label-add-contrato">-->
+            <!--<label class="form-add-contrato-label" for="email">Email:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-9">-->
+            <!--<input class="form-control" id="email"-->
+                   <!--name="email" [(ngModel)]="email">-->
+          <!--</div>-->
+        <!--</div>-->
 
-          <div class="col-xs-3">
-            <label class="form-add-edit-contrato-label required" for="contacto">Nro. Contacto:</label>
-          </div>
-          <div class="col-xs-3">
-            <input class="form-control" id="contacto" required
-                   name="contacto" [(ngModel)]="telefonoContacto">
-          </div>
-        </div>
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-3 col-label-add-contrato">-->
+            <!--<label class="form-add-contrato-label required" for="telefono">Telefono:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-3">-->
+            <!--<input class="form-control" id="telefono" required-->
+                   <!--name="telefono" [(ngModel)]="telefono">-->
+          <!--</div>-->
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-contrato">
-            <label class="form-add-edit-contrato-label required" for="telefono">Cel.:</label>
-          </div>
-          <div class="col-xs-4">
-            <input class="form-control" id="cel" required
-                   name="cel" [(ngModel)]="celular">
-          </div>
-        </div>
-      </section>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-sm" type="button"
-            (click)="modalRepreOpen = false">Cancel
-    </button>
-    <button class="btn btn-sm btn-success" type="button"
-            [disabled]="(repreForm.form.invalid )">Add
-    </button>
-  </div>
-</clr-modal>
+          <!--<div class="col-xs-3">-->
+            <!--<label class="form-add-contrato-label required" for="contacto">Nro. Contacto:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-3">-->
+            <!--<input class="form-control" id="contacto" required-->
+                   <!--name="contacto" [(ngModel)]="telefonoContacto">-->
+          <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="form-group row flex-items-xs-left">-->
+          <!--<div class="col-xs-3 col-label-add-contrato">-->
+            <!--<label class="form-add-contrato-label required" for="telefono">Cel.:</label>-->
+          <!--</div>-->
+          <!--<div class="col-xs-4">-->
+            <!--<input class="form-control" id="cel" required-->
+                   <!--name="cel" [(ngModel)]="celular">-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</section>-->
+    <!--</form>-->
+  <!--</div>-->
+  <!--<div class="modal-footer">-->
+    <!--<button class="btn btn-sm" type="button"-->
+            <!--(click)="modalRepreOpen = false">Cancel-->
+    <!--</button>-->
+    <!--<button class="btn btn-sm btn-success" type="button"-->
+            <!--[disabled]="(repreForm.form.invalid )">Add-->
+    <!--</button>-->
+  <!--</div>-->
+<!--</clr-modal>-->

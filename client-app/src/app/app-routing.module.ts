@@ -8,6 +8,7 @@ import {ContratoComponent} from "./home/contrato/contrato.component";
 import {MantenimientoComponent} from "./home/mantenimiento/mantenimiento.component";
 import {SolicitudComponent} from "./home/mantenimiento/solicitud/solicitud.component";
 import {AddContratoComponent} from "./home/contrato/add-contrato/add-contrato.component";
+import {ListaContratoComponent} from "./home/contrato/lista-contrato/lista-contrato.component";
 
 
 const appRoutes: Routes = [
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
       {
         path: 'contratos', component: ContratoComponent,
         children: [
+          {path: 'lista-contrato', component: ListaContratoComponent},
           {path: 'crear-contrato', component: AddContratoComponent}
         ]
       },

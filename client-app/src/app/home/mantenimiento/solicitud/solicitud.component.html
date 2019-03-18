@@ -139,15 +139,15 @@
 </form>
 
 <!--agregar/editar solicitud de servicio-->
-<app-add-edit-solicitud-servicio
-  *ngIf="showFormAbmSolicitud"
-  [solicitudServicio]='selectedSolicitudServicio'
-  [tituloForm]='formtitle'
-  [isEdit]="isEdit"
-  [selectedSolicitudServicio]='selectedSolicitudServicio'
-  (onCanceled)="onCancelAddEditSolicitud($event)"
-  (onFinished)="onCloseAddEditSolicitud($event)">
-</app-add-edit-solicitud-servicio>
+<!--<app-add-edit-solicitud-servicio-->
+  <!--*ngIf="showFormAbmSolicitud"-->
+  <!--[solicitudServicio]='selectedSolicitudServicio'-->
+  <!--[tituloForm]='formtitle'-->
+  <!--[isEdit]="isEdit"-->
+  <!--[selectedSolicitudServicio]='selectedSolicitudServicio'-->
+  <!--(onCanceled)="onCancelAddEditSolicitud($event)"-->
+  <!--(onFinished)="onCloseAddEditSolicitud($event)">-->
+<!--</app-add-edit-solicitud-servicio>-->
 
 <!--Crear Orden de trabajo-->
 <app-add-orden-trabajo *ngIf="openOrdenTrabajo"></app-add-orden-trabajo>

@@ -1,0 +1,112 @@
+<!--<form class=" compact" *ngIf="!showFormAbmContrato">-->
+<form class=" compact">
+  <h5 class="form-contrato-title">Contratos</h5>
+  <section>
+    <div>
+      <button class="btn btn-sm btn-success"
+              (click)="goNewContratoForm()">
+        <clr-icon shape="plus"></clr-icon>
+        Add
+      </button>
+      <button class="btn btn-sm btn-success"
+              *ngIf="selectedContrato != null"
+              (click)="editContrato()">
+        <clr-icon shape="pencil"></clr-icon>
+        Edit
+      </button>
+    </div>
+    <!--success action-->
+    <div class="alert alert-success alert-sm" *ngIf="success">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon"
+                      shape="check-circle">
+            </clr-icon>
+          </div>
+          <span class="alert-text">
+            {{ successMessage }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- errors -->
+    <div class="alert alert-danger alert-sm" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon"
+                      shape="exclamation-circle">
+            </clr-icon>
+          </div>
+          <span class="alert-text">{{errorMessage}}</span>
+        </div>
+      </div>
+      <button type="button" class="close" aria-label="Close"
+              (click)="error = false">
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
+
+    <clr-datagrid [clrDgLoading]="loading">
+      <clr-dg-column [clrDgSortBy]="'id'">ID</clr-dg-column>
+      <clr-dg-column [clrDgSortBy]="'numeroContrato'">Nro. Contrato</clr-dg-column>
+      <clr-dg-column>Nombre Licitación</clr-dg-column>
+      <clr-dg-column>Tipo</clr-dg-column>
+      <clr-dg-column>Estado</clr-dg-column>
+      <clr-dg-column>Equipos</clr-dg-column>
+      <clr-dg-column>Inicio</clr-dg-column>
+      <clr-dg-column>Finalización</clr-dg-column>
+
+      <clr-dg-row *ngFor="let contrato of contratos" (click)="selectContrato(contrato)"
+                  [class.selectContrato]="contrato === selectedContrato">
+        <clr-dg-cell>{{contrato.id}}</clr-dg-cell>
+        <clr-dg-cell>{{contrato.numeroContrato}}</clr-dg-cell>
+        <clr-dg-cell>{{contrato.nombreLicitacion}}</clr-dg-cell>
+        <clr-dg-cell>{{contrato.tipoProcedimiento}}</clr-dg-cell>
+        <clr-dg-cell>{{contrato.estadoContrato}}</clr-dg-cell>
+        <clr-dg-cell>
+          <ul class="list-unstyled" *ngFor="let equipo of contrato.equipos">
+            <li>{{equipo.numeroSerie}}-{{equipo.descripcionEquipo}}</li>
+          </ul>
+        </clr-dg-cell>
+        <clr-dg-cell>{{contrato.fechaInicio}}</clr-dg-cell>
+        <clr-dg-cell>{{contrato.fechaFin}}</clr-dg-cell>
+      </clr-dg-row>
+
+      <clr-dg-footer>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{total}} Contratos
+        <clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </section>
+</form>
+<!--<app-add-edit-contrato-->
+<!--*ngIf="showFormAbmContrato"-->
+<!--[contrato]='selectedContrato'-->
+<!--[tituloForm]='formTitle'-->
+<!--[isEdit]='isEdit'-->
+<!--(onCanceled)="onCancelAddEditContrato($event)"-->
+<!--(onFinished)="onCloseAddEditContrato($event)">-->
+<!--</app-add-edit-contrato>-->
+
+<!--confirmations of actions taken (add/remove/save/cancel) -->
+<clr-modal [(clrModalOpen)]="modalConfirmOpen" [clrModalClosable]="false"
+           *ngIf="selectedContrato">
+  <h3 class="modal-title">Eliminar Contrato</h3>
+  <div class="modal-body">
+    <p>Está seguro que desea eliminar el contrato {{selectedContrato.numeroContrato}}?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline" type="button"
+            (click)="modalConfirmOpen = false">Cancel
+    </button>
+    <button class="btn btn-primary" type="button"
+            (click)="confirmarEliminacion()">Ok
+    </button>
+  </div>
+</clr-modal>
+
+

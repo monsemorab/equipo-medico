@@ -2,9 +2,7 @@ import {NgModule} from '@angular/core';
 
 import {SolicitudComponent} from "./solicitud.component";
 import {SolicitudService} from "../../../service/solicitud.service";
-import {AddEditSolicitudServicioComponent} from "../solicitud-servicio/add-edit-solicitud-servicio/add-edit-solicitud-servicio.component";
 import {AddOrdenTrabajoComponent} from "../lista-orden-trabajo/add-orden-trabajo/add-orden-trabajo.component";
-import {AddEditSolicitudRepuestoComponent} from "../../../shared/solicitud-repuesto/add-edit-solicitud-repuesto/add-edit-solicitud-repuesto.component";
 import {CommonModuleImportsModule} from "../../../shared/common-module-imports.module";
 
 @NgModule({
@@ -17,9 +15,7 @@ import {CommonModuleImportsModule} from "../../../shared/common-module-imports.m
   ],
   declarations: [
     SolicitudComponent,
-    AddEditSolicitudServicioComponent,
-    AddOrdenTrabajoComponent,
-    AddEditSolicitudRepuestoComponent]
+    AddOrdenTrabajoComponent]
 })
 export class SolicitudModule {
 }

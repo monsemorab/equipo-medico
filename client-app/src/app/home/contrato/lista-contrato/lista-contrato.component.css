@@ -1,0 +1,14 @@
+.form-contrato-title {
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+}
+
+.selectContrato {
+  background-color: darkgrey !important;
+}
+
+pre {
+  border: 0px solid #ccc !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}
