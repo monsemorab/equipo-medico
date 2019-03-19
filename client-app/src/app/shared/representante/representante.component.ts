@@ -33,9 +33,9 @@ export class RepresentanteComponent implements OnInit {
     this.clearRepreField();
 
     if (this.representante == null) {
-      this.modalRepreTitle = 'Crear Contrato';
+      this.modalRepreTitle = 'Crear Representante';
     } else {
-      this.modalRepreTitle = 'Editar Contrato';
+      this.modalRepreTitle = 'Editar Representante';
       this.nombre = this.representante.nombre;
       this.direccion = this.representante.direccion;
       this.email = this.representante.email;

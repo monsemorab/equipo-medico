@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Contrato, EstadoContrato} from "../../../domain/contrato";
 import {Equipo} from "../../../domain/equipo";
 import {Representante} from "../../../domain/representante";
@@ -40,15 +40,7 @@ export class AddContratoComponent implements OnInit, OnDestroy {
 
   // modal para agregar/editar representante
   modalAddEditRepreOpen = false;
-  modalTitle: string;
-  // repreSeleccionado= new Representante(null, '', '', '', '', '', '');
   repreSeleccionado: Representante;
-  // nombre: string;
-  // direccion: string;
-  // email: string;
-  // telefono: string;
-  // telefonoContacto: string;
-  // celular: string;
   isEditRepre: boolean;
   representantes: Representante[];
 
@@ -72,6 +64,7 @@ export class AddContratoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.buttonTitle = 'Add';
+    this.isEditRepre = false;
     this.getEquipos();
     this.getEstadoContratos();
     this.getAllRepresentantes();
@@ -96,8 +89,8 @@ export class AddContratoComponent implements OnInit, OnDestroy {
         this.equipos = equipos;
       },
       error => {
-        this.errorMessage = error,
-          this.equipos = null;
+        this.errorMessage = error;
+        this.equipos = [];
       }
     );
   }
@@ -111,8 +104,8 @@ export class AddContratoComponent implements OnInit, OnDestroy {
         this.estadosContrato = estados;
       },
       error => {
-        this.errorMessage = error,
-          this.estadosContrato = null;
+        this.errorMessage = error;
+        this.estadosContrato = [];
       }
     );
   }
@@ -127,7 +120,7 @@ export class AddContratoComponent implements OnInit, OnDestroy {
       },
       error => {
         this.errorMessage = error;
-        this.error = true;
+        this.representantes = [];
       }
     );
   }
@@ -171,7 +164,7 @@ export class AddContratoComponent implements OnInit, OnDestroy {
   addEquipo(): void {
     this.selectedEquipos.push(this.selectedEquipo);
     for (let i = 0; i < this.equipos.length; i++) {
-      if (this.selectedEquipo = this.equipos[i]) {
+      if (this.selectedEquipo == this.equipos[i]) {
         this.equipos.splice(i, 1);
       }
     }
@@ -208,7 +201,13 @@ export class AddContratoComponent implements OnInit, OnDestroy {
    * @param value
    */
   onSelectedRepresentante(value: any): void {
-    this.getRepresentanteById(+value);
+    // this.getRepresentanteById(+value);
+    for (let i = 0; i < this.representantes.length; i++) {
+      if (+value === this.representantes[i].id) {
+        this.repreSeleccionado = this.representantes[i];
+        this.isEditRepre = true;
+      }
+    }
   }
 
   /**
@@ -219,12 +218,36 @@ export class AddContratoComponent implements OnInit, OnDestroy {
     this.representanteService.getRepresentanteById(id).subscribe(
       representante => {
         this.repreSeleccionado = representante;
+        this.isEditRepre = true;
       },
       error => {
         this.errorMessage = error;
         this.error = true;
       }
     );
+  }
+
+  /**
+   * Cuando se quiere crear un nuevo representante.
+   * @constructor
+   */
+  AddNewRepresentante(): void {
+    this.repreSeleccionado = null;
+    this.modalAddEditRepreOpen = true;
+  }
+
+  editRepresentante(repreEdit: Representante) {
+    this.repreSeleccionado = repreEdit;
+    this.removeRepresentante();
+    this.modalAddEditRepreOpen = true;
+  }
+
+  removeRepresentante() {
+    for (let i = 0; i < this.representantes.length; i++) {
+      if (this.repreSeleccionado === this.representantes[i]) {
+        this.representantes.splice(i, 1);
+      }
+    }
   }
 
 
@@ -234,6 +257,7 @@ export class AddContratoComponent implements OnInit, OnDestroy {
   addEditRepresentante(value: Representante) {
     this.representantes.push(value);
     this.repreSeleccionado = value;
+    this.isEditRepre = true;
     this.modalAddEditRepreOpen = false;
   }
 
@@ -242,10 +266,10 @@ export class AddContratoComponent implements OnInit, OnDestroy {
    * Cuando se cancela la edición de un representante, el representante seleccionado se agrega de nuevo a la lista de
    * representantes.
    */
-  onCancelAddEditRepresentant(value: Representante) {
+  onCancelAddEditRepresentante(value: Representante) {
     this.representantes = [];
-
-    this.subscriptionGetAllRepresentantes = this.representanteService.getAllRepresentantes().subscribe(
+    if(this.isEditRepre) {
+      this.subscriptionGetAllRepresentantes = this.representanteService.getAllRepresentantes().subscribe(
         representantes => {
           this.representantes = representantes;
           this.representantes.push(value);
@@ -254,8 +278,8 @@ export class AddContratoComponent implements OnInit, OnDestroy {
           this.errorMessage = error;
         }
       );
+    }
     this.modalAddEditRepreOpen = false;
-    this.isEditRepre = false;
   }
 
 
@@ -279,22 +303,6 @@ export class AddContratoComponent implements OnInit, OnDestroy {
       error => {
         this.errorMessage = error;
         this.error = true;
-      }
-    );
-  }
-
-  /**
-   * Se actualizan los datos del contrato seleccionado.
-   */
-  editContrato(): void {
-    this.subscriptionSaveContrato = this.contratoService.editarContrato(this.contrato).subscribe(
-      contrato => {
-        this.contrato = contrato;
-      },
-      error => {
-        this.errorMessage = error;
-        this.error = true;
-
       }
     );
   }

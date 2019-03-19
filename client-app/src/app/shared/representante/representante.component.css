@@ -1,0 +1,9 @@
+/*label del formulario*/
+.form-representante-label {
+  font-weight: bold !important;
+}
+
+/*columna de los labels del formulario*/
+.col-label-representante {
+  text-align: right !important;
+}

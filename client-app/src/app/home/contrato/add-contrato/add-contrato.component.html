@@ -113,13 +113,13 @@
                   id="representante" name="representante"
                   [(ngModel)]="repreSeleccionado"
                   (change)="onSelectedRepresentante(representanteSelected.value.toString())">
-            <option *ngFor="let representante of representantes"
-                    value={{representante.id}}>{{representante.nombre}}
+            <option *ngFor="let repre of representantes"
+                    value={{repre.id}}>{{repre.nombre}}
             </option>
           </select>
         </div>
       </div>
-      <div class="col-xs-5" *ngIf="representantes != null && representantes.length > 0">
+      <div class="col-xs-5" *ngIf="representantes == null || representantes.length == 0">
         <div class="select form-control">
           <select class="select-form-equipo" id="repre" disabled>
             <option disabled>Agregar Representante</option>
@@ -127,8 +127,15 @@
         </div>
       </div>
 
-      <div class="col-xs-1 btn-add-representante">
-        <button class="btn-add-repre btn btn-sm btn-success">
+      <div *ngIf="!isEditRepre" class="col-xs-1 btn-add-representante">
+        <button class="btn-add-repre btn btn-sm btn-success"
+                (click)="AddNewRepresentante()">
+          <clr-icon shape="user"></clr-icon>
+          {{buttonTitle}}
+        </button>
+
+        <button *ngIf="isEditRepre" class="btn-add-repre btn btn-sm btn-success"
+                (click)="editRepresentante()">
           <clr-icon shape="user"></clr-icon>
           {{buttonTitle}}
         </button>
@@ -213,80 +220,5 @@
 [representante] = "repreSeleccionado"
 [isEditRepre]="isEditRepre"
 (representanteToUpdate)="addEditRepresentante($event)"
-(cancelAddEditRepre)="onCancelAddEditRepresentant($event)">
+(cancelAddEditRepre)="onCancelAddEditRepresentante($event)">
 </app-representante>
-
-<!--<clr-modal [(clrModalOpen)]="modalRepreOpen" [clrModalClosable]="false">-->
-  <!--<h3 class="modal-title form-add-contrato-label">{{modalTitle}}</h3>-->
-  <!--<div class="modal-body">-->
-    <!--<form class="compact" #repreForm="ngForm">-->
-      <!--<section class="form-block">-->
-        <!--<div class="form-group row flex-items-xs-left">-->
-          <!--<div class="col-xs-3 col-label-add-contrato">-->
-            <!--<label class="form-add-contrato-label required" for="nombre">Nombre/Empresa:</label>-->
-          <!--</div>-->
-          <!--<div class="col-xs-9">-->
-            <!--<input class="form-control" id="nombre" required-->
-                   <!--name="nombre" [(ngModel)]="nombre">-->
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="form-group row flex-items-xs-left">-->
-          <!--<div class="col-xs-3 col-label-add-contrato">-->
-            <!--<label class="form-add-contrato-label" for="direccion">Dirección:</label>-->
-          <!--</div>-->
-          <!--<div class="col-xs-9">-->
-            <!--<input class="form-control" id="direccion"-->
-                   <!--name="direccion" [(ngModel)]="direccion">-->
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="form-group row flex-items-xs-left">-->
-          <!--<div class="col-xs-3 col-label-add-contrato">-->
-            <!--<label class="form-add-contrato-label" for="email">Email:</label>-->
-          <!--</div>-->
-          <!--<div class="col-xs-9">-->
-            <!--<input class="form-control" id="email"-->
-                   <!--name="email" [(ngModel)]="email">-->
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="form-group row flex-items-xs-left">-->
-          <!--<div class="col-xs-3 col-label-add-contrato">-->
-            <!--<label class="form-add-contrato-label required" for="telefono">Telefono:</label>-->
-          <!--</div>-->
-          <!--<div class="col-xs-3">-->
-            <!--<input class="form-control" id="telefono" required-->
-                   <!--name="telefono" [(ngModel)]="telefono">-->
-          <!--</div>-->
-
-          <!--<div class="col-xs-3">-->
-            <!--<label class="form-add-contrato-label required" for="contacto">Nro. Contacto:</label>-->
-          <!--</div>-->
-          <!--<div class="col-xs-3">-->
-            <!--<input class="form-control" id="contacto" required-->
-                   <!--name="contacto" [(ngModel)]="telefonoContacto">-->
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="form-group row flex-items-xs-left">-->
-          <!--<div class="col-xs-3 col-label-add-contrato">-->
-            <!--<label class="form-add-contrato-label required" for="telefono">Cel.:</label>-->
-          <!--</div>-->
-          <!--<div class="col-xs-4">-->
-            <!--<input class="form-control" id="cel" required-->
-                   <!--name="cel" [(ngModel)]="celular">-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</section>-->
-    <!--</form>-->
-  <!--</div>-->
-  <!--<div class="modal-footer">-->
-    <!--<button class="btn btn-sm" type="button"-->
-            <!--(click)="modalRepreOpen = false">Cancel-->
-    <!--</button>-->
-    <!--<button class="btn btn-sm btn-success" type="button"-->
-            <!--[disabled]="(repreForm.form.invalid )">Add-->
-    <!--</button>-->
-  <!--</div>-->
-<!--</clr-modal>-->
