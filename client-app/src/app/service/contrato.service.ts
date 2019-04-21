@@ -23,6 +23,14 @@ export class ContratoService {
   }
 
   /**
+   * Se obtiene el contrato por su Id.
+   * @param contratoId
+   */
+  getContratoById(contratoId: number):Observable<Contrato> {
+    return this.apiRequest.get(this.urlContratos + '/' + contratoId);
+  }
+
+  /**
    * Se obtiene la lista de los estados para un contrato.
    * Esta lista no se obtiene de la BD, son datos predefinidos.
    * @returns {Observable<EstadoContrato[]>}

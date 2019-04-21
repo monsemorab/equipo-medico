@@ -13,11 +13,6 @@ export class ListaContratoComponent implements OnInit {
   // contrato
   selectedContrato: Contrato;
 
-  // form
-  formTitle: string;
-  isEdit: boolean;
-  showFormAbmContrato = false;
-
   // modal
   modalConfirmOpen: boolean;
 
@@ -62,10 +57,12 @@ export class ListaContratoComponent implements OnInit {
 
   }
 
+  /**
+   * Cuando se presiona el botón Add.
+   */
   goNewContratoForm(): void {
     this.router.navigate(['home/contratos/crear-contrato']);
   }
-
 
   /**
    * Cuando se selecciona un Contrato de la lista.
@@ -80,70 +77,7 @@ export class ListaContratoComponent implements OnInit {
    * Cuando se presiona el botón Edit.
    */
   editContrato() {
-    this.formTitle = 'Editar Contrato';
-    this.isEdit = true;
-    this.showFormAbmContrato = true;
+    this.router.navigate(['home/contratos/editar-contrato/' + this.selectedContrato.id]);
   }
 
-  /**
-   * Cuando se presiona el botón Add.
-   */
-  // addContrato() {
-  //   this.formTitle = 'Crear Contrato';
-  //   this.selectedContrato = new Contrato(null, null, '', '',
-  //     'Vigente', '', '', [], null, '', '');
-  //   this.isEdit = false;
-  //   this.showFormAbmContrato = true;
-  // }
-
-  /**
-   * Eliminar un Contrato.
-   */
-  deleteContrato() {
-    this.error = false;
-    this.modalConfirmOpen = true;
-  }
-
-  /**
-   * Cuando se confirma la eliminación del contrato seleccionado.
-   */
-  confirmarEliminacion(): void {
-    // TODO: ver si es una eliminación lógica o fisica.
-    this.modalConfirmOpen = false;
-    this.successMessage = 'Contrato eliminado exitosamente';
-    this.success = true;
-    this.getSuccessMessage();
-  }
-
-  getSuccessMessage() {
-    setTimeout(() => {
-      this.success = false;
-    }, 5000);
-  }
-
-  /**
-   * Respuesta recibida por el hijo al terminar una creación o editión de un contrato.
-   * @param {boolean} value
-   */
-  onCloseAddEditContrato(value: boolean) {
-    this.showFormAbmContrato = !value;
-    if (this.isEdit) {
-      this.successMessage = 'Contrato modificado exitosamente';
-      this.isEdit = false;
-    } else {
-      this.successMessage = 'Contrato creado exitosamente';
-    }
-    this.selectedContrato = null;
-    this.getSuccessMessage();
-  }
-
-  /**
-   * Respuesta recibida desde el hijo cuando se cancela la edición o creación de un nuevo contrato.
-   * @param {boolean} value
-   */
-  onCancelAddEditContrato(value: boolean) {
-    this.showFormAbmContrato = !value;
-    this.isEdit = false;
-    this.selectedContrato = null;
-  }
 }

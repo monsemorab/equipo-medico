@@ -1,4 +1,4 @@
-<h5 class="form-add-contrato-title">Crear Contrato</h5>
+<h5 class="form-edit-contrato-title">Crear Contrato</h5>
 <form class="compact" #contratoForm="ngForm">
   <!-- errors -->
   <div class="alert alert-danger alert-sm" *ngIf="error">
@@ -22,7 +22,7 @@
     <!--información gral del contrato-->
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label required" for="id">ID:</label>
+        <label class="form-edit-contrato-label required" for="id">ID:</label>
       </div>
       <div class="col-xs-2">
         <input class="form-control" id="id" required
@@ -30,7 +30,7 @@
       </div>
 
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label" for="nroContrato">Nro. Contrato:</label>
+        <label class="form-edit-contrato-label" for="nroContrato">Nro. Contrato:</label>
       </div>
       <div class="col-xs-2">
         <input class="form-control" id="nroContrato"
@@ -40,7 +40,7 @@
 
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label required" for="tipo">Tipo Procedimiento:</label>
+        <label class="form-edit-contrato-label required" for="tipo">Tipo Procedimiento:</label>
       </div>
       <div class="col-xs-4">
         <input class="form-control" id="tipo" required
@@ -50,7 +50,7 @@
 
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label required" for="convocante">Convocante:</label>
+        <label class="form-edit-contrato-label required" for="convocante">Convocante:</label>
       </div>
       <div class="col-xs-5">
         <input class="form-control" id="convocante" required
@@ -60,7 +60,7 @@
 
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label required" for="licitacion">Nombre Licitación:</label>
+        <label class="form-edit-contrato-label required" for="licitacion">Nombre Licitación:</label>
       </div>
       <div class="col-xs-5">
         <input class="form-control" id="licitacion" required
@@ -70,7 +70,7 @@
 
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label" for="estado">Estado:</label>
+        <label class="form-edit-contrato-label" for="estado">Estado:</label>
       </div>
       <div class="col-xs-2">
         <div class="select form-control">
@@ -85,7 +85,7 @@
       </div>
 
       <div class="col-xs-1 col-label-add-contrato">
-        <label class="form-add-contrato-label required" for="inicio">Inicio:</label>
+        <label class="form-edit-contrato-label required" for="inicio">Inicio:</label>
       </div>
       <div class="col-xs-2">
         <input class="form-control" type="date"
@@ -93,7 +93,7 @@
                [(ngModel)]="fechaInicio">
       </div>
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label required" for="fin">Finalización:</label>
+        <label class="form-edit-contrato-label required" for="fin">Finalización:</label>
       </div>
       <div class="col-xs-2">
         <input class="form-control" type="date"
@@ -104,31 +104,17 @@
 
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label required">Representante:</label>
+        <label class="form-edit-contrato-label required">Representante:</label>
       </div>
 
       <div class="col-xs-5" *ngIf="representantes != null && representantes.length > 0">
         <p-dropdown [options]="representantes" name="repre"
                     [(ngModel)]="repreSeleccionado" optionLabel="nombre"
-                    (onChange)="onSelectedRepresentante($event)">
+        (onChange)="onSelectedRepresentante($event)">
         </p-dropdown>
+        
       </div>
-      <div class="col-xs-5" *ngIf="representantes == null || representantes.length == 0">
-        <div class="select form-control">
-          <select class="select-form-contrato" id="repre" disabled>
-            <option disabled>Agregar Representante</option>
-          </select>
-        </div>
-      </div>
-
-      <div *ngIf="!isEditRepre" class="col-xs-1 btn-add-representante">
-        <button class="btn-add-repre btn btn-sm btn-success"
-                (click)="addNewRepresentante()">
-          <clr-icon shape="user"></clr-icon>
-          Add
-        </button>
-      </div>
-      <div *ngIf="isEditRepre" class="col-xs-1 btn-add-representante">
+      <div class="col-xs-1 btn-add-representante">
         <button class="btn-add-repre btn btn-sm btn-success"
                 (click)="editRepresentante()">
           <clr-icon shape="user"></clr-icon>
@@ -141,7 +127,7 @@
     <!--lista de equipos-->
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label" for="equipo">Equipos:</label>
+        <label class="form-edit-contrato-label" for="equipo">Equipos:</label>
       </div>
       <div class="col-xs-5">
         <div class="select form-control">
@@ -156,7 +142,7 @@
         </div>
       </div>
       <div class="col-xs-1">
-        <button class="form-add-edit-contrato-btn-select-equipo btn btn-sm btn-success"
+        <button class="form-edit-edit-contrato-btn-select-equipo btn btn-sm btn-success"
                 (click)="addEquipo()"
                 [disabled]="equipoId == null">
           <clr-icon shape="add"></clr-icon>

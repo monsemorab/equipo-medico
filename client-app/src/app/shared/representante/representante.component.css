@@ -1,3 +1,9 @@
+.form-representante-title {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+}
+
 /*label del formulario*/
 .form-representante-label {
   font-weight: bold !important;

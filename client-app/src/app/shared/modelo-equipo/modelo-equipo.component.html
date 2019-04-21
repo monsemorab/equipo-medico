@@ -1,0 +1,53 @@
+<!--Modal para agregar o editar los datos del modelo del equipo -->
+<clr-modal [(clrModalOpen)]="modalModeloOpen" [clrModalClosable]="false">
+  <h3 class="modal-title form-modelo-equipo-title">{{modalModeloTitle}}</h3>
+  <div class="modal-body">
+    <form class="compact" #modeloEquipoForm="ngForm">
+      <section class="form-block">
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3 col-label-equipo">
+            <label class="form-modelo-equipo-label required" for="modelo">Modelo:</label>
+          </div>
+          <div class="col-xs-6">
+            <input class="form-control" id="modelo" required
+                   name="modelo" [(ngModel)]="modelo">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3 col-label-equipo">
+            <label class="form-modelo-equipo-label required" for="marca">Marca:</label>
+          </div>
+          <div class="col-xs-6">
+            <input class="form-control" id="marca" required
+                   name="marca" [(ngModel)]="marca">
+          </div>
+        </div>
+
+        <!--<div class="form-group row flex-items-xs-left">-->
+        <!--<div class="col-xs-4 col-label-equipo">-->
+        <!--<label class="form-modelo-equipo-label">Procedimiento IMP:</label>-->
+        <!--</div>-->
+        <!--<div class="col-xs-6">-->
+        <!--<input class="form-control" id="clase"-->
+        <!--name="imp" [(ngModel)]="imp">-->
+        <!--</div>-->
+        <!--</div>-->
+
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline btn-sm" type="button"
+            (click)="onCancelAddEditModeloEquipo()">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancel
+    </button>
+    <button class="btn btn-success btn-sm" type="button"
+            (click)="addModeloEquipo()"
+            [disabled]="(modeloEquipoForm.form.invalid)">
+      <clr-icon shape="check"></clr-icon>
+      Add
+    </button>
+  </div>
+</clr-modal>

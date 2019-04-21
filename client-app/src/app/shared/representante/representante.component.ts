@@ -20,6 +20,7 @@ export class RepresentanteComponent implements OnInit {
 
 
   // Datos representante
+  id: number;
   nombre: string;
   direccion: string;
   email: string;
@@ -34,8 +35,10 @@ export class RepresentanteComponent implements OnInit {
 
     if (this.representante == null) {
       this.modalRepreTitle = 'Crear Representante';
+      this.id = -1;
     } else {
       this.modalRepreTitle = 'Editar Representante';
+      this.id = this.representante.id;
       this.nombre = this.representante.nombre;
       this.direccion = this.representante.direccion;
       this.email = this.representante.email;
@@ -49,7 +52,7 @@ export class RepresentanteComponent implements OnInit {
 
 
   addRepresentante() {
-    this.representante = new Representante(null, this.nombre, this.direccion, this.email, this.telefono,
+    this.representante = new Representante(this.id, this.nombre, this.direccion, this.email, this.telefono,
       this.telefonoContacto, this.celular);
     this.representanteToUpdate.emit(this.representante);
   }
@@ -58,7 +61,7 @@ export class RepresentanteComponent implements OnInit {
 
   /**
    * Cuando se cancela la edición o la creación de un representante.
-   * Si se cancela la edición, el representante seleccionado es agrega de nuevo la la lista de representantes.
+   * Si se cancela la edición, el representante seleccionado es agregado de nuevo la la lista de representantes.
    */
   onCancelAddEditRepresentante() {
     this.cancelAddEditRepre.emit(this.representante);

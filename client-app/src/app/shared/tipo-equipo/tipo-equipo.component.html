@@ -1,0 +1,73 @@
+<!--Modal para agregar o editar los datos del tipo del equipo -->
+<clr-modal [(clrModalOpen)]="modalTipoOpen" [clrModalClosable]="false">
+  <h3 class="modal-title form-tipo-equipo-title">{{modalTipoTitle}}</h3>
+  <div class="modal-body">
+    <form class="compact" #tipoEquipoForm="ngForm">
+      <section class="form-block">
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-10">
+            <label class="form-tipo-equipo-label required" for="tipo">Tipo:</label>
+          </div>
+          <div class="col-xs-10">
+            <input class="form-control" id="tipo" required
+                   name="tipo" [(ngModel)]="tipo">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-10">
+            <label class="form-tipo-equipo-label" for="codigoECRI">Código de ECRI/UMDNS:</label>
+          </div>
+          <div class="col-xs-10">
+            <input class="form-control" id="codigoECRI"
+                   name="codigoECRI" [(ngModel)]="codigoECRIUMDNS">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-10">
+            <label class="form-tipo-equipo-label" for="clase">Clase:</label>
+          </div>
+          <div class="col-xs-10">
+            <input class="form-control" id="clase"
+                   name="clase" [(ngModel)]="clase">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-10">
+            <label class="form-tipo-equipo-label" for="mp_año">MP/año:</label>
+          </div>
+          <div class="col-xs-10">
+            <input class="form-control" id="mp_año"
+                   name="mp_año" [(ngModel)]="mpano">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-10">
+            <label class="form-tipo-equipo-label" for="clase">Personal a Cargo:</label>
+          </div>
+          <div class="col-xs-10">
+            <input class="form-control" id="personal"
+                   name="personal" [(ngModel)]="personalACargo">
+          </div>
+        </div>
+
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline btn-sm" type="button"
+            (click)="onCancelAddEditTipoEquipo()">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancel
+    </button>
+    <button class="btn btn-success btn-sm" type="button"
+            (click)="addTipoEquipo()"
+            [disabled]="(tipoEquipoForm.form.invalid)">
+      <clr-icon shape="check"></clr-icon>
+      Add
+    </button>
+  </div>
+</clr-modal>
