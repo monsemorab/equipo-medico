@@ -1,0 +1,90 @@
+<h2 class="form-add-edit-sol-repuesto-title">Crear Solicitud de Repuestos</h2>
+<form class="compact" #repuestoForm="ngForm">
+  <section class="form-block">
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1">
+        <label class="form-add-edit-repuesto-label" for="codigoDes">Código:</label>
+      </div>
+      <div class="col-xs-3">
+        <input class="form-control" id="codigoDes"
+               name="codigoDes" [(ngModel)]="codigoDes">
+      </div>
+      <div class="col-xs-1"></div>
+      <div class="col-xs-1">
+        <label class="form-add-edit-repuesto-label" for="fechaSolicitud">Fecha:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" type="date"
+               id="fechaSolicitud"
+               name="fechaSolicitud"
+               [(ngModel)]="fechaSolicitud">
+      </div>
+    </div>
+
+    <section>
+      <h6 class="form-add-edit-sol-repuesto-title">Repuestos</h6>
+      <div>
+        <button class="btn btn-sm btn-success"
+                (click)="addNewRepuesto()">
+          <clr-icon shape="plus"></clr-icon>
+          Crear
+        </button>
+        <button class="btn btn-sm btn-success"
+                *ngIf="repuestoSeleccionado != null"
+                (click)="editRepuesto()">
+          <clr-icon shape="pencil"></clr-icon>
+          Editar
+        </button>
+
+        <button class="btn btn-sm btn-success"
+                *ngIf="repuestoSeleccionado != null"
+                (click)="removeRepuesto()()">
+          <clr-icon shape="pencil"></clr-icon>
+          Eliminar
+        </button>
+      </div>
+
+      <div class="form-group row flex-items-xs-left">
+        <div class="col-xs-12">
+          <clr-datagrid *ngIf="solicitudRepuesto?.repuestos!= null &&
+        solicitudRepuesto?.repuestos.length > 0">
+            <clr-dg-column>Código</clr-dg-column>
+            <clr-dg-column>Descripción</clr-dg-column>
+            <clr-dg-column>Cantidad Adquirida</clr-dg-column>
+            <clr-dg-column>Precio</clr-dg-column>
+            <clr-dg-row *ngFor="let repuesto of solicitudRepuesto?.repuestos"
+                        (click)="selectRepuesto(repuesto)"
+                        [class.selectRepuesto]="repuesto === repuestoSeleccionado">
+              <clr-dg-cell>{{repuesto.codigo}}</clr-dg-cell>
+              <clr-dg-cell>{{repuesto.descripcionArticulo}}</clr-dg-cell>
+              <clr-dg-cell>{{repuesto.cantidadAdquirida}}</clr-dg-cell>
+              <clr-dg-cell>{{repuesto.precio}}</clr-dg-cell>
+            </clr-dg-row>
+          </clr-datagrid>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="form-block">
+    <button class="btn btn-sm btn-success"
+            [disabled]="(repuestoForm.form.invalid )"
+            (click)="onSaveSolicitudRepuesto()">
+      <clr-icon shape="floppy"></clr-icon>
+      Save
+    </button>
+
+    <button class="btn btn-sm btn-secondary"
+            (click)="goBack()">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancel
+    </button>
+  </section>
+</form>
+
+<!--Modal para agregar o editar los datos de un repuesto-->
+<app-repuesto *ngIf="modalAddEditRepuestoOpen"
+              [repuesto]="repuestoSeleccionado"
+              [isEditRepuesto]="isEditRepuesto"
+              (repuestoToUpdate)="addEditRepuesto($event)"
+              (cancelAddEditRepuesto)="onCancelAddEditRepuesto($event)">
+</app-repuesto>

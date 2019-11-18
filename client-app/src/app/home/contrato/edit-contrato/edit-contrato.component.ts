@@ -1,8 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Contrato, EstadoContrato} from "../../../domain/contrato";
 import {Equipo} from "../../../domain/equipo";
 import {Representante} from "../../../domain/representante";
-import {ISubscription} from "rxjs-compat/Subscription";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {ContratoService} from "../../../service/contrato.service";
 import {EquipoService} from "../../../service/equipo.service";
@@ -15,7 +14,7 @@ import {switchMap} from "rxjs/operators";
   templateUrl: './edit-contrato.component.html',
   styleUrls: ['./edit-contrato.component.css']
 })
-export class EditContratoComponent implements OnInit, OnDestroy {
+export class EditContratoComponent implements OnInit {
 
   // contrato
   contrato: Contrato;
@@ -43,7 +42,8 @@ export class EditContratoComponent implements OnInit, OnDestroy {
 
   // modal para agregar/editar representante
   modalAddEditRepreOpen = false;
-  repreSeleccionado = new Representante(null, '', '', '', '', '', '');
+  repreSeleccionado = new Representante(null, '', '', '', '', '',
+    '');
   isEditRepre: boolean;
   representantes: Representante[];
 
@@ -51,10 +51,6 @@ export class EditContratoComponent implements OnInit, OnDestroy {
   // error
   errorMessage: string;
   error: boolean;
-
-  // subscriptions
-  private subscriptionGetAllRepresentantes: ISubscription;
-  private subscriptionSaveEditContrato: ISubscription;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -84,16 +80,6 @@ export class EditContratoComponent implements OnInit, OnDestroy {
         this.error = true;
       });
   }
-
-  ngOnDestroy() {
-    if (this.subscriptionGetAllRepresentantes != null) {
-      this.subscriptionGetAllRepresentantes.unsubscribe();
-    }
-    if (this.subscriptionSaveEditContrato != null) {
-      this.subscriptionSaveEditContrato.unsubscribe();
-    }
-  }
-
 
   /**
    * Se obtiene la lista de todos los equipos que esten sin contrato.
@@ -290,7 +276,7 @@ export class EditContratoComponent implements OnInit, OnDestroy {
    */
   onCancelAddEditRepresentante(value: Representante) {
     this.representantes = [];
-    this.subscriptionGetAllRepresentantes = this.representanteService.getAllRepresentantes().subscribe(
+    this.representanteService.getAllRepresentantes().subscribe(
       representantes => {
         this.representantes = representantes;
         this.representantes.push(value);
@@ -318,7 +304,7 @@ export class EditContratoComponent implements OnInit, OnDestroy {
    * Se crea un nuevo contrato.
    */
   saveContrato(contrato: Contrato): void {
-    this.subscriptionSaveEditContrato = this.contratoService.editarContrato(contrato).subscribe(
+    this.contratoService.editarContrato(contrato).subscribe(
       contrato => {
         this.contrato = contrato;
         this.goBack();

@@ -16,7 +16,7 @@ export class SolicitudServicio {
 
 export class SolicitudRepuesto {
   constructor(public id: number,
-              public estado: string,
+              public codigo: string,
               public repuestos: Repuesto[],
               public fechaSolicitud?: any) {
   }

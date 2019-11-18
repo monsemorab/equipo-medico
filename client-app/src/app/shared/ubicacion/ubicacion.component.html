@@ -1,6 +1,6 @@
 <!--Modal para agregar o editar los datos de la ubicación del equipo -->
 <clr-modal [(clrModalOpen)]="modalUbicacionOpen" [clrModalClosable]="false">
-  <h3 class="modal-title form-ubicacion-equipo-title">{{modalUbicacionTitle}}</h3>
+  <h2 class="modal-title form-ubicacion-equipo-title">{{modalUbicacionTitle}}</h2>
   <div class="modal-body">
     <form class="compact" #ubicacionForm="ngForm">
       <section class="form-block">
@@ -47,13 +47,13 @@
     <button class="btn btn-outline btn-sm" type="button"
             (click)="onCancelAddEditUbicacion()">
       <clr-icon shape="window-close"></clr-icon>
-      Cancel
+      Cancelar
     </button>
     <button class="btn btn-success btn-sm" type="button"
             (click)="addUbicacion()"
             [disabled]="(ubicacionForm.form.invalid)">
       <clr-icon shape="check"></clr-icon>
-      Add
+      Crear
     </button>
   </div>
 </clr-modal>

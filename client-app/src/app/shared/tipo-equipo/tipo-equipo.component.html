@@ -1,6 +1,6 @@
 <!--Modal para agregar o editar los datos del tipo del equipo -->
 <clr-modal [(clrModalOpen)]="modalTipoOpen" [clrModalClosable]="false">
-  <h3 class="modal-title form-tipo-equipo-title">{{modalTipoTitle}}</h3>
+  <h2 class="modal-title form-tipo-equipo-title">{{modalTipoTitle}}</h2>
   <div class="modal-body">
     <form class="compact" #tipoEquipoForm="ngForm">
       <section class="form-block">
@@ -61,13 +61,13 @@
     <button class="btn btn-outline btn-sm" type="button"
             (click)="onCancelAddEditTipoEquipo()">
       <clr-icon shape="window-close"></clr-icon>
-      Cancel
+      Cancelar
     </button>
     <button class="btn btn-success btn-sm" type="button"
             (click)="addTipoEquipo()"
             [disabled]="(tipoEquipoForm.form.invalid)">
       <clr-icon shape="check"></clr-icon>
-      Add
+      Crear
     </button>
   </div>
 </clr-modal>

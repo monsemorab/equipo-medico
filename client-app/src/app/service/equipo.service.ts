@@ -6,6 +6,7 @@ import {ApiRequestService} from "./api-request.service";
 import {TipoEquipo} from "../domain/tipo-equipo";
 import {Ubicacion} from "../domain/ubicacion";
 import {ModeloEquipo} from "../domain/modelo-equipo";
+import {ParamsBusquedaEquipo} from "../domain/ParamsBusquedaEquipo";
 
 @Injectable()
 export class EquipoService {
@@ -19,7 +20,7 @@ export class EquipoService {
   }
 
   /**
-   * Se obtiene todos los equipos.
+   * Se obtienen todos los equipos.
    * @returns {Observable<Equipo[]>}
    */
   getEquipos(): Observable<Equipo[]> {
@@ -100,6 +101,17 @@ export class EquipoService {
   getUbicacionById(ubicacionId: number): Observable<Ubicacion> {
     const url = this.urlUbicaciones+'/'+ubicacionId;
     return this.apiRequest.get(url);
+  }
+
+
+  /**
+   * TODO: crear este método en el backend.
+   * Se busca un equipo deacuerdo a los parametros de busqueda enviados.
+   * @param params
+   */
+  getEquipoByParams(params:ParamsBusquedaEquipo): Observable<Equipo> {
+    const url = this.urlEquipos;
+    return this.apiRequest.post(url, params);
   }
 
   /**

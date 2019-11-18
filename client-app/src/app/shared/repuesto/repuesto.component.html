@@ -1,0 +1,127 @@
+<!--Modal para agregar o editar los datos de un repuesto-->
+<clr-modal [(clrModalOpen)]="modalRepuestoOpen" [clrModalClosable]="false"
+           [clrModalSize]="'lg'"
+           *ngIf="repuesto">
+  <h2 class="modal-title form-repuesto-title">{{modalRepuestoTitle}}</h2>
+  <div class="modal-body">
+    <form class="compact" #repuestoForm="ngForm">
+      <section class="form-block">
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-repuesto-label" for="codigo">Código:</label>
+          </div>
+          <div class="col-xs-3">
+            <input class="form-control" id="codigo"
+                   name="codigo" [(ngModel)]="codigo">
+          </div>
+          <div class="col-xs-2">
+            <label class="form-repuesto-label" for="descripcionArt">Descripción:</label>
+          </div>
+          <div class="col-xs-4">
+            <input class="form-control" id="descripcionArt"
+                   name="descripcionArt" [(ngModel)]="descripcion">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-repuesto-label" for="precio">Precio:</label>
+          </div>
+          <div class="col-xs-3">
+            <input class="form-control" id="precio"
+                   name="precio" [(ngModel)]="precio">
+          </div>
+
+          <div class="col-xs-2">
+            <label class="form-repuesto-label" for="fecha">Fecha:</label>
+          </div>
+          <div class="col-xs-3">
+            <input class="form-control" type="date"
+                   id="fecha" name="fecha"
+                   [(ngModel)]="fechaActualizacion">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-repuesto-label" for="cantidadAd">Cantidad Adquirida:</label>
+          </div>
+          <div class="col-xs-3">
+            <input class="form-control" id="cantidadAd"
+                   name="cantidadAd" [(ngModel)]="cantAdquirida">
+          </div>
+          <div class="col-xs-2">
+            <label class="form-repuesto-label" for="cantidadRes">Cantidad Restante:</label>
+          </div>
+          <div class="col-xs-3">
+            <input class="form-control" id="cantidadRes"
+                   name="cantidadRes" [(ngModel)]="cantRestante">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-repuesto-label">Tipo:</label>
+          </div>
+          <div class="col-xs-3">
+            <div class="select form-control">
+              <select id="selectTipo" #selectedTipo name="selectTipo"
+                      [(ngModel)]="tipoEquipo.id"
+                      (change)="onSelectedTipoEquipo(selectedTipo.value)">
+                <option *ngFor="let tipo of tipos"
+                        value={{tipo.id}}>{{tipo.tipo}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-xs-2">
+            <label class="form-repuesto-label">Modelo:</label>
+          </div>
+          <div class="col-xs-3" *ngIf="modeloEquipo != null">
+            <div class="select form-control">
+              <select id="selectModelo" #selectedModelo name="selectModelo"
+                      [(ngModel)]="modeloEquipo.id"
+                      (change)="onSelectedModeloEquipo(selectedModelo.value)">
+                <option *ngFor="let modelo of modelos"
+                        value={{modelo.id}}>{{modelo.modelo}}, {{modelo.marca}} }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-repuesto-label" for="repre">Representante:</label>
+          </div>
+          <div class="col-xs-3" *ngIf="representante == null">
+            <input class="form-control" id="repre">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-2">
+            <label class="form-repuesto-label">Foto:</label>
+          </div>
+          <div class="col-xs-3">
+
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline btn-sm" type="button"
+            (click)="onCancelAddEditRepuesto()">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancelar
+    </button>
+    <button class="btn btn-success btn-sm" type="button"
+            (click)="addRepuesto()"
+            [disabled]="(repuestoForm.form.invalid)">
+      <clr-icon shape="check"></clr-icon>
+      Crear
+    </button>
+  </div>
+</clr-modal>

@@ -1,18 +1,17 @@
-<!--<form class=" compact" *ngIf="!showFormAbmContrato">-->
 <form class=" compact">
-  <h5 class="form-contrato-title">Contratos</h5>
+  <h2 class="form-contrato-title">Contratos</h2>
   <section>
     <div>
       <button class="btn btn-sm btn-success"
               (click)="goNewContratoForm()">
         <clr-icon shape="plus"></clr-icon>
-        Add
+        Crear
       </button>
       <button class="btn btn-sm btn-success"
               *ngIf="selectedContrato != null"
               (click)="editContrato()">
         <clr-icon shape="pencil"></clr-icon>
-        Edit
+        Editar
       </button>
     </div>
     <!--success action-->

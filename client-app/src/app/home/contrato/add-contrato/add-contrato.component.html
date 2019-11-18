@@ -1,4 +1,4 @@
-<h5 class="form-add-contrato-title">Crear Contrato</h5>
+<h2 class="form-add-contrato-title">Crear Contrato</h2>
 <form class="compact" #contratoForm="ngForm">
   <!-- errors -->
   <div class="alert alert-danger alert-sm" *ngIf="error">
@@ -199,13 +199,13 @@
             [disabled]="(contratoForm.form.invalid )"
             (click)="onSaveContrato()">
       <clr-icon shape="floppy"></clr-icon>
-      Save
+      Guardar
     </button>
 
     <button class="btn btn-sm btn-secondary"
             (click)="goBack()">
       <clr-icon shape="window-close"></clr-icon>
-      Cancel
+      Cancelar
     </button>
   </section>
 </form>

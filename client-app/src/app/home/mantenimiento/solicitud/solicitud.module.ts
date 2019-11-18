@@ -1,21 +1,29 @@
 import {NgModule} from '@angular/core';
 
 import {SolicitudComponent} from "./solicitud.component";
-import {SolicitudService} from "../../../service/solicitud.service";
-import {AddOrdenTrabajoComponent} from "../lista-orden-trabajo/add-orden-trabajo/add-orden-trabajo.component";
+import {SolicitudServicioService} from "../../../service/solicitud-servicio.service";
 import {CommonModuleImportsModule} from "../../../shared/common-module-imports.module";
+import {AddSolicitudServicioComponent} from './add-solicitud-servicio/add-solicitud-servicio.component';
+import {EditSolicitudServicioComponent} from './edit-solicitud-servicio/edit-solicitud-servicio.component';
+import {ListaSolicitudServicioComponent} from './lista-solicitud-servicio/lista-solicitud-servicio.component';
+import {OrdenTrabajoModule} from "../../../shared/orden-trabajo/orden-trabajo.module";
+import {SharedModule} from "../../../shared/shared.module";
 
 @NgModule({
   imports: [
-    CommonModuleImportsModule
+    CommonModuleImportsModule,
+    OrdenTrabajoModule,
+    SharedModule
   ],
   exports: [SolicitudComponent],
   providers: [
-    SolicitudService
+    SolicitudServicioService
   ],
   declarations: [
     SolicitudComponent,
-    AddOrdenTrabajoComponent]
+    AddSolicitudServicioComponent,
+    EditSolicitudServicioComponent,
+    ListaSolicitudServicioComponent]
 })
 export class SolicitudModule {
 }

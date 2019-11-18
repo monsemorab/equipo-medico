@@ -1,4 +1,4 @@
-<h5 class="form-edit-contrato-title">Crear Contrato</h5>
+<h2 class="form-edit-contrato-title">Editar Contrato</h2>
 <form class="compact" #contratoForm="ngForm">
   <!-- errors -->
   <div class="alert alert-danger alert-sm" *ngIf="error">
@@ -112,7 +112,7 @@
                     [(ngModel)]="repreSeleccionado" optionLabel="nombre"
         (onChange)="onSelectedRepresentante($event)">
         </p-dropdown>
-        
+
       </div>
       <div class="col-xs-1 btn-add-representante">
         <button class="btn-add-repre btn btn-sm btn-success"
@@ -185,13 +185,13 @@
             [disabled]="(contratoForm.form.invalid )"
             (click)="onSaveContrato()">
       <clr-icon shape="floppy"></clr-icon>
-      Save
+      Guardar
     </button>
 
     <button class="btn btn-sm btn-secondary"
             (click)="goBack()">
       <clr-icon shape="window-close"></clr-icon>
-      Cancel
+      Cancelar
     </button>
   </section>
 </form>

@@ -1,0 +1,163 @@
+<h2 class="form-add-edit-solicitud-title">Crear Solicitud de Servicio</h2>
+<form class="compact" #servicioForm="ngForm">
+  <section class="form-block">
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1">
+        <label class="form-add-edit-solicitud-label" for="estado">Estado:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="estado"
+               name="estado" [(ngModel)]="estado">
+      </div>
+      <div class="col-xs-2"></div>
+      <div class="col-xs-1">
+        <label class="form-add-edit-solicitud-label" for="fecha">Fecha:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="fecha"
+               name="fecha" [(ngModel)]="fecha">
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-6">
+        <label class="form-add-edit-solicitud-label">Personal que reporta el problema:</label>
+      </div>
+      <div class="col-xs-6">
+        <label class="form-add-edit-solicitud-label" for="personal">Descripción del Problema:</label>
+      </div>
+      <div class="col-xs-4">
+        <input class="form-control" id="personal"
+               name="personal" [(ngModel)]="personalReporte">
+      </div>
+      <div class="col-xs-2"></div>
+
+      <div class="col-xs-6">
+                <textarea class="form-control" id="descripcion" rows="5"
+                          name="descripcion" [(ngModel)]="descripcionProblema">
+            </textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- información del equipo-->
+  <section class="form-block">
+    <h5 class="form-add-edit-solicitud-sub-title">Información del Equipo</h5>
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1">
+        <label class="form-add-edit-solicitud-label" for="nroSerie">N. Serie:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="nroSerie"
+               name="nroSerie" #nroSerie
+               (keyup.enter)="onEnterNroSerie(nroSerie.value)"
+               (keyup)="onKeyNroSerie(nroSerie.value)"
+               [(ngModel)]="numeroSerie">
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-add-edit-solicitud-label" for="numeroPatrimonial">N. Patrimonial:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="numeroPatrimonial"
+               name="numeroPatrimonial" #nroPatrimonial
+               (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"
+               (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"
+               [(ngModel)]="numeroPatrimonial">
+      </div>
+
+      <div class="col-xs-1">
+        <label class="form-add-edit-solicitud-label">Tipo:</label>
+      </div>
+      <div class="col-xs-2">
+        <label class="form-control">
+          {{equipoSeleccionado?.tipoEquipo?.tipo}}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1">
+        <label class="form-add-edit-solicitud-label">Modelo:</label>
+      </div>
+      <div class="col-xs-2">
+        <label class="form-control">
+          {{equipoSeleccionado?.modeloEquipo?.modelo}}
+        </label>
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-add-edit-solicitud-label">Ubicación:</label>
+      </div>
+      <div class="col-xs-2">
+        <label class="form-control">
+          {{equipoSeleccionado?.ubicacion?.bloque}} - {{equipoSeleccionado?.ubicacion?.numeroSala}}
+        </label>
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-add-edit-solicitud-label">Contrato:</label>
+      </div>
+      <div class="col-xs-2">
+        <label class="form-control">
+          {{equipoSeleccionado?.contrato?.numeroContrato}}
+        </label>
+      </div>
+    </div>
+
+    <clr-datagrid>
+      <clr-dg-action-bar>
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-secondary"
+                  [hidden]="!showAgregarBtn"
+                  (click)="onAddEquipo()">
+            <clr-icon shape="plus"></clr-icon>
+            Agregar
+          </button>
+          <!--          <button type="button" class="btn btn-sm btn-secondary" -->
+          <!--                  (click)="onDeleteEquipo()" >-->
+          <!--            <clr-icon shape="close"></clr-icon> -->
+          <!--            Eliminar-->
+          <!--          </button>-->
+        </div>
+      </clr-dg-action-bar>
+      <clr-dg-column>Nro. Serie</clr-dg-column>
+      <clr-dg-column>Nro. Patrimonial</clr-dg-column>
+      <clr-dg-column>Tipo</clr-dg-column>
+      <clr-dg-column>Modelo</clr-dg-column>
+      <clr-dg-column>Ubicación</clr-dg-column>
+      <clr-dg-column>Contrato</clr-dg-column>
+      <clr-dg-column></clr-dg-column>
+      <clr-dg-row *ngFor="let equipo of equipos">
+        <clr-dg-cell>{{equipo.numeroSerie}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.numeroPatrimonial}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.tipoEquipo?.tipo}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.modeloEquipo?.modelo}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.ubicacion?.numeroSala}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.contrato?.numeroContrato}}</clr-dg-cell>
+        <clr-dg-cell>
+          <button class="btn btn-sm btn-warning"
+                  (click)="onRemoveEquipo(equipo.id)">
+            Eliminar
+          </button>
+        </clr-dg-cell>
+      </clr-dg-row>
+    </clr-datagrid>
+  </section>
+
+  <section class="form-block">
+    <button class="btn btn-sm btn-success"
+            [disabled]="(servicioForm.form.invalid )"
+            (click)="onSaveServicio()">
+      <clr-icon shape="floppy"></clr-icon>
+      Guardar
+    </button>
+
+    <button class="btn btn-sm btn-secondary"
+            (click)="goBack()">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancelar
+    </button>
+  </section>
+</form>

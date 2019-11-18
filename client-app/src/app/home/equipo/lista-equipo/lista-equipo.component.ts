@@ -13,14 +13,6 @@ export class ListaEquipoComponent implements OnInit {
   // equipo
   selectedEquipo: Equipo;
 
-  // form
-  formTitle: string;
-  isEdit: boolean;
-  showFormAbmEquipo = false;
-
-  // modal
-  modalConfirmOpen: boolean;
-
   // success actions
   successMessage: string;
   success: boolean;
@@ -41,7 +33,6 @@ export class ListaEquipoComponent implements OnInit {
   ngOnInit() {
     this.success = false;
     this.error = false;
-    this.modalConfirmOpen = false;
     this.selectedEquipo = null;
     this.getEquipos();
   }

@@ -44,7 +44,6 @@ export class ModeloEquipoComponent implements OnInit {
     this.modalModeloOpen = true;
   }
 
-
   /**
    * Se crea el objeto con los datos ingresados para el tipo.
    */
@@ -52,7 +51,6 @@ export class ModeloEquipoComponent implements OnInit {
     this.modeloEquipo = new ModeloEquipo(this.id, this.modelo, this.marca, this.imp);
     this.modeloEquipoToUpdate.emit(this.modeloEquipo);
   }
-
 
   /**
    * Cuando se cancela la edición o la creación de un modelo para un equipo.

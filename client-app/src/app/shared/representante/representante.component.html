@@ -1,6 +1,6 @@
 <!--Modal para agregar o editar los datos de un representante-->
 <clr-modal [(clrModalOpen)]="modalRepreOpen" [clrModalClosable]="false">
-  <h3 class="modal-title form-representante-title">{{modalRepreTitle}}</h3>
+  <h2 class="modal-title form-representante-title">{{modalRepreTitle}}</h2>
   <div class="modal-body">
     <form class="compact" #repreForm="ngForm">
       <section class="form-block">
@@ -72,13 +72,13 @@
     <button class="btn btn-outline btn-sm" type="button"
             (click)="onCancelAddEditRepresentante()">
       <clr-icon shape="window-close"></clr-icon>
-      Cancel
+      Cancelar
     </button>
     <button class="btn btn-success btn-sm" type="button"
             (click)="addRepresentante()"
             [disabled]="(repreForm.form.invalid)">
       <clr-icon shape="check"></clr-icon>
-      Add
+      Crear
     </button>
   </div>
 </clr-modal>

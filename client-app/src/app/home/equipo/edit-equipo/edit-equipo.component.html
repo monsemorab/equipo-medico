@@ -1,4 +1,4 @@
-<h5 class="form-edit-equipo-title">Crear Equipo</h5>
+<h2 class="form-edit-equipo-title">Editar Equipo</h2>
 <form class="compact" #equipoForm="ngForm">
     <section class="form-block">
         <div class="form-group row flex-items-xs-left">
@@ -287,13 +287,13 @@
                 [disabled]="(equipoForm.form.invalid )"
                 (click)="onSaveEquipo()">
             <clr-icon shape="floppy"></clr-icon>
-            Save
+          Guardar
         </button>
 
         <button class="btn btn-sm btn-secondary"
                 (click)="goBack()">
             <clr-icon shape="window-close"></clr-icon>
-            Cancel
+            Cancelar
         </button>
     </section>
 </form>

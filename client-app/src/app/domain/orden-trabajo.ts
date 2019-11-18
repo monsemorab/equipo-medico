@@ -1,6 +1,5 @@
 import {Equipo} from "./equipo";
-import {SolicitudRepuesto} from "./solicitud";
-import {SolicitudService} from "../service/solicitud.service";
+import {SolicitudRepuesto, SolicitudServicio} from "./solicitud";
 
 export class OrdenTrabajo {
 
@@ -9,9 +8,8 @@ export class OrdenTrabajo {
               public equipo: Equipo,
               public tipoServicio: Servicio,
               public diagnostico: string,
-              public solicitudRepuesto: SolicitudRepuesto[],
-              public solicitudServicio: SolicitudService[],
-              public mantenimiento: Mantenimiento,
+              public solicitudRepuesto: SolicitudRepuesto,
+              public solicitudServicio: SolicitudServicio,
               public fecha?: any) {
   }
 }
@@ -21,16 +19,4 @@ export class Servicio {
   constructor(public name: string) {
   }
 
-}
-
-
-export class Mantenimiento {
-  constructor(public id: number,
-              public tareaRealizada: string,
-              public informeNumero: number,
-              public estado: string,
-              public nombreTecnico: string,
-              public fechaMantenimiento?: any) {
-
-  }
 }

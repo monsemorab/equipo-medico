@@ -1,0 +1,100 @@
+<form class=" compact" *ngIf="!openOrdenTrabajo">
+  <h2 class="form-solicitud-title">Solicitud de Servicio</h2>
+  <section>
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1">
+        <button class="btn btn-sm btn-success"
+                (click)="addSolicitudServicio()">
+          <clr-icon shape="plus"></clr-icon>
+          Crear
+        </button>
+      </div>
+      <div class="col-xs-1">
+        <button class="btn btn-sm btn-success"
+                *ngIf="selectedSolServ"
+                (click)="editSolicitudServicio()">
+          <clr-icon shape="pencil"></clr-icon>
+          Editar
+        </button>
+      </div>
+      <div class="col-xs-1">
+        <button class="btn btn-sm btn-primary"
+                *ngIf="selectedSolServ"
+                (click)="atenderSolicitud()">
+          <clr-icon shape="check"></clr-icon>
+          Atender
+        </button>
+      </div>
+    </div>
+    <!--success action-->
+    <div class="alert alert-success alert-sm" *ngIf="success">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon"
+                      shape="check-circle">
+            </clr-icon>
+          </div>
+          <span class="alert-text">
+            {{ successMessage }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- errors -->
+    <div class="alert alert-danger alert-sm" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon"
+                      shape="exclamation-circle">
+            </clr-icon>
+          </div>
+          <span class="alert-text">{{errorMessage}}</span>
+        </div>
+      </div>
+      <button type="button" class="close" aria-label="Close"
+              (click)="error = false">
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
+    <!--lista de solicitudes de servicios-->
+    <clr-datagrid [clrDgLoading]="loading">
+      <clr-dg-column [clrDgSortBy]="'id'">ID</clr-dg-column>
+      <clr-dg-column>Estado</clr-dg-column>
+      <clr-dg-column>Tarea</clr-dg-column>
+      <clr-dg-column>Responsable</clr-dg-column>
+      <clr-dg-column>Fecha</clr-dg-column>
+      <clr-dg-placeholder>
+        <div *ngIf="solicitudServicios && solicitudServicios.length === 0">
+          No existen datos para la Solicitud
+        </div>
+      </clr-dg-placeholder>
+      <clr-dg-row *ngFor="let solicitud of solicitudServicios"
+                  (click)="selectSolicitudServicio(solicitud)"
+                  [class.selectSolicitud]="solicitud === selectedSolServ">
+        <clr-dg-cell>{{solicitud.id}}</clr-dg-cell>
+        <clr-dg-cell>{{solicitud.estado}}</clr-dg-cell> <!--estado del equipo-->
+        <clr-dg-cell>{{solicitud.descripcionProblema}}</clr-dg-cell>
+        <clr-dg-cell>{{solicitud.personalReporte}}</clr-dg-cell>
+        <clr-dg-cell>{{solicitud.fechaSolicitud}}</clr-dg-cell>
+      </clr-dg-row>
+
+      <clr-dg-footer>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{total}} Solicitudes
+        <clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </section>
+</form>
+
+<!--Crear Orden de trabajo-->
+<app-add-orden-trabajo
+  *ngIf="openOrdenTrabajo"
+  [solicitudServicio]="selectedSolServ"
+  [isFromSolicitudServ]="true"
+  (onCancelOrSave)="onCancelOrSaveOrderTrabajo($event)">
+</app-add-orden-trabajo>
+

@@ -1,17 +1,17 @@
-<form class=" compact" *ngIf="!showFormAbmEquipo">
-  <h5 class="form-equipo-title">Equipos</h5>
+<form class=" compact">
+  <h2 class="form-equipo-title">Equipos</h2>
   <section>
     <div>
       <button class="btn btn-sm btn-success"
               (click)="addEquipo()">
         <clr-icon shape="plus"></clr-icon>
-        Add
+        Crear
       </button>
       <button class="btn btn-sm btn-success"
               *ngIf="selectedEquipo != null"
               (click)="editEquipo()">
         <clr-icon shape="pencil"></clr-icon>
-        Edit
+        Editar
       </button>
     </div>
     <!--success action-->

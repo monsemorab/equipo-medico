@@ -1,18 +1,20 @@
 import {NgModule} from '@angular/core';
 import {MantenimientoComponent} from "./mantenimiento.component";
 import {SolicitudModule} from "./solicitud/solicitud.module";
-import {ListaOrdenTrabajoComponent} from "./lista-orden-trabajo/lista-orden-trabajo.component";
 import {CommonModuleImportsModule} from "../../shared/common-module-imports.module";
+import {SharedModule} from "../../shared/shared.module";
+import {SolicitudRepuestoModule} from "./solicitud-repuesto/solicitud-repuesto.module";
 
 @NgModule({
   imports: [
     CommonModuleImportsModule,
-    SolicitudModule
+    SolicitudModule,
+    SolicitudRepuestoModule,
+    SharedModule
   ],
   exports: [MantenimientoComponent],
   declarations: [
-    MantenimientoComponent,
-    ListaOrdenTrabajoComponent]
+    MantenimientoComponent]
 })
 export class MantenimientoModule {
 }
