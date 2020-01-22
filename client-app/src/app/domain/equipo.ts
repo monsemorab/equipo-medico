@@ -1,8 +1,8 @@
-import {Representante} from "./representante";
-import {Contrato} from "./contrato";
-import {TipoEquipo} from "./tipo-equipo";
-import {ModeloEquipo} from "./modelo-equipo";
-import {Ubicacion} from "./ubicacion";
+import {Representante} from './representante';
+import {Contrato} from './contrato';
+import {TipoEquipo} from './tipo-equipo';
+import {ModeloEquipo} from './modelo-equipo';
+import {Ubicacion} from './ubicacion';
 
 export class Equipo {
 

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-solicitud-repuesto',
@@ -7,9 +7,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class SolicitudRepuestoComponent implements OnInit {
 
-
-  constructor() {
-  }
+  constructor() { }
 
   ngOnInit() {
   }

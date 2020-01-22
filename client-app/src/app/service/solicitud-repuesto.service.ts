@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {ApiRequestService} from "./api-request.service";
-import {SolicitudRepuesto} from "../domain/solicitud";
+import {SolicitudRepuesto} from "../domain/solicitud-repuesto";
 import {Observable} from "rxjs";
 
 @Injectable({

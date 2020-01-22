@@ -1,5 +1,4 @@
 import {Equipo} from "./equipo";
-import {Representante} from "./representante";
 
 export class Contrato {
 
@@ -11,7 +10,7 @@ export class Contrato {
               public convocante: string,
               public pdf: string,
               public equipos: Equipo[],
-              public representante: Representante,
+              public representante: string,
               public fechaInicio?: any,
               public fechaFin?: any) {
   }

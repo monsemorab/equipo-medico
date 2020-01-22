@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Contrato, EstadoContrato} from "../../../domain/contrato";
-import {Equipo} from "../../../domain/equipo";
-import {Representante} from "../../../domain/representante";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {ContratoService} from "../../../service/contrato.service";
-import {EquipoService} from "../../../service/equipo.service";
-import {RepresentanteService} from "../../../service/representante.service";
-import {switchMap} from "rxjs/operators";
+import {Contrato, EstadoContrato} from '../../../domain/contrato';
+import {Equipo} from '../../../domain/equipo';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {ContratoService} from '../../../service/contrato.service';
+import {EquipoService} from '../../../service/equipo.service';
+import {switchMap} from 'rxjs/operators';
 
 
 @Component({
@@ -24,6 +22,7 @@ export class EditContratoComponent implements OnInit {
   tipoProcedimiento: string;
   estadoContrato: string;
   convocante: string;
+  representante: string;
   pdf: string;
   fechaInicio: any;
   fechaFin: any;
@@ -40,13 +39,6 @@ export class EditContratoComponent implements OnInit {
   equipoId: number;
   isSelectedEquipo: boolean;
 
-  // modal para agregar/editar representante
-  modalAddEditRepreOpen = false;
-  repreSeleccionado = new Representante(null, '', '', '', '', '',
-    '');
-  isEditRepre: boolean;
-  representantes: Representante[];
-
 
   // error
   errorMessage: string;
@@ -55,16 +47,13 @@ export class EditContratoComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private contratoService: ContratoService,
-              private equipoService: EquipoService,
-              private representanteService: RepresentanteService) {
+              private equipoService: EquipoService) {
   }
 
   ngOnInit() {
-    this.isEditRepre = true;
     this.isSelectedEquipo = false;
     this.getEquipos();
     this.getEstadoContratos();
-    this.getAllRepresentantes();
 
     this.route.paramMap
       .pipe(
@@ -111,20 +100,6 @@ export class EditContratoComponent implements OnInit {
     );
   }
 
-  /**
-   * Se obtiene la lista de representantes.
-   */
-  getAllRepresentantes(): void {
-    this.representanteService.getAllRepresentantes().subscribe(
-      representantes => {
-        this.representantes = representantes;
-      },
-      error => {
-        this.errorMessage = error;
-        this.representantes = [];
-      }
-    );
-  }
 
   /**
    * Se establecen los campos a ser editados del contrato seleccionado.
@@ -140,7 +115,7 @@ export class EditContratoComponent implements OnInit {
     this.pdf = contrato.pdf;
     this.fechaInicio = contrato.fechaInicio;
     this.fechaFin = contrato.fechaFin;
-    this.repreSeleccionado = contrato.representante;
+    this.representante = contrato.representante;
     this.selectedEquipos = contrato.equipos;
   }
 
@@ -183,7 +158,7 @@ export class EditContratoComponent implements OnInit {
   addEquipo(): void {
     this.selectedEquipos.push(this.selectedEquipo);
     for (let i = 0; i < this.equipos.length; i++) {
-      if (this.selectedEquipo == this.equipos[i]) {
+      if (this.selectedEquipo === this.equipos[i]) {
         this.equipos.splice(i, 1);
       }
     }
@@ -216,85 +191,11 @@ export class EditContratoComponent implements OnInit {
   }
 
   /**
-   * Se selecciona un representante de la lista.
-   * @param value
-   */
-  onSelectedRepresentante(value: any): void {
-    this.getRepresentanteById(+value);
-  }
-
-  /**
-   * Se obtiene el representante seleccionado de la lista.
-   * @param {number} id
-   */
-  getRepresentanteById(id: number): void {
-    this.representanteService.getRepresentanteById(id).subscribe(
-      representante => {
-        this.repreSeleccionado = representante;
-        this.isEditRepre = true;
-      },
-      error => {
-        this.errorMessage = error;
-        this.error = true;
-      }
-    );
-  }
-
-  /**
-   * Cuando se selecciona un representante para editar sus datos.
-   */
-  editRepresentante() {
-    this.removeRepresentante();
-    this.modalAddEditRepreOpen = true;
-  }
-
-  /**
-   * El representante seleccionado para su edición, se elimina temporalmente de la lista de representantes.
-   */
-  removeRepresentante() {
-    for (let i = 0; i < this.representantes.length; i++) {
-      if (this.repreSeleccionado === this.representantes[i]) {
-        this.representantes.splice(i, 1);
-      }
-    }
-  }
-
-
-  /**
-   * El representante creado o editado es agregado a la lista de representantes.
-   */
-  addEditRepresentante(value: Representante) {
-    this.representantes.push(value);
-    this.repreSeleccionado = value;
-    this.modalAddEditRepreOpen = false;
-  }
-
-
-  /**
-   * Cuando se cancela la edición de un representante, el representante seleccionado se agrega de nuevo a la lista de
-   * representantes.
-   */
-  onCancelAddEditRepresentante(value: Representante) {
-    this.representantes = [];
-    this.representanteService.getAllRepresentantes().subscribe(
-      representantes => {
-        this.representantes = representantes;
-        this.representantes.push(value);
-      },
-      error => {
-        this.errorMessage = error;
-      }
-    );
-    this.modalAddEditRepreOpen = false;
-  }
-
-
-  /**
    * Se guarda la información del contrato creado o editado.
    */
   onSaveContrato(): void {
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion, this.tipoProcedimiento,
-      this.estadoContrato, this.convocante, this.pdf, this.selectedEquipos, this.repreSeleccionado, this.fechaInicio,
+      this.estadoContrato, this.convocante, this.pdf, this.selectedEquipos, this.representante, this.fechaInicio,
       this.fechaFin);
     this.saveContrato(this.contrato);
 
@@ -305,6 +206,7 @@ export class EditContratoComponent implements OnInit {
    */
   saveContrato(contrato: Contrato): void {
     this.contratoService.editarContrato(contrato).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
       contrato => {
         this.contrato = contrato;
         this.goBack();

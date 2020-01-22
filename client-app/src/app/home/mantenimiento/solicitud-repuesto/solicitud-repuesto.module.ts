@@ -1,25 +1,32 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {CommonModuleImportsModule} from "../../../shared/common-module-imports.module";
-import {SolicitudRepuestoComponent} from "./solicitud-repuesto.component";
-import {AddSolicitudRepuestoComponent} from './add-solicitud-repuesto/add-solicitud-repuesto.component';
-import {EditSolicitudRepuestoComponent} from './edit-solicitud-repuesto/edit-solicitud-repuesto.component';
-import {ListaSolicitudRepuestoComponent} from "./lista-solicitud-repuesto/lista-solicitud-repuesto.component";
-import {SharedModule} from "../../../shared/shared.module";
+import {SolicitudRepuestoComponent} from './solicitud-repuesto.component';
+import {ListarSolicitudComponent} from './listar-solicitud/listar-solicitud.component';
+import {AddSolicitudComponent} from './add-solicitud/add-solicitud.component';
+import {EditSolicitudComponent} from './edit-solicitud/edit-solicitud.component';
+import {SolicitudRepuestoService} from '../../../service/solicitud-repuesto.service';
+import {CommonModuleImportsModule} from '../../../shared/common-module-imports.module';
+import {SharedModule} from '../../../shared/shared.module';
 
 @NgModule({
   imports: [
-    CommonModule,
     CommonModuleImportsModule,
     SharedModule
   ],
-  exports: [SolicitudRepuestoComponent],
   declarations: [
     SolicitudRepuestoComponent,
-    ListaSolicitudRepuestoComponent,
-    AddSolicitudRepuestoComponent,
-    EditSolicitudRepuestoComponent
-  ]
+    ListarSolicitudComponent,
+    AddSolicitudComponent,
+    EditSolicitudComponent
+  ],
+  exports: [
+    SolicitudRepuestoComponent,
+    ListarSolicitudComponent,
+    AddSolicitudComponent,
+    EditSolicitudComponent
+  ],
+  providers: [
+    SolicitudRepuestoService
+  ],
 })
 export class SolicitudRepuestoModule {
 }

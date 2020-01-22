@@ -1,0 +1,275 @@
+<h2 class="form-order-trabajo-title">Crear Orden de Trabajo</h2>
+<form class="compact" #ordenTrabajoForm="ngForm">
+  <section class="form-block">
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1">
+        <label class="form-order-trabajo-label" for="estado">Estado:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="estado"
+               name="estado" [(ngModel)]="estado">
+      </div>
+
+      <div class="col-xs-1">
+        <label class="form-order-trabajo-label" for="fecha">Fecha:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="fecha"
+               name="fecha" [(ngModel)]="fecha">
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label" for="tipoServicio">Tipo Servicio:</label>
+      </div>
+      <div class="col-xs-3">
+        <input class="form-control" id="tipoServicio"
+               name="tipoServicio" [(ngModel)]="tipoServicio">
+      </div>
+    </div>
+
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-6">
+        <label class="form-order-trabajo-label">Personal que reporta el problema:</label>
+      </div>
+      <div class="col-xs-6">
+        <label class="form-order-trabajo-label" for="personal">Descripción del Problema:</label>
+      </div>
+      <div class="col-xs-4">
+        <input class="form-control" id="responsable"
+               name="responsable" [(ngModel)]="responsable">
+      </div>
+      <div class="col-xs-2"></div>
+
+      <div class="col-xs-6">
+                <textarea class="form-control" id="diagnostico" rows="5"
+                          name="diagnostico" [(ngModel)]="diagnostico">
+            </textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- información del equipo-->
+  <section class="form-block">
+    <h4 class="form-order-trabajo-sub-title">Información del Equipo</h4>
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1">
+        <label class="form-order-trabajo-label" for="nroSerie">N. Serie:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="nroSerie"
+               name="nroSerie" #nroSerie
+               (keyup.enter)="onEnterNroSerie(nroSerie.value)"
+               (keyup)="onKeyNroSerie(nroSerie.value)"
+               [(ngModel)]="numeroSerie">
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label" for="numeroPatrimonial">N. Patrimonial:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="numeroPatrimonial"
+               name="numeroPatrimonial" #nroPatrimonial
+               (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"
+               (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"
+               [(ngModel)]="numeroPatrimonial">
+      </div>
+
+      <div class="col-xs-1">
+        <label class="form-order-trabajo-label">Tipo:</label>
+      </div>
+      <div class="col-xs-2">
+        <label class="form-control">
+          {{equipoSeleccionado?.tipoEquipo?.tipo}}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1">
+        <label class="form-order-trabajo-label">Modelo:</label>
+      </div>
+      <div class="col-xs-2">
+        <label class="form-control">
+          {{equipoSeleccionado?.modeloEquipo?.modelo}}
+        </label>
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Ubicación:</label>
+      </div>
+      <div class="col-xs-2">
+        <label class="form-control">
+          {{equipoSeleccionado?.ubicacion?.bloque}} - {{equipoSeleccionado?.ubicacion?.numeroSala}}
+        </label>
+      </div>
+
+      <div class="col-xs-2">
+        <label class="form-order-trabajo-label">Contrato:</label>
+      </div>
+      <div class="col-xs-2">
+        <label class="form-control">
+          {{equipoSeleccionado?.contrato?.numeroContrato}}
+        </label>
+      </div>
+    </div>
+
+    <clr-datagrid>
+      <clr-dg-action-bar>
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-secondary"
+                  [hidden]="!showAgregarBtn"
+                  (click)="onAddEquipo()">
+            <clr-icon shape="plus"></clr-icon>
+            Agregar
+          </button>
+          <!--          <button type="button" class="btn btn-sm btn-secondary" -->
+          <!--                  (click)="onDeleteEquipo()" >-->
+          <!--            <clr-icon shape="close"></clr-icon> -->
+          <!--            Eliminar-->
+          <!--          </button>-->
+        </div>
+      </clr-dg-action-bar>
+      <clr-dg-column>Nro. Serie</clr-dg-column>
+      <clr-dg-column>Nro. Patrimonial</clr-dg-column>
+      <clr-dg-column>Tipo</clr-dg-column>
+      <clr-dg-column>Modelo</clr-dg-column>
+      <clr-dg-column>Ubicación</clr-dg-column>
+      <clr-dg-column>Contrato</clr-dg-column>
+      <clr-dg-column></clr-dg-column>
+      <clr-dg-row *ngFor="let equipo of equipos">
+        <clr-dg-cell>{{equipo.numeroSerie}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.numeroPatrimonial}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.tipoEquipo?.tipo}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.modeloEquipo?.modelo}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.ubicacion?.numeroSala}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.contrato?.numeroContrato}}</clr-dg-cell>
+        <clr-dg-cell>
+          <button class="btn btn-sm btn-warning"
+                  (click)="onRemoveEquipo(equipo.id)">
+            Eliminar
+          </button>
+        </clr-dg-cell>
+      </clr-dg-row>
+    </clr-datagrid>
+  </section>
+
+  <!--  mover a la pagina de mantenimiento-->
+  <!--Registro de servicio-->
+  <!--  <section>-->
+  <!--    <h6 class="form-order-trabajo-title">Registro de servicio</h6>-->
+  <!--    <div class="form-group row flex-items-xs-left">-->
+  <!--      <div class="col-xs-1">-->
+  <!--        <button class="btn btn-sm btn-success">-->
+  <!--          <clr-icon shape="plus"></clr-icon>-->
+  <!--          Crear-->
+  <!--        </button>-->
+  <!--      </div>-->
+  <!--      <div class="col-xs-1">-->
+  <!--        <button class="btn btn-sm btn-success">-->
+  <!--          <clr-icon shape="pencil"></clr-icon>-->
+  <!--          Edit-->
+  <!--        </button>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--    <div class="form-group row flex-items-xs-left">-->
+  <!--      <div class="col-xs-12">-->
+  <!--        <clr-datagrid>-->
+  <!--          <clr-dg-column>Fecha</clr-dg-column>-->
+  <!--          <clr-dg-column>Tarea Realizada</clr-dg-column>-->
+  <!--          <clr-dg-column>Informe Nro.</clr-dg-column>-->
+  <!--          <clr-dg-column>Nombre del técnico</clr-dg-column>-->
+  <!--          <clr-dg-row>-->
+  <!--            <clr-dg-cell></clr-dg-cell>-->
+  <!--            <clr-dg-cell></clr-dg-cell>-->
+  <!--            <clr-dg-cell></clr-dg-cell>-->
+  <!--            <clr-dg-cell></clr-dg-cell>-->
+  <!--          </clr-dg-row>-->
+  <!--        </clr-datagrid>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </section>-->
+
+  <section>
+    <h4 class="form-order-trabajo-sub-title">Repuestos Solicitados</h4>
+
+    <section class="form-block">
+      <!-- errors -->
+      <div class="alert alert-danger" *ngIf="repError">
+        <div class="alert-items">
+          <div class="alert-item static">
+            <div class="alert-icon-wrapper">
+              <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+            </div>
+            <span class="alert-text">{{repErrorMessage}}</span>
+          </div>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="repError = false">
+          <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+      </div>
+    </section>
+
+    <!--    <div class="form-group row flex-items-xs-left">-->
+    <!--      <div class="col-xs-2">-->
+    <!--        <label class="form-order-trabajo-label">Código:</label>-->
+    <!--      </div>-->
+    <!--      <div class="col-xs-2">-->
+    <!--        <input class="form-control" id="codigoRep"-->
+    <!--               name="codigoRep" #codigoRep-->
+    <!--               [(ngModel)]="codigoSolRep">-->
+    <!--      </div>-->
+    <!--      <div class="col-xs-1">-->
+    <!--        <button class="btn btn-sm btn-success"-->
+    <!--                (click)="buscarSolicitudRepuesto()">-->
+    <!--          <clr-icon shape="plus"></clr-icon>-->
+    <!--          Add-->
+    <!--        </button>-->
+    <!--      </div>-->
+    <!--      <div class="col-xs-1">-->
+    <!--        <button class="btn btn-sm btn-success"-->
+    <!--                (click)="crearSolicitudRepuesto()">-->
+    <!--          <clr-icon shape="plus"></clr-icon>-->
+    <!--          Crear-->
+    <!--        </button>-->
+    <!--      </div>-->
+    <!--      <div class="col-xs-1">-->
+    <!--        <button class="btn btn-sm btn-success"-->
+    <!--        *ngIf="selectedRepuesto != null"-->
+    <!--        (click)="editSolicitudRepuesto()">-->
+    <!--        <clr-icon shape="pencil"></clr-icon>-->
+    <!--        Editar-->
+    <!--        </button>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
+    <!--    <clr-datagrid *ngIf="solicitudRepuesto?.repuestos!= null &&-->
+    <!--        solicitudRepuesto?.repuestos.length > 0">-->
+    <!--      <clr-dg-column>Código</clr-dg-column>-->
+    <!--      <clr-dg-column>Descripción</clr-dg-column>-->
+    <!--      <clr-dg-column>Cantidad Adquirida</clr-dg-column>-->
+    <!--      <clr-dg-column>Precio</clr-dg-column>-->
+    <!--      <clr-dg-row *ngFor="let repuesto of solicitudRepuesto?.repuestos">-->
+    <!--        <clr-dg-cell>{{repuesto.codigo}}</clr-dg-cell>-->
+    <!--        <clr-dg-cell>{{repuesto.descripcionArticulo}}</clr-dg-cell>-->
+    <!--        <clr-dg-cell>{{repuesto.cantidadAdquirida}}</clr-dg-cell>-->
+    <!--        <clr-dg-cell>{{repuesto.precio}}</clr-dg-cell>-->
+    <!--      </clr-dg-row>-->
+    <!--    </clr-datagrid>-->
+  </section>
+
+  <section class="form-block">
+    <button class="btn btn-sm btn-success"
+            [disabled]="(ordenTrabajoForm.form.invalid )"
+            (click)="onSaveAddOrdenTrabajo">
+      <clr-icon shape="floppy"></clr-icon>
+      Save
+    </button>
+
+    <button class="btn btn-sm btn-secondary"
+            (click)="goBack()">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancel
+    </button>
+  </section>
+</form>
+

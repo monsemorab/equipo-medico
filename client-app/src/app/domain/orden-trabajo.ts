@@ -1,16 +1,18 @@
-import {Equipo} from "./equipo";
-import {SolicitudRepuesto, SolicitudServicio} from "./solicitud";
+import {Equipo} from './equipo';
+import {SolicitudRepuesto} from './solicitud-repuesto';
+import {Mantenimiento} from './mantenimiento';
 
 export class OrdenTrabajo {
 
   constructor(public id: number,
               public estado: string,
-              public equipo: Equipo,
-              public tipoServicio: Servicio,
+              public tipoServicio: string,
+              public mantenimiento: Mantenimiento,
               public diagnostico: string,
-              public solicitudRepuesto: SolicitudRepuesto,
-              public solicitudServicio: SolicitudServicio,
-              public fecha?: any) {
+              public responsable: string,
+              public equipos: Equipo[],
+              public solicitudRepuestos: SolicitudRepuesto [],
+              public fecha?: any) { // fecha de creación
   }
 }
 

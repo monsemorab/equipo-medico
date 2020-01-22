@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Repuesto} from "../../domain/repuesto";
-import {TipoEquipo} from "../../domain/tipo-equipo";
-import {ModeloEquipo} from "../../domain/modelo-equipo";
-import {EquipoService} from "../../service/equipo.service";
+import {Repuesto} from '../../domain/repuesto';
+import {TipoEquipo} from '../../domain/tipo-equipo';
+import {ModeloEquipo} from '../../domain/modelo-equipo';
+import {EquipoService} from '../../service/equipo.service';
 
 @Component({
   selector: 'app-repuesto',
@@ -62,7 +62,7 @@ export class RepuestoComponent implements OnInit {
       this.cantRestante = this.repuesto.cantidadRestante;
       this.tipoEquipo = this.repuesto.tipoEquipo;
       this.modeloEquipo = this.repuesto.modeloEquipo;
-      this.representante = this.repuesto.representante
+      this.representante = this.repuesto.representante;
       this.fechaActualizacion = this.repuesto.fechaActualizacion;
       this.isEditRepuesto = true;
     }

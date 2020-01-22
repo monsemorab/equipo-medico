@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Contrato, EstadoContrato} from "../../../domain/contrato";
-import {Equipo} from "../../../domain/equipo";
-import {Representante} from "../../../domain/representante";
-import {EquipoService} from "../../../service/equipo.service";
-import {ContratoService} from "../../../service/contrato.service";
-import {RepresentanteService} from "../../../service/representante.service";
-import {Router} from "@angular/router";
+import {Contrato, EstadoContrato} from '../../../domain/contrato';
+import {Equipo} from '../../../domain/equipo';
+import {EquipoService} from '../../../service/equipo.service';
+import {ContratoService} from '../../../service/contrato.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-contrato',
@@ -25,11 +23,11 @@ export class AddContratoComponent implements OnInit {
   pdf: string;
   fechaInicio: any;
   fechaFin: any;
+  representante: string;
 
   // estado contrato
   estadoSeleccionado: EstadoContrato;
   estadosContrato: EstadoContrato[];
-
 
   // equipo
   equipos: Equipo[];
@@ -38,12 +36,6 @@ export class AddContratoComponent implements OnInit {
   equipoId: number;
   isSelectedEquipo: boolean;
 
-  // modal para agregar/editar representante
-  modalAddEditRepreOpen = false;
-  repreSeleccionado: Representante;
-  isEditRepre: boolean;
-  representantes = new Array<Representante>();
-
   // error
   errorMessage: string;
   error: boolean;
@@ -51,16 +43,13 @@ export class AddContratoComponent implements OnInit {
 
   constructor(private router: Router,
               private contratoService: ContratoService,
-              private equipoService: EquipoService,
-              private representanteService: RepresentanteService) {
+              private equipoService: EquipoService) {
   }
 
   ngOnInit() {
-    this.isEditRepre = false;
     this.isSelectedEquipo = false;
     this.getEquipos();
     this.getEstadoContratos();
-    this.getAllRepresentantes();
   }
 
 
@@ -94,20 +83,6 @@ export class AddContratoComponent implements OnInit {
     );
   }
 
-  /**
-   * Se obtiene la lista de representantes.
-   */
-  getAllRepresentantes(): void {
-    this.representanteService.getAllRepresentantes().subscribe(
-      representantes => {
-        this.representantes = representantes;
-      },
-      error => {
-        this.errorMessage = error;
-        this.representantes = [];
-      }
-    );
-  }
 
   /**
    * Se selecciona un estado para el contrato.
@@ -180,79 +155,6 @@ export class AddContratoComponent implements OnInit {
     }
   }
 
-  /**
-   * Se selecciona un representante de la lista.
-   * @param value
-   */
-  onSelectedRepresentante(value: any): void {
-    for (let i = 0; i < this.representantes.length; i++) {
-      if (+value === this.representantes[i].id) {
-        this.repreSeleccionado = this.representantes[i];
-        this.isEditRepre = true;
-        break;
-      }
-    }
-  }
-
-  /**
-   * Cuando se quiere crear un nuevo representante.
-   */
-  addNewRepresentante(): void {
-    this.repreSeleccionado = null;
-    this.modalAddEditRepreOpen = true;
-  }
-
-  /**
-   * Cuando se selecciona un representante para editar sus datos.
-   */
-  editRepresentante(): void {
-    this.removeRepresentante();
-    this.modalAddEditRepreOpen = true;
-  }
-
-  /**
-   * El representante seleccionado para su edición, se elimina temporalmente de la lista de representantes.
-   */
-  removeRepresentante(): void {
-    for (let i = 0; i < this.representantes.length; i++) {
-      if (this.repreSeleccionado === this.representantes[i]) {
-        this.representantes.splice(i, 1);
-      }
-    }
-  }
-
-
-  /**
-   * El representante creado o editado es agregado a la lista de representantes.
-   */
-  addEditRepresentante(value: Representante): void {
-    this.representantes.push(value);
-    this.repreSeleccionado = value;
-    this.isEditRepre = true;
-    this.modalAddEditRepreOpen = false;
-  }
-
-
-  /**
-   * Cuando se cancela la edición de un representante, el representante seleccionado se agrega de nuevo a la lista de
-   * representantes.
-   */
-  onCancelAddEditRepresentante(value: Representante): void {
-    this.representantes = [];
-    if (this.isEditRepre) {
-      this.representanteService.getAllRepresentantes().subscribe(
-        representantes => {
-          this.representantes = representantes;
-          this.representantes.push(value);
-        },
-        error => {
-          this.errorMessage = error;
-        }
-      );
-    }
-    this.modalAddEditRepreOpen = false;
-  }
-
 
   /**
    * Se guarda la información del contrato creado o editado.
@@ -260,7 +162,7 @@ export class AddContratoComponent implements OnInit {
   onSaveContrato(): void {
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion,
       this.tipoProcedimiento, this.estadoContrato, this.convocante, this.pdf, this.selectedEquipos,
-      this.repreSeleccionado, this.fechaInicio, this.fechaFin);
+      this.representante, this.fechaInicio, this.fechaFin);
     this.saveContrato(this.contrato);
 
   }
@@ -270,6 +172,7 @@ export class AddContratoComponent implements OnInit {
    */
   saveContrato(contrato: Contrato): void {
     this.contratoService.crearContrato(contrato).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
       contrato => {
         this.contrato = contrato;
         this.goBack();
