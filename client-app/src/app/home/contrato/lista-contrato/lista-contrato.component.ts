@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Contrato} from "../../../domain/contrato";
-import {Router} from "@angular/router";
-import {ContratoService} from "../../../service/contrato.service";
+import {Contrato} from '../../../domain/contrato';
+import {Router} from '@angular/router';
+import {ContratoService} from '../../../service/contrato.service';
 
 @Component({
   selector: 'app-lista-contrato',
@@ -38,16 +38,16 @@ export class ListaContratoComponent implements OnInit {
     this.error = false;
     this.modalConfirmOpen = false;
     this.selectedContrato = null;
-    this.getContratos();
+    this.getAllContratos();
   }
 
-  getContratos(): void {
-    this.contratoService.getContratos().subscribe(
+  getAllContratos(): void {
+    this.contratoService.getAllContratos().subscribe(
       list => {
         this.contratos = list;
         this.total = list.length;
         this.loading = false;
-        console.log(this.contratos)
+        console.log(this.contratos);
       },
       error => {
         this.contratos = [];

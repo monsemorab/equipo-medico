@@ -3,7 +3,6 @@ import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
 import {Repuesto} from '../../../../domain/repuesto';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {RepuestoService} from '../../../../service/repuesto.service';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 
 @Component({
@@ -31,7 +30,6 @@ export class AddSolicitudComponent implements OnInit {
 
   constructor(private router: Router,
               private location: Location,
-              private repuestoService: RepuestoService,
               private solicitudRepuestoService: SolicitudRepuestoService) {
   }
 
@@ -51,14 +49,14 @@ export class AddSolicitudComponent implements OnInit {
    * Cuando se selecciona un repuesto para editar sus datos.
    */
   editRepuesto(): void {
-    this.removeRepuesto();
+    this.eliminarRepuesto();
     this.modalAddEditRepuestoOpen = true;
   }
 
   /**
    * Se quita de la lista de repuestos existentes, el repuesto que se quiere  editar.
    */
-  removeRepuesto(): void {
+  eliminarRepuesto(): void {
     for (let i = 0; i < this.repuestos.length; i++) {
       if (this.repuestoSeleccionado.id === this.repuestos[i].id) {
         this.repuestos.splice(i, 1);
@@ -93,17 +91,8 @@ export class AddSolicitudComponent implements OnInit {
    * @param value
    */
   onCancelAddEditRepuesto(value: Repuesto) {
-    this.repuestos = [];
     if (this.isEditRepuesto) {
-      this.repuestoService.getAllRepuestos().subscribe(
-        repuestos => {
-          this.repuestos = repuestos;
-          this.repuestos.push(value);
-        },
-        error => {
-          this.errorMessage = error;
-        }
-      );
+      this.repuestos.push(value);
     }
     this.modalAddEditRepuestoOpen = false;
   }

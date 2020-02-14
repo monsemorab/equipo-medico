@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
-import {ApiRequestService} from "./api-request.service";
-import {SolicitudRepuesto} from "../domain/solicitud-repuesto";
-import {Observable} from "rxjs";
+import {environment} from '../../environments/environment';
+import {ApiRequestService} from './api-request.service';
+import {SolicitudRepuesto} from '../domain/solicitud-repuesto';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,16 +27,6 @@ export class SolicitudRepuestoService {
    */
   getSolicitudRepuestoById(solicitudId: number): Observable<SolicitudRepuesto> {
     const url = this.urlRepuestos + '/' + solicitudId;
-    return this.apiRequest.get(url);
-  }
-
-  //TODO: falta crear el endpoint
-  /**
-   * Se obtiene la solicitud de repuesto por su código.
-   * @param codigo
-   */
-  getSolicitudRepuestoByCodigo(codigo: string): Observable<SolicitudRepuesto> {
-    const url = this.urlRepuestos + '/' + codigo;
     return this.apiRequest.get(url);
   }
 

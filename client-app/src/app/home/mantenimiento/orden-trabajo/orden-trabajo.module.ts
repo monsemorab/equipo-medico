@@ -4,10 +4,12 @@ import {OrdenTrabajoComponent} from './orden-trabajo.component';
 import {OrdenTrabajoService} from '../../../service/orden-trabajo.service';
 import {AddOrdenTrabajoComponent} from './add-orden-trabajo/add-orden-trabajo.component';
 import {ListaOrdenTrabajoComponent} from './lista-orden-trabajo/lista-orden-trabajo.component';
+import {SharedModule} from '../../../shared/shared.module';
 
 @NgModule({
   imports: [
-    CommonModuleImportsModule
+    CommonModuleImportsModule,
+    SharedModule
   ],
   exports: [
     OrdenTrabajoComponent,

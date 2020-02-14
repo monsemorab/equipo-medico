@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs/Observable";
-import {Equipo} from "../domain/equipo";
-import {environment} from "../../environments/environment";
-import {ApiRequestService} from "./api-request.service";
-import {TipoEquipo} from "../domain/tipo-equipo";
-import {Ubicacion} from "../domain/ubicacion";
-import {ModeloEquipo} from "../domain/modelo-equipo";
-import {ParamsBusquedaEquipo} from "../domain/ParamsBusquedaEquipo";
+import {Observable} from 'rxjs/Observable';
+import {Equipo} from '../domain/equipo';
+import {environment} from '../../environments/environment';
+import {ApiRequestService} from './api-request.service';
+import {TipoEquipo} from '../domain/tipo-equipo';
+import {Ubicacion} from '../domain/ubicacion';
+import {ModeloEquipo} from '../domain/modelo-equipo';
+import {ParamsBusquedaEquipo} from '../domain/ParamsBusquedaEquipo';
 
 @Injectable()
 export class EquipoService {
@@ -23,7 +23,7 @@ export class EquipoService {
    * Se obtienen todos los equipos.
    * @returns {Observable<Equipo[]>}
    */
-  getEquipos(): Observable<Equipo[]> {
+  getAllEquipos(): Observable<Equipo[]> {
     return this.apiRequest.get(this.urlEquipos);
   }
 
@@ -32,7 +32,7 @@ export class EquipoService {
    * @returns {Observable<Equipo[]>}
    */
   getEquiposSinContratos(): Observable<Equipo[]> {
-    const url = this.urlEquipos+'/sincontrato';
+    const url = this.urlEquipos + '/sincontrato';
     return this.apiRequest.get(url);
   }
 
@@ -42,15 +42,15 @@ export class EquipoService {
    * @returns {Observable<Equipo>}
    */
   getEquipoById(equipoId: number): Observable<Equipo> {
-    const url = this.urlEquipos+'/'+equipoId;
+    const url = this.urlEquipos + '/' + equipoId;
     return this.apiRequest.get(url);
   }
 
   /**
-   * Se obtiene la lista de tipos de equipos.
+   * Se obtiene la lista de todos los tipos de equipos.
    * @returns {Observable<TipoEquipo[]>}
    */
-  getTipoEquipos(): Observable<TipoEquipo[]> {
+  getAllTipoEquipos(): Observable<TipoEquipo[]> {
     const url = this.urlTipoEquipos;
     return this.apiRequest.get(url);
   }
@@ -61,7 +61,7 @@ export class EquipoService {
    * @returns {Observable<TipoEquipo>}
    */
   getTipoEquipoById(tipoEquipoId: number): Observable<TipoEquipo> {
-    const url = this.urlTipoEquipos+'/'+tipoEquipoId;
+    const url = this.urlTipoEquipos + '/' + tipoEquipoId;
     return this.apiRequest.get(url);
   }
 
@@ -69,7 +69,7 @@ export class EquipoService {
    * Se obtiene la lista de modelos para los equipos.
    * @returns {Observable<ModeloEquipo[]>}
    */
-  getModeloEquipos(): Observable<ModeloEquipo[]> {
+  getAllModelosEquipos(): Observable<ModeloEquipo[]> {
     const url = this.urlModeloEquipos;
     return this.apiRequest.get(url);
   }
@@ -80,7 +80,7 @@ export class EquipoService {
    * @returns {Observable<ModeloEquipo>}
    */
   getModeloEquipoById(modeloEquipoId: number): Observable<ModeloEquipo> {
-    const url = this.urlModeloEquipos+'/'+modeloEquipoId;
+    const url = this.urlModeloEquipos + '/' + modeloEquipoId;
     return this.apiRequest.get(url);
   }
 
@@ -99,17 +99,16 @@ export class EquipoService {
    * @returns {Observable<Ubicacion>}
    */
   getUbicacionById(ubicacionId: number): Observable<Ubicacion> {
-    const url = this.urlUbicaciones+'/'+ubicacionId;
+    const url = this.urlUbicaciones + '/' + ubicacionId;
     return this.apiRequest.get(url);
   }
 
 
   /**
-   * TODO: crear este método en el backend.
    * Se busca un equipo deacuerdo a los parametros de busqueda enviados.
    * @param params
    */
-  getEquipoByParams(params:ParamsBusquedaEquipo): Observable<Equipo> {
+  getEquipoByParams(params: ParamsBusquedaEquipo): Observable<Equipo> {
     const url = this.urlEquipos;
     return this.apiRequest.post(url, params);
   }

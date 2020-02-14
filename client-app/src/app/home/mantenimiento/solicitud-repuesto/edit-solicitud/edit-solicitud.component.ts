@@ -3,7 +3,6 @@ import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
 import {Repuesto} from '../../../../domain/repuesto';
 import {switchMap} from 'rxjs/operators';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {RepuestoService} from '../../../../service/repuesto.service';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 
 @Component({
@@ -32,7 +31,6 @@ export class EditSolicitudComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private repuestoService: RepuestoService,
               private solicitudRepuestoService: SolicitudRepuestoService) {
   }
 
@@ -118,17 +116,9 @@ export class EditSolicitudComponent implements OnInit {
    * @param value
    */
   onCancelAddEditRepuesto(value: Repuesto) {
-    this.repuestos = [];
     if (this.isEditRepuesto) {
-      this.repuestoService.getAllRepuestos().subscribe(
-        repuestos => {
-          this.repuestos = repuestos;
-          this.repuestos.push(value);
-        },
-        error => {
-          this.errorMessage = error;
-        }
-      );
+      this.repuestos = this.solicitudRepuesto.repuestos;
+      this.repuestos.push(value);
     }
     this.modalAddEditRepuestoOpen = false;
   }

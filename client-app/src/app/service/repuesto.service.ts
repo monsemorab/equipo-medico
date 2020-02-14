@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
-import {ApiRequestService} from "./api-request.service";
-import {Observable} from "rxjs";
-import {Repuesto} from "../domain/repuesto";
+import {environment} from '../../environments/environment';
+import {ApiRequestService} from './api-request.service';
+import {Observable} from 'rxjs';
+import {Repuesto} from '../domain/repuesto';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +22,11 @@ export class RepuestoService {
   }
 
   /**
-   * Se obtiene el repuesto por su Id.
-   * @param repuestoId
+   * Se obtiene el repuesto por su código.
+   * @param repuestoCod
    */
-  getRepuestoById(repuestoId: number): Observable<Repuesto> {
-    const url = this.urlRepuesto + '/' + repuestoId;
+  getRepuestoByCodigo(repuestoCod: string): Observable<Repuesto> {
+    const url = this.urlRepuesto + '/' + repuestoCod;
     return this.apiRequest.get(url);
   }
 

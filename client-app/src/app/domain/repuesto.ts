@@ -1,5 +1,5 @@
-import {TipoEquipo} from "./tipo-equipo";
-import {ModeloEquipo} from "./modelo-equipo";
+import {TipoEquipo} from './tipo-equipo';
+import {ModeloEquipo} from './modelo-equipo';
 
 export class Repuesto {
 

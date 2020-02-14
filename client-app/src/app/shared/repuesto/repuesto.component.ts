@@ -12,7 +12,7 @@ import {EquipoService} from '../../service/equipo.service';
 export class RepuestoComponent implements OnInit {
 
   // modal add/edit repuesto
-  modalRepuestoOpen = false;
+  modalRepuestoOpen = true;
   modalRepuestoTitle: string;
 
   // Repuesto
@@ -73,7 +73,7 @@ export class RepuestoComponent implements OnInit {
    * Se obtiene la lista de tipos de equipos.
    */
   getAllTipos(): void {
-    this.equipoService.getTipoEquipos().subscribe(
+    this.equipoService.getAllTipoEquipos().subscribe(
       tipos => {
         this.tipos = tipos;
       },
@@ -88,7 +88,7 @@ export class RepuestoComponent implements OnInit {
    * Se obtiene la lista de modelos para los equipos.
    */
   getAllModelos(): void {
-    this.equipoService.getModeloEquipos().subscribe(
+    this.equipoService.getAllModelosEquipos().subscribe(
       modelos => {
         this.modelos = modelos;
       },

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
-import {ApiRequestService} from "./api-request.service";
-import {Observable} from "rxjs";
-import {Representante} from "../domain/representante";
+import {environment} from '../../environments/environment';
+import {ApiRequestService} from './api-request.service';
+import {Observable} from 'rxjs';
+import {Representante} from '../domain/representante';
 
 @Injectable({
   providedIn: 'root'

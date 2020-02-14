@@ -6,6 +6,7 @@ import {EquipoService} from '../../../../service/equipo.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 import {OrdenTrabajo} from '../../../../domain/orden-trabajo';
+import {Repuesto} from '../../../../domain/repuesto';
 
 @Component({
   selector: 'app-add-orden-trabajo',
@@ -31,9 +32,14 @@ export class AddOrdenTrabajoComponent implements OnInit {
   showAgregarBtn = false;
 
   // solicitud repuesto
-  codigoSolRep: string;
-  solicitudRepuestos: SolicitudRepuesto[];
-  selectedRepuesto: SolicitudRepuesto;
+  solicitudRepId: number;
+  solicitudRepuesto: SolicitudRepuesto;
+
+  // modal para agregar/editar repuestos
+  modalAddEditRepuestoOpen = false;
+  repuestoSeleccionado: Repuesto;
+  isEditRepuesto: boolean;
+  repuestos = new Array<Repuesto>();
 
 
   // Errors
@@ -51,6 +57,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
   ngOnInit() {
     this.equipos = [];
     this.clearDatosEquipos();
+    this.limpiarCampos();
   }
 
   /**
@@ -146,45 +153,100 @@ export class AddOrdenTrabajoComponent implements OnInit {
   }
 
   /**
-   * Cuando se presiona el botón Add de la sección Solicitud de Repuestos.
-   * Se busca la solicitud de repuestos que coincida con el código introducido,
-   * si la solicitud existe, se agrega a la lista de solicitud de repuestos,
+   *Se busca la solicitud de repuestos que coincida con el id introducido,
+   * si la solicitud existe, se muestra la lista de repuestos agregados,
    * si no existe se muestra un mensaje al usuario.
    */
-  buscarSolicitudRepuesto() {
-    // this.solicitudRepuestoService.getSolicitudRepuestoByCodigo(this.codigoSolRep).subscribe(
-    //   solicitudRep => {
-    //     this.solicitudRepuesto = solicitudRep;
-    //   },
-    //   error => {
-    //     this.repErrorMessage = error;
-    //     this.repError = true;
-    //   }
-    // );
+  buscarSolicitudRepuestoById() {
+    this.solicitudRepuestoService.getSolicitudRepuestoById(this.solicitudRepId).subscribe(
+      solicitudRep => {
+        this.solicitudRepuesto = solicitudRep;
+        this.repuestos = this.solicitudRepuesto.repuestos;
+      },
+      error => {
+        this.repErrorMessage = error;
+        this.repError = true;
+      }
+    );
   }
 
   /**
-   * Se redirige a la pagina crear solicitud de repuestos, al presionar el boton crear
-   * de la sección Solicitud de Repuestos
+   * Cuando se presiona el botón para crear un nuevo repuesto.
    */
-  crearSolicitudRepuesto() {
-    this.router.navigate(['home/mantenimiento/repuestos/crear-solicitud-repuesto']);
+  agregarRepuesto(): void {
+    this.repuestoSeleccionado = null;
+    this.modalAddEditRepuestoOpen = true;
   }
-
 
   /**
-   * Cuando se presiona sobre el botón cancelar, regresa a la página del listado.
+   * Cuando se selecciona un repuesto para editar sus datos.
    */
-  goBack(): void {
-    this.router.navigate(['home/mantenimiento/orden-trabajo/lista-orden-trabajo']);
+  editarRepuesto(): void {
+    this.eliminarRepuesto();
+    this.modalAddEditRepuestoOpen = true;
   }
+
+  /**
+   * Se quita de la lista de repuestos existentes, el repuesto que se quiere  editar.
+   */
+  eliminarRepuesto(): void {
+    for (let i = 0; i < this.repuestos.length; i++) {
+      if (this.repuestoSeleccionado.id === this.repuestos[i].id) {
+        this.repuestos.splice(i, 1);
+        break;
+      }
+    }
+  }
+
+  /**
+   * Cuando se selecciona un repuesto de la lista.
+   * @param repuesto
+   */
+  selectRepuesto(repuesto: Repuesto): void {
+    this.repuestoSeleccionado = repuesto;
+  }
+
+  /**
+   * El repuesto creado o editado es agregado a la lista de repuestos.
+   * @param value
+   */
+  addEditRepuesto(value: Repuesto) {
+    this.repuestos.push(value);
+    this.repuestoSeleccionado = null;
+    this.isEditRepuesto = true;
+    this.modalAddEditRepuestoOpen = false;
+  }
+
+  /**
+   * Cuando se cancela la edición de un repuesto, el repuesto seleccionado se agrega de nuevo a la lista de
+   * repuestos.
+   * @param value
+   */
+  onCancelAddEditRepuesto(value: Repuesto) {
+    if (this.isEditRepuesto) {
+      if (this.solicitudRepuesto != null) {
+        this.repuestos = this.solicitudRepuesto.repuestos;
+      }
+      this.repuestos.push(value);
+      this.repuestoSeleccionado = null;
+    }
+    this.modalAddEditRepuestoOpen = false;
+  }
+
 
   /**
    * Cuando se guarda la información introducida.
    */
   onSaveAddOrdenTrabajo() {
+    // Si la solicitud de repuesto se crea a partir de la orden de trabajo
+    if (this.solicitudRepuesto == null) {
+      this.solicitudRepuesto = new SolicitudRepuesto(null, 'Pendiente', this.repuestos, new Date());
+    } else {
+      // si se obtuvo una solicitud de repuesto buscando por su Id
+      this.solicitudRepuesto.repuestos = this.repuestos;
+    }
     this.orderTrabajo = new OrdenTrabajo(null, this.estado, this.tipoServicio, null, this.diagnostico,
-      this.responsable, this.equipos, this.solicitudRepuestos, this.fecha);
+      this.responsable, this.equipos, this.solicitudRepuesto, this.fecha);
     this.saveOrdenTrabajo(this.orderTrabajo);
   }
 
@@ -196,14 +258,22 @@ export class AddOrdenTrabajoComponent implements OnInit {
 
   }
 
+  /**
+   * Cuando se presiona sobre el botón cancelar, regresa a la página del listado.
+   */
+  goBack(): void {
+    this.router.navigate(['home/mantenimiento/orden-trabajo/lista-orden-trabajo']);
+  }
+
   limpiarCampos(): void {
     this.equipoSeleccionado = null;
     this.numeroSerie = '';
     this.numeroPatrimonial = '';
     this.requestEquipo = null;
 
-    this.codigoSolRep = '';
-    this.selectedRepuesto = null;
+    this.solicitudRepId = null;
+    this.repuestoSeleccionado = null;
+    this.repuestos = [];
 
     this.equipoErrorMessage = '';
     this.equipoError = false;

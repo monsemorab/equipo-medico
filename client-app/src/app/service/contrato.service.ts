@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from "rxjs";
+import {Observable, of} from 'rxjs';
 
-import {ESTADO_CONTRATO} from "../utils/mock-data/mock-data";
-import {Contrato, EstadoContrato} from "../domain/contrato";
-import {ApiRequestService} from "./api-request.service";
-import {environment} from "../../environments/environment";
+import {ESTADO_CONTRATO} from '../utils/mock-data/constantes';
+import {Contrato, EstadoContrato} from '../domain/contrato';
+import {ApiRequestService} from './api-request.service';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class ContratoService {
@@ -18,7 +18,7 @@ export class ContratoService {
    * Se obtienen todos los contratos.
    * @returns {Observable<Contrato[]>}
    */
-  getContratos(): Observable<Contrato[]> {
+  getAllContratos(): Observable<Contrato[]> {
     return this.apiRequest.get(this.urlContratos);
   }
 
@@ -26,7 +26,7 @@ export class ContratoService {
    * Se obtiene el contrato por su Id.
    * @param contratoId
    */
-  getContratoById(contratoId: number):Observable<Contrato> {
+  getContratoById(contratoId: number): Observable<Contrato> {
     return this.apiRequest.get(this.urlContratos + '/' + contratoId);
   }
 

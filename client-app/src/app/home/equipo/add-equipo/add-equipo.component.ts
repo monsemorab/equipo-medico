@@ -81,7 +81,7 @@ export class AddEquipoComponent implements OnInit {
    * Se obtiene la lista de tipos de equipos.
    */
   getAllTipos(): void {
-    this.equipoService.getTipoEquipos().subscribe(
+    this.equipoService.getAllTipoEquipos().subscribe(
       tipos => {
         this.tipos = tipos;
       },
@@ -96,7 +96,7 @@ export class AddEquipoComponent implements OnInit {
    * Se obtiene la lista de modelos para los equipos.
    */
   getAllModelos(): void {
-    this.equipoService.getModeloEquipos().subscribe(
+    this.equipoService.getAllModelosEquipos().subscribe(
       modelos => {
         this.modelos = modelos;
       },
@@ -182,7 +182,7 @@ export class AddEquipoComponent implements OnInit {
   onCancelAddEditTipoEquipo(value: TipoEquipo) {
     this.tipos = [];
     if (this.isEditTipo) {
-      this.equipoService.getTipoEquipos().subscribe(
+      this.equipoService.getAllTipoEquipos().subscribe(
         tipos => {
           this.tipos = tipos;
           this.tipos.push(value);
@@ -240,7 +240,7 @@ export class AddEquipoComponent implements OnInit {
   onCancelAddEditModeloEquipo(value: ModeloEquipo) {
     this.modelos = [];
     if (this.isEditModelo) {
-      this.equipoService.getModeloEquipos().subscribe(
+      this.equipoService.getAllModelosEquipos().subscribe(
         modelos => {
           this.modelos = modelos;
           this.modelos.push(value);

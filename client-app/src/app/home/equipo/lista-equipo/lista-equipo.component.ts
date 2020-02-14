@@ -34,15 +34,15 @@ export class ListaEquipoComponent implements OnInit {
     this.success = false;
     this.error = false;
     this.selectedEquipo = null;
-    this.getEquipos();
+    this.getAllEquipos();
   }
 
 
   /**
    * Se obtiene la lista de todos los equipos.
    */
-  getEquipos(): void {
-    this.equipoService.getEquipos().subscribe(
+  getAllEquipos(): void {
+    this.equipoService.getAllEquipos().subscribe(
       list => {
         this.equipos = list;
         this.total = list.length;
