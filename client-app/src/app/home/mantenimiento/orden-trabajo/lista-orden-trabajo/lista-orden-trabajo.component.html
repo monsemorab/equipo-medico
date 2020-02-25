@@ -61,7 +61,7 @@
     </div>
     <!--lista de orden-trabajo-->
     <clr-datagrid [clrDgLoading]="loading">
-      <clr-dg-column [clrDgSortBy]="'fecha'">Fecha Creación</clr-dg-column>
+      <clr-dg-column [clrDgSortBy]="'fecha'">Fecha a realizarse el trabajo</clr-dg-column>
       <clr-dg-column>Estado</clr-dg-column>
       <clr-dg-column>Tipo de Mantenimiento</clr-dg-column>
       <clr-dg-column>Diagnostico</clr-dg-column>
@@ -74,7 +74,7 @@
       <clr-dg-row *ngFor="let ordenTrabajo of ordenTrabajoList"
                   (click)="selectOrdenTrabajo(ordenTrabajo)"
                   [class.selectOrdenTrabajo]="ordenTrabajo === SelectedOrdenTrabajo">
-        <clr-dg-cell>{{ordenTrabajo.fecha}}</clr-dg-cell>
+        <clr-dg-cell>{{ordenTrabajo.fecha_a_realizarse}}</clr-dg-cell>
         <clr-dg-cell>{{ordenTrabajo.estado}}</clr-dg-cell>
         <clr-dg-cell>{{ordenTrabajo.tipoServicio}}</clr-dg-cell>
         <clr-dg-cell>{{ordenTrabajo.diagnostico}}</clr-dg-cell>
@@ -88,7 +88,7 @@
 
       <clr-dg-footer>
         {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-        of {{total}} orden-trabajoes
+        of {{total}} orden-trabajos
         <clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>
       </clr-dg-footer>
     </clr-datagrid>

@@ -1,23 +1,25 @@
 import {Component, OnInit} from '@angular/core';
-import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
+import {OrdenTrabajo, TipoServicio} from '../../../../domain/orden-trabajo';
 import {Equipo} from '../../../../domain/equipo';
 import {ParamsBusquedaEquipo} from '../../../../domain/ParamsBusquedaEquipo';
-import {EquipoService} from '../../../../service/equipo.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
-import {OrdenTrabajo, TipoServicio} from '../../../../domain/orden-trabajo';
+import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
 import {Repuesto} from '../../../../domain/repuesto';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {EquipoService} from '../../../../service/equipo.service';
 import {OrdenTrabajoService} from '../../../../service/orden-trabajo.service';
+import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-add-orden-trabajo',
-  templateUrl: './add-orden-trabajo.component.html',
-  styleUrls: ['./add-orden-trabajo.component.css']
+  selector: 'app-edit-orden-trabajo',
+  templateUrl: './edit-orden-trabajo.component.html',
+  styleUrls: ['./edit-orden-trabajo.component.css']
 })
-export class AddOrdenTrabajoComponent implements OnInit {
+export class EditOrdenTrabajoComponent implements OnInit {
 
-  // orden trabajo
+// orden trabajo
   ordenTrabajo: OrdenTrabajo;
+  id: number;
   estado: string;
   tipoServicio: string;
   diagnostico: string;
@@ -48,6 +50,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
 
 
   // Errors
+  error: boolean;
   errorMessage: string;
   equipoErrorMessage: string;
   equipoError: boolean;
@@ -65,6 +68,19 @@ export class AddOrdenTrabajoComponent implements OnInit {
     this.equipos = [];
     this.limpiarCampos();
     this.getTipoServicios();
+
+    this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap) => this.ordenTrabajoService.getOrdenTrabajoById(+params.get('id')))
+      ).subscribe(orden => {
+        this.ordenTrabajo = new OrdenTrabajo(orden.id, orden.estado, orden.tipoServicio, orden.mantenimiento,
+          orden.diagnostico, orden.responsable, orden.equipos, orden.solicitudRepuesto, orden.fecha_a_realizarse);
+        this.camposAEditar(this.ordenTrabajo);
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
+      });
   }
 
   /**
@@ -80,6 +96,20 @@ export class AddOrdenTrabajoComponent implements OnInit {
         this.tipoServicios = [];
       }
     );
+  }
+
+  /**
+   * Se establecen los campos a ser editados.
+   * @param orden
+   */
+  camposAEditar(orden: OrdenTrabajo) {
+    this.id = orden.id;
+    this.estado = orden.estado;
+    this.tipoServicio = orden.tipoServicio;
+    this.diagnostico = orden.diagnostico;
+    this.responsable = orden.responsable;
+    this.fecha = orden.fecha_a_realizarse;
+    this.equipos = orden.equipos;
   }
 
   /**
@@ -276,7 +306,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
       // si se obtuvo una solicitud de repuesto buscando por su Id
       this.solicitudRepuesto.repuestos = this.repuestos;
     }
-    this.ordenTrabajo = new OrdenTrabajo(null, this.estado, this.tipoServicio, null, this.diagnostico,
+    this.ordenTrabajo = new OrdenTrabajo(this.id, this.estado, this.tipoServicio, null, this.diagnostico,
       this.responsable, this.equipos, this.solicitudRepuesto, this.fecha);
     this.saveOrdenTrabajo(this.ordenTrabajo);
   }
@@ -286,7 +316,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
    * @param ordenTrabajo
    */
   saveOrdenTrabajo(ordenTrabajo: OrdenTrabajo) {
-    this.ordenTrabajoService.crearOrdenTrabajo(ordenTrabajo).subscribe(
+    this.ordenTrabajoService.editarOrdenTrabajo(ordenTrabajo).subscribe(
       orden => {
         this.ordenTrabajo = orden;
         this.limpiarCampos();
@@ -324,3 +354,4 @@ export class AddOrdenTrabajoComponent implements OnInit {
   }
 
 }
+

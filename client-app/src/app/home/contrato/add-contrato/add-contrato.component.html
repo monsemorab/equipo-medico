@@ -74,7 +74,7 @@
       </div>
       <div class="col-xs-2">
         <div class="select form-control">
-          <select id="estado" #selectEstado name="estado"
+          <select class="select-form-contrato" id="estado" #selectEstado name="estado"
                   [(ngModel)]="estadoSeleccionado"
                   (change)="onSelectedEstadoContrado(selectEstado.value)">
             <option *ngFor="let estado of estadosContrato"
@@ -88,7 +88,7 @@
         <label class="form-add-contrato-label required" for="inicio">Inicio:</label>
       </div>
       <div class="col-xs-2">
-        <input class="form-control" type="date"
+        <input class="form-control" placeholder="dd/mm/yyyy"
                id="inicio" required name="inicio"
                [(ngModel)]="fechaInicio">
       </div>
@@ -96,7 +96,7 @@
         <label class="form-add-contrato-label required" for="fin">Finalización:</label>
       </div>
       <div class="col-xs-2">
-        <input class="form-control" type="date"
+        <input class="form-control" placeholder="dd/mm/yyyy"
                id="fin" required name="fin"
                [(ngModel)]="fechaFin">
       </div>

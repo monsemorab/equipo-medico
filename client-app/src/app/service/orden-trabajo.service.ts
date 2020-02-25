@@ -1,15 +1,26 @@
 import {Injectable} from '@angular/core';
 import {ApiRequestService} from './api-request.service';
-import {Observable} from 'rxjs';
-import {OrdenTrabajo} from '../domain/orden-trabajo';
+import {Observable, of} from 'rxjs';
+import {OrdenTrabajo, TipoServicio} from '../domain/orden-trabajo';
 import {environment} from '../../environments/environment';
+import {ESTADO_CONTRATO, SERVICIO} from '../utils/mock-data/constantes';
+
 
 @Injectable()
 export class OrdenTrabajoService {
 
+  private tipoServicios = SERVICIO;
   private urlOrdenTrabajo = environment.service_uri + '/';
 
   constructor(private apiRequest: ApiRequestService) {
+  }
+
+  /**
+   * Se obtiene la lista de los tipos de servicios para realizar un mantenimiento.
+   * Esta lista no se obtiene de la BD, son datos predefinidos.
+   */
+  getTipoServicios(): Observable<TipoServicio[]> {
+    return of(this.tipoServicios);
   }
 
   /**

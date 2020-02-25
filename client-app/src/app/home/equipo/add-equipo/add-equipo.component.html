@@ -127,7 +127,7 @@
                         <label class="form-add-equipo-label" for="fab">Fabricación:</label>
                     </div>
                     <div class="col-xs-6">
-                        <input class="form-control" type="date"
+                        <input class="form-control" placeholder="dd/mm/yyyy"
                                id="fab" name="fab"
                                [(ngModel)]="fechaFabricacion">
                     </div>
@@ -138,7 +138,7 @@
                         <label class="form-add-equipo-label" for="garantia">Vto. Garantia:</label>
                     </div>
                     <div class="col-xs-6">
-                        <input class="form-control" type="date"
+                        <input class="form-control" placeholder="dd/mm/yyyy"
                                id="garantia" name="garantia"
                                [(ngModel)]="fechaVenGarantia">
                     </div>
@@ -251,9 +251,8 @@
                         <label class="form-add-equipo-label" for="compra">Compra:</label>
                     </div>
                     <div class="col-xs-5">
-                        <input class="form-control" type="date"
-                               id="compra" name="compra"
-                               [(ngModel)]="fechaCompra">
+                        <input class="form-control" placeholder="dd/mm/yyyy"
+                               id="compra" name="compra" [(ngModel)]="fechaCompra">
                     </div>
                 </div>
 
@@ -262,10 +261,8 @@
                         <label class="form-add-equipo-label" for="instalacion">Puesta en Marcha:</label>
                     </div>
                     <div class="col-xs-5">
-                        <input class="form-control" type="date"
-                               id="instalacion"
-                               name="instalacion"
-                               [(ngModel)]="fechaInstalacion">
+                        <input class="form-control" placeholder="dd/mm/yyyy"
+                               id="instalacion" name="instalacion" [(ngModel)]="fechaInstalacion">
                     </div>
                 </div>
 

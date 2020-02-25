@@ -1,4 +1,4 @@
-<h2 class="form-order-trabajo-title">Crear Orden de Trabajo</h2>
+<h2 class="form-order-trabajo-title">Editar Orden de Trabajo</h2>
 <form class="compact" #ordenTrabajoForm="ngForm">
   <section class="form-block">
     <div class="form-group row flex-items-xs-left">
@@ -217,10 +217,10 @@
     <clr-dg-row *ngFor="let repuesto of repuestos"
                 (click)="selectRepuesto(repuesto)"
                 [class.selectRepuesto]="repuesto === repuestoSeleccionado">
-    <clr-dg-cell>{{repuesto.codigo}}</clr-dg-cell>
-    <clr-dg-cell>{{repuesto.descripcionArticulo}}</clr-dg-cell>
-    <clr-dg-cell>{{repuesto.cantidadAdquirida}}</clr-dg-cell>
-    <clr-dg-cell>{{repuesto.precio}}</clr-dg-cell>
+      <clr-dg-cell>{{repuesto.codigo}}</clr-dg-cell>
+      <clr-dg-cell>{{repuesto.descripcionArticulo}}</clr-dg-cell>
+      <clr-dg-cell>{{repuesto.cantidadAdquirida}}</clr-dg-cell>
+      <clr-dg-cell>{{repuesto.precio}}</clr-dg-cell>
       <clr-dg-cell>
         <button class="btn btn-sm btn-warning"
                 (click)="eliminarRepuesto(repuesto)">
@@ -254,4 +254,3 @@
               (repuestoToUpdate)="addEditRepuesto($event)"
               (cancelAddEditRepuesto)="onCancelAddEditRepuesto($event)">
 </app-repuesto>
-

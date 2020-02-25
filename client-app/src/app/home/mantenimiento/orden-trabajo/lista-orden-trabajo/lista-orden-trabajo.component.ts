@@ -71,18 +71,19 @@ export class ListaOrdenTrabajoComponent implements OnInit {
   }
 
   /**
-   * Cuando se presiona el botón Edit.
+   * Editar una orden de trabajo creada.
    */
   editarOrdenTrabajo() {
-    // this.router.navigate(['home/mantenimiento/orden-trabajo/crear-orden-trabajo' +
-    // this.SelectedOrdenTrabajo.id]);
+    this.router.navigate(['home/mantenimiento/orden-trabajo/editar-orden-trabajo' +
+    this.SelectedOrdenTrabajo.id]);
   }
 
   /**
    * Atender una orden de trabajo creada.
    */
   atenderOrdenTrabajo(): void {
-    // redireccionar a la pagina de mantenimiento
+    this.router.navigate(['home/mantenimiento/orden-trabajo/atender-orden-trabajo' +
+    this.SelectedOrdenTrabajo.id]);
   }
 
 }

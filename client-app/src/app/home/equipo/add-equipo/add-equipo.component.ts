@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Equipo} from "../../../domain/equipo";
-import {Representante} from "../../../domain/representante";
-import {TipoEquipo} from "../../../domain/tipo-equipo";
-import {ModeloEquipo} from "../../../domain/modelo-equipo";
-import {Ubicacion} from "../../../domain/ubicacion";
-import {EquipoService} from "../../../service/equipo.service";
-import {RepresentanteService} from "../../../service/representante.service";
-import {Router} from "@angular/router";
+import {Equipo} from '../../../domain/equipo';
+import {Representante} from '../../../domain/representante';
+import {TipoEquipo} from '../../../domain/tipo-equipo';
+import {ModeloEquipo} from '../../../domain/modelo-equipo';
+import {Ubicacion} from '../../../domain/ubicacion';
+import {EquipoService} from '../../../service/equipo.service';
+import {RepresentanteService} from '../../../service/representante.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-equipo',
@@ -452,6 +452,7 @@ export class AddEquipoComponent implements OnInit {
    */
   saveEquipo(equipo: Equipo): void {
     this.equipoService.crearEquipo(equipo).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
       equipo => {
         this.equipo = equipo;
         this.goBack();

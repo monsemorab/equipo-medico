@@ -3,6 +3,7 @@ import {Repuesto} from '../../domain/repuesto';
 import {TipoEquipo} from '../../domain/tipo-equipo';
 import {ModeloEquipo} from '../../domain/modelo-equipo';
 import {EquipoService} from '../../service/equipo.service';
+import {RepuestoService} from '../../service/repuesto.service';
 
 @Component({
   selector: 'app-repuesto',
@@ -22,16 +23,17 @@ export class RepuestoComponent implements OnInit {
   @Output() cancelAddEditRepuesto: EventEmitter<any> = new EventEmitter();
 
   // Datos Repuesto
-  public id: number;
-  public codigo: string;
-  public descripcion: string;
-  public precio: number;
-  public cantAdquirida: number;
-  public cantRestante: number;
-  public tipoEquipo: TipoEquipo;
-  public modeloEquipo: ModeloEquipo;
-  public representante: string;
-  public fechaActualizacion: any;
+  id: number;
+  codigo: string;
+  descripcion: string;
+  precio: number;
+  cantAdquirida: number;
+  cantRestante: number;
+  tipoEquipo: TipoEquipo;
+  modeloEquipo: ModeloEquipo;
+  representante: string;
+  fechaActualizacion: any;
+  readonlyField: boolean;
 
   tipos = new Array<TipoEquipo>();
   modelos = new Array<ModeloEquipo>();
@@ -41,7 +43,8 @@ export class RepuestoComponent implements OnInit {
   error: boolean;
 
 
-  constructor(private equipoService: EquipoService) {
+  constructor(private equipoService: EquipoService,
+              private repuestoService: RepuestoService) {
   }
 
   ngOnInit() {
@@ -50,7 +53,7 @@ export class RepuestoComponent implements OnInit {
     this.getAllModelos();
 
     if (this.repuesto == null) {
-      this.modalRepuestoTitle = 'Crear Repuesto';
+      this.modalRepuestoTitle = 'Agregar Repuesto';
       this.id = -1;
     } else {
       this.modalRepuestoTitle = 'Editar Repuesto';
@@ -79,7 +82,7 @@ export class RepuestoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error;
-        this.error = true;
+        // this.error = true;
       }
     );
   }
@@ -94,7 +97,7 @@ export class RepuestoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error;
-        this.error = true;
+        // this.error = true;
       }
     );
   }
@@ -118,7 +121,7 @@ export class RepuestoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error;
-        this.error = true;
+        // this.error = true;
       }
     );
   }
@@ -139,6 +142,54 @@ export class RepuestoComponent implements OnInit {
     this.equipoService.getModeloEquipoById(id).subscribe(
       modelo => {
         this.modeloEquipo = modelo;
+      },
+      error => {
+        this.errorMessage = error;
+        // this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Al presionar la tecla enter, se realiza la busqueda del repuesto por el campo código.
+   * @param value
+   */
+  onEnterCodigoRepuesto(value: string) {
+    this.readonlyField = false;
+    if (value !== '' && value != null) {
+      this.codigo = value;
+      this.buscarRepuestoByCodigo(this.codigo);
+    }
+  }
+
+  /**
+   * Se obtiene el valor introducido en el campo código repuesto.
+   * @param value
+   */
+  onKeyCodigoRepuesto(value: string) {
+    this.readonlyField = false;
+    this.codigo = value;
+  }
+
+  /**
+   * Se busca el repuesto por el código introducido. Si existe, se llenan los campos del formulario,
+   * si no existe, se muestra un mensaje al usuario.
+   * @param codigo
+   */
+  buscarRepuestoByCodigo(codigo: string) {
+    this.repuestoService.getRepuestoByCodigo(codigo).subscribe(
+      repuesto => {
+        this.id = repuesto.id;
+        this.codigo = repuesto.codigo;
+        this.descripcion = repuesto.descripcionArticulo;
+        this.precio = repuesto.precio;
+        this.cantAdquirida = repuesto.cantidadAdquirida;
+        this.cantRestante = repuesto.cantidadRestante;
+        this.tipoEquipo = repuesto.tipoEquipo;
+        this.modeloEquipo = repuesto.modeloEquipo;
+        this.representante = repuesto.representante;
+        this.fechaActualizacion = repuesto.fechaActualizacion;
+        this.readonlyField = true;
       },
       error => {
         this.errorMessage = error;
@@ -178,6 +229,7 @@ export class RepuestoComponent implements OnInit {
     this.modeloEquipo = null;
     this.representante = '';
     this.fechaActualizacion = '';
+    this.readonlyField = false;
   }
 
 }

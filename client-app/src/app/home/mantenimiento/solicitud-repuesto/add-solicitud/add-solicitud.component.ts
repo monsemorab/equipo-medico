@@ -49,16 +49,16 @@ export class AddSolicitudComponent implements OnInit {
    * Cuando se selecciona un repuesto para editar sus datos.
    */
   editRepuesto(): void {
-    this.eliminarRepuesto();
+    this.eliminarRepuesto(this.repuestoSeleccionado);
     this.modalAddEditRepuestoOpen = true;
   }
 
   /**
    * Se quita de la lista de repuestos existentes, el repuesto que se quiere  editar.
    */
-  eliminarRepuesto(): void {
+  eliminarRepuesto(repuestoSeleccionado: Repuesto): void {
     for (let i = 0; i < this.repuestos.length; i++) {
-      if (this.repuestoSeleccionado.id === this.repuestos[i].id) {
+      if (repuestoSeleccionado.id === this.repuestos[i].id) {
         this.repuestos.splice(i, 1);
         break;
       }

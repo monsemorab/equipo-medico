@@ -4,12 +4,35 @@
   <h2 class="modal-title form-repuesto-title">{{modalRepuestoTitle}}</h2>
   <div class="modal-body">
     <form class="compact" #repuestoForm="ngForm">
+
+      <!-- errors -->
+      <div class="alert alert-danger" *ngIf="error">
+        <div class="alert-items">
+          <div class="alert-item static">
+            <div class="alert-icon-wrapper">
+              <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+            </div>
+            <span class="alert-text">{{errorMessage}}</span>
+          </div>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="error = false">
+          <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+      </div>
+
       <section class="form-block">
         <div class="form-group row flex-items-xs-left">
           <div class="col-xs-2">
-            <label class="form-repuesto-label" for="codigo">Código:</label>
+            <label class="form-repuesto-label">Código:</label>
           </div>
-          <div class="col-xs-3">
+          <div class="col-xs-3" *ngIf="!isEditRepuesto">
+            <input class="form-control" id="codRepuesto"
+                   name="codRepuesto" #codRep
+                   (keyup.enter)="onEnterCodigoRepuesto(codRep.value)"
+                   (keyup)="onKeyCodigoRepuesto(codRep.value)"
+                   [(ngModel)]="codigo">
+          </div>
+          <div class="col-xs-3" *ngIf="isEditRepuesto">
             <input class="form-control" id="codigo"
                    name="codigo" [(ngModel)]="codigo">
           </div>
@@ -17,7 +40,7 @@
             <label class="form-repuesto-label" for="descripcionArt">Descripción:</label>
           </div>
           <div class="col-xs-4">
-            <input class="form-control" id="descripcionArt"
+            <input class="form-control" id="descripcionArt" [disabled]="readonlyField"
                    name="descripcionArt" [(ngModel)]="descripcion">
           </div>
         </div>
@@ -27,7 +50,7 @@
             <label class="form-repuesto-label" for="precio">Precio:</label>
           </div>
           <div class="col-xs-3">
-            <input class="form-control" id="precio"
+            <input class="form-control" id="precio" [disabled]="readonlyField"
                    name="precio" [(ngModel)]="precio">
           </div>
 
@@ -35,8 +58,8 @@
             <label class="form-repuesto-label" for="fecha">Fecha:</label>
           </div>
           <div class="col-xs-3">
-            <input class="form-control" type="date"
-                   id="fecha" name="fecha"
+            <input class="form-control" placeholder="dd/mm/yyyy"
+                   id="fecha" name="fecha" [disabled]="readonlyField"
                    [(ngModel)]="fechaActualizacion">
           </div>
         </div>
@@ -46,14 +69,14 @@
             <label class="form-repuesto-label" for="cantidadAd">Cant. Adquirida:</label>
           </div>
           <div class="col-xs-3">
-            <input class="form-control" id="cantidadAd"
+            <input class="form-control" id="cantidadAd" [disabled]="readonlyField"
                    name="cantidadAd" [(ngModel)]="cantAdquirida">
           </div>
           <div class="col-xs-2">
             <label class="form-repuesto-label" for="cantidadRes">Cant. Restante:</label>
           </div>
           <div class="col-xs-3">
-            <input class="form-control" id="cantidadRes"
+            <input class="form-control" id="cantidadRes" [disabled]="readonlyField"
                    name="cantidadRes" [(ngModel)]="cantRestante">
           </div>
         </div>
@@ -65,7 +88,7 @@
           <div class="col-xs-3">
             <div class="select form-control">
               <select class="select-form-repuesto" id="selectTipo" #selectedTipo name="selectTipo"
-                      [(ngModel)]="tipoEquipo"
+                      [(ngModel)]="tipoEquipo" [disabled]="readonlyField"
                       (change)="onSelectedTipoEquipo(selectedTipo.value)">
                 <option *ngFor="let tipo of tipos"
                         value={{tipo.id}}>{{tipo.tipo}}
@@ -80,7 +103,7 @@
           <div class="col-xs-3">
             <div class="select form-control">
               <select class="select-form-repuesto" id="selectModelo" #selectedModelo name="selectModelo"
-                      [(ngModel)]="modeloEquipo"
+                      [(ngModel)]="modeloEquipo" [disabled]="readonlyField"
                       (change)="onSelectedModeloEquipo(selectedModelo.value)">
                 <option *ngFor="let modelo of modelos"
                         value={{modelo.id}}>{{modelo.modelo}}, {{modelo.marca}} }}
@@ -95,19 +118,19 @@
             <label class="form-repuesto-label" for="representante">Representante:</label>
           </div>
           <div class="col-xs-3">
-            <input class="form-control" id="representante"
+            <input class="form-control" id="representante" [disabled]="readonlyField"
                    name="representante" [(ngModel)]="representante">
           </div>
         </div>
 
-<!--        <div class="form-group row flex-items-xs-left">-->
-<!--          <div class="col-xs-2">-->
-<!--            <label class="form-repuesto-label">Foto:</label>-->
-<!--          </div>-->
-<!--          <div class="col-xs-3">-->
+        <!--        <div class="form-group row flex-items-xs-left">-->
+        <!--          <div class="col-xs-2">-->
+        <!--            <label class="form-repuesto-label">Foto:</label>-->
+        <!--          </div>-->
+        <!--          <div class="col-xs-3">-->
 
-<!--          </div>-->
-<!--        </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
       </section>
     </form>
   </div>
@@ -121,7 +144,7 @@
             (click)="addRepuesto()"
             [disabled]="(repuestoForm.form.invalid)">
       <clr-icon shape="check"></clr-icon>
-      Crear
+      Agregar
     </button>
   </div>
 </clr-modal>

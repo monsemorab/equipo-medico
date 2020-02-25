@@ -5,6 +5,8 @@ import {OrdenTrabajoService} from '../../../service/orden-trabajo.service';
 import {AddOrdenTrabajoComponent} from './add-orden-trabajo/add-orden-trabajo.component';
 import {ListaOrdenTrabajoComponent} from './lista-orden-trabajo/lista-orden-trabajo.component';
 import {SharedModule} from '../../../shared/shared.module';
+import {EditOrdenTrabajoComponent} from './edit-orden-trabajo/edit-orden-trabajo.component';
+import {AtenderOrdenTrabajoComponent} from './atender-orden-trabajo/atender-orden-trabajo.component';
 
 @NgModule({
   imports: [
@@ -14,7 +16,9 @@ import {SharedModule} from '../../../shared/shared.module';
   exports: [
     OrdenTrabajoComponent,
     AddOrdenTrabajoComponent,
-    ListaOrdenTrabajoComponent
+    ListaOrdenTrabajoComponent,
+    EditOrdenTrabajoComponent,
+    AtenderOrdenTrabajoComponent
   ],
   providers: [
     OrdenTrabajoService
@@ -22,7 +26,9 @@ import {SharedModule} from '../../../shared/shared.module';
   declarations: [
     OrdenTrabajoComponent,
     AddOrdenTrabajoComponent,
-    ListaOrdenTrabajoComponent
+    ListaOrdenTrabajoComponent,
+    EditOrdenTrabajoComponent,
+    AtenderOrdenTrabajoComponent
   ]
 })
 export class OrdenTrabajoModule {

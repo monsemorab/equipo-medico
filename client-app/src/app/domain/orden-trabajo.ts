@@ -20,7 +20,7 @@ export class OrdenTrabajo {
 
 
 export class TipoServicio {
-  constructor(public name: string) {
+  constructor(public nombre: string) {
   }
 
 }

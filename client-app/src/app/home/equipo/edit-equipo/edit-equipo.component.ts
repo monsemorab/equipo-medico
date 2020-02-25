@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {Equipo} from "../../../domain/equipo";
-import {Representante} from "../../../domain/representante";
-import {TipoEquipo} from "../../../domain/tipo-equipo";
-import {ModeloEquipo} from "../../../domain/modelo-equipo";
-import {Ubicacion} from "../../../domain/ubicacion";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {EquipoService} from "../../../service/equipo.service";
-import {RepresentanteService} from "../../../service/representante.service";
-import {switchMap} from "rxjs/operators";
+import {Equipo} from '../../../domain/equipo';
+import {Representante} from '../../../domain/representante';
+import {TipoEquipo} from '../../../domain/tipo-equipo';
+import {ModeloEquipo} from '../../../domain/modelo-equipo';
+import {Ubicacion} from '../../../domain/ubicacion';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {EquipoService} from '../../../service/equipo.service';
+import {RepresentanteService} from '../../../service/representante.service';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-equipo',
@@ -68,9 +68,6 @@ export class EditEquipoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isEditRepre = true;
-    this.isEditTipo = true;
-    this.isEditModelo = true;
     this.isEditUbicacion = false;
 
     this.getAllTipos();
@@ -515,8 +512,8 @@ export class EditEquipoComponent implements OnInit {
    */
   saveEquipo(equipo: Equipo): void {
     this.equipoService.editarEquipo(equipo).subscribe(
-      equipo => {
-        this.equipo = equipo;
+      respuesta => {
+        this.equipo = respuesta;
         this.goBack();
       },
       error => {

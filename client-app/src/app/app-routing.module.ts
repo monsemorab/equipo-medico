@@ -14,6 +14,8 @@ import {EditContratoComponent} from './home/contrato/edit-contrato/edit-contrato
 import {MantenimientoComponent} from './home/mantenimiento/mantenimiento.component';
 import {OrdenTrabajoComponent} from './home/mantenimiento/orden-trabajo/orden-trabajo.component';
 import {AddOrdenTrabajoComponent} from './home/mantenimiento/orden-trabajo/add-orden-trabajo/add-orden-trabajo.component';
+import {AtenderOrdenTrabajoComponent} from './home/mantenimiento/orden-trabajo/atender-orden-trabajo/atender-orden-trabajo.component';
+import {EditOrdenTrabajoComponent} from './home/mantenimiento/orden-trabajo/edit-orden-trabajo/edit-orden-trabajo.component';
 import {ListaOrdenTrabajoComponent} from './home/mantenimiento/orden-trabajo/lista-orden-trabajo/lista-orden-trabajo.component';
 import {ListarSolicitudComponent} from './home/mantenimiento/solicitud-repuesto/listar-solicitud/listar-solicitud.component';
 import {AddSolicitudComponent} from './home/mantenimiento/solicitud-repuesto/add-solicitud/add-solicitud.component';
@@ -49,7 +51,9 @@ const appRoutes: Routes = [
             path: 'orden-trabajo', component: OrdenTrabajoComponent,
             children: [
               {path: 'lista-orden-trabajo', component: ListaOrdenTrabajoComponent},
-              {path: 'crear-orden-trabajo', component: AddOrdenTrabajoComponent}
+              {path: 'crear-orden-trabajo', component: AddOrdenTrabajoComponent},
+              {path: 'editar-orden-trabajo/:id', component: EditOrdenTrabajoComponent},
+              {path: 'atender-orden-trabajo/:id', component: AtenderOrdenTrabajoComponent}
             ]
           },
           {
