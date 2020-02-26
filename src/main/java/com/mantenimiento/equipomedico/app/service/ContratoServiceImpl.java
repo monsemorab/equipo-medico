@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContratoServiceImpl implements ContratoService {
@@ -47,7 +48,8 @@ public class ContratoServiceImpl implements ContratoService {
      */
     @Override
     public Contrato get(Long id) {
-        return contratoRepository.findOne(id);
+        Optional<Contrato> entity = contratoRepository.findById(id);
+        return entity.orElse(null);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.mantenimiento.equipomedico.app.service;
 
 import com.mantenimiento.equipomedico.app.entidad.Equipo;
+import com.mantenimiento.equipomedico.app.entidad.Mantenimiento;
 import com.mantenimiento.equipomedico.app.entidad.Representante;
 import com.mantenimiento.equipomedico.app.repository.RepresentanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RepresentanteServiceImpl implements RepresentanteService {
@@ -45,7 +47,8 @@ public class RepresentanteServiceImpl implements RepresentanteService {
      */
     @Override
     public Representante get(Long id) {
-        return representanteRepository.findOne(id);
+        Optional<Representante> entity = representanteRepository.findById(id);
+        return entity.orElse(null);
     }
 
     /**

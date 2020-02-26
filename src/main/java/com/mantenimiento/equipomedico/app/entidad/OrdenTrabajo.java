@@ -2,7 +2,9 @@ package com.mantenimiento.equipomedico.app.entidad;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Orden de trabajo para el equipo.
@@ -32,9 +34,11 @@ public class OrdenTrabajo implements Serializable {
     @Column(name = "estado")
     private String estado;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="equipo_id")
-    private Equipo equipo;
+    @OneToMany(
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<Equipo> equipos  = new ArrayList<>();;
 
     @Column(name = "tipo_servicio")
     private SERVICIOS tipoServicio;
@@ -47,19 +51,19 @@ public class OrdenTrabajo implements Serializable {
     private SolicitudRepuesto solicitudRepuesto;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="solicitud_servicio_id")
-    private SolicitudServicio solicitudServicio;
-
-    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="mantenimiento_id")
     private Mantenimiento mantenimiento;
+
+    @Column(name = "fechaRealizacion")
+    private Date fechaRealizacion;
 
     /**
      * Gets id
      *
      * @return value of id
      */
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
@@ -68,7 +72,8 @@ public class OrdenTrabajo implements Serializable {
      *
      * @param id
      */
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
@@ -77,7 +82,8 @@ public class OrdenTrabajo implements Serializable {
      *
      * @return value of fecha
      */
-    public Date getFecha() {
+    public Date getFecha()
+    {
         return fecha;
     }
 
@@ -86,7 +92,8 @@ public class OrdenTrabajo implements Serializable {
      *
      * @param fecha
      */
-    public void setFecha(Date fecha) {
+    public void setFecha(Date fecha)
+    {
         this.fecha = fecha;
     }
 
@@ -95,7 +102,8 @@ public class OrdenTrabajo implements Serializable {
      *
      * @return value of estado
      */
-    public String getEstado() {
+    public String getEstado()
+    {
         return estado;
     }
 
@@ -104,26 +112,29 @@ public class OrdenTrabajo implements Serializable {
      *
      * @param estado
      */
-    public void setEstado(String estado) {
+    public void setEstado(String estado)
+    {
         this.estado = estado;
     }
 
     /**
-     * Gets equipo
+     * Gets equipos
      *
-     * @return value of equipo
+     * @return value of equipos
      */
-    public Equipo getEquipo() {
-        return equipo;
+    public List<Equipo> getEquipos()
+    {
+        return equipos;
     }
 
     /**
-     * Set equipo
+     * Set equipos
      *
-     * @param equipo
+     * @param equipos
      */
-    public void setEquipo(Equipo equipo) {
-        this.equipo = equipo;
+    public void setEquipos(List<Equipo> equipos)
+    {
+        this.equipos = equipos;
     }
 
     /**
@@ -131,7 +142,8 @@ public class OrdenTrabajo implements Serializable {
      *
      * @return value of tipoServicio
      */
-    public SERVICIOS getTipoServicio() {
+    public SERVICIOS getTipoServicio()
+    {
         return tipoServicio;
     }
 
@@ -140,7 +152,8 @@ public class OrdenTrabajo implements Serializable {
      *
      * @param tipoServicio
      */
-    public void setTipoServicio(SERVICIOS tipoServicio) {
+    public void setTipoServicio(SERVICIOS tipoServicio)
+    {
         this.tipoServicio = tipoServicio;
     }
 
@@ -149,7 +162,8 @@ public class OrdenTrabajo implements Serializable {
      *
      * @return value of diagnostico
      */
-    public String getDiagnostico() {
+    public String getDiagnostico()
+    {
         return diagnostico;
     }
 
@@ -158,7 +172,8 @@ public class OrdenTrabajo implements Serializable {
      *
      * @param diagnostico
      */
-    public void setDiagnostico(String diagnostico) {
+    public void setDiagnostico(String diagnostico)
+    {
         this.diagnostico = diagnostico;
     }
 
@@ -167,7 +182,8 @@ public class OrdenTrabajo implements Serializable {
      *
      * @return value of solicitudRepuesto
      */
-    public SolicitudRepuesto getSolicitudRepuesto() {
+    public SolicitudRepuesto getSolicitudRepuesto()
+    {
         return solicitudRepuesto;
     }
 
@@ -176,26 +192,9 @@ public class OrdenTrabajo implements Serializable {
      *
      * @param solicitudRepuesto
      */
-    public void setSolicitudRepuesto(SolicitudRepuesto solicitudRepuesto) {
+    public void setSolicitudRepuesto(SolicitudRepuesto solicitudRepuesto)
+    {
         this.solicitudRepuesto = solicitudRepuesto;
-    }
-
-    /**
-     * Gets solicitudServicio
-     *
-     * @return value of solicitudServicio
-     */
-    public SolicitudServicio getSolicitudServicio() {
-        return solicitudServicio;
-    }
-
-    /**
-     * Set solicitudServicio
-     *
-     * @param solicitudServicio
-     */
-    public void setSolicitudServicio(SolicitudServicio solicitudServicio) {
-        this.solicitudServicio = solicitudServicio;
     }
 
     /**
@@ -203,7 +202,8 @@ public class OrdenTrabajo implements Serializable {
      *
      * @return value of mantenimiento
      */
-    public Mantenimiento getMantenimiento() {
+    public Mantenimiento getMantenimiento()
+    {
         return mantenimiento;
     }
 
@@ -212,7 +212,28 @@ public class OrdenTrabajo implements Serializable {
      *
      * @param mantenimiento
      */
-    public void setMantenimiento(Mantenimiento mantenimiento) {
+    public void setMantenimiento(Mantenimiento mantenimiento)
+    {
         this.mantenimiento = mantenimiento;
+    }
+
+    /**
+     * Gets fechaRealizacion
+     *
+     * @return value of fechaRealizacion
+     */
+    public Date getFechaRealizacion()
+    {
+        return fechaRealizacion;
+    }
+
+    /**
+     * Set fechaRealizacion
+     *
+     * @param fechaRealizacion
+     */
+    public void setFechaRealizacion(Date fechaRealizacion)
+    {
+        this.fechaRealizacion = fechaRealizacion;
     }
 }

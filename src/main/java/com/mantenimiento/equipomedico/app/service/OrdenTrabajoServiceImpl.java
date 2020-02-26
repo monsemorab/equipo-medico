@@ -1,12 +1,14 @@
 package com.mantenimiento.equipomedico.app.service;
 
 import com.mantenimiento.equipomedico.app.entidad.OrdenTrabajo;
+import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuesto;
 import com.mantenimiento.equipomedico.app.repository.OrdenTrabajoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrdenTrabajoServiceImpl implements OrdenTrabajoService {
@@ -44,7 +46,8 @@ public class OrdenTrabajoServiceImpl implements OrdenTrabajoService {
      */
     @Override
     public OrdenTrabajo get(Long id) {
-        return ordenTrabajoRepository.findOne(id);
+        Optional<OrdenTrabajo> entity = ordenTrabajoRepository.findById(id);
+        return entity.orElse(null);
     }
 
     /**

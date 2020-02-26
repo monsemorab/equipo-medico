@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.service;
 
+import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuesto;
 import com.mantenimiento.equipomedico.app.repository.SolicitudRepuestoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SolicitudRepuestoServiceImpl implements SolicitudRepuestoService {
@@ -44,7 +46,8 @@ public class SolicitudRepuestoServiceImpl implements SolicitudRepuestoService {
      */
     @Override
     public SolicitudRepuesto get(Long id) {
-        return solicitudRepuestoRepository.findOne(id);
+        Optional<SolicitudRepuesto> entity = solicitudRepuestoRepository.findById(id);
+        return entity.orElse(null);
     }
 
     /**

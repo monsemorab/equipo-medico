@@ -79,5 +79,22 @@ public class RepuestoController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * Obtiene determinado repuesto por el código
+     *
+     * @param codigo
+     * @return
+     */
+    @RequestMapping(value = "by-codigo/{codigo}",
+        method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Repuesto> getByCodigo(@PathVariable String codigo) {
+        Repuesto repuesto = repuestoService.getByCodigo(codigo);
+        return Optional.ofNullable(repuesto)
+            .map(result -> new ResponseEntity<>(
+                result,
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
 
 }

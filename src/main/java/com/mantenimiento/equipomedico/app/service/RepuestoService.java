@@ -39,4 +39,11 @@ public interface RepuestoService {
      */
     List<Repuesto> getAll();
 
+    /**
+     * Obtiene el repuesto mediante su código.
+     *
+     * @param codigo
+     * @return
+     */
+    Repuesto getByCodigo(String codigo);
 }

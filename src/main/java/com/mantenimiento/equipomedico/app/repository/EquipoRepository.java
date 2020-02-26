@@ -11,4 +11,8 @@ public interface EquipoRepository extends CrudRepository<Equipo, Long> {
 
     List<Equipo> findAllByContratoIsNull();
 
+    Equipo getEquipoByNumeroPatrimonial(String numeroPatrimonial);
+
+    Equipo getEquipoByNumeroSerie(String numeroSerie);
+
 }

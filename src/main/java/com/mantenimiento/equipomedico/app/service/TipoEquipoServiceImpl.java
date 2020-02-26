@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.service;
 
+import com.mantenimiento.equipomedico.app.entidad.Contrato;
 import com.mantenimiento.equipomedico.app.entidad.TipoEquipo;
 import com.mantenimiento.equipomedico.app.repository.TipoEquipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TipoEquipoServiceImpl implements TipoEquipoService {
@@ -44,7 +46,8 @@ public class TipoEquipoServiceImpl implements TipoEquipoService {
      */
     @Override
     public TipoEquipo get(Long id) {
-        return tipoEquipoRepository.findOne(id);
+        Optional<TipoEquipo> entity = tipoEquipoRepository.findById(id);
+        return entity.orElse(null);
     }
 
     /**

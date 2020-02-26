@@ -30,9 +30,6 @@ public class Mantenimiento implements Serializable {
     @Column(name = "informe_numero")
     private Integer informeNumero;
 
-    @Column(name = "estado")
-    private String estado;
-
     @Column(name = "nombre_tecnico")
     private String nombreTecnico;
 
@@ -108,23 +105,6 @@ public class Mantenimiento implements Serializable {
         this.informeNumero = informeNumero;
     }
 
-    /**
-     * Gets estado
-     *
-     * @return value of estado
-     */
-    public String getEstado() {
-        return estado;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param estado
-     */
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
 
     /**
      * Gets nombreTecnico

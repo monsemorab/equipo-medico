@@ -2,6 +2,7 @@ package com.mantenimiento.equipomedico.app.service;
 
 import com.mantenimiento.equipomedico.app.entidad.Equipo;
 import com.mantenimiento.equipomedico.app.entidad.Representante;
+import com.mantenimiento.equipomedico.app.entidad.Ubicacion;
 import com.mantenimiento.equipomedico.app.repository.EquipoRepository;
 import com.mantenimiento.equipomedico.app.repository.ModeloEquipoRepository;
 import com.mantenimiento.equipomedico.app.repository.RepresentanteRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EquipoServiceImpl implements EquipoService {
@@ -55,7 +57,8 @@ public class EquipoServiceImpl implements EquipoService {
      */
     @Override
     public Equipo get(Long id) {
-        return equipoRepository.findOne(id);
+        Optional<Equipo> entity = equipoRepository.findById(id);
+        return entity.orElse(null);
     }
 
     /**
@@ -76,5 +79,27 @@ public class EquipoServiceImpl implements EquipoService {
     @Override
     public List<Equipo> getSinContrato() {
         return equipoRepository.findAllByContratoIsNull();
+    }
+
+    /**
+     * Obtiene el equipo mediante su numero patrimonial.
+     *
+     * @param numeroPatrimonial
+     * @return
+     */
+    @Override
+    public Equipo getByNumeroPatrimonial(String numeroPatrimonial) {
+        return equipoRepository.getEquipoByNumeroPatrimonial(numeroPatrimonial);
+    }
+
+    /**
+     * Obtiene el equipo mediante su numero de serie.
+     *
+     * @param numeroSerie
+     * @return
+     */
+    @Override
+    public Equipo getByNumeroSerie(String numeroSerie) {
+        return equipoRepository.getEquipoByNumeroSerie(numeroSerie);
     }
 }

@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.service;
 
+import com.mantenimiento.equipomedico.app.entidad.ModeloEquipo;
 import com.mantenimiento.equipomedico.app.entidad.Ubicacion;
 import com.mantenimiento.equipomedico.app.repository.UbicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UbicacionServiceImpl implements UbicacionService {
@@ -44,7 +46,8 @@ public class UbicacionServiceImpl implements UbicacionService {
      */
     @Override
     public Ubicacion get(Long id) {
-        return ubicacionRepository.findOne(id);
+        Optional<Ubicacion> entity = ubicacionRepository.findById(id);
+        return entity.orElse(null);
     }
 
     /**
