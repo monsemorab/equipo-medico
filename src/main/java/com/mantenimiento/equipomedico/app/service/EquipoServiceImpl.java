@@ -38,14 +38,6 @@ public class EquipoServiceImpl implements EquipoService {
      */
     @Override
     public Equipo create(Equipo equipo) {
-        equipo.setModeloEquipo(modeloEquipoRepository.save(equipo.getModeloEquipo()));
-        equipo.setTipoEquipo(tipoEquipoRepository.save(equipo.getTipoEquipo()));
-        if(equipo.getRepresentante() != null){
-            equipo.setRepresentante(representanteRepository.save(equipo.getRepresentante()));
-        }
-        if(equipo.getUbicacion() != null){
-            equipo.setUbicacion(ubicacionRepository.save(equipo.getUbicacion()));
-        }
         return equipoRepository.save(equipo);
     }
 
