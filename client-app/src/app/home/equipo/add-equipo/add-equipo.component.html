@@ -47,7 +47,8 @@
                         <label class="form-add-equipo-label required">Tipo:</label>
                     </div>
                     <div class="col-xs-7" *ngIf="tipos != null && tipos.length > 0">
-                        <p-dropdown [options]="tipos" name="tipo"
+
+                        <p-dropdown [options]="tipos" name="tipo" [hidden]=""
                                     [(ngModel)]="tipoSeleccionado" optionLabel="tipo"
                                     (onChange)="onSelectedTipoEquipo($event)">
                         </p-dropdown>

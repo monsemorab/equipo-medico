@@ -24,16 +24,6 @@
           </div>
         </div>
 
-        <!--<div class="form-group row flex-items-xs-left">-->
-        <!--<div class="col-xs-4 col-label-equipo">-->
-        <!--<label class="form-modelo-equipo-label">Procedimiento IMP:</label>-->
-        <!--</div>-->
-        <!--<div class="col-xs-6">-->
-        <!--<input class="form-control" id="clase"-->
-        <!--name="imp" [(ngModel)]="imp">-->
-        <!--</div>-->
-        <!--</div>-->
-
       </section>
     </form>
   </div>
@@ -47,7 +37,7 @@
             (click)="addModeloEquipo()"
             [disabled]="(modeloEquipoForm.form.invalid)">
       <clr-icon shape="check"></clr-icon>
-      Crear
+      {{btnTitle}}
     </button>
   </div>
 </clr-modal>

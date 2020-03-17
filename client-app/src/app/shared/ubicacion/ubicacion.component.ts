@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Ubicacion} from "../../domain/ubicacion";
+import {Ubicacion} from '../../domain/ubicacion';
+import {UbicacionEquipoService} from '../../service/ubicacion-equipo.service';
 
 @Component({
   selector: 'app-ubicacion',
@@ -11,6 +12,7 @@ export class UbicacionComponent implements OnInit {
   // modal add/edit ubicación
   modalUbicacionOpen = false;
   modalUbicacionTitle: string;
+  btnTitle: string;
 
   // Ubicación
   @Input() ubicacion: Ubicacion;
@@ -25,7 +27,11 @@ export class UbicacionComponent implements OnInit {
   numeroSala: string;
   nivel: string;
 
-  constructor() {
+  // error
+  errorMessage: string;
+  error: boolean;
+
+  constructor(private ubicacionEquipoService: UbicacionEquipoService) {
   }
 
   ngOnInit() {
@@ -34,8 +40,10 @@ export class UbicacionComponent implements OnInit {
     if (this.ubicacion == null) {
       this.modalUbicacionTitle = 'Crear Ubicación';
       this.id = -1;
+      this.btnTitle = 'Crear';
     } else {
       this.modalUbicacionTitle = 'Editar Datos de Ubicación';
+      this.btnTitle = 'Guardar';
       this.id = this.ubicacion.id;
       this.servicio = this.ubicacion.servicio;
       this.bloque = this.ubicacion.bloque;
@@ -52,13 +60,53 @@ export class UbicacionComponent implements OnInit {
    */
   addUbicacion() {
     this.ubicacion = new Ubicacion(this.id, this.servicio, this.bloque, this.numeroSala, this.nivel);
-    this.ubicacionToUpdate.emit(this.ubicacion);
+    if (this.isEditUbicacion) {
+      this.editarUbicacionEquipoExistente(this.ubicacion);
+    } else {
+      this.agregarUbicacionEquipoCreado(this.ubicacion);
+    }
   }
 
 
   /**
-   * Cuando se cancela la edición o la creación de una ubicación para un equipo.
-   * Si se cancela la edición, la ubicación seleccionada es agregada de nuevo la la lista de ubicaciones.
+   * Se crea una nueva ubicacion para un equipo.
+   * @param ubicacion
+   */
+  agregarUbicacionEquipoCreado(ubicacion: Ubicacion) {
+    this.ubicacionEquipoService.crearUbicacionEquipo(ubicacion).subscribe(
+      respuesta => {
+        this.ubicacion = respuesta;
+        this.ubicacionToUpdate.emit(this.ubicacion);
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
+      }
+    );
+  }
+
+
+  /**
+   * Se guardan los datos editados de la ubicacion seleccionada.
+   * @param tipo
+   */
+  editarUbicacionEquipoExistente(ubicacion: Ubicacion) {
+    this.ubicacionEquipoService.editarUbicacionEquipo(ubicacion).subscribe(
+      respuesta => {
+        this.ubicacion = respuesta;
+        this.ubicacionToUpdate.emit(this.ubicacion);
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
+      }
+    );
+  }
+
+
+  /**
+   * Cuando se cancela la edición o la creación de una ubicación para un equipo,
+   * se obtiene la lista de todas las ubicaciones existentes en la BD.
    */
   onCancelAddEditUbicacion() {
     this.cancelAddEditUbicacion.emit(this.ubicacion);

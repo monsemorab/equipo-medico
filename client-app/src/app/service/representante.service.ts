@@ -32,4 +32,22 @@ export class RepresentanteService {
     return this.apiRequest.get(url);
   }
 
+  /**
+   * Se crea un nuevo representante
+   * @param representante
+   */
+  crearRepresentanteEquipo(representante: Representante): Observable<Representante> {
+    const url = this.urlRepresentantes;
+    return this.apiRequest.post(url, representante);
+  }
+
+  /**
+   * Se editan los datos de un representante existente.
+   * @param representante
+   */
+  editarRepresentanteoEquipo(representante: Representante): Observable<Representante> {
+    const url = this.urlRepresentantes;
+    return this.apiRequest.put(url, representante);
+  }
+
 }

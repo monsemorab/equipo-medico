@@ -12,14 +12,13 @@
 }
 
 >>> .ui-dropdown {
-  border: 1px solid rgba(34, 36, 38, 0.50) !important;
-  border-radius: 0 !important;
-  border-image: initial !important;
-  -webkit-appearance: menulist !important;
   width: 100% !important;
-  height: 35px !important;
-  /*display: block;*/
+  height: 30px !important;
+}
+
+>>> .ui-dropdown .ui-dropdown-label {
   display: contents !important;
+  border: 1px solid rgba(34, 36, 38, 0.50) !important;
 }
 
 .select .select-form-add-equipo {

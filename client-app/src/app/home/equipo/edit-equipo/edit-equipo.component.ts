@@ -8,6 +8,9 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {EquipoService} from '../../../service/equipo.service';
 import {RepresentanteService} from '../../../service/representante.service';
 import {switchMap} from 'rxjs/operators';
+import {ModeloEquipoService} from '../../../service/modelo-equipo.service';
+import {TipoEquipoService} from '../../../service/tipo-equipo.service';
+import {UbicacionEquipoService} from '../../../service/ubicacion-equipo.service';
 
 @Component({
   selector: 'app-edit-equipo',
@@ -63,6 +66,9 @@ export class EditEquipoComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private modeloEquipoService: ModeloEquipoService,
+              private tipoEquipoService: TipoEquipoService,
+              private ubicacionEquipoService: UbicacionEquipoService,
               private equipoService: EquipoService,
               private representanteService: RepresentanteService) {
   }
@@ -95,7 +101,7 @@ export class EditEquipoComponent implements OnInit {
    * Se obtiene la lista de tipos de equipos.
    */
   getAllTipos(): void {
-    this.equipoService.getAllTipoEquipos().subscribe(
+    this.tipoEquipoService.getAllTipoEquipos().subscribe(
       tipos => {
         this.tipos = tipos;
       },
@@ -110,7 +116,7 @@ export class EditEquipoComponent implements OnInit {
    * Se obtiene la lista de modelos para los equipos.
    */
   getAllModelos(): void {
-    this.equipoService.getAllModelosEquipos().subscribe(
+    this.modeloEquipoService.getAllModelosEquipos().subscribe(
       modelos => {
         this.modelos = modelos;
       },
@@ -140,7 +146,7 @@ export class EditEquipoComponent implements OnInit {
    * Se obtiene la lista de ubicaciones de los equipos.
    */
   getAllUbicaciones(): void {
-    this.equipoService.getAllUbicaciones().subscribe(
+    this.ubicacionEquipoService.getAllUbicaciones().subscribe(
       ubicaciones => {
         this.ubicaciones = ubicaciones;
       },
@@ -199,7 +205,7 @@ export class EditEquipoComponent implements OnInit {
    * @param {number} id
    */
   getTipoEquipoById(id: number): void {
-    this.equipoService.getTipoEquipoById(id).subscribe(
+    this.tipoEquipoService.getTipoEquipoById(id).subscribe(
       tipo => {
         this.tipoSeleccionado = tipo;
         this.isEditTipo = true;
@@ -224,7 +230,7 @@ export class EditEquipoComponent implements OnInit {
    * @param {number} id
    */
   getModeloEquipoById(id: number): void {
-    this.equipoService.getModeloEquipoById(id).subscribe(
+    this.modeloEquipoService.getModeloEquipoById(id).subscribe(
       modelo => {
         this.modeloSeleccionado = modelo;
         this.isEditModelo = true;
@@ -275,7 +281,7 @@ export class EditEquipoComponent implements OnInit {
    * @param {number} id
    */
   getUbicacionById(id: number): void {
-    this.equipoService.getUbicacionById(id).subscribe(
+    this.ubicacionEquipoService.getUbicacionById(id).subscribe(
       ubicacion => {
         this.ubicacionSeleccionada = ubicacion;
         this.isEditUbicacion = true;
@@ -292,28 +298,28 @@ export class EditEquipoComponent implements OnInit {
    * Cuando se selecciona un tipo para editar sus datos.
    */
   editTipoEquipo(): void {
-    this.removeTipoEquipo();
+    // this.removeTipoEquipo();
     this.modalAddEditRepreOpen = true;
   }
 
-  /**
-   * Se quita de la lista de quipos existentes, el tipo de equipo que se quiere  editar.
-   */
-  removeTipoEquipo(): void {
-    for (let i = 0; i < this.tipos.length; i++) {
-      if (this.tipoSeleccionado.id === this.tipos[i].id) {
-        this.tipos.splice(i, 1);
-        break;
-      }
-    }
-  }
+  // /**
+  //  * Se quita de la lista de quipos existentes, el tipo de equipo que se quiere  editar.
+  //  */
+  // removeTipoEquipo(): void {
+  //   for (let i = 0; i < this.tipos.length; i++) {
+  //     if (this.tipoSeleccionado.id === this.tipos[i].id) {
+  //       this.tipos.splice(i, 1);
+  //       break;
+  //     }
+  //   }
+  // }
 
   /**
    * El tipo creado o editado es agregado a la lista de tipos de equipo.
    */
   addEditTipoEquipo(value: TipoEquipo) {
-    this.tipos.push(value);
     this.tipoSeleccionado = value;
+    this.getAllTipos();
     this.modalAddEditTipoOpen = false;
   }
 
@@ -322,18 +328,8 @@ export class EditEquipoComponent implements OnInit {
    * agregar el tipo de equipo que se eliminó de la lista.
    */
   onCancelAddEditTipoEquipo(value: TipoEquipo) {
-    this.tipos = [];
-    if (this.isEditTipo) {
-      this.equipoService.getAllTipoEquipos().subscribe(
-        tipos => {
-          this.tipos = tipos;
-          this.tipos.push(value);
-        },
-        error => {
-          this.errorMessage = error;
-        }
-      );
-    }
+    this.tipoSeleccionado = value;
+    this.getAllTipos();
     this.modalAddEditTipoOpen = false;
   }
 
@@ -341,28 +337,28 @@ export class EditEquipoComponent implements OnInit {
    * Cuando se selecciona un modelo para editar sus datos.
    */
   editModeloEquipo(): void {
-    this.removeModeloEquipo();
+    // this.removeModeloEquipo();
     this.modalAddEditModeloOpen = true;
   }
 
-  /**
-   * Se quita de la lista de modelos existentes, el modelo de equipo que se quiere  editar.
-   */
-  removeModeloEquipo(): void {
-    for (let i = 0; i < this.modelos.length; i++) {
-      if (this.modeloSeleccionado.id === this.modelos[i].id) {
-        this.modelos.splice(i, 1);
-        break;
-      }
-    }
-  }
+  // /**
+  //  * Se quita de la lista de modelos existentes, el modelo de equipo que se quiere  editar.
+  //  */
+  // removeModeloEquipo(): void {
+  //   for (let i = 0; i < this.modelos.length; i++) {
+  //     if (this.modeloSeleccionado.id === this.modelos[i].id) {
+  //       this.modelos.splice(i, 1);
+  //       break;
+  //     }
+  //   }
+  // }
 
   /**
    * El modelo creado o editado es agregado a la lista de modelos de equipo.
    */
   addEditModeloEquipo(value: ModeloEquipo) {
-    this.modelos.push(value);
     this.modeloSeleccionado = value;
+    this.getAllTipos();
     this.modalAddEditModeloOpen = false;
   }
 
@@ -371,18 +367,8 @@ export class EditEquipoComponent implements OnInit {
    * de la lista.
    */
   onCancelAddEditModeloEquipo(value: ModeloEquipo) {
-    this.modelos = [];
-    if (this.isEditModelo) {
-      this.equipoService.getAllModelosEquipos().subscribe(
-        modelos => {
-          this.modelos = modelos;
-          this.modelos.push(value);
-        },
-        error => {
-          this.errorMessage = error;
-        }
-      );
-    }
+    this.getAllModelos();
+    this.modeloSeleccionado = value;
     this.modalAddEditModeloOpen = false;
   }
 
@@ -390,29 +376,28 @@ export class EditEquipoComponent implements OnInit {
    * Cuando se selecciona un representante para editar sus datos.
    */
   editRepresentante() {
-    this.removeRepresentante();
+    // this.removeRepresentante();
     this.modalAddEditRepreOpen = true;
   }
 
-  /**
-   * El representante seleccionado para su edición, se elimina temporalmente de la lista de representantes.
-   */
-  removeRepresentante() {
-    for (let i = 0; i < this.representantes.length; i++) {
-      if (this.repreSeleccionado === this.representantes[i]) {
-        this.representantes.splice(i, 1);
-      }
-    }
-  }
+  // /**
+  //  * El representante seleccionado para su edición, se elimina temporalmente de la lista de representantes.
+  //  */
+  // removeRepresentante() {
+  //   for (let i = 0; i < this.representantes.length; i++) {
+  //     if (this.repreSeleccionado === this.representantes[i]) {
+  //       this.representantes.splice(i, 1);
+  //     }
+  //   }
+  // }
 
 
   /**
    * El representante creado o editado es agregado a la lista de representantes.
    */
   addEditRepresentante(value: Representante) {
-    this.representantes.push(value);
     this.repreSeleccionado = value;
-    // this.isEditRepre = true;
+    this.getAllRepresentantes();
     this.modalAddEditRepreOpen = false;
   }
 
@@ -422,18 +407,8 @@ export class EditEquipoComponent implements OnInit {
    * representantes.
    */
   onCancelAddEditRepresentante(value: Representante) {
-    this.representantes = [];
-    if (this.isEditRepre) {
-      this.representanteService.getAllRepresentantes().subscribe(
-        representantes => {
-          this.representantes = representantes;
-          this.representantes.push(value);
-        },
-        error => {
-          this.errorMessage = error;
-        }
-      );
-    }
+    this.repreSeleccionado = value;
+    this.getAllRepresentantes();
     this.modalAddEditRepreOpen = false;
   }
 
@@ -449,28 +424,29 @@ export class EditEquipoComponent implements OnInit {
    * Cuando se selecciona una ubicación para editar sus datos.
    */
   editUbicacionEquipo() {
-    this.removeUbicacion();
+    // this.removeUbicacion();
     this.modalAddEditUbiOpen = true;
   }
 
-  /**
-   * La ubicación seleccionada para su edición, se elimina temporalmente de la lista de ubicaciones.
-   */
-  removeUbicacion() {
-    for (let i = 0; i < this.ubicaciones.length; i++) {
-      if (this.ubicacionSeleccionada === this.ubicaciones[i]) {
-        this.ubicaciones.splice(i, 1);
-      }
-    }
-  }
+  // /**
+  //  * La ubicación seleccionada para su edición, se elimina temporalmente de la lista de ubicaciones.
+  //  */
+  // removeUbicacion() {
+  //   for (let i = 0; i < this.ubicaciones.length; i++) {
+  //     if (this.ubicacionSeleccionada === this.ubicaciones[i]) {
+  //       this.ubicaciones.splice(i, 1);
+  //     }
+  //   }
+  // }
 
 
   /**
    * La ubicación creada o editada es agregada a la lista de ubicaciones.
    */
   addEditUbicaion(value: Ubicacion) {
-    this.ubicaciones.push(value);
+    // this.ubicaciones.push(value);
     this.ubicacionSeleccionada = value;
+    this.getAllUbicaciones();
     this.modalAddEditUbiOpen = false;
   }
 
@@ -479,18 +455,8 @@ export class EditEquipoComponent implements OnInit {
    * ubicaciones.
    */
   onCancelAddEditUbicacion(value: Ubicacion) {
-    this.ubicaciones = [];
-    if (this.isEditRepre) {
-      this.equipoService.getAllUbicaciones().subscribe(
-        ubicaciones => {
-          this.ubicaciones = ubicaciones;
-          this.ubicaciones.push(value);
-        },
-        error => {
-          this.errorMessage = error;
-        }
-      );
-    }
+    this.ubicacionSeleccionada = value;
+    this.getAllUbicaciones();
     this.modalAddEditUbiOpen = false;
   }
 

@@ -4,6 +4,8 @@ import {TipoEquipo} from '../../domain/tipo-equipo';
 import {ModeloEquipo} from '../../domain/modelo-equipo';
 import {EquipoService} from '../../service/equipo.service';
 import {RepuestoService} from '../../service/repuesto.service';
+import {ModeloEquipoService} from '../../service/modelo-equipo.service';
+import {TipoEquipoService} from '../../service/tipo-equipo.service';
 
 @Component({
   selector: 'app-repuesto',
@@ -44,6 +46,8 @@ export class RepuestoComponent implements OnInit {
 
 
   constructor(private equipoService: EquipoService,
+              private modeloEquipoService: ModeloEquipoService,
+              private tipoEquipoService: TipoEquipoService,
               private repuestoService: RepuestoService) {
   }
 
@@ -76,7 +80,7 @@ export class RepuestoComponent implements OnInit {
    * Se obtiene la lista de tipos de equipos.
    */
   getAllTipos(): void {
-    this.equipoService.getAllTipoEquipos().subscribe(
+    this.tipoEquipoService.getAllTipoEquipos().subscribe(
       tipos => {
         this.tipos = tipos;
       },
@@ -91,7 +95,7 @@ export class RepuestoComponent implements OnInit {
    * Se obtiene la lista de modelos para los equipos.
    */
   getAllModelos(): void {
-    this.equipoService.getAllModelosEquipos().subscribe(
+    this.modeloEquipoService.getAllModelosEquipos().subscribe(
       modelos => {
         this.modelos = modelos;
       },
@@ -115,7 +119,7 @@ export class RepuestoComponent implements OnInit {
    * @param {number} id
    */
   getTipoEquipoById(id: number): void {
-    this.equipoService.getTipoEquipoById(id).subscribe(
+    this.tipoEquipoService.getTipoEquipoById(id).subscribe(
       tipo => {
         this.tipoEquipo = tipo;
       },
@@ -139,7 +143,7 @@ export class RepuestoComponent implements OnInit {
    * @param {number} id
    */
   getModeloEquipoById(id: number): void {
-    this.equipoService.getModeloEquipoById(id).subscribe(
+    this.modeloEquipoService.getModeloEquipoById(id).subscribe(
       modelo => {
         this.modeloEquipo = modelo;
       },
