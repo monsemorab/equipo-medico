@@ -298,36 +298,13 @@ export class EditEquipoComponent implements OnInit {
    * Cuando se selecciona un tipo para editar sus datos.
    */
   editTipoEquipo(): void {
-    // this.removeTipoEquipo();
     this.modalAddEditRepreOpen = true;
   }
 
-  // /**
-  //  * Se quita de la lista de quipos existentes, el tipo de equipo que se quiere  editar.
-  //  */
-  // removeTipoEquipo(): void {
-  //   for (let i = 0; i < this.tipos.length; i++) {
-  //     if (this.tipoSeleccionado.id === this.tipos[i].id) {
-  //       this.tipos.splice(i, 1);
-  //       break;
-  //     }
-  //   }
-  // }
-
   /**
-   * El tipo creado o editado es agregado a la lista de tipos de equipo.
+   * Cuando el control es devuelto a la pantalla principal.
    */
-  addEditTipoEquipo(value: TipoEquipo) {
-    this.tipoSeleccionado = value;
-    this.getAllTipos();
-    this.modalAddEditTipoOpen = false;
-  }
-
-  /**
-   * Cuando se cancela la edición de un tipo de equipo, se vuelve a
-   * agregar el tipo de equipo que se eliminó de la lista.
-   */
-  onCancelAddEditTipoEquipo(value: TipoEquipo) {
+  closeTipoEquipoModal(value: TipoEquipo) {
     this.tipoSeleccionado = value;
     this.getAllTipos();
     this.modalAddEditTipoOpen = false;
@@ -337,38 +314,15 @@ export class EditEquipoComponent implements OnInit {
    * Cuando se selecciona un modelo para editar sus datos.
    */
   editModeloEquipo(): void {
-    // this.removeModeloEquipo();
     this.modalAddEditModeloOpen = true;
   }
 
-  // /**
-  //  * Se quita de la lista de modelos existentes, el modelo de equipo que se quiere  editar.
-  //  */
-  // removeModeloEquipo(): void {
-  //   for (let i = 0; i < this.modelos.length; i++) {
-  //     if (this.modeloSeleccionado.id === this.modelos[i].id) {
-  //       this.modelos.splice(i, 1);
-  //       break;
-  //     }
-  //   }
-  // }
-
   /**
-   * El modelo creado o editado es agregado a la lista de modelos de equipo.
+   * Cuando el control es devuelto a la pantalla principal.
    */
-  addEditModeloEquipo(value: ModeloEquipo) {
+  closeModeloEquipoModal(value: ModeloEquipo) {
     this.modeloSeleccionado = value;
     this.getAllTipos();
-    this.modalAddEditModeloOpen = false;
-  }
-
-  /**
-   * Cuando se cancela la edición de un modelo de equipo, se vuelve a agregar el modelo de equipo que se eliminó
-   * de la lista.
-   */
-  onCancelAddEditModeloEquipo(value: ModeloEquipo) {
-    this.getAllModelos();
-    this.modeloSeleccionado = value;
     this.modalAddEditModeloOpen = false;
   }
 
@@ -376,37 +330,13 @@ export class EditEquipoComponent implements OnInit {
    * Cuando se selecciona un representante para editar sus datos.
    */
   editRepresentante() {
-    // this.removeRepresentante();
     this.modalAddEditRepreOpen = true;
   }
 
-  // /**
-  //  * El representante seleccionado para su edición, se elimina temporalmente de la lista de representantes.
-  //  */
-  // removeRepresentante() {
-  //   for (let i = 0; i < this.representantes.length; i++) {
-  //     if (this.repreSeleccionado === this.representantes[i]) {
-  //       this.representantes.splice(i, 1);
-  //     }
-  //   }
-  // }
-
-
   /**
-   * El representante creado o editado es agregado a la lista de representantes.
+   * Cuando el control es devuelto a la pantalla principal.
    */
-  addEditRepresentante(value: Representante) {
-    this.repreSeleccionado = value;
-    this.getAllRepresentantes();
-    this.modalAddEditRepreOpen = false;
-  }
-
-
-  /**
-   * Cuando se cancela la edición de un representante, el representante seleccionado se agrega de nuevo a la lista de
-   * representantes.
-   */
-  onCancelAddEditRepresentante(value: Representante) {
+  closeRepresentanteModal(value: Representante) {
     this.repreSeleccionado = value;
     this.getAllRepresentantes();
     this.modalAddEditRepreOpen = false;
@@ -424,42 +354,18 @@ export class EditEquipoComponent implements OnInit {
    * Cuando se selecciona una ubicación para editar sus datos.
    */
   editUbicacionEquipo() {
-    // this.removeUbicacion();
     this.modalAddEditUbiOpen = true;
   }
 
-  // /**
-  //  * La ubicación seleccionada para su edición, se elimina temporalmente de la lista de ubicaciones.
-  //  */
-  // removeUbicacion() {
-  //   for (let i = 0; i < this.ubicaciones.length; i++) {
-  //     if (this.ubicacionSeleccionada === this.ubicaciones[i]) {
-  //       this.ubicaciones.splice(i, 1);
-  //     }
-  //   }
-  // }
-
 
   /**
-   * La ubicación creada o editada es agregada a la lista de ubicaciones.
+   * Cuando el control es devuelto a la pantalla principal.
    */
-  addEditUbicaion(value: Ubicacion) {
-    // this.ubicaciones.push(value);
+  closeUbicaionModal(value: Ubicacion) {
     this.ubicacionSeleccionada = value;
     this.getAllUbicaciones();
     this.modalAddEditUbiOpen = false;
   }
-
-  /**
-   * Cuando se cancela la edición de una ubicación, la ubicación seleccionada se agrega de nuevo a la lista de
-   * ubicaciones.
-   */
-  onCancelAddEditUbicacion(value: Ubicacion) {
-    this.ubicacionSeleccionada = value;
-    this.getAllUbicaciones();
-    this.modalAddEditUbiOpen = false;
-  }
-
 
   /**
    * Se guarda la información del equipo editado.
