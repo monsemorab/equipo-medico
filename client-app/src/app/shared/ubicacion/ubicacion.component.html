@@ -6,13 +6,15 @@
       <section class="form-block">
         <div class="form-group row flex-items-xs-left">
           <div class="col-xs-2">
-            <label class="form-ubicacion-equipo-label" for="servicio">Mantenimiento:</label>
+            <label class="form-ubicacion-equipo-label" for="servicio">Servicio:</label>
           </div>
-          <div class="col-xs-4">
+          <div class="col-xs-8">
             <input class="form-control" id="servicio"
                    name="servicio" [(ngModel)]="servicio">
           </div>
+        </div>
 
+        <div class="form-group row flex-items-xs-left">
           <div class="col-xs-2">
             <label class="form-ubicacion-equipo-label required" for="bloque">Bloque:</label>
           </div>
@@ -20,9 +22,7 @@
             <input class="form-control" id="bloque" required
                    name="bloque" [(ngModel)]="bloque">
           </div>
-        </div>
 
-        <div class="form-group row flex-items-xs-left">
           <div class="col-xs-2">
             <label class="form-ubicacion-equipo-label required" for="nivel">Nivel:</label>
           </div>
@@ -30,7 +30,9 @@
             <input class="form-control " id="nivel" required
                    name="nivel" [(ngModel)]="nivel">
           </div>
+        </div>
 
+        <div class="form-group row flex-items-xs-left">
           <div class="col-xs-2">
             <label class="form-ubicacion-equipo-label required" for="nro_sala">Nro.Sala:</label>
           </div>

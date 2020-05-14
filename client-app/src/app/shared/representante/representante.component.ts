@@ -27,7 +27,7 @@ export class RepresentanteComponent implements OnInit {
   direccion: string;
   email: string;
   telefono: string;
-  telefonoContacto: string;
+  nombreContacto: string;
   celular: string;
 
   // error
@@ -53,7 +53,7 @@ export class RepresentanteComponent implements OnInit {
       this.direccion = this.representante.direccion;
       this.email = this.representante.email;
       this.telefono = this.representante.telefono;
-      this.telefonoContacto = this.representante.telefonoContacto;
+      this.nombreContacto = this.representante.nombreContacto;
       this.celular = this.representante.celular;
     }
     this.modalRepreOpen = true;
@@ -62,7 +62,7 @@ export class RepresentanteComponent implements OnInit {
 
   addRepresentante() {
     this.representante = new Representante(this.id, this.nombre, this.direccion, this.email, this.telefono,
-      this.telefonoContacto, this.celular);
+      this.nombreContacto, this.celular);
     if (this.isEditRepre) {
       this.editarRepresentanteExistente(this.representante);
     } else {
@@ -120,7 +120,7 @@ export class RepresentanteComponent implements OnInit {
     this.direccion = '';
     this.email = '';
     this.telefono = '';
-    this.telefonoContacto = '';
+    this.nombreContacto = '';
     this.celular = '';
   }
 

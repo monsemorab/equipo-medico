@@ -36,18 +36,21 @@ export class AddEquipoComponent implements OnInit {
 
   // modal para agregar/editar representante
   modalAddEditRepreOpen = false;
+  repreId: any;
   repreSeleccionado: Representante;
   isEditRepre: boolean;
   representantes = new Array<Representante>();
 
   // modal para agregar/editar tipoEquipo
   modalAddEditTipoOpen = false;
+  tipoId: any;
   tipoSeleccionado: TipoEquipo;
   isEditTipo: boolean;
   tipos = new Array<TipoEquipo>();
 
   // modal para agregar/editar modelo
   modalAddEditModeloOpen = false;
+  modeloId: any;
   modeloSeleccionado: ModeloEquipo;
   isEditModelo: boolean;
   modelos = new Array<ModeloEquipo>();
@@ -55,14 +58,13 @@ export class AddEquipoComponent implements OnInit {
   // modal para agregar/editar ubicaciones
   modalAddEditUbiOpen = false;
   ubicacionSeleccionada: Ubicacion;
+  ubicacionId: any;
   isEditUbicacion: boolean;
   ubicaciones = new Array<Ubicacion>();
-
 
   // error
   errorMessage: string;
   error: boolean;
-
 
   constructor(private router: Router,
               private equipoService: EquipoService,
@@ -77,10 +79,15 @@ export class AddEquipoComponent implements OnInit {
     this.isEditTipo = false;
     this.isEditModelo = false;
     this.isEditUbicacion = false;
+    this.tipoId = 'Agregar Tipo';
+    this.modeloId = 'Agregar Modelo';
+    this.repreId = 'Agregar Representante';
+    this.ubicacionId = 'Agregar Ubicación';
     this.getAllRepresentantes();
     this.getAllTipos();
     this.getAllModelos();
     this.getAllUbicaciones();
+    this.estado = "Operativo";
   }
 
   /**
@@ -155,6 +162,7 @@ export class AddEquipoComponent implements OnInit {
    * Cuando se selecciona un tipo para editar sus datos.
    */
   editTipoEquipo(): void {
+    this.isEditTipo = true;
     this.modalAddEditTipoOpen = true;
   }
 
@@ -162,6 +170,7 @@ export class AddEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeTipoEquipoModal(value: TipoEquipo) {
+    this.tipoId = value.id;
     this.tipoSeleccionado = value;
     this.getAllTipos();
     this.modalAddEditTipoOpen = false;
@@ -179,16 +188,17 @@ export class AddEquipoComponent implements OnInit {
    * Cuando se selecciona un modelo para editar sus datos.
    */
   editModeloEquipo(): void {
+    this.isEditModelo = true;
     this.modalAddEditModeloOpen = true;
   }
-
 
   /**
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeModeloEquipoModal(value: ModeloEquipo) {
+    this.modeloId = value.id;
     this.modeloSeleccionado = value;
-    this.getAllTipos();
+    this.getAllModelos();
     this.modalAddEditModeloOpen = false;
   }
 
@@ -204,6 +214,7 @@ export class AddEquipoComponent implements OnInit {
    * Cuando se selecciona un representante para editar sus datos.
    */
   editRepresentante() {
+    this.isEditRepre = true;
     this.modalAddEditRepreOpen = true;
   }
 
@@ -211,6 +222,7 @@ export class AddEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeRepresentanteModal(value: Representante) {
+    this.repreId = value.id;
     this.repreSeleccionado = value;
     this.getAllRepresentantes();
     this.modalAddEditRepreOpen = false;
@@ -220,7 +232,7 @@ export class AddEquipoComponent implements OnInit {
    * Cuando se quiere crear un nueva ubicación.
    */
   addNewUbicacionEquipo(): void {
-    this.repreSeleccionado = null;
+    this.ubicacionSeleccionada = null;
     this.modalAddEditUbiOpen = true;
   }
 
@@ -228,6 +240,7 @@ export class AddEquipoComponent implements OnInit {
    * Cuando se selecciona una ubicación para editar sus datos.
    */
   editUbicacionEquipo() {
+    this.isEditUbicacion = true;
     this.modalAddEditUbiOpen = true;
   }
 
@@ -235,6 +248,7 @@ export class AddEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeUbicaionEquipoModal(value: Ubicacion) {
+    this.ubicacionId = value.id;
     this.ubicacionSeleccionada = value;
     this.getAllUbicaciones();
     this.modalAddEditUbiOpen = false;
@@ -249,59 +263,63 @@ export class AddEquipoComponent implements OnInit {
   }
 
   /**
-   * Se selecciona un tipo de equipo.
-   * @param value
+   * Al seleccionar un tipo de la lista
    */
-  onSelectedTipoEquipo(value: any): void {
-    for (let i = 0; i < this.tipos.length; i++) {
-      if (+value === this.tipos[i].id) {
-        this.tipoSeleccionado = this.tipos[i];
-        this.isEditTipo = true;
-        break;
+  onSlectedTipo() {
+    this.tipoEquipoService.getTipoEquipoById(this.tipoId).subscribe(
+      tipo => {
+        this.tipoSeleccionado = tipo;
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
       }
-    }
+    );
   }
 
   /**
-   * Se selecciona un modelo para el equipo.
-   * @param value
+   * Al seleccionar un modelo d ela lista
    */
-  onSelectedModeloEquipo(value: any): void {
-    for (let i = 0; i < this.modelos.length; i++) {
-      if (+value === this.modelos[i].id) {
-        this.modeloSeleccionado = this.modelos[i];
-        this.isEditModelo = true;
-        break;
+  onSlectedModelo() {
+    this.modeloEquipoService.getModeloEquipoById(this.modeloId).subscribe(
+      modelo => {
+        this.modeloSeleccionado = modelo;
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
       }
-    }
+    );
   }
 
   /**
-   * Se selecciona un representante de la lista.
-   * @param value
+   * Al seleccionar un representante de la lista
    */
-  onSelectedRepresentante(value: any): void {
-    for (let i = 0; i < this.representantes.length; i++) {
-      if (+value === this.representantes[i].id) {
-        this.repreSeleccionado = this.representantes[i];
-        this.isEditRepre = true;
-        break;
+  onSlectedRepresentante() {
+    this.representanteService.getRepresentanteById(this.repreId).subscribe(
+      representante => {
+        this.repreSeleccionado = representante;
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
       }
-    }
+    );
   }
 
   /**
-   * Se selecciona una ubicación para el equipo.
-   * @param value
+   * Al seleccionar una ubicacion existente de la lista
    */
-  onSelectedUbicacionEquipo(value: any): void {
-    for (let i = 0; i < this.ubicaciones.length; i++) {
-      if (+value === this.ubicaciones[i].id) {
-        this.ubicacionSeleccionada = this.ubicaciones[i];
-        this.isEditUbicacion = true;
-        break;
+  onSlectedUbicacion() {
+    this.ubicacionEquipoService.getUbicacionById(this.ubicacionId).subscribe(
+      ubicacion => {
+        this.ubicacionSeleccionada = ubicacion;
+      },
+      error => {
+        this.errorMessage = error;
+        this.error = true;
       }
-    }
+    );
   }
 
   /**

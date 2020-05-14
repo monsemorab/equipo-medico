@@ -11,6 +11,7 @@ import {switchMap} from 'rxjs/operators';
 import {ModeloEquipoService} from '../../../service/modelo-equipo.service';
 import {TipoEquipoService} from '../../../service/tipo-equipo.service';
 import {UbicacionEquipoService} from '../../../service/ubicacion-equipo.service';
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-edit-equipo',
@@ -38,18 +39,21 @@ export class EditEquipoComponent implements OnInit {
 
   // modal para agregar/editar representante
   modalAddEditRepreOpen = false;
+  repreId: any;
   repreSeleccionado: Representante;
   isEditRepre: boolean;
   representantes = new Array<Representante>();
 
   // modal para agregar/editar tipoEquipo
   modalAddEditTipoOpen = false;
+  tipoId: any;
   tipoSeleccionado: TipoEquipo;
   isEditTipo: boolean;
   tipos = new Array<TipoEquipo>();
 
   // modal para agregar/editar modelo
   modalAddEditModeloOpen = false;
+  modeloId: any;
   modeloSeleccionado: ModeloEquipo;
   isEditModelo: boolean;
   modelos = new Array<ModeloEquipo>();
@@ -57,6 +61,7 @@ export class EditEquipoComponent implements OnInit {
   // modal para agregar/editar ubicaciones
   modalAddEditUbiOpen = false;
   ubicacionSeleccionada: Ubicacion;
+  ubicacionId: any;
   isEditUbicacion: boolean;
   ubicaciones = new Array<Ubicacion>();
 
@@ -162,6 +167,7 @@ export class EditEquipoComponent implements OnInit {
    * @param equipo
    */
   camposAEditar(equipo: Equipo) {
+    const datepipe: DatePipe = new DatePipe('en-ES');
     this.equipoId = equipo.id;
     this.numeroSerie = equipo.numeroSerie;
     this.numeroPatrimonial = equipo.numeroPatrimonial;
@@ -170,18 +176,124 @@ export class EditEquipoComponent implements OnInit {
     this.versionSw = equipo.versionSw;
     this.descripcionEquipo = equipo.descripcionEquipo;
     this.costo = equipo.costo;
-    this.licitacionCompra = equipo.licitacionCompra;
     this.fechaFabricacion = equipo.fechaFabricacion;
-    this.fechaVenGarantia = equipo.fechaVenGarantia;
-    this.fechaInstalacion = equipo.fechaInstalacion;
-    this.fechaCompra = equipo.fechaCompra;
+    this.fechaVenGarantia = datepipe.transform(equipo.fechaVenGarantia, 'dd-MM-yyyy');
+    this.fechaInstalacion = datepipe.transform(equipo.fechaInstalacion, 'dd-MM-yyyy');
+    this.fechaCompra  = datepipe.transform(equipo.fechaCompra, 'dd-MM-yyyy');
     this.tipoSeleccionado = equipo.tipoEquipo;
+    this.tipoId = equipo.tipoEquipo.id;
     this.modeloSeleccionado = equipo.modeloEquipo;
+    this.modeloId = equipo.modeloEquipo.id;
     this.repreSeleccionado = equipo.representante;
+    this.repreId = equipo.representante.id;
     if (equipo.ubicacion != null) {
       this.ubicacionSeleccionada = equipo.ubicacion;
-      this.isEditUbicacion = true;
+      this.ubicacionId = equipo.ubicacion.id;
     }
+  }
+
+  /**
+   * Cuando se presiona el botón para crear un nuevo tipo de equipo.
+   */
+  addNewTipoEquipo(): void {
+    this.tipoSeleccionado = null;
+    this.modalAddEditTipoOpen = true;
+  }
+
+  /**
+   * Cuando se selecciona un tipo para editar sus datos.
+   */
+  editTipoEquipo(): void {
+    this.isEditTipo = true;
+    this.modalAddEditTipoOpen = true;
+  }
+
+  /**
+   * Cuando el control es devuelto a la pantalla principal.
+   */
+  closeTipoEquipoModal(value: TipoEquipo) {
+    this.tipoId = value.id;
+    this.tipoSeleccionado = value;
+    this.getAllTipos();
+    this.modalAddEditTipoOpen = false;
+  }
+
+  /**
+   * Cuando se presiona el botón para crear un nuevo modelo de equipo.
+   */
+  addNewModeloEquipo(): void {
+    this.modeloSeleccionado = null;
+    this.modalAddEditModeloOpen = true;
+  }
+
+  /**
+   * Cuando se selecciona un modelo para editar sus datos.
+   */
+  editModeloEquipo(): void {
+    this.isEditModelo = true;
+    this.modalAddEditModeloOpen = true;
+  }
+
+  /**
+   * Cuando el control es devuelto a la pantalla principal.
+   */
+  closeModeloEquipoModal(value: ModeloEquipo) {
+    this.modeloId = value.id;
+    this.modeloSeleccionado = value;
+    this.getAllModelos();
+    this.modalAddEditModeloOpen = false;
+  }
+
+  /**
+   * Cuando se quiere crear un nuevo representante.
+   */
+  addNewRepresentante(): void {
+    this.repreSeleccionado = null;
+    this.modalAddEditRepreOpen = true;
+  }
+
+  /**
+   * Cuando se selecciona un representante para editar sus datos.
+   */
+  editRepresentante() {
+    this.isEditRepre = true;
+    this.modalAddEditRepreOpen = true;
+  }
+
+  /**
+   * Cuando el control es devuelto a la pantalla principal.
+   */
+  closeRepresentanteModal(value: Representante) {
+    this.repreId = value.id;
+    this.repreSeleccionado = value;
+    this.getAllRepresentantes();
+    this.modalAddEditRepreOpen = false;
+  }
+
+  /**
+   * Cuando se quiere crear un nueva ubicación.
+   */
+  addNewUbicacionEquipo(): void {
+    this.ubicacionSeleccionada = null;
+    this.modalAddEditUbiOpen = true;
+  }
+
+  /**
+   * Cuando se selecciona una ubicación para editar sus datos.
+   */
+  editUbicacionEquipo() {
+    this.isEditUbicacion = true;
+    this.modalAddEditUbiOpen = true;
+  }
+
+  /**
+   * Cuando el control es devuelto a la pantalla principal.
+   */
+  closeUbicaionModal(value: Ubicacion) {
+    this.ubicacionId = value.id;
+    this.ubicacionSeleccionada = value;
+    this.getAllUbicaciones();
+    this.modalAddEditUbiOpen = false;
   }
 
   /**
@@ -193,22 +305,12 @@ export class EditEquipoComponent implements OnInit {
   }
 
   /**
-   * Se selecciona un tipo de equipo.
-   * @param value
+   * Al seleccionar un tipo de la lista
    */
-  onSelectedTipoEquipo(value: any): void {
-    this.getTipoEquipoById(value);
-  }
-
-  /**
-   * Se obtiene el tipo seleccionado de la lista.
-   * @param {number} id
-   */
-  getTipoEquipoById(id: number): void {
-    this.tipoEquipoService.getTipoEquipoById(id).subscribe(
+  onSlectedTipo() {
+    this.tipoEquipoService.getTipoEquipoById(this.tipoId).subscribe(
       tipo => {
         this.tipoSeleccionado = tipo;
-        this.isEditTipo = true;
       },
       error => {
         this.errorMessage = error;
@@ -218,22 +320,12 @@ export class EditEquipoComponent implements OnInit {
   }
 
   /**
-   * Se selecciona un modelo para el equipo.
-   * @param value
+   * Al seleccionar un modelo d ela lista
    */
-  onSelectedModeloEquipo(value: any): void {
-    this.getModeloEquipoById(value);
-  }
-
-  /**
-   * Se obtiene el modelo seleccionado de la lista.
-   * @param {number} id
-   */
-  getModeloEquipoById(id: number): void {
-    this.modeloEquipoService.getModeloEquipoById(id).subscribe(
+  onSlectedModelo() {
+    this.modeloEquipoService.getModeloEquipoById(this.modeloId).subscribe(
       modelo => {
         this.modeloSeleccionado = modelo;
-        this.isEditModelo = true;
       },
       error => {
         this.errorMessage = error;
@@ -243,22 +335,12 @@ export class EditEquipoComponent implements OnInit {
   }
 
   /**
-   * Se selecciona un representante de la lista.
-   * @param value
+   * Al seleccionar un representante de la lista
    */
-  onSelectedRepresentante(value: any): void {
-    this.getRepresentanteById(+value);
-  }
-
-  /**
-   * Se obtiene el representante seleccionado de la lista.
-   * @param {number} id
-   */
-  getRepresentanteById(id: number): void {
-    this.representanteService.getRepresentanteById(id).subscribe(
+  onSlectedRepresentante() {
+    this.representanteService.getRepresentanteById(this.repreId).subscribe(
       representante => {
         this.repreSeleccionado = representante;
-        this.isEditRepre = true;
       },
       error => {
         this.errorMessage = error;
@@ -267,104 +349,19 @@ export class EditEquipoComponent implements OnInit {
     );
   }
 
-
   /**
-   * Se selecciona una ubicación para el equipo.
-   * @param value
+   * Al seleccionar una ubicacion existente de la lista
    */
-  onSelectedUbicacionEquipo(value: any): void {
-    this.getUbicacionById(value);
-  }
-
-  /**
-   * Se obtiene la ubicación seleccionada de la lista.
-   * @param {number} id
-   */
-  getUbicacionById(id: number): void {
-    this.ubicacionEquipoService.getUbicacionById(id).subscribe(
+  onSlectedUbicacion() {
+    this.ubicacionEquipoService.getUbicacionById(this.ubicacionId).subscribe(
       ubicacion => {
         this.ubicacionSeleccionada = ubicacion;
-        this.isEditUbicacion = true;
       },
       error => {
         this.errorMessage = error;
         this.error = true;
       }
     );
-  }
-
-
-  /**
-   * Cuando se selecciona un tipo para editar sus datos.
-   */
-  editTipoEquipo(): void {
-    this.modalAddEditRepreOpen = true;
-  }
-
-  /**
-   * Cuando el control es devuelto a la pantalla principal.
-   */
-  closeTipoEquipoModal(value: TipoEquipo) {
-    this.tipoSeleccionado = value;
-    this.getAllTipos();
-    this.modalAddEditTipoOpen = false;
-  }
-
-  /**
-   * Cuando se selecciona un modelo para editar sus datos.
-   */
-  editModeloEquipo(): void {
-    this.modalAddEditModeloOpen = true;
-  }
-
-  /**
-   * Cuando el control es devuelto a la pantalla principal.
-   */
-  closeModeloEquipoModal(value: ModeloEquipo) {
-    this.modeloSeleccionado = value;
-    this.getAllTipos();
-    this.modalAddEditModeloOpen = false;
-  }
-
-  /**
-   * Cuando se selecciona un representante para editar sus datos.
-   */
-  editRepresentante() {
-    this.modalAddEditRepreOpen = true;
-  }
-
-  /**
-   * Cuando el control es devuelto a la pantalla principal.
-   */
-  closeRepresentanteModal(value: Representante) {
-    this.repreSeleccionado = value;
-    this.getAllRepresentantes();
-    this.modalAddEditRepreOpen = false;
-  }
-
-  /**
-   * Cuando se quiere crear un nueva ubicación.
-   */
-  addNewUbicacionEquipo(): void {
-    this.repreSeleccionado = null;
-    this.modalAddEditUbiOpen = true;
-  }
-
-  /**
-   * Cuando se selecciona una ubicación para editar sus datos.
-   */
-  editUbicacionEquipo() {
-    this.modalAddEditUbiOpen = true;
-  }
-
-
-  /**
-   * Cuando el control es devuelto a la pantalla principal.
-   */
-  closeUbicaionModal(value: Ubicacion) {
-    this.ubicacionSeleccionada = value;
-    this.getAllUbicaciones();
-    this.modalAddEditUbiOpen = false;
   }
 
   /**

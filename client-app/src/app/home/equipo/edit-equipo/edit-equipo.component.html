@@ -3,35 +3,80 @@
   <section class="form-block">
     <div class="form-group row flex-items-xs-left">
       <!--columna izquierda-->
-      <div class="col-xs-5">
+      <div class="col-xs-6">
         <div class="form-group row flex-items-xs-left">
           <div class="col-xs-3 ">
             <label class="form-edit-equipo-label required" for="serie">Nro. Serie:</label>
           </div>
           <div class="col-xs-6">
-            <input class="form-control" id="serie" required
+            <input class="form-control" id="serie" required tabindex="1"
                    name="serie" [(ngModel)]="numeroSerie">
           </div>
         </div>
 
         <div class="form-group row flex-items-xs-left">
           <div class="col-xs-3 ">
-            <label class="form-edit-equipo-label required" for="lote">Nro. Lote:</label>
+            <label class="form-edit-equipo-label" for="lote">Nro. Lote:</label>
           </div>
           <div class="col-xs-6">
-            <input class="form-control" id="lote" required
+            <input class="form-control" id="lote" tabindex="3"
                    name="lote" [(ngModel)]="numeroLote">
           </div>
         </div>
 
         <div class="form-group row flex-items-xs-left">
           <div class="col-xs-3 ">
-            <label class="form-edit-equipo-label required">Estado:</label>
+            <label class="form-edit-equipo-label" for="costo">Costo:</label>
+          </div>
+          <div class="col-xs-6">
+            <input class="form-control" id="costo" tabindex="5"
+                   name="costo" [(ngModel)]="costo">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3 ">
+            <label class="form-edit-equipo-label" for="fab">Fabricación:</label>
+          </div>
+          <div class="col-xs-6">
+            <input class="form-control" placeholder="yyyy"
+                   id="fab" name="fab" tabindex="7"
+                   [(ngModel)]="fechaFabricacion">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-3">
+            <label class="form-edit-equipo-label" for="descripcion">Descripción:</label>
           </div>
           <div class="col-xs-7">
+            <textarea class="form-control" id="descripcion" rows="3" tabindex="9"
+                      name="descripcion" [(ngModel)]="descripcionEquipo">
+            </textarea>
+          </div>
+        </div>
+      </div>
+
+      <!--columna derecha-->
+      <div class="col-xs-6">
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4 ">
+            <label class="form-edit-equipo-label" for="patrimonial">Nro. Patrimonial:</label>
+          </div>
+          <div class="col-xs-5">
+            <input class="form-control" id="patrimonial" tabindex="2"
+                   name="patrimonial" [(ngModel)]="numeroPatrimonial">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4">
+            <label class="form-edit-equipo-label">Estado:</label>
+          </div>
+          <div class="col-xs-5">
             <div class="select form-control">
               <select class="select-form-edit-equipo" id="estado" #selectedEstado
-                      name="estado"
+                      name="estado" tabindex="4"
                       [(ngModel)]="estado"
                       (change)="onSelectedEstado(selectedEstado.value)">
                 <option>Operativo</option>
@@ -43,164 +88,38 @@
         </div>
 
         <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 ">
-            <label class="form-edit-equipo-label required">Tipo:</label>
-          </div>
-          <div class="col-xs-7" *ngIf="tipos != null && tipos.length > 0">
-            <p-dropdown [options]="tipos" name="tipo"
-                        [(ngModel)]="tipoSeleccionado" optionLabel="tipo"
-                        (onChange)="onSelectedTipoEquipo($event)">
-            </p-dropdown>
-          </div>
-
-          <div class="col-xs-7" *ngIf="tipos == null || tipos.length == 0">
-            <div class="select form-control">
-              <select class="select-form-edit-equipo" id="tipoE" disabled>
-                <option disabled>Agregar Tipo</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="col-xs-1 col-btn-edit-equipo">
-            <button class=" btn btn-sm btn-success"
-                    (click)="editTipoEquipo()">
-              <clr-icon shape="pencil"></clr-icon>
-              Edit
-            </button>
-          </div>
-        </div>
-
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 ">
-            <label class="form-edit-equipo-label required">Modelo:</label>
-          </div>
-          <div class="col-xs-7" *ngIf="modelos != null && modelos.length > 0">
-            <p-dropdown [options]="modelos" name="modelo"
-                        [(ngModel)]="modeloSeleccionado" optionLabel="modelo"
-                        (onChange)="onSelectedModeloEquipo($event)">
-            </p-dropdown>
-          </div>
-          <div class="col-xs-7" *ngIf="modelos == null || modelos.length == 0">
-            <div class="select form-control">
-              <select class="select-form-edit-equipo" id="modeloE" name="modeloE" disabled>
-                <option disabled>Agregar Modelo</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="col-xs-1 col-btn-edit-equipo">
-            <button class=" btn btn-sm btn-success"
-                    (click)="editModeloEquipo()">
-              <clr-icon shape="pencil"></clr-icon>
-              Edit
-            </button>
-          </div>
-        </div>
-
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 ">
-            <label class="form-edit-equipo-label" for="costo">Costo:</label>
-          </div>
-          <div class="col-xs-6">
-            <input class="form-control" id="costo"
-                   name="costo" [(ngModel)]="costo">
-          </div>
-        </div>
-
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 ">
-            <label class="form-edit-equipo-label" for="fab">Fabricación:</label>
-          </div>
-          <div class="col-xs-6">
-            <input class="form-control" placeholder="dd/mm/yyyy"
-                   id="fab" name="fab"
-                   [(ngModel)]="fechaFabricacion">
-          </div>
-        </div>
-
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 ">
-            <label class="form-edit-equipo-label" for="garantia">Vto. Garantia:</label>
-          </div>
-          <div class="col-xs-6">
-            <input class="form-control" placeholder="dd/mm/yyyy"
-                   id="garantia" name="garantia"
-                   [(ngModel)]="fechaVenGarantia">
-          </div>
-        </div>
-      </div>
-
-      <!--columna derecha-->
-      <div class="col-xs-7">
-        <div class="form-group row flex-items-xs-left">
           <div class="col-xs-4 ">
-            <label class="form-edit-equipo-label required" for="patrimonial">Nro. Patrimonial:</label>
+            <label class="form-edit-equipo-label">Fecha Compra:</label>
           </div>
           <div class="col-xs-5">
-            <input class="form-control" id="patrimonial"
-                   name="patrimonial" [(ngModel)]="numeroPatrimonial">
+            <p-calendar [(ngModel)]="fechaCompra" dateFormat="dd-mm-yy"
+                        [monthNavigator]="true" [yearNavigator]="true"
+                        yearRange="2000:2030" name="fcompra">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4">
+            <label class="form-edit-equipo-label">Vto. Garantia:</label>
+          </div>
+          <div class="col-xs-5">
+            <p-calendar [(ngModel)]="fechaVenGarantia" dateFormat="dd-mm-yy"
+                        [monthNavigator]="true" [yearNavigator]="true"
+                        yearRange="2000:2030" name=" fgarantia">
+            </p-calendar>
           </div>
         </div>
 
         <div class="form-group row flex-items-xs-left">
           <div class="col-xs-4 ">
-            <label class="form-edit-equipo-label required">Representante:</label>
+            <label class="form-edit-equipo-label">Puesta en Marcha:</label>
           </div>
-
-          <div class="col-xs-6" *ngIf="representantes != null && representantes.length > 0">
-            <p-dropdown [options]="representantes" name="repre"
-                        [(ngModel)]="repreSeleccionado" optionLabel="nombre"
-                        (onChange)="onSelectedRepresentante($event)">
-            </p-dropdown>
-          </div>
-          <div class="col-xs-6" *ngIf="representantes == null || representantes.length == 0">
-            <div class="select form-control">
-              <select class="select-form-edit-equipo" id="repre" disabled>
-                <option disabled>Agregar Representante</option>
-              </select>
-            </div>
-          </div>
-
-          <div *ngIf="isEditRepre" class="col-xs-1 col-btn-edit-equipo">
-            <button class="btn btn-sm btn-success"
-                    (click)="editRepresentante()">
-              <clr-icon shape="user"></clr-icon>
-              Edit
-            </button>
-          </div>
-        </div>
-
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 ">
-            <label class="form-edit-equipo-label">Ubicación:</label>
-          </div>
-          <div class="col-xs-6" *ngIf="ubicaciones != null && ubicaciones.length > 0">
-            <p-dropdown [options]="ubicaciones" name="ubicacion"
-                        [(ngModel)]="ubicacionSeleccionada" optionLabel="servicio"
-                        (onChange)="onSelectedUbicacionEquipo($event)">
-            </p-dropdown>
-          </div>
-          <div class="col-xs-6" *ngIf="ubicaciones == null || ubicaciones.length == 0">
-            <div class="select form-control">
-              <select class="select-form-edit-equipo" id="UbicacionE" disabled>
-                <option disabled>Agregar Ubicación</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-xs-1 col-btn-edit-equipo" *ngIf="!isEditUbicacion">
-            <button class=" btn btn-sm btn-success"
-                    (click)="addNewUbicacionEquipo()">
-              <clr-icon shape="plus"></clr-icon>
-              Add
-            </button>
-          </div>
-
-          <div class="col-xs-1 col-btn-edit-equipo" *ngIf="isEditUbicacion">
-            <button class="btn btn-sm btn-success"
-                    (click)="editUbicacionEquipo()">
-              <clr-icon shape="user"></clr-icon>
-              Edit
-            </button>
+          <div class="col-xs-5">
+            <p-calendar [(ngModel)]="fechaInstalacion" dateFormat="dd-mm-yy"
+                        [monthNavigator]="true" [yearNavigator]="true"
+                        yearRange="2000:2030"  name="finstalacion">
+            </p-calendar>
           </div>
         </div>
 
@@ -209,50 +128,152 @@
             <label class="form-edit-equipo-label" for="version">Version Software:</label>
           </div>
           <div class="col-xs-5">
-            <input class="form-control" id="version"
+            <input class="form-control" id="version" tabindex="11"
                    name="version" [(ngModel)]="versionSw">
           </div>
         </div>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 ">
-            <label class="form-edit-equipo-label" for="licitacion">Nro. Licitacion Compra:</label>
-          </div>
-          <div class="col-xs-5">
-            <input class="form-control" id="licitacion"
-                   name="licitacion" [(ngModel)]="licitacionCompra">
+        <!--        <div class="form-group row flex-items-xs-left">-->
+        <!--          <div class="col-xs-4 ">-->
+        <!--            <label class="form-edit-equipo-label" for="licitacion">Nro. Licitacion Compra:</label>-->
+        <!--          </div>-->
+        <!--          <div class="col-xs-5">-->
+        <!--            <input class="form-control" id="licitacion"-->
+        <!--                   name="licitacion" [(ngModel)]="licitacionCompra">-->
+        <!--          </div>-->
+        <!--        </div>-->
+      </div>
+    </div>
+
+    <br>
+    <div class="col-xs-8">
+      <div class="form-group row flex-items-xs-left">
+        <div class="col-xs-2">
+          <label class="form-edit-equipo-label required">Tipo:</label>
+        </div>
+        <div class="col-xs-6">
+          <div class="select form-control">
+            <select clrSelect name="tipo" [(ngModel)]="tipoId"
+                    (ngModelChange)="onSlectedTipo()">
+              <option>Agregar Tipo</option>
+              <option *ngFor="let tipo of tipos"
+                      value={{tipo.id}}>{{tipo.tipo}}
+              </option>
+            </select>
           </div>
         </div>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 ">
-            <label class="form-edit-equipo-label" for="compra">Compra:</label>
+        <div class="col-xs-1 col-btn-edit-equipo" *ngIf="tipoId == 'Agregar Tipo'">
+          <button class=" btn btn-sm btn-success"
+                  (click)="addNewTipoEquipo()">
+            <clr-icon shape="plus"></clr-icon>
+            Add
+          </button>
+        </div>
+
+        <div class="col-xs-1 col-btn-edit-equipo" *ngIf="tipoId != 'Agregar Tipo'">
+          <button class=" btn btn-sm btn-success"
+                  (click)="editTipoEquipo()">
+            <clr-icon shape="pencil"></clr-icon>
+            Edit
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group row flex-items-xs-left">
+        <div class="col-xs-2">
+          <label class="form-edit-equipo-label required">Modelo:</label>
+        </div>
+        <div class="col-xs-6">
+          <div class="select form-control">
+            <select clrSelect name="modelo" [(ngModel)]="modeloId"
+                    (ngModelChange)="onSlectedModelo()">
+              <option>Agregar Modelo</option>
+              <option *ngFor="let modelo of modelos"
+                      value={{modelo.id}}>{{modelo.modelo}}
+              </option>
+            </select>
           </div>
-          <div class="col-xs-5">
-            <input class="form-control" placeholder="dd/mm/yyyy"
-                   id="compra" name="compra" [(ngModel)]="fechaCompra">
+        </div>
+        <div class="col-xs-1 col-btn-edit-equipo" *ngIf="modeloId == 'Agregar Modelo'">
+          <button class=" btn btn-sm btn-success"
+                  (click)="addNewModeloEquipo()">
+            <clr-icon shape="plus"></clr-icon>
+            Add
+          </button>
+        </div>
+
+        <div class="col-xs-1 col-btn-edit-equipo" *ngIf="modeloId != 'Agregar Modelo'">
+          <button class=" btn btn-sm btn-success"
+                  (click)="editModeloEquipo()">
+            <clr-icon shape="pencil"></clr-icon>
+            Edit
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group row flex-items-xs-left">
+        <div class="col-xs-2">
+          <label class="form-edit-equipo-label required">Representante:</label>
+        </div>
+
+        <div class="col-xs-6">
+          <div class="select form-control">
+            <select clrSelect name="representante" [(ngModel)]="repreId"
+                    (ngModelChange)="onSlectedRepresentante()">
+              <option>Agregar Representante</option>
+              <option *ngFor="let repre of representantes"
+                      value={{repre.id}}>{{repre.nombre}}
+              </option>
+            </select>
           </div>
         </div>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 ">
-            <label class="form-edit-equipo-label" for="instalacion">Puesta en Marcha:</label>
-          </div>
-          <div class="col-xs-5">
-            <input class="form-control" placeholder="dd/mm/yyyy"
-                   id="instalacion" name="instalacion" [(ngModel)]="fechaInstalacion">
+        <div class="col-xs-1 col-btn-edit-equipo" *ngIf="repreId == 'Agregar Representante'">
+          <button class="btn btn-sm btn-success"
+                  (click)="addNewRepresentante()">
+            <clr-icon shape="user"></clr-icon>
+            Add
+          </button>
+        </div>
+        <div class="col-xs-1 col-btn-edit-equipo" *ngIf="repreId != 'Agregar Representante'">
+          <button class="btn btn-sm btn-success"
+                  (click)="editRepresentante()">
+            <clr-icon shape="user"></clr-icon>
+            Edit
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group row flex-items-xs-left">
+        <div class="col-xs-2">
+          <label class="form-edit-equipo-label">Ubicación:</label>
+        </div>
+        <div class="col-xs-6">
+          <div class="select form-control">
+            <select clrSelect name="ubicacion" [(ngModel)]="ubicacionId"
+                    (ngModelChange)="onSlectedUbicacion()">
+              <option>Agregar Ubicación</option>
+              <option *ngFor="let ubicacion of ubicaciones"
+                      value={{ubicacion.id}}>{{ubicacion.servicio}}
+              </option>
+            </select>
           </div>
         </div>
+        <div class="col-xs-1 col-btn-edit-equipo" *ngIf="ubicacionId == 'Agregar Ubicación'">
+          <button class=" btn btn-sm btn-success"
+                  (click)="addNewUbicacionEquipo()">
+            <clr-icon shape="plus"></clr-icon>
+            Add
+          </button>
+        </div>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 ">
-            <label class="form-edit-equipo-label" for="descripcion">Descripción:</label>
-          </div>
-          <div class="col-xs-7">
-            <textarea class="form-control" id="descripcion" rows="3"
-                      name="descripcion" [(ngModel)]="descripcionEquipo">
-            </textarea>
-          </div>
+        <div class="col-xs-1 col-btn-edit-equipo" *ngIf="ubicacionId != 'Agregar Ubicación'">
+          <button class="btn btn-sm btn-success"
+                  (click)="editUbicacionEquipo()">
+            <clr-icon shape="user"></clr-icon>
+            Edit
+          </button>
         </div>
       </div>
     </div>

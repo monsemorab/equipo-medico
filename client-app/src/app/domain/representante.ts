@@ -5,7 +5,7 @@ export class Representante {
               public direccion: string,
               public email: string,
               public telefono: string,
-              public telefonoContacto: string,
+              public nombreContacto: string,
               public celular: string) {
   }
 }

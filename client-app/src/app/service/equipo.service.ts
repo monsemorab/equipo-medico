@@ -7,7 +7,7 @@ import {ParamsBusquedaEquipo} from '../domain/ParamsBusquedaEquipo';
 
 @Injectable()
 export class EquipoService {
-  private urlEquipos = environment.service_uri + '/equipos';
+  private urlEquipos = environment.service_uri + '/equipos/';
 
   constructor(private apiRequest: ApiRequestService) {
   }
@@ -25,7 +25,7 @@ export class EquipoService {
    * @returns {Observable<Equipo[]>}
    */
   getEquiposSinContratos(): Observable<Equipo[]> {
-    const url = this.urlEquipos + '/sincontrato';
+    const url = this.urlEquipos + 'sincontrato';
     return this.apiRequest.get(url);
   }
 
@@ -35,7 +35,7 @@ export class EquipoService {
    * @returns {Observable<Equipo>}
    */
   getEquipoById(equipoId: number): Observable<Equipo> {
-    const url = this.urlEquipos + '/' + equipoId;
+    const url = this.urlEquipos + equipoId;
     return this.apiRequest.get(url);
   }
 

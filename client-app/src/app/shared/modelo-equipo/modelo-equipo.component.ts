@@ -37,11 +37,11 @@ export class ModeloEquipoComponent implements OnInit {
     this.clearModeloEquipoField();
 
     if (this.modeloEquipo == null) {
-      this.modalModeloTitle = 'Crear Tipo de Equipo';
+      this.modalModeloTitle = 'Crear Modelo de Equipo';
       this.id = -1;
       this.btnTitle = 'Crear';
     } else {
-      this.modalModeloTitle = 'Editar Tipo de Equipo';
+      this.modalModeloTitle = 'Editar Modelo de Equipo';
       this.id = this.modeloEquipo.id;
       this.modelo = this.modeloEquipo.modelo;
       this.marca = this.modeloEquipo.marca;
