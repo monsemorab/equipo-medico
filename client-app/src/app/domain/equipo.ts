@@ -18,11 +18,11 @@ export class Equipo {
               public tipoEquipo: TipoEquipo,
               public modeloEquipo: ModeloEquipo,
               public ubicacion: Ubicacion,
+              public contrato: Contrato,
               public licitacionCompra: string,
               public fechaFabricacion: Date,
               public fechaVenGarantia: Date,
               public fechaInstalacion: Date,
-              public fechaCompra: Date,
-              public contrato?: Contrato) {
+              public fechaCompra: Date) {
   }
 }

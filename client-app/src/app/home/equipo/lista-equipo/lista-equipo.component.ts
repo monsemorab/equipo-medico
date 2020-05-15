@@ -50,6 +50,8 @@ export class ListaEquipoComponent implements OnInit {
         console.log(this.equipos)
       },
       error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.equipos = [];
         this.loading = false;
       }

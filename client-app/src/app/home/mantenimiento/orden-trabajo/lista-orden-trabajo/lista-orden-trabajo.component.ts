@@ -49,6 +49,8 @@ export class ListaOrdenTrabajoComponent implements OnInit {
         this.loading = false;
       },
       error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.ordenTrabajoList = [];
         this.loading = false;
       }

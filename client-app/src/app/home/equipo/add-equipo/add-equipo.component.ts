@@ -99,7 +99,8 @@ export class AddEquipoComponent implements OnInit {
         this.tipos = tipos;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -114,7 +115,8 @@ export class AddEquipoComponent implements OnInit {
         this.modelos = modelos;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -129,7 +131,8 @@ export class AddEquipoComponent implements OnInit {
         this.representantes = representantes;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -144,7 +147,8 @@ export class AddEquipoComponent implements OnInit {
         this.ubicaciones = ubicaciones;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -170,9 +174,11 @@ export class AddEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeTipoEquipoModal(value: TipoEquipo) {
-    this.tipoId = value.id;
-    this.tipoSeleccionado = value;
-    this.getAllTipos();
+    if(value != null) {
+      this.tipoId = value.id;
+      this.tipoSeleccionado = value;
+      this.getAllTipos();
+    }
     this.modalAddEditTipoOpen = false;
   }
 
@@ -196,9 +202,11 @@ export class AddEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeModeloEquipoModal(value: ModeloEquipo) {
-    this.modeloId = value.id;
-    this.modeloSeleccionado = value;
-    this.getAllModelos();
+    if(value != null) {
+      this.modeloId = value.id;
+      this.modeloSeleccionado = value;
+      this.getAllModelos();
+    }
     this.modalAddEditModeloOpen = false;
   }
 
@@ -222,9 +230,11 @@ export class AddEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeRepresentanteModal(value: Representante) {
-    this.repreId = value.id;
-    this.repreSeleccionado = value;
-    this.getAllRepresentantes();
+    if(value != null) {
+      this.repreId = value.id;
+      this.repreSeleccionado = value;
+      this.getAllRepresentantes();
+    }
     this.modalAddEditRepreOpen = false;
   }
 
@@ -248,9 +258,11 @@ export class AddEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeUbicaionEquipoModal(value: Ubicacion) {
-    this.ubicacionId = value.id;
-    this.ubicacionSeleccionada = value;
-    this.getAllUbicaciones();
+    if(value != null) {
+      this.ubicacionId = value.id;
+      this.ubicacionSeleccionada = value;
+      this.getAllUbicaciones();
+    }
     this.modalAddEditUbiOpen = false;
   }
 
@@ -265,13 +277,14 @@ export class AddEquipoComponent implements OnInit {
   /**
    * Al seleccionar un tipo de la lista
    */
-  onSlectedTipo() {
+  onSelectedTipo() {
     this.tipoEquipoService.getTipoEquipoById(this.tipoId).subscribe(
       tipo => {
         this.tipoSeleccionado = tipo;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -280,13 +293,14 @@ export class AddEquipoComponent implements OnInit {
   /**
    * Al seleccionar un modelo d ela lista
    */
-  onSlectedModelo() {
+  onSelectedModelo() {
     this.modeloEquipoService.getModeloEquipoById(this.modeloId).subscribe(
       modelo => {
         this.modeloSeleccionado = modelo;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -295,13 +309,14 @@ export class AddEquipoComponent implements OnInit {
   /**
    * Al seleccionar un representante de la lista
    */
-  onSlectedRepresentante() {
+  onSelectedRepresentante() {
     this.representanteService.getRepresentanteById(this.repreId).subscribe(
       representante => {
         this.repreSeleccionado = representante;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -310,13 +325,14 @@ export class AddEquipoComponent implements OnInit {
   /**
    * Al seleccionar una ubicacion existente de la lista
    */
-  onSlectedUbicacion() {
+  onSelectedUbicacion() {
     this.ubicacionEquipoService.getUbicacionById(this.ubicacionId).subscribe(
       ubicacion => {
         this.ubicacionSeleccionada = ubicacion;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -328,7 +344,7 @@ export class AddEquipoComponent implements OnInit {
   onSaveEquipo(): void {
     this.equipo = new Equipo(null, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
       this.versionSw, this.descripcionEquipo, this.costo, this.repreSeleccionado, this.tipoSeleccionado,
-      this.modeloSeleccionado, this.ubicacionSeleccionada, this.licitacionCompra, this.fechaFabricacion,
+      this.modeloSeleccionado, this.ubicacionSeleccionada, null, this.licitacionCompra, this.fechaFabricacion,
       this.fechaVenGarantia, this.fechaInstalacion, this.fechaCompra);
     this.saveEquipo(this.equipo);
   }
@@ -345,7 +361,8 @@ export class AddEquipoComponent implements OnInit {
         this.goBack();
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

@@ -45,6 +45,8 @@ export class ListarSolicitudComponent implements OnInit {
         this.loading = false;
       },
       error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.solicitudRepuestos = [];
         this.loading = false;
       }

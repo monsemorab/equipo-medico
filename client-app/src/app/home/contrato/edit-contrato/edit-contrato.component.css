@@ -16,6 +16,7 @@
 
 .selectEquipo {
   background-color: darkgrey !important;
+  cursor: pointer !important;
 }
 
 .col-label-edit-contrato {

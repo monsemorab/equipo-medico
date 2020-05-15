@@ -79,7 +79,8 @@ export class UbicacionComponent implements OnInit {
         this.ubicacionToUpdate.emit(this.ubicacion);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -97,7 +98,8 @@ export class UbicacionComponent implements OnInit {
         this.ubicacionToUpdate.emit(this.ubicacion);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

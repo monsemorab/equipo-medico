@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Contrato} from '../../../domain/contrato';
 import {Router} from '@angular/router';
 import {ContratoService} from '../../../service/contrato.service';
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-lista-contrato',
@@ -45,16 +46,27 @@ export class ListaContratoComponent implements OnInit {
     this.contratoService.getAllContratos().subscribe(
       list => {
         this.contratos = list;
+        this.formateoFechas();
         this.total = list.length;
-        this.loading = false;
         console.log(this.contratos);
       },
       error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.contratos = [];
         this.loading = false;
       }
     );
 
+  }
+
+  formateoFechas() {
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    for(let i=0; i< this.contratos.length; i++){
+      this.contratos[i].fechaInicio = datepipe.transform(this.contratos[i].fechaInicio, 'dd-MM-yyyy');
+      this.contratos[i].fechaFin = datepipe.transform(this.contratos[i].fechaFin, 'dd-MM-yyyy');
+    }
+    this.loading = false;
   }
 
   /**

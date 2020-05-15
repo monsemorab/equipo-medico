@@ -5,6 +5,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {ContratoService} from '../../../service/contrato.service';
 import {EquipoService} from '../../../service/equipo.service';
 import {switchMap} from 'rxjs/operators';
+import {DatePipe} from "@angular/common";
 
 
 @Component({
@@ -28,7 +29,6 @@ export class EditContratoComponent implements OnInit {
   fechaFin: any;
 
   // estado contrato
-  estadoSeleccionado: EstadoContrato;
   estadosContrato: EstadoContrato[];
 
 
@@ -65,7 +65,8 @@ export class EditContratoComponent implements OnInit {
         this.camposAEditar(this.contrato);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       });
   }
@@ -79,7 +80,8 @@ export class EditContratoComponent implements OnInit {
         this.equipos = equipos;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.equipos = [];
       }
     );
@@ -94,7 +96,8 @@ export class EditContratoComponent implements OnInit {
         this.estadosContrato = estados;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.estadosContrato = [];
       }
     );
@@ -106,6 +109,7 @@ export class EditContratoComponent implements OnInit {
    * @param contrato
    */
   camposAEditar(contrato: Contrato) {
+    const datepipe: DatePipe = new DatePipe('en-ES');
     this.contratoId = contrato.id;
     this.numeroContrato = contrato.numeroContrato;
     this.nombreLicitacion = contrato.nombreLicitacion;
@@ -113,8 +117,8 @@ export class EditContratoComponent implements OnInit {
     this.estadoContrato = contrato.estadoContrato;
     this.convocante = contrato.convocante;
     this.pdf = contrato.pdf;
-    this.fechaInicio = contrato.fechaInicio;
-    this.fechaFin = contrato.fechaFin;
+    this.fechaInicio = datepipe.transform(contrato.fechaInicio, 'dd-MM-yyyy');
+    this.fechaFin = datepipe.transform(contrato.fechaFin, 'dd-MM-yyyy');
     this.representante = contrato.representante;
     this.selectedEquipos = contrato.equipos;
   }
@@ -146,7 +150,8 @@ export class EditContratoComponent implements OnInit {
         this.equipoId = equipo.id;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.selectedEquipo = null;
       }
     );
@@ -194,6 +199,16 @@ export class EditContratoComponent implements OnInit {
    * Se guarda la información del contrato creado o editado.
    */
   onSaveContrato(): void {
+
+    if (typeof this.fechaInicio === 'string' || this.fechaInicio instanceof String) {
+      let parts = this.fechaInicio.split('-');
+      this.fechaInicio = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+    }
+
+    if (typeof this.fechaFin === 'string' || this.fechaFin instanceof String) {
+      let parts = this.fechaFin.split('-');
+      this.fechaFin = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+    }
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion, this.tipoProcedimiento,
       this.estadoContrato, this.convocante, this.pdf, this.selectedEquipos, this.representante, this.fechaInicio,
       this.fechaFin);
@@ -212,7 +227,8 @@ export class EditContratoComponent implements OnInit {
         this.goBack();
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

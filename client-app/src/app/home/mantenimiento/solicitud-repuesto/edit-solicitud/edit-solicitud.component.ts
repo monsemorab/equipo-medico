@@ -46,7 +46,8 @@ export class EditSolicitudComponent implements OnInit {
         this.camposAEditar(this.solicitudRepuesto);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       });
   }
@@ -143,7 +144,8 @@ export class EditSolicitudComponent implements OnInit {
         this.goBack();
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

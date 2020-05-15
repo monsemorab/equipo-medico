@@ -93,6 +93,7 @@
           </div>
           <div class="col-xs-5">
             <p-calendar [(ngModel)]="fechaCompra" dateFormat="dd-mm-yy"
+                        placeholder="dd-mm-yyyy"
                         [monthNavigator]="true" [yearNavigator]="true"
                         yearRange="2000:2030" name="fcompra">
             </p-calendar>
@@ -105,6 +106,7 @@
           </div>
           <div class="col-xs-5">
             <p-calendar [(ngModel)]="fechaVenGarantia" dateFormat="dd-mm-yy"
+                        placeholder="dd-mm-yyyy"
                         [monthNavigator]="true" [yearNavigator]="true"
                         yearRange="2000:2030" name=" fgarantia">
             </p-calendar>
@@ -117,6 +119,7 @@
           </div>
           <div class="col-xs-5">
             <p-calendar [(ngModel)]="fechaInstalacion" dateFormat="dd-mm-yy"
+                        placeholder="dd-mm-yyyy"
                         [monthNavigator]="true" [yearNavigator]="true"
                         yearRange="2000:2030"  name="finstalacion">
             </p-calendar>
@@ -154,7 +157,7 @@
         <div class="col-xs-6">
           <div class="select form-control">
             <select clrSelect name="tipo" [(ngModel)]="tipoId"
-                    (ngModelChange)="onSlectedTipo()">
+                    (ngModelChange)="onSelectedTipo()">
               <option>Agregar Tipo</option>
               <option *ngFor="let tipo of tipos"
                       value={{tipo.id}}>{{tipo.tipo}}
@@ -187,7 +190,7 @@
         <div class="col-xs-6">
           <div class="select form-control">
             <select clrSelect name="modelo" [(ngModel)]="modeloId"
-                    (ngModelChange)="onSlectedModelo()">
+                    (ngModelChange)="onSelectedModelo()">
               <option>Agregar Modelo</option>
               <option *ngFor="let modelo of modelos"
                       value={{modelo.id}}>{{modelo.modelo}}
@@ -220,7 +223,7 @@
         <div class="col-xs-6">
           <div class="select form-control">
             <select clrSelect name="representante" [(ngModel)]="repreId"
-                    (ngModelChange)="onSlectedRepresentante()">
+                    (ngModelChange)="onSelectedRepresentante()">
               <option>Agregar Representante</option>
               <option *ngFor="let repre of representantes"
                       value={{repre.id}}>{{repre.nombre}}
@@ -252,7 +255,7 @@
         <div class="col-xs-6">
           <div class="select form-control">
             <select clrSelect name="ubicacion" [(ngModel)]="ubicacionId"
-                    (ngModelChange)="onSlectedUbicacion()">
+                    (ngModelChange)="onSelectedUbicacion()">
               <option>Agregar Ubicación</option>
               <option *ngFor="let ubicacion of ubicaciones"
                       value={{ubicacion.id}}>{{ubicacion.servicio}}

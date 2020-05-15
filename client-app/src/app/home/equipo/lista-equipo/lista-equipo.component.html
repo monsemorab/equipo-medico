@@ -50,6 +50,7 @@
 
     <clr-datagrid [clrDgLoading]="loading">
       <clr-dg-column [clrDgSortBy]="'numeroSerie'">Nro. Serie</clr-dg-column>
+      <clr-dg-column>Descripción</clr-dg-column>
       <clr-dg-column>Tipo</clr-dg-column>
       <clr-dg-column>Modelo</clr-dg-column>
       <clr-dg-column>Contrato</clr-dg-column>
@@ -59,6 +60,7 @@
       <clr-dg-row *ngFor="let equipo of equipos" (click)="selectEquipo(equipo)"
                   [class.selectEquipo]="equipo === selectedEquipo">
         <clr-dg-cell>{{equipo.numeroSerie}}</clr-dg-cell>
+        <clr-dg-cell>{{equipo.descripcionEquipo}}</clr-dg-cell>
         <clr-dg-cell>{{equipo.tipoEquipo?.tipo}}</clr-dg-cell>
         <clr-dg-cell>{{equipo.modeloEquipo?.modelo}}</clr-dg-cell>
         <clr-dg-cell>{{equipo.contrato?.numeroContrato}}</clr-dg-cell>

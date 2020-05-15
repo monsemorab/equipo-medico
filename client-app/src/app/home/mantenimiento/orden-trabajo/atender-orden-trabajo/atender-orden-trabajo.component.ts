@@ -78,7 +78,8 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
         this.camposAEditar(this.ordenTrabajo);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       });
   }
@@ -92,7 +93,8 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
         this.tipoServicios = servicios;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.tipoServicios = [];
       }
     );
@@ -323,7 +325,8 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
         this.goBack();
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.ordenTrabajo = null;
       }
     );

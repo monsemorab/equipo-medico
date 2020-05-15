@@ -82,7 +82,8 @@ export class TipoEquipoComponent implements OnInit {
         this.tipoEquipoToUpdate.emit(this.tipoEquipo);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -100,7 +101,8 @@ export class TipoEquipoComponent implements OnInit {
         this.tipoEquipoToUpdate.emit(this.tipoEquipo);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

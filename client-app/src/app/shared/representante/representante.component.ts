@@ -81,7 +81,8 @@ export class RepresentanteComponent implements OnInit {
         this.representanteToUpdate.emit(this.representante);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -99,7 +100,8 @@ export class RepresentanteComponent implements OnInit {
         this.representanteToUpdate.emit(this.representante);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

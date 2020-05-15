@@ -92,12 +92,13 @@ export class EditEquipoComponent implements OnInit {
       ).subscribe(equipo => {
         this.equipo = new Equipo(equipo.id, equipo.numeroSerie, equipo.numeroPatrimonial, equipo.numeroLote,
           equipo.estado, equipo.versionSw, equipo.descripcionEquipo, equipo.costo, equipo.representante,
-          equipo.tipoEquipo, equipo.modeloEquipo, equipo.ubicacion, equipo.licitacionCompra, equipo.fechaFabricacion,
-          equipo.fechaVenGarantia, equipo.fechaInstalacion, equipo.fechaCompra);
+          equipo.tipoEquipo, equipo.modeloEquipo, equipo.ubicacion, equipo.contrato, equipo.licitacionCompra,
+          equipo.fechaFabricacion, equipo.fechaVenGarantia, equipo.fechaInstalacion, equipo.fechaCompra);
         this.camposAEditar(this.equipo);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       });
   }
@@ -111,7 +112,8 @@ export class EditEquipoComponent implements OnInit {
         this.tipos = tipos;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -126,7 +128,8 @@ export class EditEquipoComponent implements OnInit {
         this.modelos = modelos;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -141,7 +144,8 @@ export class EditEquipoComponent implements OnInit {
         this.representantes = representantes;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -156,7 +160,8 @@ export class EditEquipoComponent implements OnInit {
         this.ubicaciones = ubicaciones;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -212,9 +217,11 @@ export class EditEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeTipoEquipoModal(value: TipoEquipo) {
-    this.tipoId = value.id;
-    this.tipoSeleccionado = value;
-    this.getAllTipos();
+    if(value != null) {
+      this.tipoId = value.id;
+      this.tipoSeleccionado = value;
+      this.getAllTipos();
+    }
     this.modalAddEditTipoOpen = false;
   }
 
@@ -238,9 +245,11 @@ export class EditEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeModeloEquipoModal(value: ModeloEquipo) {
-    this.modeloId = value.id;
-    this.modeloSeleccionado = value;
-    this.getAllModelos();
+    if(value != null) {
+      this.modeloId = value.id;
+      this.modeloSeleccionado = value;
+      this.getAllModelos();
+    }
     this.modalAddEditModeloOpen = false;
   }
 
@@ -264,9 +273,11 @@ export class EditEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeRepresentanteModal(value: Representante) {
-    this.repreId = value.id;
-    this.repreSeleccionado = value;
-    this.getAllRepresentantes();
+    if(value != null) {
+      this.repreId = value.id;
+      this.repreSeleccionado = value;
+      this.getAllRepresentantes();
+    }
     this.modalAddEditRepreOpen = false;
   }
 
@@ -290,9 +301,11 @@ export class EditEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeUbicaionModal(value: Ubicacion) {
-    this.ubicacionId = value.id;
-    this.ubicacionSeleccionada = value;
-    this.getAllUbicaciones();
+    if(value != null) {
+      this.ubicacionId = value.id;
+      this.ubicacionSeleccionada = value;
+      this.getAllUbicaciones();
+    }
     this.modalAddEditUbiOpen = false;
   }
 
@@ -307,13 +320,14 @@ export class EditEquipoComponent implements OnInit {
   /**
    * Al seleccionar un tipo de la lista
    */
-  onSlectedTipo() {
+  onSelectedTipo() {
     this.tipoEquipoService.getTipoEquipoById(this.tipoId).subscribe(
       tipo => {
         this.tipoSeleccionado = tipo;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -322,13 +336,14 @@ export class EditEquipoComponent implements OnInit {
   /**
    * Al seleccionar un modelo d ela lista
    */
-  onSlectedModelo() {
+  onSelectedModelo() {
     this.modeloEquipoService.getModeloEquipoById(this.modeloId).subscribe(
       modelo => {
         this.modeloSeleccionado = modelo;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -337,13 +352,14 @@ export class EditEquipoComponent implements OnInit {
   /**
    * Al seleccionar un representante de la lista
    */
-  onSlectedRepresentante() {
+  onSelectedRepresentante() {
     this.representanteService.getRepresentanteById(this.repreId).subscribe(
       representante => {
         this.repreSeleccionado = representante;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -352,13 +368,14 @@ export class EditEquipoComponent implements OnInit {
   /**
    * Al seleccionar una ubicacion existente de la lista
    */
-  onSlectedUbicacion() {
+  onSelectedUbicacion() {
     this.ubicacionEquipoService.getUbicacionById(this.ubicacionId).subscribe(
       ubicacion => {
         this.ubicacionSeleccionada = ubicacion;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -368,9 +385,24 @@ export class EditEquipoComponent implements OnInit {
    * Se guarda la información del equipo editado.
    */
   onSaveEquipo(): void {
+    if (typeof this.fechaVenGarantia === 'string' || this.fechaVenGarantia instanceof String) {
+      let parts = this.fechaVenGarantia.split('-');
+      this.fechaVenGarantia = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+    }
+
+    if (typeof this.fechaInstalacion === 'string' || this.fechaInstalacion instanceof String) {
+      let parts = this.fechaInstalacion.split('-');
+      this.fechaInstalacion = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+    }
+
+    if (typeof this.fechaCompra === 'string' || this.fechaCompra instanceof String) {
+      let parts = this.fechaCompra.split('-');
+      this.fechaCompra = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+    }
+
     this.equipo = new Equipo(null, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
       this.versionSw, this.descripcionEquipo, this.costo, this.repreSeleccionado, this.tipoSeleccionado,
-      this.modeloSeleccionado, this.ubicacionSeleccionada, this.licitacionCompra, this.fechaFabricacion,
+      this.modeloSeleccionado, this.ubicacionSeleccionada, null, this.licitacionCompra, this.fechaFabricacion,
       this.fechaVenGarantia, this.fechaInstalacion, this.fechaCompra);
     this.saveEquipo(this.equipo);
   }
@@ -386,7 +418,8 @@ export class EditEquipoComponent implements OnInit {
         this.goBack();
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

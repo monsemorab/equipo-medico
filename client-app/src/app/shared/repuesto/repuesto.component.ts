@@ -85,7 +85,8 @@ export class RepuestoComponent implements OnInit {
         this.tipos = tipos;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         // this.error = true;
       }
     );
@@ -100,7 +101,8 @@ export class RepuestoComponent implements OnInit {
         this.modelos = modelos;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         // this.error = true;
       }
     );
@@ -124,7 +126,8 @@ export class RepuestoComponent implements OnInit {
         this.tipoEquipo = tipo;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         // this.error = true;
       }
     );
@@ -148,7 +151,8 @@ export class RepuestoComponent implements OnInit {
         this.modeloEquipo = modelo;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         // this.error = true;
       }
     );
@@ -196,7 +200,8 @@ export class RepuestoComponent implements OnInit {
         this.readonlyField = true;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

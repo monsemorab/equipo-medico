@@ -76,7 +76,8 @@ export class ModeloEquipoComponent implements OnInit {
         this.modeloEquipoToUpdate.emit(this.modeloEquipo);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );
@@ -94,7 +95,8 @@ export class ModeloEquipoComponent implements OnInit {
         this.modeloEquipoToUpdate.emit(this.modeloEquipo);
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

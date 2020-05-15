@@ -26,7 +26,6 @@ export class AddContratoComponent implements OnInit {
   representante: string;
 
   // estado contrato
-  estadoSeleccionado: EstadoContrato;
   estadosContrato: EstadoContrato[];
 
   // equipo
@@ -48,6 +47,7 @@ export class AddContratoComponent implements OnInit {
 
   ngOnInit() {
     this.isSelectedEquipo = false;
+    this.estadoContrato = 'Vigente';
     this.getEquipos();
     this.getEstadoContratos();
   }
@@ -62,7 +62,8 @@ export class AddContratoComponent implements OnInit {
         this.equipos = equipos;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.equipos = [];
       }
     );
@@ -77,7 +78,8 @@ export class AddContratoComponent implements OnInit {
         this.estadosContrato = estados;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.estadosContrato = [];
       }
     );
@@ -111,7 +113,8 @@ export class AddContratoComponent implements OnInit {
         this.equipoId = equipo.id;
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.selectedEquipo = null;
       }
     );
@@ -178,7 +181,8 @@ export class AddContratoComponent implements OnInit {
         this.goBack();
       },
       error => {
-        this.errorMessage = error;
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

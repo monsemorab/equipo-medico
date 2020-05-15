@@ -42,7 +42,7 @@
       <div class="col-xs-2 col-label-add-contrato">
         <label class="form-add-contrato-label required" for="tipo">Tipo Procedimiento:</label>
       </div>
-      <div class="col-xs-4">
+      <div class="col-xs-2">
         <input class="form-control" id="tipo" required
                name="tipo" [(ngModel)]="tipoProcedimiento">
       </div>
@@ -60,11 +60,12 @@
 
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label required" for="licitacion">Nombre Licitación:</label>
+        <label class="form-add-contrato-label required" >Nombre Licitación:</label>
       </div>
       <div class="col-xs-5">
-        <input class="form-control" id="licitacion" required
-               name="licitacion" [(ngModel)]="nombreLicitacion">
+        <textarea class="form-control" id="descripcion" rows="5" tabindex="9"
+                  name="descripcion" [(ngModel)]="nombreLicitacion" required>
+            </textarea>
       </div>
     </div>
 
@@ -75,7 +76,7 @@
       <div class="col-xs-2">
         <div class="select form-control">
           <select class="select-form-contrato" id="estado" #selectEstado name="estado"
-                  [(ngModel)]="estadoSeleccionado"
+                  [(ngModel)]="estadoContrato"
                   (change)="onSelectedEstadoContrado(selectEstado.value)">
             <option *ngFor="let estado of estadosContrato"
                     value={{estado.nombre}}>{{estado.nombre}}
@@ -83,31 +84,36 @@
           </select>
         </div>
       </div>
-
-      <div class="col-xs-1 col-label-add-contrato">
-        <label class="form-add-contrato-label required" for="inicio">Inicio:</label>
+    </div>
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-2 col-label-add-contrato">
+        <label class="form-add-contrato-label required">Fecha Inicio:</label>
       </div>
       <div class="col-xs-2">
-        <input class="form-control" placeholder="dd/mm/yyyy"
-               id="inicio" required name="inicio"
-               [(ngModel)]="fechaInicio">
+        <p-calendar [(ngModel)]="fechaInicio" dateFormat="dd-mm-yy"
+                    placeholder="dd-mm-yyyy"
+                    [monthNavigator]="true" [yearNavigator]="true"
+                    yearRange="2000:2035"  name="finicio">
+        </p-calendar>
       </div>
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label required" for="fin">Finalización:</label>
+        <label class="form-add-contrato-label required">Finalización:</label>
       </div>
       <div class="col-xs-2">
-        <input class="form-control" placeholder="dd/mm/yyyy"
-               id="fin" required name="fin"
-               [(ngModel)]="fechaFin">
+        <p-calendar [(ngModel)]="fechaFin" dateFormat="dd-mm-yy"
+                    placeholder="dd-mm-yyyy"
+                    [monthNavigator]="true" [yearNavigator]="true"
+                    yearRange="2000:2035"  name="ffin">
+        </p-calendar>
       </div>
     </div>
 
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2 col-label-add-contrato">
-        <label class="form-add-contrato-label required">Representante:</label>
+        <label class="form-add-contrato-label">Representante:</label>
       </div>
       <div class="col-xs-5">
-        <input class="form-control" id="representante" required
+        <input class="form-control" id="representante"
                name="representante" [(ngModel)]="representante">
       </div>
     </div>

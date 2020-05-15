@@ -9,6 +9,7 @@
 
 .selectOrdenTrabajo {
   background-color: darkgrey !important;
+  cursor: pointer !important;
 }
 
 pre {
