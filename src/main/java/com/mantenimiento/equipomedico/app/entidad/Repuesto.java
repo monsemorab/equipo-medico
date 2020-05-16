@@ -40,15 +40,15 @@ public class Repuesto implements Serializable {
     @Column(name = "cantidad_restante")
     private Integer cantidadRestante;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="tipo_equipo_id")
     private TipoEquipo tipoEquipo;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="modelo_equipo_id")
     private ModeloEquipo modeloEquipo;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="representante_id")
     private Representante representante;
 

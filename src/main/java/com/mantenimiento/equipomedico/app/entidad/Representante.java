@@ -32,8 +32,8 @@ public class Representante implements Serializable {
     @Column(name = "telefono")
     private String telefono;
 
-    @Column(name = "telefono_contacto")
-    private String telefonoContacto;
+    @Column(name = "nombre_contacto")
+    private String nombreContacto;
 
     @Column(name = "celular")
     private String celular;
@@ -134,16 +134,16 @@ public class Representante implements Serializable {
      * @return value of telefonoContacto
      */
     public String getTelefonoContacto() {
-        return telefonoContacto;
+        return nombreContacto;
     }
 
     /**
-     * Set telefonoContacto
+     * Set nombreContacto
      *
-     * @param telefonoContacto
+     * @param nombreContacto
      */
-    public void setTelefonoContacto(String telefonoContacto) {
-        this.telefonoContacto = telefonoContacto;
+    public void setNombreContacto(String nombreContacto) {
+        this.nombreContacto = nombreContacto;
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.mantenimiento.equipomedico.app.controller;
 
-import com.mantenimiento.equipomedico.app.entidad.Equipo;
 import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import com.mantenimiento.equipomedico.app.service.RepuestoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,15 +68,15 @@ public class RepuestoController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Repuesto> get(@PathVariable Long id) {
-        Repuesto repuesto = repuestoService.get(id);
-        return Optional.ofNullable(repuesto)
-                .map(result -> new ResponseEntity<>(
-                        result,
-                        HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+//    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Repuesto> get(@PathVariable Long id) {
+//        Repuesto repuesto = repuestoService.get(id);
+//        return Optional.ofNullable(repuesto)
+//                .map(result -> new ResponseEntity<>(
+//                        result,
+//                        HttpStatus.OK))
+//                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//    }
 
     /**
      * Obtiene determinado repuesto por el código
@@ -85,9 +84,10 @@ public class RepuestoController {
      * @param codigo
      * @return
      */
-    @RequestMapping(value = "by-codigo/{codigo}",
+    @RequestMapping(value = "byCodigo/{codigo}",
         method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Repuesto> getByCodigo(@PathVariable String codigo) {
+
         Repuesto repuesto = repuestoService.getByCodigo(codigo);
         return Optional.ofNullable(repuesto)
             .map(result -> new ResponseEntity<>(
