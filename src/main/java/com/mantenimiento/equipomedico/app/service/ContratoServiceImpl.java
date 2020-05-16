@@ -1,9 +1,9 @@
 package com.mantenimiento.equipomedico.app.service;
 
 import com.mantenimiento.equipomedico.app.entidad.Contrato;
+import com.mantenimiento.equipomedico.app.entidad.Equipo;
 import com.mantenimiento.equipomedico.app.repository.ContratoRepository;
 import com.mantenimiento.equipomedico.app.repository.EquipoRepository;
-import com.mantenimiento.equipomedico.app.repository.RepresentanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +17,6 @@ public class ContratoServiceImpl implements ContratoService {
     @Autowired
     private ContratoRepository contratoRepository;
     @Autowired
-    private RepresentanteRepository representanteRepository;
-    @Autowired
     private EquipoRepository equipoRepository;
 
     /**
@@ -29,15 +27,22 @@ public class ContratoServiceImpl implements ContratoService {
      */
     @Override
     public Contrato create(Contrato contrato) {
-        if(contrato.getRepresentante() != null){
-            contrato.setRepresentante(representanteRepository.save(contrato.getRepresentante()));
+        if(contrato.getId() != null){
+            Optional<Contrato> contrato1 = contratoRepository.findById(contrato.getId());
+            if(contrato1.isPresent()){
+                contrato1.get().getEquipos().forEach(e -> {
+                    e.setContrato(null);
+                    equipoRepository.save(e);
+                });
+            }
         }
         Contrato cont = contratoRepository.save(contrato);
         contrato.getEquipos().forEach(equipo -> {
-            equipo.setContrato(cont);
-            equipoRepository.save(equipo);
+            Equipo eq = equipoRepository.findById(equipo.getId()).get();
+            eq.setContrato(cont);
+            equipoRepository.save(eq);
         });
-        return cont;
+        return contrato;
     }
 
     /**

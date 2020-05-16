@@ -1,6 +1,7 @@
 package com.mantenimiento.equipomedico.app.entidad;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -59,16 +60,16 @@ public class Equipo implements Serializable {
     @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "contrato_id")
-    @JsonBackReference
+    @JsonIgnoreProperties("equipos")
     private Contrato contrato;
 
     @Column(name = "licitacion_compra")
     private String licitacionCompra;
 
     @Column(name = "fecha_fabricacion")
-    private Date fechaFabricacion;
+    private String fechaFabricacion;
 
     @Column(name = "fecha_ven_garantia")
     private Date fechaVenGarantia;
@@ -139,8 +140,29 @@ public class Equipo implements Serializable {
      *
      * @return value of fechaFabricacion
      */
-    public Date getFechaFabricacion() {
+    public String getFechaFabricacion()
+    {
         return fechaFabricacion;
+    }
+
+    /**
+     * Gets licitacionCompra
+     *
+     * @return value of licitacionCompra
+     */
+    public String getLicitacionCompra()
+    {
+        return licitacionCompra;
+    }
+
+    /**
+     * Set licitacionCompra
+     *
+     * @param licitacionCompra
+     */
+    public void setLicitacionCompra(String licitacionCompra)
+    {
+        this.licitacionCompra = licitacionCompra;
     }
 
     /**
@@ -148,7 +170,8 @@ public class Equipo implements Serializable {
      *
      * @param fechaFabricacion
      */
-    public void setFechaFabricacion(Date fechaFabricacion) {
+    public void setFechaFabricacion(String fechaFabricacion)
+    {
         this.fechaFabricacion = fechaFabricacion;
     }
 

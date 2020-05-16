@@ -129,11 +129,12 @@ public class Representante implements Serializable {
     }
 
     /**
-     * Gets telefonoContacto
+     * Gets nombreContacto
      *
-     * @return value of telefonoContacto
+     * @return value of nombreContacto
      */
-    public String getTelefonoContacto() {
+    public String getNombreContacto()
+    {
         return nombreContacto;
     }
 
@@ -142,7 +143,8 @@ public class Representante implements Serializable {
      *
      * @param nombreContacto
      */
-    public void setNombreContacto(String nombreContacto) {
+    public void setNombreContacto(String nombreContacto)
+    {
         this.nombreContacto = nombreContacto;
     }
 

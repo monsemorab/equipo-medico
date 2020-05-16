@@ -27,7 +27,7 @@ public class Contrato implements Serializable {
     private Long id;
 
     @Column(name = "numero_contrato")
-    private Long numeroContrato;
+    private String numeroContrato;
 
     @Column(name = "nombre_licitacion")
     private String nombreLicitacion;
@@ -45,7 +45,7 @@ public class Contrato implements Serializable {
     private Date fechaFin;
 
     @OneToMany(mappedBy="contrato")
-    @JsonManagedReference
+    @JsonIgnoreProperties("contrato")
     private List<Equipo> equipos;
 
     @Column(name = "convocante")
@@ -58,23 +58,9 @@ public class Contrato implements Serializable {
     @JoinColumn(name = "representante_id")
     private Representante representante;
 
-    /**
-     * Gets numeroContrato
-     *
-     * @return value of numeroContrato
-     */
-    public Long getNumeroContrato() {
-        return numeroContrato;
-    }
+    @Column(name = "numero_procedimiento")
+    private String numeroProcedimiento;
 
-    /**
-     * Set numeroContrato
-     *
-     * @param numeroContrato
-     */
-    public void setNumeroContrato(Long numeroContrato) {
-        this.numeroContrato = numeroContrato;
-    }
 
     /**
      * Gets nombreLicitacion
@@ -254,5 +240,45 @@ public class Contrato implements Serializable {
      */
     public void setRepresentante(Representante representante) {
         this.representante = representante;
+    }
+
+    /**
+     * Gets numeroContrato
+     *
+     * @return value of numeroContrato
+     */
+    public String getNumeroContrato()
+    {
+        return numeroContrato;
+    }
+
+    /**
+     * Set numeroContrato
+     *
+     * @param numeroContrato
+     */
+    public void setNumeroContrato(String numeroContrato)
+    {
+        this.numeroContrato = numeroContrato;
+    }
+
+    /**
+     * Gets numeroProcedimiento
+     *
+     * @return value of numeroProcedimiento
+     */
+    public String getNumeroProcedimiento()
+    {
+        return numeroProcedimiento;
+    }
+
+    /**
+     * Set numeroProcedimiento
+     *
+     * @param numeroProcedimiento
+     */
+    public void setNumeroProcedimiento(String numeroProcedimiento)
+    {
+        this.numeroProcedimiento = numeroProcedimiento;
     }
 }
