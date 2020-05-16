@@ -4,6 +4,7 @@ import {Repuesto} from '../../../../domain/repuesto';
 import {switchMap} from 'rxjs/operators';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-edit-solicitud',
@@ -35,7 +36,6 @@ export class EditSolicitudComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isEditRepuesto = true;
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) =>
@@ -57,10 +57,11 @@ export class EditSolicitudComponent implements OnInit {
    * @param solicitud
    */
   camposAEditar(solicitud: SolicitudRepuesto) {
+    const datepipe: DatePipe = new DatePipe('en-ES');
     this.id = solicitud.id;
     this.estado = solicitud.estado;
     this.repuestos = solicitud.repuestos;
-    this.fechaSolicitud = solicitud.fechaSolicitud;
+    this.fechaSolicitud = datepipe.transform(solicitud.fechaSolicitud, 'dd-MM-yyyy');
   }
 
   /**
@@ -68,14 +69,18 @@ export class EditSolicitudComponent implements OnInit {
    */
   addNewRepuesto(): void {
     this.repuestoSeleccionado = null;
+    this.isEditRepuesto = false;
     this.modalAddEditRepuestoOpen = true;
   }
 
   /**
    * Cuando se selecciona un repuesto para editar sus datos.
+   * @param repuesto
    */
-  editRepuesto(): void {
+  editRepuesto(repuesto: Repuesto): void {
+    this.repuestoSeleccionado = repuesto;
     this.eliminarRepuesto(this.repuestoSeleccionado);
+    this.isEditRepuesto = true;
     this.modalAddEditRepuestoOpen = true;
   }
 
@@ -92,20 +97,13 @@ export class EditSolicitudComponent implements OnInit {
   }
 
   /**
-   * Cuando se selecciona un repuesto de la lista.
-   * @param repuesto
-   */
-  selectRepuesto(repuesto: Repuesto): void {
-    this.repuestoSeleccionado = repuesto;
-    console.log('repuestoSeleccionado ', this.repuestoSeleccionado);
-  }
-
-  /**
    * El repuesto creado o editado es agregado a la lista de repuestos.
    * @param value
    */
   addEditRepuesto(value: Repuesto) {
-    this.repuestos.push(value);
+    if(value != null) {
+      this.repuestos.push(value);
+    }
     this.repuestoSeleccionado = value;
     this.isEditRepuesto = true;
     this.modalAddEditRepuestoOpen = false;
@@ -119,7 +117,9 @@ export class EditSolicitudComponent implements OnInit {
   onCancelAddEditRepuesto(value: Repuesto) {
     if (this.isEditRepuesto) {
       this.repuestos = this.solicitudRepuesto.repuestos;
-      this.repuestos.push(value);
+      if(value != null) {
+        this.repuestos.push(value);
+      }
     }
     this.modalAddEditRepuestoOpen = false;
   }
@@ -128,6 +128,10 @@ export class EditSolicitudComponent implements OnInit {
    * Se guarda la información de la solicitud de repuesto creada.
    */
   onSaveSolicitudRepuesto(): void {
+    if (typeof this.fechaSolicitud === 'string' || this.fechaSolicitud instanceof String) {
+      let parts = this.fechaSolicitud.split('-');
+      this.fechaSolicitud = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+    }
     this.solicitudRepuesto = new SolicitudRepuesto(this.id, this.estado, this.repuestos, this.fechaSolicitud);
     this.saveSolicitudRepuesto(this.solicitudRepuesto);
   }
@@ -137,7 +141,7 @@ export class EditSolicitudComponent implements OnInit {
    * @param solicitud
    */
   saveSolicitudRepuesto(solicitud: SolicitudRepuesto): void {
-    this.solicitudRepuestoService.crearSolicitudRepuesto(solicitud).subscribe(
+    this.solicitudRepuestoService.editarSolicitudRepuesto(solicitud).subscribe(
       // tslint:disable-next-line:no-shadowed-variable
       solicitud => {
         this.solicitudRepuesto = solicitud;
@@ -152,7 +156,7 @@ export class EditSolicitudComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['home/mantenimiento/repuestos/lista-solicitud-repuestos']);
+    this.router.navigate(['home/mantenimiento/repuestos/lista-solicitud-repuesto']);
   }
 
 }

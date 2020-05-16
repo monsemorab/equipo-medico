@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 import {Router} from '@angular/router';
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-listar-solicitud',
@@ -41,6 +42,7 @@ export class ListarSolicitudComponent implements OnInit {
     this.solicitudRepuestoService.getAllSolicitudRepuestos().subscribe(
       list => {
         this.solicitudRepuestos = list;
+        this.formateoFechas();
         this.total = list.length;
         this.loading = false;
       },
@@ -51,6 +53,14 @@ export class ListarSolicitudComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  formateoFechas() {
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    for(let i=0; i< this.solicitudRepuestos.length; i++){
+      this.solicitudRepuestos[i].fechaSolicitud = datepipe.transform(this.solicitudRepuestos[i].fechaSolicitud, 'dd-MM-yyyy');
+    }
+    this.loading = false;
   }
 
   /**
@@ -72,8 +82,7 @@ export class ListarSolicitudComponent implements OnInit {
    * Cuando se presiona el botón Edit.
    */
   editSolicitudRepuesto() {
-    this.router.navigate(['home/mantenimiento/repuestos/editar-solicitud-repuesto' +
-    this.selectedRepuesto.id]);
+    this.router.navigate(['home/mantenimiento/repuestos/editar-solicitud-repuesto/' + this.selectedRepuesto.id]);
   }
 
 }

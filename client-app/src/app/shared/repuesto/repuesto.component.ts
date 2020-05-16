@@ -6,6 +6,9 @@ import {EquipoService} from '../../service/equipo.service';
 import {RepuestoService} from '../../service/repuesto.service';
 import {ModeloEquipoService} from '../../service/modelo-equipo.service';
 import {TipoEquipoService} from '../../service/tipo-equipo.service';
+import {DatePipe} from "@angular/common";
+import {Representante} from "../../domain/representante";
+import {RepresentanteService} from "../../service/representante.service";
 
 @Component({
   selector: 'app-repuesto',
@@ -33,45 +36,46 @@ export class RepuestoComponent implements OnInit {
   cantRestante: number;
   tipoEquipo: TipoEquipo;
   modeloEquipo: ModeloEquipo;
-  representante: string;
+  representante: Representante;
   fechaActualizacion: any;
   readonlyField: boolean;
 
   tipos = new Array<TipoEquipo>();
   modelos = new Array<ModeloEquipo>();
+  representantes = new Array<Representante>();
+  tipoId: any;
+  modeloId: any;
+  repreId: any;
 
   // error
   errorMessage: string;
   error: boolean;
+  info: boolean;
 
 
   constructor(private equipoService: EquipoService,
               private modeloEquipoService: ModeloEquipoService,
               private tipoEquipoService: TipoEquipoService,
-              private repuestoService: RepuestoService) {
+              private repuestoService: RepuestoService,
+              private representanteService: RepresentanteService) {
   }
 
   ngOnInit() {
+    this.tipoId = 'Seleccionar Tipo';
+    this.modeloId = 'Seleccionar Modelo';
+    this.repreId = 'Seleccionar Representante';
     this.clearRepuestoField();
     this.getAllTipos();
     this.getAllModelos();
+    this.getAllRepresentantes();
 
     if (this.repuesto == null) {
       this.modalRepuestoTitle = 'Agregar Repuesto';
       this.id = -1;
+      this.readonlyField = true;
     } else {
       this.modalRepuestoTitle = 'Editar Repuesto';
-      this.id = this.repuesto.id;
-      this.codigo = this.repuesto.codigo;
-      this.descripcion = this.repuesto.descripcionArticulo;
-      this.precio = this.repuesto.precio;
-      this.cantAdquirida = this.repuesto.cantidadAdquirida;
-      this.cantRestante = this.repuesto.cantidadRestante;
-      this.tipoEquipo = this.repuesto.tipoEquipo;
-      this.modeloEquipo = this.repuesto.modeloEquipo;
-      this.representante = this.repuesto.representante;
-      this.fechaActualizacion = this.repuesto.fechaActualizacion;
-      this.isEditRepuesto = true;
+      this.camposAEditar(this.repuesto);
     }
     this.modalRepuestoOpen = true;
   }
@@ -109,10 +113,50 @@ export class RepuestoComponent implements OnInit {
   }
 
   /**
+   * Se obtiene la lista de representantes.
+   */
+  getAllRepresentantes(): void {
+    this.representanteService.getAllRepresentantes().subscribe(
+      representantes => {
+        this.representantes = representantes;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  camposAEditar(repuesto: Repuesto) {
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    this.id = repuesto.id;
+    this.codigo = repuesto.codigo;
+    this.descripcion = repuesto.descripcionArticulo;
+    this.precio = repuesto.precio;
+    this.cantAdquirida = repuesto.cantidadAdquirida;
+    this.cantRestante = repuesto.cantidadRestante;
+    this.fechaActualizacion = datepipe.transform(repuesto.fechaActualizacion, 'dd-MM-yyyy');
+    this.tipoEquipo = repuesto.tipoEquipo;
+    if(repuesto.tipoEquipo != null) {
+      this.tipoId = repuesto.tipoEquipo.id;
+    }
+    this.modeloEquipo = repuesto.modeloEquipo;
+    if(repuesto.modeloEquipo != null) {
+      this.modeloId = repuesto.modeloEquipo.id;
+    }
+    this.representante = repuesto.representante;
+    if(repuesto.representante != null) {
+      this.repreId = repuesto.representante.id;
+    }
+    this.readonlyField = false;
+  }
+
+  /**
    * Se selecciona un tipo de equipo.
    * @param {number} value
    */
-  onSelectedTipoEquipo(value: number): void {
+  onSelectedTipoEquipo(value): void {
     this.getTipoEquipoById(value);
   }
 
@@ -137,7 +181,7 @@ export class RepuestoComponent implements OnInit {
    * Se selecciona un modelo.
    * @param {number} value
    */
-  onSelectedModeloEquipo(value: number): void {
+  onSelectedModeloEquipo(value): void {
     this.getModeloEquipoById(value);
   }
 
@@ -159,11 +203,35 @@ export class RepuestoComponent implements OnInit {
   }
 
   /**
+   * Se selecciona un representante
+   * @param value
+   */
+  onSelectedRepresentante(value): void {
+    this.getRepresentanteById(value);
+  }
+
+  /**
+   * Se obtiene el representante seleccionado
+   * @param id
+   */
+  getRepresentanteById(id: number): void {
+    this.representanteService.getRepresentanteById(this.repreId).subscribe(
+      representante => {
+        this.representante = representante;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  /**
    * Al presionar la tecla enter, se realiza la busqueda del repuesto por el campo código.
    * @param value
    */
   onEnterCodigoRepuesto(value: string) {
-    this.readonlyField = false;
     if (value !== '' && value != null) {
       this.codigo = value;
       this.buscarRepuestoByCodigo(this.codigo);
@@ -175,7 +243,6 @@ export class RepuestoComponent implements OnInit {
    * @param value
    */
   onKeyCodigoRepuesto(value: string) {
-    this.readonlyField = false;
     this.codigo = value;
   }
 
@@ -187,17 +254,51 @@ export class RepuestoComponent implements OnInit {
   buscarRepuestoByCodigo(codigo: string) {
     this.repuestoService.getRepuestoByCodigo(codigo).subscribe(
       repuesto => {
-        this.id = repuesto.id;
-        this.codigo = repuesto.codigo;
-        this.descripcion = repuesto.descripcionArticulo;
-        this.precio = repuesto.precio;
-        this.cantAdquirida = repuesto.cantidadAdquirida;
-        this.cantRestante = repuesto.cantidadRestante;
-        this.tipoEquipo = repuesto.tipoEquipo;
-        this.modeloEquipo = repuesto.modeloEquipo;
-        this.representante = repuesto.representante;
-        this.fechaActualizacion = repuesto.fechaActualizacion;
-        this.readonlyField = true;
+        this.camposAEditar(repuesto);
+      },
+      error => {
+        this.errorMessage = error.error;
+        if (this.errorMessage == null && error.status == '404') {
+          this.errorMessage = 'No existe repuesto con código ' + this.codigo;
+          this.info = true;
+          this.readonlyField = false;
+        } else {
+          console.log(this.errorMessage)
+          this.error = true;
+        }
+
+      }
+    );
+  }
+
+
+  /**
+   * Se crea el objeto con los datos ingresados para el repuesto.
+   */
+  addRepuesto() {
+    if (typeof this.fechaActualizacion === 'string' || this.fechaActualizacion instanceof String) {
+      let parts = this.fechaActualizacion.split('-');
+      this.fechaActualizacion = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+    }
+    this.repuesto = new Repuesto(this.id, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
+      this.cantRestante, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);
+
+    if (this.isEditRepuesto) {
+      this.editarRepuestoExistente(this.repuesto);
+    } else {
+      this.agregarRepuestoCreado(this.repuesto);
+    }
+  }
+
+  /**
+   * Se crea un nuveo repeusto.
+   * @param repuesto
+   */
+  agregarRepuestoCreado(repuesto: Repuesto) {
+    this.repuestoService.crearRepuesto(repuesto).subscribe(
+      repuesto => {
+        this.repuesto = repuesto;
+        this.repuestoToUpdate.emit(this.repuesto);
       },
       error => {
         this.errorMessage = error.error;
@@ -209,12 +310,21 @@ export class RepuestoComponent implements OnInit {
 
 
   /**
-   * Se crea el objeto con los datos ingresados para el repuesto.
+   * Se guardan los datos editados del repuesto seleccionado.
+   * @param repuesto
    */
-  addRepuesto() {
-    this.repuesto = new Repuesto(this.id, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
-      this.cantRestante, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);
-    this.repuestoToUpdate.emit(this.repuesto);
+  editarRepuestoExistente(repuesto: Repuesto) {
+    this.repuestoService.editarRepuesto(repuesto).subscribe(
+      repuesto => {
+        this.repuesto = repuesto;
+        this.repuestoToUpdate.emit(this.repuesto);
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
   }
 
   /**
@@ -236,7 +346,7 @@ export class RepuestoComponent implements OnInit {
     this.cantRestante = null;
     this.tipoEquipo = null;
     this.modeloEquipo = null;
-    this.representante = '';
+    this.representante = null;
     this.fechaActualizacion = '';
     this.readonlyField = false;
   }

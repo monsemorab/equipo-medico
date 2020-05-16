@@ -7,6 +7,10 @@
     font-weight: bold !important;
 }
 
+.col-label-equipo {
+  text-align: right !important;
+}
+
 .col-btn-edit-equipo {
     margin-left: -18px !important;
 }

@@ -47,8 +47,10 @@ export class AddSolicitudComponent implements OnInit {
 
   /**
    * Cuando se selecciona un repuesto para editar sus datos.
+   * @param repuesto
    */
-  editRepuesto(): void {
+  editRepuesto(repuesto: Repuesto): void {
+    this.repuestoSeleccionado = repuesto;
     this.eliminarRepuesto(this.repuestoSeleccionado);
     this.modalAddEditRepuestoOpen = true;
   }
@@ -66,20 +68,13 @@ export class AddSolicitudComponent implements OnInit {
   }
 
   /**
-   * Cuando se selecciona un repuesto de la lista.
-   * @param repuesto
-   */
-  selectRepuesto(repuesto: Repuesto): void {
-    this.repuestoSeleccionado = repuesto;
-    console.log('repuestoSeleccionado ', this.repuestoSeleccionado);
-  }
-
-  /**
    * El repuesto creado o editado es agregado a la lista de repuestos.
    * @param value
    */
   addEditRepuesto(value: Repuesto) {
-    this.repuestos.push(value);
+    if(value != null) {
+      this.repuestos.push(value);
+    }
     this.repuestoSeleccionado = value;
     this.isEditRepuesto = true;
     this.modalAddEditRepuestoOpen = false;
@@ -92,7 +87,9 @@ export class AddSolicitudComponent implements OnInit {
    */
   onCancelAddEditRepuesto(value: Repuesto) {
     if (this.isEditRepuesto) {
-      this.repuestos.push(value);
+      if(value != null) {
+        this.repuestos.push(value);
+      }
     }
     this.modalAddEditRepuestoOpen = false;
   }
@@ -125,7 +122,7 @@ export class AddSolicitudComponent implements OnInit {
   }
 
   goBack(): void {
-    // this.router.navigate(['home/mantenimiento/repuestos/lista-solicitud-repuestos']);
+    // this.router.navigate(['home/mantenimiento/repuestos/lista-solicitud-repuesto']);
     this.location.back();
   }
 

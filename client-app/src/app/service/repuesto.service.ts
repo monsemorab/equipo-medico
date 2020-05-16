@@ -26,7 +26,7 @@ export class RepuestoService {
    * @param repuestoCod
    */
   getRepuestoByCodigo(repuestoCod: string): Observable<Repuesto> {
-    const url = this.urlRepuesto + '/' + repuestoCod;
+    const url = this.urlRepuesto + '/byCodigo/' + repuestoCod;
     return this.apiRequest.get(url);
   }
 

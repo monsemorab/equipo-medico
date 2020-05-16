@@ -6,11 +6,13 @@ import {TipoEquipoComponent} from './tipo-equipo/tipo-equipo.component';
 import {ModeloEquipoComponent} from './modelo-equipo/modelo-equipo.component';
 import {UbicacionComponent} from './ubicacion/ubicacion.component';
 import {RepuestoComponent} from './repuesto/repuesto.component';
+import {CalendarModule} from "primeng/primeng";
 
 @NgModule({
   imports: [
     CommonModule,
-    CommonModuleImportsModule
+    CommonModuleImportsModule,
+    CalendarModule
   ],
   declarations: [
     RepresentanteComponent,

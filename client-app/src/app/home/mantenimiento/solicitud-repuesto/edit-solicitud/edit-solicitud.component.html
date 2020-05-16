@@ -1,4 +1,4 @@
-<h2 class="form-add-edit-sol-repuesto-title">Crear Solicitud de Repuestos</h2>
+<h2 class="form-add-edit-sol-repuesto-title">Editar Solicitud de Repuestos</h2>
 <form class="compact" #repuestoForm="ngForm">
   <div class="form-group row flex-items-xs-left">
     <div class="col-xs-1">
@@ -10,12 +10,14 @@
     </div>
     <div class="col-xs-1"></div>
     <div class="col-xs-1">
-      <label class="form-add-edit-repuesto-label" for="fechaSolicitud">Fecha:</label>
+      <label class="form-add-edit-repuesto-label">Fecha:</label>
     </div>
     <div class="col-xs-2">
-      <input class="form-control" placeholder="dd/mm/yyyy"
-             id="fechaSolicitud" name="fechaSolicitud"
-             [(ngModel)]="fechaSolicitud">
+      <p-calendar [(ngModel)]="fechaSolicitud" dateFormat="dd-mm-yy"
+                  placeholder="dd-mm-yyyy" tabindex="9"
+                  [monthNavigator]="true" [yearNavigator]="true"
+                  yearRange="2000:2030" name="fcompra">
+      </p-calendar>
     </div>
   </div>
 
@@ -29,13 +31,6 @@
             <clr-icon shape="plus"></clr-icon>
             Agregar
           </button>
-
-          <button type="button" class="btn btn-sm btn-secondary"
-                  *ngIf="repuestoSeleccionado != null"
-                  (click)="editRepuesto()">
-            <clr-icon shape="plus"></clr-icon>
-            Editar
-          </button>
         </div>
       </clr-dg-action-bar>
       <clr-dg-column>Código</clr-dg-column>
@@ -43,17 +38,20 @@
       <clr-dg-column>Cantidad Adquirida</clr-dg-column>
       <clr-dg-column>Precio</clr-dg-column>
       <clr-dg-column></clr-dg-column>
-      <clr-dg-row *ngFor="let repuesto of repuestos"
-                  (click)="selectRepuesto(repuesto)"
-                  [class.selectRepuesto]="repuesto === repuestoSeleccionado">
-        <clr-dg-cell>{{repuesto.codigo}}</clr-dg-cell>
-        <clr-dg-cell>{{repuesto.descripcionArticulo}}</clr-dg-cell>
-        <clr-dg-cell>{{repuesto.cantidadAdquirida}}</clr-dg-cell>
-        <clr-dg-cell>{{repuesto.precio}}</clr-dg-cell>
+      <clr-dg-row *ngFor="let repuesto of repuestos">
+        <clr-dg-cell>{{repuesto?.codigo}}</clr-dg-cell>
+        <clr-dg-cell>{{repuesto?.descripcionArticulo}}</clr-dg-cell>
+        <clr-dg-cell>{{repuesto?.cantidadAdquirida}}</clr-dg-cell>
+        <clr-dg-cell>{{repuesto?.precio}}</clr-dg-cell>
         <clr-dg-cell>
           <button class="btn btn-sm btn-warning"
                   (click)="eliminarRepuesto(repuesto)">
-            Eliminar
+            <clr-icon shape="trash"></clr-icon>
+          </button>
+
+          <button type="button" class="btn btn-sm btn-secondary"
+                  (click)="editRepuesto(repuesto)">
+            <clr-icon shape="pencil"></clr-icon>
           </button>
         </clr-dg-cell>
       </clr-dg-row>

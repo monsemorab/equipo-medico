@@ -62,7 +62,6 @@ export class ModeloEquipoComponent implements OnInit {
     } else {
       this.agregarModeloCreado(this.modeloEquipo);
     }
-
   }
 
   /**
