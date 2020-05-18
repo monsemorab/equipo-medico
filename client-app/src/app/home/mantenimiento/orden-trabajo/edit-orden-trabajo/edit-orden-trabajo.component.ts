@@ -238,6 +238,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
    */
   agregarRepuesto(): void {
     this.repuestoSeleccionado = null;
+    this.isEditRepuesto = false;
     this.modalAddEditRepuestoOpen = true;
   }
 
@@ -245,6 +246,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
    * Cuando se selecciona un repuesto para editar sus datos.
    */
   editarRepuesto(): void {
+    this.isEditRepuesto = true;
     this.eliminarRepuesto(this.repuestoSeleccionado);
     this.modalAddEditRepuestoOpen = true;
   }
@@ -276,7 +278,6 @@ export class EditOrdenTrabajoComponent implements OnInit {
   addEditRepuesto(value: Repuesto) {
     this.repuestos.push(value);
     this.repuestoSeleccionado = null;
-    this.isEditRepuesto = true;
     this.modalAddEditRepuestoOpen = false;
   }
 

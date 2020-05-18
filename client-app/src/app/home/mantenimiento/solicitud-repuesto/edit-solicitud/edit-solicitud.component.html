@@ -77,7 +77,6 @@
 <!--Modal para agregar o editar los datos de un repuesto-->
 <app-repuesto *ngIf="modalAddEditRepuestoOpen"
               [repuesto]="repuestoSeleccionado"
-              [isEditRepuesto]="isEditRepuesto"
               (repuestoToUpdate)="addEditRepuesto($event)"
               (cancelAddEditRepuesto)="onCancelAddEditRepuesto($event)">
 </app-repuesto>

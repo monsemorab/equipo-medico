@@ -42,6 +42,7 @@ export class AddSolicitudComponent implements OnInit {
    */
   addNewRepuesto(): void {
     this.repuestoSeleccionado = null;
+    this.isEditRepuesto = false;
     this.modalAddEditRepuestoOpen = true;
   }
 
@@ -51,6 +52,7 @@ export class AddSolicitudComponent implements OnInit {
    */
   editRepuesto(repuesto: Repuesto): void {
     this.repuestoSeleccionado = repuesto;
+    this.isEditRepuesto = false;
     this.eliminarRepuesto(this.repuestoSeleccionado);
     this.modalAddEditRepuestoOpen = true;
   }
@@ -76,7 +78,6 @@ export class AddSolicitudComponent implements OnInit {
       this.repuestos.push(value);
     }
     this.repuestoSeleccionado = value;
-    this.isEditRepuesto = true;
     this.modalAddEditRepuestoOpen = false;
   }
 

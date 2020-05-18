@@ -105,7 +105,6 @@ export class EditSolicitudComponent implements OnInit {
       this.repuestos.push(value);
     }
     this.repuestoSeleccionado = value;
-    this.isEditRepuesto = true;
     this.modalAddEditRepuestoOpen = false;
   }
 

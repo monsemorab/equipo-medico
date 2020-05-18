@@ -46,6 +46,14 @@
         <input class="form-control" id="tipo" required
                name="tipo" [(ngModel)]="tipoProcedimiento">
       </div>
+
+      <div class="col-xs-2 col-label-edit-contrato">
+        <label class="form-edit-contrato-label" for="nroProc">Nro Procedimiento:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="nroProc"
+               name="nroProc" [(ngModel)]="numeroProcedimiento">
+      </div>
     </div>
 
     <div class="form-group row flex-items-xs-left">
@@ -63,7 +71,7 @@
         <label class="form-edit-contrato-label required">Nombre Licitación:</label>
       </div>
       <div class="col-xs-5">
-        <textarea class="form-control" id="descripcion" rows="5" tabindex="9"
+        <textarea class="form-control" id="descripcion" rows="5"
                   name="descripcion" [(ngModel)]="nombreLicitacion" required>
         </textarea>
       </div>
@@ -93,7 +101,7 @@
         <p-calendar [(ngModel)]="fechaInicio" dateFormat="dd-mm-yy"
                     placeholder="dd-mm-yyyy"
                     [monthNavigator]="true" [yearNavigator]="true"
-                    yearRange="2000:2035"  name="finicio">
+                    yearRange="2000:2035" name="finicio">
         </p-calendar>
       </div>
       <div class="col-xs-2 col-label-edit-contrato">
@@ -103,22 +111,10 @@
         <p-calendar [(ngModel)]="fechaFin" dateFormat="dd-mm-yy"
                     placeholder="dd-mm-yyyy"
                     [monthNavigator]="true" [yearNavigator]="true"
-                    yearRange="2000:2035"  name="ffin">
+                    yearRange="2000:2035" name="ffin">
         </p-calendar>
       </div>
     </div>
-
-    <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-2 col-label-edit-contrato">
-        <label class="form-edit-contrato-label">Representante:</label>
-      </div>
-
-      <div class="col-xs-5">
-        <input class="form-control" id="representante"
-               name="representante" [(ngModel)]="representante">
-      </div>
-    </div>
-
 
     <!--lista de equipos-->
     <div class="form-group row flex-items-xs-left">
@@ -131,8 +127,8 @@
                   [(ngModel)]="equipoId"
                   (change)="onSelectedEquipo(selectEquipo.value.toString())">
             <option *ngFor="let equipo of equipos"
-                    value={{equipo.id}}>{{equipo.numeroSerie}} - {{equipo.modeloEquipo.marca}} -
-              {{equipo.modeloEquipo.modelo}} - {{equipo.tipoEquipo.tipo}}
+                    value={{equipo.id}}>{{equipo.numeroSerie}} - {{equipo.descripcionEquipo}}-
+              {{equipo.tipoEquipo.tipo}}-{{equipo.modeloEquipo.modelo}}
             </option>
           </select>
         </div>
@@ -157,6 +153,7 @@
             </button>
           </clr-dg-action-bar>
           <clr-dg-column>Nro. Serie</clr-dg-column>
+          <clr-dg-column>Descripción</clr-dg-column>
           <clr-dg-column>Tipo</clr-dg-column>
           <clr-dg-column>Marca</clr-dg-column>
           <clr-dg-column>Modelo</clr-dg-column>
@@ -166,6 +163,7 @@
                       (click)="onSelectEquipo(equipo)"
                       [class.selectEquipo]="equipo === selectedEquipo">
             <clr-dg-cell>{{equipo.numeroSerie}}</clr-dg-cell>
+            <clr-dg-cell>{{equipo.descripcionEquipo}}</clr-dg-cell>
             <clr-dg-cell>{{equipo.tipoEquipo.tipo}}</clr-dg-cell>
             <clr-dg-cell>{{equipo.modeloEquipo.marca}}</clr-dg-cell>
             <clr-dg-cell>{{equipo.modeloEquipo.modelo}}</clr-dg-cell>

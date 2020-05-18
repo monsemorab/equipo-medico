@@ -2,21 +2,17 @@
   <h2 class="form-repuesto-title">Solicitud de Repuestos</h2>
   <section>
     <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-1">
-        <button class="btn btn-sm btn-success"
-                (click)="addSolicitudRepuesto()">
-          <clr-icon shape="plus"></clr-icon>
-          Crear
-        </button>
-      </div>
-      <div class="col-xs-1">
-        <button class="btn btn-sm btn-success"
-                *ngIf="selectedRepuesto"
-                (click)="editSolicitudRepuesto()">
-          <clr-icon shape="pencil"></clr-icon>
-          Editar
-        </button>
-      </div>
+      <button class="btn btn-sm btn-success"
+              (click)="addSolicitudRepuesto()">
+        <clr-icon shape="plus"></clr-icon>
+        Crear
+      </button>
+      <button class="btn btn-sm btn-success"
+              *ngIf="selectedRepuesto"
+              (click)="editSolicitudRepuesto()">
+        <clr-icon shape="pencil"></clr-icon>
+        Editar
+      </button>
     </div>
 
     <!-- errors -->

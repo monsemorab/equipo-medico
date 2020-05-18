@@ -21,16 +21,15 @@ export class EditContratoComponent implements OnInit {
   numeroContrato: number;
   nombreLicitacion: string;
   tipoProcedimiento: string;
+  numeroProcedimiento: string;
   estadoContrato: string;
   convocante: string;
-  representante: string;
   pdf: string;
   fechaInicio: any;
   fechaFin: any;
 
   // estado contrato
   estadosContrato: EstadoContrato[];
-
 
   // equipo
   equipos: Equipo[];
@@ -60,8 +59,8 @@ export class EditContratoComponent implements OnInit {
         switchMap((params: ParamMap) => this.contratoService.getContratoById(+params.get('id')))
       ).subscribe(contrato => {
         this.contrato = new Contrato(contrato.id, contrato.numeroContrato, contrato.nombreLicitacion,
-          contrato.tipoProcedimiento, contrato.estadoContrato, contrato.convocante, contrato.pdf, contrato.equipos,
-          contrato.representante, contrato.fechaInicio, contrato.fechaFin);
+          contrato.tipoProcedimiento, contrato.numeroProcedimiento, contrato.estadoContrato, contrato.convocante,
+          contrato.pdf, contrato.equipos, contrato.fechaInicio, contrato.fechaFin);
         this.camposAEditar(this.contrato);
       },
       error => {
@@ -114,12 +113,12 @@ export class EditContratoComponent implements OnInit {
     this.numeroContrato = contrato.numeroContrato;
     this.nombreLicitacion = contrato.nombreLicitacion;
     this.tipoProcedimiento = contrato.tipoProcedimiento;
+    this.numeroProcedimiento = contrato.numeroProcedimiento;
     this.estadoContrato = contrato.estadoContrato;
     this.convocante = contrato.convocante;
     this.pdf = contrato.pdf;
     this.fechaInicio = datepipe.transform(contrato.fechaInicio, 'dd-MM-yyyy');
     this.fechaFin = datepipe.transform(contrato.fechaFin, 'dd-MM-yyyy');
-    this.representante = contrato.representante;
     this.selectedEquipos = contrato.equipos;
   }
 
@@ -210,7 +209,7 @@ export class EditContratoComponent implements OnInit {
       this.fechaFin = new Date(+parts[2], +parts[1] - 1, +parts[0]);
     }
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion, this.tipoProcedimiento,
-      this.estadoContrato, this.convocante, this.pdf, this.selectedEquipos, this.representante, this.fechaInicio,
+      this.numeroProcedimiento, this.estadoContrato, this.convocante, this.pdf, this.selectedEquipos, this.fechaInicio,
       this.fechaFin);
     this.saveContrato(this.contrato);
 

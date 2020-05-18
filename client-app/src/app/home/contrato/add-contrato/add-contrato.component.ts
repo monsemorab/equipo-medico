@@ -18,12 +18,12 @@ export class AddContratoComponent implements OnInit {
   numeroContrato: number;
   nombreLicitacion: string;
   tipoProcedimiento: string;
+  numeroProcedimiento: string;
   estadoContrato: string;
   convocante: string;
   pdf: string;
   fechaInicio: any;
   fechaFin: any;
-  representante: string;
 
   // estado contrato
   estadosContrato: EstadoContrato[];
@@ -164,8 +164,8 @@ export class AddContratoComponent implements OnInit {
    */
   onSaveContrato(): void {
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion,
-      this.tipoProcedimiento, this.estadoContrato, this.convocante, this.pdf, this.selectedEquipos,
-      this.representante, this.fechaInicio, this.fechaFin);
+      this.tipoProcedimiento, this.numeroProcedimiento, this.estadoContrato, this.convocante, this.pdf,
+      this.selectedEquipos, this.fechaInicio, this.fechaFin);
     this.saveContrato(this.contrato);
 
   }

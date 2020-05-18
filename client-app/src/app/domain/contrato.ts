@@ -6,11 +6,11 @@ export class Contrato {
               public numeroContrato: number,
               public nombreLicitacion: string,
               public tipoProcedimiento: string,
+              public numeroProcedimiento: string,
               public estadoContrato: string,
               public convocante: string,
               public pdf: string,
               public equipos: Equipo[],
-              public representante: string,
               public fechaInicio?: any,
               public fechaFin?: any) {
   }

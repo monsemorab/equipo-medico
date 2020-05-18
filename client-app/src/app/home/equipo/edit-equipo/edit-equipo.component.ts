@@ -400,7 +400,7 @@ export class EditEquipoComponent implements OnInit {
       this.fechaCompra = new Date(+parts[2], +parts[1] - 1, +parts[0]);
     }
 
-    this.equipo = new Equipo(null, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
+    this.equipo = new Equipo(this.equipoId, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
       this.versionSw, this.descripcionEquipo, this.costo, this.repreSeleccionado, this.tipoSeleccionado,
       this.modeloSeleccionado, this.ubicacionSeleccionada, null, this.licitacionCompra, this.fechaFabricacion,
       this.fechaVenGarantia, this.fechaInstalacion, this.fechaCompra);
