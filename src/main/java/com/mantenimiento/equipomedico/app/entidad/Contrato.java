@@ -1,8 +1,6 @@
 package com.mantenimiento.equipomedico.app.entidad;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -53,10 +51,6 @@ public class Contrato implements Serializable {
 
     @Column(name = "pdf")
     private String pdf;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "representante_id")
-    private Representante representante;
 
     @Column(name = "numero_procedimiento")
     private String numeroProcedimiento;
@@ -222,24 +216,6 @@ public class Contrato implements Serializable {
      */
     public void setPdf(String pdf) {
         this.pdf = pdf;
-    }
-
-    /**
-     * Gets representante
-     *
-     * @return value of representante
-     */
-    public Representante getRepresentante() {
-        return representante;
-    }
-
-    /**
-     * Set representante
-     *
-     * @param representante
-     */
-    public void setRepresentante(Representante representante) {
-        this.representante = representante;
     }
 
     /**
