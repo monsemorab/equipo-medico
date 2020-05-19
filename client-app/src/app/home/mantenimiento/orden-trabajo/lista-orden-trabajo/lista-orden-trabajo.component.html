@@ -2,29 +2,23 @@
   <h2 class="form-orden-trabajo-title">Orden de Trabajo</h2>
   <section>
     <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-1">
         <button class="btn btn-sm btn-success"
                 (click)="crearOrdenTrabajo()">
           <clr-icon shape="plus"></clr-icon>
           Crear
         </button>
-      </div>
-      <div class="col-xs-1">
         <button class="btn btn-sm btn-success"
                 *ngIf="SelectedOrdenTrabajo"
                 (click)="editarOrdenTrabajo()">
           <clr-icon shape="pencil"></clr-icon>
           Editar
         </button>
-      </div>
-      <div class="col-xs-1">
         <button class="btn btn-sm btn-primary"
                 *ngIf="SelectedOrdenTrabajo"
                 (click)="atenderOrdenTrabajo()">
           <clr-icon shape="check"></clr-icon>
           Atender
         </button>
-      </div>
     </div>
     <!--success action-->
     <div class="alert alert-success alert-sm" *ngIf="success">
@@ -78,10 +72,9 @@
         <clr-dg-cell>{{ordenTrabajo.estado}}</clr-dg-cell>
         <clr-dg-cell>{{ordenTrabajo.tipoServicio}}</clr-dg-cell>
         <clr-dg-cell>{{ordenTrabajo.diagnostico}}</clr-dg-cell>
-        <clr-dg-cell>{{
-
+        <clr-dg-cell>
           <ul class="list-unstyled" *ngFor="let equipo of ordenTrabajo.equipos">
-            <li>{{equipo.numeroSerie}} - {{equipo.numeroPatrimonial}}</li>
+            <li>{{equipo.numeroSerie}}-{{equipo.descripcionEquipo}}</li>
           </ul>
         </clr-dg-cell>
       </clr-dg-row>

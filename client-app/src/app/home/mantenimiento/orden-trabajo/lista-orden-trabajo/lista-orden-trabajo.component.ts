@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {OrdenTrabajo} from '../../../../domain/orden-trabajo';
 import {OrdenTrabajoService} from '../../../../service/orden-trabajo.service';
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-lista-orden-trabajo',
@@ -45,6 +46,7 @@ export class ListaOrdenTrabajoComponent implements OnInit {
     this.ordenTrabajoService.getAllOrdenTrabajo().subscribe(
       list => {
         this.ordenTrabajoList = list;
+        this.formateoFechas();
         this.total = list.length;
         this.loading = false;
       },
@@ -55,6 +57,16 @@ export class ListaOrdenTrabajoComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  formateoFechas() {
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    for(let i=0; i< this.ordenTrabajoList.length; i++){
+      if(this.ordenTrabajoList[i].fechaArealizarse != null){
+        this.ordenTrabajoList[i].fechaArealizarse = datepipe.transform(this.ordenTrabajoList[i].fechaArealizarse, 'dd-MM-yyyy');
+      }
+    }
+    this.loading = false;
   }
 
   /**
@@ -76,7 +88,7 @@ export class ListaOrdenTrabajoComponent implements OnInit {
    * Editar una orden de trabajo creada.
    */
   editarOrdenTrabajo() {
-    this.router.navigate(['home/mantenimiento/orden-trabajo/editar-orden-trabajo' +
+    this.router.navigate(['home/mantenimiento/orden-trabajo/editar-orden-trabajo/' +
     this.SelectedOrdenTrabajo.id]);
   }
 
@@ -84,7 +96,7 @@ export class ListaOrdenTrabajoComponent implements OnInit {
    * Atender una orden de trabajo creada.
    */
   atenderOrdenTrabajo(): void {
-    this.router.navigate(['home/mantenimiento/orden-trabajo/atender-orden-trabajo' +
+    this.router.navigate(['home/mantenimiento/orden-trabajo/atender-orden-trabajo/' +
     this.SelectedOrdenTrabajo.id]);
   }
 

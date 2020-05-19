@@ -43,12 +43,12 @@
         </div>
       </div>
     </div>
-    <div class="form-group row flex-items-xs-left">
+    <div class="form-group row flex-items-xs-left" *ngIf="tipoServicio == 'PREVENTIVO'">
       <div class="col-xs-1">
         <label class="form-orden-trabajo-label">Fecha:</label>
       </div>
       <div class="col-xs-2">
-        <p-calendar [(ngModel)]="fecha" dateFormat="dd-mm-yy"
+        <p-calendar [(ngModel)]="fechaArealizarse" dateFormat="dd-mm-yy"
                     placeholder="dd-mm-yyyy"
                     [monthNavigator]="true" [yearNavigator]="true"
                     yearRange="2000:2030" name="fecha">

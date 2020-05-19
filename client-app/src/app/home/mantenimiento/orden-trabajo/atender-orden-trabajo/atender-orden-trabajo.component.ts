@@ -9,6 +9,7 @@ import {EquipoService} from '../../../../service/equipo.service';
 import {OrdenTrabajoService} from '../../../../service/orden-trabajo.service';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 import {switchMap} from 'rxjs/operators';
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-atender-orden-trabajo',
@@ -24,11 +25,10 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
   tipoServicio: string;
   diagnostico: string;
   responsable: string;
-  fecha: any;
+  fechaArealizarse: any;
   equipos: Equipo [];
 
   // Tipo de Servicios
-  servicioSeleccionado: TipoServicio;
   tipoServicios: TipoServicio[];
 
   // Datos Equipo
@@ -74,7 +74,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
         switchMap((params: ParamMap) => this.ordenTrabajoService.getOrdenTrabajoById(+params.get('id')))
       ).subscribe(orden => {
         this.ordenTrabajo = new OrdenTrabajo(orden.id, orden.estado, orden.tipoServicio, orden.mantenimiento,
-          orden.diagnostico, orden.responsable, orden.equipos, orden.solicitudRepuesto, orden.fecha_a_realizarse);
+          orden.diagnostico, orden.responsable, orden.equipos, orden.solicitudRepuesto, orden.fechaArealizarse);
         this.camposAEditar(this.ordenTrabajo);
       },
       error => {
@@ -105,12 +105,13 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
    * @param orden
    */
   camposAEditar(orden: OrdenTrabajo) {
+    const datepipe: DatePipe = new DatePipe('en-ES');
     this.id = orden.id;
     this.estado = orden.estado;
     this.tipoServicio = orden.tipoServicio;
     this.diagnostico = orden.diagnostico;
     this.responsable = orden.responsable;
-    this.fecha = orden.fecha_a_realizarse;
+    this.fechaArealizarse = datepipe.transform(orden.fechaArealizarse, 'dd-MM-yyyy');
     this.equipos = orden.equipos;
   }
 
@@ -308,8 +309,13 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
       // si se obtuvo una solicitud de repuesto buscando por su Id
       this.solicitudRepuesto.repuestos = this.repuestos;
     }
+    if (typeof this.fechaArealizarse === 'string' || this.fechaArealizarse instanceof String) {
+      let parts = this.fechaArealizarse.split('-');
+      this.fechaArealizarse = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+    }
+
     this.ordenTrabajo = new OrdenTrabajo(this.id, this.estado, this.tipoServicio, null, this.diagnostico,
-      this.responsable, this.equipos, this.solicitudRepuesto, this.fecha);
+      this.responsable, this.equipos, this.solicitudRepuesto, this.fechaArealizarse);
     this.saveOrdenTrabajo(this.ordenTrabajo);
   }
 

@@ -10,7 +10,7 @@ import {SERVICIO} from '../utils/mock-data/constantes';
 export class OrdenTrabajoService {
 
   private tipoServicios = SERVICIO;
-  private urlOrdenTrabajo = environment.service_uri + '/ordentrabajo/';
+  private urlOrdenTrabajo = environment.service_uri + '/ordentrabajo';
 
   constructor(private apiRequest: ApiRequestService) {
   }
@@ -44,7 +44,7 @@ export class OrdenTrabajoService {
    * @param ordenTrabajo
    */
   crearOrdenTrabajo(ordenTrabajo: OrdenTrabajo): Observable<OrdenTrabajo> {
-    const url = this.urlOrdenTrabajo;
+    const url = this.urlOrdenTrabajo+'/';
     return this.apiRequest.post(url, ordenTrabajo);
   }
 
@@ -53,7 +53,7 @@ export class OrdenTrabajoService {
    * @param ordenTrabajo
    */
   editarOrdenTrabajo(ordenTrabajo: OrdenTrabajo): Observable<OrdenTrabajo> {
-    const url = this.urlOrdenTrabajo;
+    const url = this.urlOrdenTrabajo +'/';;
     return this.apiRequest.put(url, ordenTrabajo);
   }
 

@@ -13,7 +13,7 @@ export class OrdenTrabajo {
               public equipos: Equipo[],
               public solicitudRepuesto: SolicitudRepuesto,
               // este campo es para el tipo preventivo
-              public fecha_a_realizarse?: any) {
+              public fechaArealizarse: any) {
 
   }
 }
