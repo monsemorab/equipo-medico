@@ -1,15 +1,19 @@
-.form-order-trabajo-label {
+.form-orden-trabajo-label {
   font-weight: bold !important;
 }
 
-.form-order-trabajo-title{
+.form-orden-trabajo-title{
   font-weight: bold !important;
   text-align: center;
 }
 
-.form-order-trabajo-sub-title{
+.form-orden-trabajo-sub-title{
   font-weight: bold !important;
   text-align: left;
+}
+
+.col-label-equipo {
+  text-align: right !important;
 }
 
 .select .select-form-orden-trab {

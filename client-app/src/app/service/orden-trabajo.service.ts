@@ -3,14 +3,14 @@ import {ApiRequestService} from './api-request.service';
 import {Observable, of} from 'rxjs';
 import {OrdenTrabajo, TipoServicio} from '../domain/orden-trabajo';
 import {environment} from '../../environments/environment';
-import {ESTADO_CONTRATO, SERVICIO} from '../utils/mock-data/constantes';
+import {SERVICIO} from '../utils/mock-data/constantes';
 
 
 @Injectable()
 export class OrdenTrabajoService {
 
   private tipoServicios = SERVICIO;
-  private urlOrdenTrabajo = environment.service_uri + '/';
+  private urlOrdenTrabajo = environment.service_uri + '/ordentrabajo/';
 
   constructor(private apiRequest: ApiRequestService) {
   }

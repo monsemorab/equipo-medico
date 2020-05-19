@@ -26,7 +26,6 @@ export class AddOrdenTrabajoComponent implements OnInit {
   equipos: Equipo [];
 
   // Tipo de Servicios
-  servicioSeleccionado: TipoServicio;
   tipoServicios: TipoServicio[];
 
   // Datos Equipo
@@ -49,6 +48,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
 
   // Errors
   errorMessage: string;
+  error:boolean;
   equipoErrorMessage: string;
   equipoError: boolean;
   repErrorMessage: string;
@@ -63,6 +63,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
 
   ngOnInit() {
     this.equipos = [];
+    this.tipoServicio = 'OPERATIVO';
     this.limpiarCampos();
     this.getTipoServicios();
   }
@@ -144,9 +145,11 @@ export class AddOrdenTrabajoComponent implements OnInit {
       equipo => {
         this.equipoSeleccionado = equipo;
         this.showAgregarBtn = this.equipoSeleccionado != null;
+        this.equipoError = false;
       },
       error => {
-        this.equipoErrorMessage = error;
+        this.equipoErrorMessage = error.error;
+        console.log(this.equipoErrorMessage);
         this.equipoError = true;
         this.showAgregarBtn = false;
       }
@@ -167,7 +170,22 @@ export class AddOrdenTrabajoComponent implements OnInit {
    * Se agrega el equipo obtenido de la busqueda a la lista de equipos.
    */
   onAddEquipo(): void {
-    this.equipos.push(this.equipoSeleccionado);
+    if(this.equipos.length === 0) {
+      this.equipos.push(this.equipoSeleccionado);
+    } else {
+      let cont = -1;
+      for (let i = 0; i < this.equipos.length; i++) {
+        if (this.equipoSeleccionado.id !== this.equipos[i].id) {
+          cont++;
+        }
+      }
+      if(cont === this.equipos.length) {
+        this.equipos.push(this.equipoSeleccionado);
+      } else {
+        this.equipoErrorMessage = "El equipo ya está incluido en la lista de Equipos";
+        this.equipoError = true;
+      }
+    }
     this.clearDatosEquipos();
   }
 
@@ -190,16 +208,24 @@ export class AddOrdenTrabajoComponent implements OnInit {
    * si no existe se muestra un mensaje al usuario.
    */
   buscarSolicitudRepuestoById() {
-    this.solicitudRepuestoService.getSolicitudRepuestoById(this.solicitudRepId).subscribe(
-      solicitudRep => {
-        this.solicitudRepuesto = solicitudRep;
-        this.repuestos = this.solicitudRepuesto.repuestos;
-      },
-      error => {
-        this.repErrorMessage = error;
-        this.repError = true;
-      }
-    );
+    if(this.solicitudRepId != null) {
+      this.solicitudRepuestoService.getSolicitudRepuestoById(this.solicitudRepId).subscribe(
+        solicitudRep => {
+          this.solicitudRepuesto = solicitudRep;
+          this.repuestos = this.solicitudRepuesto.repuestos;
+          this.repError = false;
+        },
+        error => {
+          this.repErrorMessage = error.error;
+          console.log(this.repErrorMessage);
+          this.repError = true;
+        }
+      );
+    } else {
+      this.repErrorMessage = 'Debe ingresar el Id de la Solicitud de Repuestos';
+      this.repError = true;
+    }
+
   }
 
   /**
@@ -214,7 +240,8 @@ export class AddOrdenTrabajoComponent implements OnInit {
   /**
    * Cuando se selecciona un repuesto para editar sus datos.
    */
-  editarRepuesto(): void {
+  editarRepuesto(repuesto: Repuesto): void {
+    this.repuestoSeleccionado = repuesto;
     this.isEditRepuesto = true;
     this.eliminarRepuesto(this.repuestoSeleccionado);
     this.modalAddEditRepuestoOpen = true;
@@ -230,14 +257,6 @@ export class AddOrdenTrabajoComponent implements OnInit {
         break;
       }
     }
-  }
-
-  /**
-   * Cuando se selecciona un repuesto de la lista.
-   * @param repuesto
-   */
-  selectRepuesto(repuesto: Repuesto): void {
-    this.repuestoSeleccionado = repuesto;
   }
 
   /**
@@ -297,7 +316,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
       error => {
         this.errorMessage = error.error;
         console.log(this.errorMessage)
-        this.ordenTrabajo = null;
+        this.error = true;
       }
     );
   }

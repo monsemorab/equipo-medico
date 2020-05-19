@@ -44,8 +44,16 @@ export class EquipoService {
    * @param params
    */
   getEquipoByParams(params: ParamsBusquedaEquipo): Observable<Equipo> {
-    const url = this.urlEquipos;
-    return this.apiRequest.post(url, params);
+    let url = this.urlEquipos;
+    let param = '';
+    if(params.numeroSerie != null) {
+      param = params.numeroSerie;
+      url = url + 'by-numero-serie/' + param;
+    } else {
+      param = params.numeroPatrimonial;
+      url = url + '/by-numero/patrimonial/' + param;
+    }
+    return this.apiRequest.get(url);
   }
 
   /**

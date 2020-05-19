@@ -7,7 +7,7 @@ import {TipoServicio} from '../../domain/orden-trabajo';
 
 export const SERVICIO: TipoServicio [] = [
   new TipoServicio('PREVENTIVO'),
-  new TipoServicio('CORRECTIVO')
+  new TipoServicio('OPERATIVO')
 ];
 
 export const ESTADO_CONTRATO: EstadoContrato[] = [

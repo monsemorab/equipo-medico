@@ -7,10 +7,12 @@ import {ListaOrdenTrabajoComponent} from './lista-orden-trabajo/lista-orden-trab
 import {SharedModule} from '../../../shared/shared.module';
 import {EditOrdenTrabajoComponent} from './edit-orden-trabajo/edit-orden-trabajo.component';
 import {AtenderOrdenTrabajoComponent} from './atender-orden-trabajo/atender-orden-trabajo.component';
+import {CalendarModule} from "primeng/primeng";
 
 @NgModule({
   imports: [
     CommonModuleImportsModule,
+    CalendarModule,
     SharedModule
   ],
   exports: [
