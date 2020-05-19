@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Orden de trabajo para el equipo.
  *
@@ -23,9 +25,6 @@ public class OrdenTrabajo implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "fecha")
-    private Date fecha;
-
     @Column(name = "estado")
     private String estado;
 
@@ -41,6 +40,7 @@ public class OrdenTrabajo implements Serializable {
     @Column(name = "diagnostico")
     private String diagnostico;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="solicitud_repuesto_id")
     private SolicitudRepuesto solicitudRepuesto;
@@ -49,6 +49,7 @@ public class OrdenTrabajo implements Serializable {
     @JoinColumn(name="mantenimiento_id")
     private Mantenimiento mantenimiento;
 
+    // Para el tipo de servicio PREVENTIVO
     @Column(name = "fechaRealizacion")
     private Date fechaRealizacion;
 
@@ -72,25 +73,6 @@ public class OrdenTrabajo implements Serializable {
         this.id = id;
     }
 
-    /**
-     * Gets fecha
-     *
-     * @return value of fecha
-     */
-    public Date getFecha()
-    {
-        return fecha;
-    }
-
-    /**
-     * Set fecha
-     *
-     * @param fecha
-     */
-    public void setFecha(Date fecha)
-    {
-        this.fecha = fecha;
-    }
 
     /**
      * Gets estado
