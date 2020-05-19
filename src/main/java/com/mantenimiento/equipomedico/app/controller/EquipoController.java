@@ -106,7 +106,7 @@ public class EquipoController
 	 * @param numeroPatrimonial
 	 * @return
 	 */
-	@RequestMapping(value = "by-numero-patrimonial/{numeroPatrimonial}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/by-numero/patrimonial/{numeroPatrimonial}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Equipo> getByNumeroPatrimonial(@PathVariable String numeroPatrimonial)
 	{
 		Equipo equipo = equipoService.getByNumeroPatrimonial(numeroPatrimonial);
@@ -123,7 +123,7 @@ public class EquipoController
 	 * @param numeroSerie
 	 * @return
 	 */
-	@RequestMapping(value = "by-numero-serie/{numeroPatrimonial}",
+	@RequestMapping(value = "/by-numero-serie/{numeroSerie}",
 		method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Equipo> getByNumeroSerie(@PathVariable String numeroSerie)
 	{

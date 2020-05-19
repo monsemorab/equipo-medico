@@ -18,11 +18,6 @@ public class OrdenTrabajo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Tipos de servicios
-     */
-    public enum SERVICIOS {PREVENTIVO, CORRECTIVO}
-
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -35,13 +30,13 @@ public class OrdenTrabajo implements Serializable {
     private String estado;
 
     @OneToMany(
-        cascade = CascadeType.ALL,
+        cascade = CascadeType.MERGE,
         orphanRemoval = true
     )
     private List<Equipo> equipos  = new ArrayList<>();;
 
     @Column(name = "tipo_servicio")
-    private SERVICIOS tipoServicio;
+    private String tipoServicio;
 
     @Column(name = "diagnostico")
     private String diagnostico;
@@ -142,7 +137,7 @@ public class OrdenTrabajo implements Serializable {
      *
      * @return value of tipoServicio
      */
-    public SERVICIOS getTipoServicio()
+    public String getTipoServicio()
     {
         return tipoServicio;
     }
@@ -152,7 +147,7 @@ public class OrdenTrabajo implements Serializable {
      *
      * @param tipoServicio
      */
-    public void setTipoServicio(SERVICIOS tipoServicio)
+    public void setTipoServicio(String tipoServicio)
     {
         this.tipoServicio = tipoServicio;
     }
