@@ -48,10 +48,10 @@
         <label class="form-orden-trabajo-label">Fecha:</label>
       </div>
       <div class="col-xs-2">
-        <p-calendar [(ngModel)]="fechaArealizarse" dateFormat="dd-mm-yy"
-                    placeholder="dd-mm-yyyy"
-                    [monthNavigator]="true" [yearNavigator]="true"
-                    yearRange="2000:2030" name="fecha">
+        <p-calendar [(ngModel)]="fechaRealizacion" dateFormat="dd-mm-yy"
+										placeholder="dd-mm-yyyy"
+										[monthNavigator]="true" [yearNavigator]="true"
+										yearRange="2000:2030" name="fecha">
         </p-calendar>
       </div>
     </div>
@@ -175,7 +175,6 @@
       <clr-dg-column>Tipo</clr-dg-column>
       <clr-dg-column>Modelo</clr-dg-column>
       <clr-dg-column>Ubicación</clr-dg-column>
-      <clr-dg-column>Contrato</clr-dg-column>
       <clr-dg-column></clr-dg-column>
       <clr-dg-row *ngFor="let equipo of equipos">
         <clr-dg-cell>{{equipo.numeroSerie}}</clr-dg-cell>
@@ -183,7 +182,6 @@
         <clr-dg-cell>{{equipo.tipoEquipo?.tipo}}</clr-dg-cell>
         <clr-dg-cell>{{equipo.modeloEquipo?.modelo}}</clr-dg-cell>
         <clr-dg-cell>{{equipo.ubicacion?.numeroSala}}</clr-dg-cell>
-        <clr-dg-cell>{{equipo.contrato?.numeroContrato}}</clr-dg-cell>
         <clr-dg-cell>
           <a class="btn btn-sm btn-warning"
                   (click)="onRemoveEquipo(equipo.id)">

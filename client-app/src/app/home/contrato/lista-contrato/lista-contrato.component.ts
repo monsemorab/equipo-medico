@@ -13,17 +13,17 @@ export class ListaContratoComponent implements OnInit {
 
   // contrato
   selectedContrato: Contrato;
+  numeroContrato: string;
 
   // modal
   modalConfirmOpen: boolean;
 
-  // success actions
-  successMessage: string;
-  success: boolean;
 
   // Errors
   errorMessage: string;
   error: boolean;
+  infoMessage: string;
+  info: boolean;
 
   // datagrid
   loading = true;
@@ -35,10 +35,11 @@ export class ListaContratoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.success = false;
+    this.info = false;
     this.error = false;
     this.modalConfirmOpen = false;
     this.selectedContrato = null;
+    this.numeroContrato = "";
     this.getAllContratos();
   }
 
@@ -48,7 +49,6 @@ export class ListaContratoComponent implements OnInit {
         this.contratos = list;
         this.formateoFechas();
         this.total = list.length;
-        console.log(this.contratos);
       },
       error => {
         this.errorMessage = error.error;
@@ -57,12 +57,46 @@ export class ListaContratoComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
 
+
+  filtrarContrato(): void {
+    this.info = false;
+    this.infoMessage = "";
+    if (this.numeroContrato != "") {
+      this.filtrarContratoPorNroContrato(this.numeroContrato);
+    } else {
+      this.getAllContratos();
+    }
+  }
+
+  /**
+   * Se obtienen los contratos que coincidad con el nro de contrato introducido
+   * @param numeroContrato
+   */
+  filtrarContratoPorNroContrato(numeroContrato: string): void {
+    this.contratoService.getContratoByNroContrato(numeroContrato).subscribe(
+      list => {
+        this.contratos = list;
+        this.formateoFechas();
+        this.total = list.length;
+        if (this.total == 0) {
+          this.info = true;
+          this.infoMessage = "No se encontraron registros para esta busqueda.";
+        }
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.contratos = [];
+        this.loading = false;
+      }
+    );
   }
 
   formateoFechas() {
     const datepipe: DatePipe = new DatePipe('en-ES');
-    for(let i=0; i< this.contratos.length; i++){
+    for (let i = 0; i < this.contratos.length; i++) {
       this.contratos[i].fechaInicio = datepipe.transform(this.contratos[i].fechaInicio, 'dd-MM-yyyy');
       this.contratos[i].fechaFin = datepipe.transform(this.contratos[i].fechaFin, 'dd-MM-yyyy');
     }

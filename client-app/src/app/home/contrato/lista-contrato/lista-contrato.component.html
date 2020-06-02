@@ -1,53 +1,71 @@
-<form class=" compact">
+<form class="clr-form clr-form-compact">
   <h2 class="form-contrato-title">Contratos</h2>
+  <br>
+  <!--info action-->
+  <div class="alert alert-info alert-sm" *ngIf="info">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon"
+                    shape="check-circle">
+          </clr-icon>
+        </div>
+        <span class="alert-text">
+            {{ infoMessage }}
+          </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- errors -->
+  <div class="alert alert-danger alert-sm" *ngIf="error">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon"
+                    shape="exclamation-circle">
+          </clr-icon>
+        </div>
+        <span class="alert-text">{{errorMessage}}</span>
+      </div>
+    </div>
+    <a type="button" class="close" aria-label="Close"
+       (click)="error = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </a>
+  </div>
+  <br>
+  <div class="clr-form-control clr-row">
+    <label for="nroContrato" class="clr-control-label clr-col-10 clr-col-md-1">Nro. Contrato:</label>
+    <div class="clr-control-container clr-col-10 clr-col-md-2">
+      <div class="clr-input-wrapper">
+        <input id="nroContrato" class="clr-input"
+               name="nroContrato" [(ngModel)]="numeroContrato">
+      </div>
+    </div>
+    <div class="clr-control-container clr-col-10 clr-col-md-2">
+      <button class="btn btn-sm btn-success" (click)="filtrarContrato()">
+        <clr-icon shape="search"></clr-icon>
+        Buscar
+      </button>
+    </div>
+  </div>
+  <br>
+  <hr>
   <section>
     <div>
-      <button class="btn btn-sm btn-success"
-              (click)="goNewContratoForm()">
+      <a class="btn btn-sm btn-success"
+         (click)="goNewContratoForm()">
         <clr-icon shape="plus"></clr-icon>
         Crear
-      </button>
-      <button class="btn btn-sm btn-success"
-              *ngIf="selectedContrato != null"
-              (click)="editContrato()">
+      </a>
+      <a class="btn btn-sm btn-success"
+         *ngIf="selectedContrato != null"
+         (click)="editContrato()">
         <clr-icon shape="pencil"></clr-icon>
         Editar
-      </button>
+      </a>
     </div>
-    <!--success action-->
-    <div class="alert alert-success alert-sm" *ngIf="success">
-      <div class="alert-items">
-        <div class="alert-item static">
-          <div class="alert-icon-wrapper">
-            <clr-icon class="alert-icon"
-                      shape="check-circle">
-            </clr-icon>
-          </div>
-          <span class="alert-text">
-            {{ successMessage }}
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <!-- errors -->
-    <div class="alert alert-danger alert-sm" *ngIf="error">
-      <div class="alert-items">
-        <div class="alert-item static">
-          <div class="alert-icon-wrapper">
-            <clr-icon class="alert-icon"
-                      shape="exclamation-circle">
-            </clr-icon>
-          </div>
-          <span class="alert-text">{{errorMessage}}</span>
-        </div>
-      </div>
-      <button type="button" class="close" aria-label="Close"
-              (click)="error = false">
-        <clr-icon aria-hidden="true" shape="close"></clr-icon>
-      </button>
-    </div>
-
     <clr-datagrid [clrDgLoading]="loading">
       <clr-dg-column [clrDgSortBy]="'id'">ID</clr-dg-column>
       <clr-dg-column [clrDgSortBy]="'numeroContrato'">Nro. Contrato</clr-dg-column>
@@ -75,9 +93,8 @@
       </clr-dg-row>
 
       <clr-dg-footer>
-        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-        of {{total}} Contratos
-        <clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} de {{total}} Contratos
+        <clr-dg-pagination #pagination [clrDgPageSize]="10" [clrDgTotalItems]="total"></clr-dg-pagination>
       </clr-dg-footer>
     </clr-datagrid>
   </section>

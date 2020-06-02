@@ -12,14 +12,14 @@ export class ListaEquipoComponent implements OnInit {
 
   // equipo
   selectedEquipo: Equipo;
-
-  // success actions
-  successMessage: string;
-  success: boolean;
+  numeroSerie: string;
+  numeroPatrimonial: string;
 
   // Errors
   errorMessage: string;
   error: boolean;
+  infoMessage: string;
+  info: boolean;
 
   // datagrid
   loading = true;
@@ -31,10 +31,25 @@ export class ListaEquipoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.success = false;
+    this.info = false;
     this.error = false;
     this.selectedEquipo = null;
+    this.numeroSerie = "";
+    this.numeroPatrimonial = "";
     this.getAllEquipos();
+  }
+
+  filtrarEquipo(): void {
+    this.info = false;
+    this.infoMessage = "";
+    if (this.numeroSerie == "" && this.numeroPatrimonial == "") {
+      this.getAllEquipos();
+    } else {
+      let equipo = new Equipo(null, this.numeroSerie, this.numeroPatrimonial, null, null, null,
+        null, null, null, null,null, null, null,
+        null, null, null, null, null);
+      this.getAllEquiposFiltrados(equipo);
+    }
   }
 
 
@@ -56,7 +71,26 @@ export class ListaEquipoComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
 
+  getAllEquiposFiltrados(equipo: Equipo): void {
+    this.equipoService.getEquiposFiltrados(equipo).subscribe(
+      list => {
+        this.equipos = list;
+        this.total = list.length;
+        this.loading = false;
+        if (this.total == 0) {
+          this.info = true;
+          this.infoMessage = "No se encontraron registros para esta busqueda.";
+        }
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.equipos = [];
+        this.loading = false;
+      }
+    );
   }
 
   /**

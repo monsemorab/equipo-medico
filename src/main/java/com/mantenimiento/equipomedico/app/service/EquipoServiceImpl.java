@@ -1,13 +1,7 @@
 package com.mantenimiento.equipomedico.app.service;
 
 import com.mantenimiento.equipomedico.app.entidad.Equipo;
-import com.mantenimiento.equipomedico.app.entidad.Representante;
-import com.mantenimiento.equipomedico.app.entidad.Ubicacion;
 import com.mantenimiento.equipomedico.app.repository.EquipoRepository;
-import com.mantenimiento.equipomedico.app.repository.ModeloEquipoRepository;
-import com.mantenimiento.equipomedico.app.repository.RepresentanteRepository;
-import com.mantenimiento.equipomedico.app.repository.TipoEquipoRepository;
-import com.mantenimiento.equipomedico.app.repository.UbicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +14,6 @@ public class EquipoServiceImpl implements EquipoService {
 
     @Autowired
     private EquipoRepository equipoRepository;
-    @Autowired
-    private ModeloEquipoRepository modeloEquipoRepository;
-    @Autowired
-    private TipoEquipoRepository tipoEquipoRepository;
-    @Autowired
-    private RepresentanteRepository representanteRepository;
-    @Autowired
-    private UbicacionRepository ubicacionRepository;
 
 
     /**
@@ -94,4 +80,12 @@ public class EquipoServiceImpl implements EquipoService {
     public Equipo getByNumeroSerie(String numeroSerie) {
         return equipoRepository.getEquipoByNumeroSerie(numeroSerie);
     }
+
+    @Override
+    public List<Equipo> getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(
+        String numeroSerie, String numeroPatrimonial)
+    {
+        return equipoRepository.getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(numeroSerie, numeroPatrimonial);
+    }
+
 }

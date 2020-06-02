@@ -66,4 +66,10 @@ public class ContratoServiceImpl implements ContratoService {
     public List<Contrato> getAll() {
         return (ArrayList<Contrato>)contratoRepository.findAll();
     }
+
+    @Override
+    public List<Contrato> getAllByNumeroContratoContains(String numeroContrato)
+    {
+        return contratoRepository.getAllByNumeroContratoContains(numeroContrato);
+    }
 }

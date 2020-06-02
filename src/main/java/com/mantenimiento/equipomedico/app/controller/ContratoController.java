@@ -78,5 +78,11 @@ public class ContratoController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @RequestMapping(value = "/filtrar/{nroContrato}",
+        method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Contrato> getContratosFiltrados(@PathVariable String nroContrato) {
+        return (List<Contrato>)contratoService.getAllByNumeroContratoContains(nroContrato);
+    }
+
 
 }

@@ -31,4 +31,6 @@ public interface ContratoService {
      */
     List<Contrato> getAll();
 
+    List<Contrato> getAllByNumeroContratoContains(String numeroContrato);
+
 }

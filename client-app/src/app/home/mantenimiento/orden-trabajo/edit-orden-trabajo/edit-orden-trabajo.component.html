@@ -46,11 +46,15 @@
       <div class="col-xs-1">
         <label class="form-orden-trabajo-label">Fecha:</label>
       </div>
-      <p-calendar [(ngModel)]="fechaArealizarse" dateFormat="dd-mm-yy"
-                  placeholder="dd-mm-yyyy"
-                  [monthNavigator]="true" [yearNavigator]="true"
-                  yearRange="2000:2030" name="fecha">
-      </p-calendar>
+<!--      <p-calendar [(ngModel)]="fechaRealizacion" dateFormat="dd-mm-yy"-->
+<!--                  placeholder="dd-mm-yyyy"-->
+<!--                  [monthNavigator]="true" [yearNavigator]="true"-->
+<!--                  yearRange="2000:2030" name="fecha">-->
+<!--      </p-calendar>-->
+      <clr-date-container>
+        <input type="date" clrDate name="fecha" [(ngModel)]="fechaRealizacion"
+               min="2000-01-01" max="2030-12-31">
+      </clr-date-container>
     </div>
     <br>
     <div class="form-group row flex-items-xs-left">
@@ -146,15 +150,6 @@
           {{equipoSeleccionado?.ubicacion?.bloque}} - {{equipoSeleccionado?.ubicacion?.numeroSala}}
         </label>
       </div>
-
-      <div class="col-xs-2 col-label-equipo">
-        <label class="form-orden-trabajo-label">Contrato:</label>
-      </div>
-      <div class="col-xs-4">
-        <label class="form-control">
-          {{equipoSeleccionado?.contrato?.numeroContrato}}
-        </label>
-      </div>
     </div>
 
     <clr-datagrid>
@@ -173,7 +168,6 @@
       <clr-dg-column>Tipo</clr-dg-column>
       <clr-dg-column>Modelo</clr-dg-column>
       <clr-dg-column>Ubicación</clr-dg-column>
-      <clr-dg-column>Contrato</clr-dg-column>
       <clr-dg-column></clr-dg-column>
       <clr-dg-row *ngFor="let equipo of equipos">
         <clr-dg-cell>{{equipo.numeroSerie}}</clr-dg-cell>
@@ -181,7 +175,6 @@
         <clr-dg-cell>{{equipo.tipoEquipo?.tipo}}</clr-dg-cell>
         <clr-dg-cell>{{equipo.modeloEquipo?.modelo}}</clr-dg-cell>
         <clr-dg-cell>{{equipo.ubicacion?.numeroSala}}</clr-dg-cell>
-        <clr-dg-cell>{{equipo.contrato?.numeroContrato}}</clr-dg-cell>
         <clr-dg-cell>
           <a class="btn btn-sm btn-warning"
                   (click)="onRemoveEquipo(equipo.id)">
@@ -226,12 +219,14 @@
           <clr-icon shape="search"></clr-icon>
         </a>
       </div>
+      <div class="col-xs-1 col-tooltip">
       <clr-tooltip>
         <clr-icon clrTooltipTrigger shape="info-circle" size="24" aria-label="Uniq tooltip 1"></clr-icon>
         <clr-tooltip-content clrPosition="top-right" clrSize="lg" *clrIfOpen>
           <span>Buscar una Solicitud de Repuesto</span>
         </clr-tooltip-content>
       </clr-tooltip>
+      </div>
     </div>
   </section>
 

@@ -8,6 +8,14 @@
   cursor: pointer !important;
 }
 
+.form-contrato-label {
+  font-weight: bold !important;
+}
+
+.col-label-contrato {
+  text-align: right !important;
+}
+
 pre {
   border: 0px solid #ccc !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;

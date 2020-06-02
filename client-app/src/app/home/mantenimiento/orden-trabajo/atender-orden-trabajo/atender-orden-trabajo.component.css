@@ -1,0 +1,17 @@
+.form-orden-trabajo-title{
+  font-weight: bold !important;
+  text-align: center;
+}
+
+.form-orden-trabajo-label {
+  font-weight: bold !important;
+}
+
+.form-orden-trabajo-sub-title{
+  font-weight: bold !important;
+  text-align: left;
+}
+
+.col-label-equipo {
+  text-align: right !important;
+}

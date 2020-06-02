@@ -25,7 +25,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
   tipoServicio: string;
   diagnostico: string;
   responsable: string;
-  fechaArealizarse: any;
+  fechaRealizacion: any;
   equipos: Equipo [];
 
   // Tipo de Servicios
@@ -75,7 +75,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
         switchMap((params: ParamMap) => this.ordenTrabajoService.getOrdenTrabajoById(+params.get('id')))
       ).subscribe(orden => {
         this.ordenTrabajo = new OrdenTrabajo(orden.id, orden.estado, orden.tipoServicio, orden.mantenimiento,
-          orden.diagnostico, orden.responsable, orden.equipos, orden.solicitudRepuesto, orden.fechaArealizarse);
+          orden.diagnostico, orden.responsable, orden.equipos, orden.solicitudRepuesto, orden.fechaRealizacion);
         this.camposAEditar(this.ordenTrabajo);
       },
       error => {
@@ -112,7 +112,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
     this.tipoServicio = orden.tipoServicio;
     this.diagnostico = orden.diagnostico;
     this.responsable = orden.responsable;
-    this.fechaArealizarse = datepipe.transform(orden.fechaArealizarse, 'dd-MM-yyyy');
+    this.fechaRealizacion = datepipe.transform(orden.fechaRealizacion, 'dd-MM-yyyy');
     this.equipos = orden.equipos;
     this.solicitudRepuesto = orden.solicitudRepuesto;
     if(this.solicitudRepuesto != null) {
@@ -324,21 +324,27 @@ export class EditOrdenTrabajoComponent implements OnInit {
    * Cuando se guarda la información introducida.
    */
   onSaveAddOrdenTrabajo() {
-    // Si la solicitud de repuesto se crea a partir de la orden de trabajo
-    if (this.solicitudRepuesto == null) {
-      this.solicitudRepuesto = new SolicitudRepuesto(null, 'Pendiente', this.repuestos, new Date());
+    if(this.repuestos != null && this.repuestos.length > 0) {
+      // Si la solicitud de repuesto se crea a partir de la orden de trabajo
+      if (this.solicitudRepuesto == null) {
+        this.solicitudRepuesto = new SolicitudRepuesto(null, 'Pendiente', this.repuestos, new Date());
+      } else {
+        // si se obtuvo una solicitud de repuesto buscando por su Id
+        this.solicitudRepuesto.repuestos = this.repuestos;
+      }
     } else {
-      // si se obtuvo una solicitud de repuesto buscando por su Id
-      this.solicitudRepuesto.repuestos = this.repuestos;
+      if (this.solicitudRepuesto != null) {
+        this.solicitudRepuesto = null;
+      }
     }
 
-    if (typeof this.fechaArealizarse === 'string' || this.fechaArealizarse instanceof String) {
-      let parts = this.fechaArealizarse.split('-');
-      this.fechaArealizarse = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+    if (typeof this.fechaRealizacion === 'string' || this.fechaRealizacion instanceof String) {
+      let parts = this.fechaRealizacion.split('/');
+      this.fechaRealizacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
 
     this.ordenTrabajo = new OrdenTrabajo(this.id, this.estado, this.tipoServicio, null, this.diagnostico,
-      this.responsable, this.equipos, this.solicitudRepuesto, this.fechaArealizarse);
+      this.responsable, this.equipos, this.solicitudRepuesto, this.fechaRealizacion);
     this.saveOrdenTrabajo(this.ordenTrabajo);
   }
 

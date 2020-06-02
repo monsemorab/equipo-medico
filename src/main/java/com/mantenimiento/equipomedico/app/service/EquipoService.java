@@ -2,6 +2,7 @@ package com.mantenimiento.equipomedico.app.service;
 
 import java.util.List;
 
+import com.mantenimiento.equipomedico.app.entidad.Contrato;
 import com.mantenimiento.equipomedico.app.entidad.Equipo;
 import org.springframework.stereotype.Service;
 
@@ -55,4 +56,6 @@ public interface EquipoService
 	 * @return
 	 */
 	Equipo getByNumeroSerie(String numeroSerie);
+
+	List<Equipo> getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(String numeroSerie, String numeroPatrimonial);
 }

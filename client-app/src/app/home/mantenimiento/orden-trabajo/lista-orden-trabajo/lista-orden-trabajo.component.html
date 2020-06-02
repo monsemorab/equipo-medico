@@ -8,32 +8,17 @@
           Crear
         </button>
         <button class="btn btn-sm btn-success"
-                *ngIf="SelectedOrdenTrabajo"
+                *ngIf="selectedOrdenTrabajo"
                 (click)="editarOrdenTrabajo()">
           <clr-icon shape="pencil"></clr-icon>
           Editar
         </button>
         <button class="btn btn-sm btn-primary"
-                *ngIf="SelectedOrdenTrabajo"
+                *ngIf="selectedOrdenTrabajo"
                 (click)="atenderOrdenTrabajo()">
           <clr-icon shape="check"></clr-icon>
           Atender
         </button>
-    </div>
-    <!--success action-->
-    <div class="alert alert-success alert-sm" *ngIf="success">
-      <div class="alert-items">
-        <div class="alert-item static">
-          <div class="alert-icon-wrapper">
-            <clr-icon class="alert-icon"
-                      shape="check-circle">
-            </clr-icon>
-          </div>
-          <span class="alert-text">
-            {{ successMessage }}
-          </span>
-        </div>
-      </div>
     </div>
 
     <!-- errors -->
@@ -67,8 +52,8 @@
       </clr-dg-placeholder>
       <clr-dg-row *ngFor="let ordenTrabajo of ordenTrabajoList"
                   (click)="selectOrdenTrabajo(ordenTrabajo)"
-                  [class.selectOrdenTrabajo]="ordenTrabajo === SelectedOrdenTrabajo">
-        <clr-dg-cell>{{ordenTrabajo.fecha_a_realizarse}}</clr-dg-cell>
+                  [class.selectOrdenTrabajo]="ordenTrabajo === selectedOrdenTrabajo">
+        <clr-dg-cell>{{ordenTrabajo.fechaRealizacion}}</clr-dg-cell>
         <clr-dg-cell>{{ordenTrabajo.estado}}</clr-dg-cell>
         <clr-dg-cell>{{ordenTrabajo.tipoServicio}}</clr-dg-cell>
         <clr-dg-cell>{{ordenTrabajo.diagnostico}}</clr-dg-cell>

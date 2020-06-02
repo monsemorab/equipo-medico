@@ -22,7 +22,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
   tipoServicio: string;
   diagnostico: string;
   responsable: string;
-  fechaArealizarse: any;
+  fechaRealizacion: any;
   equipos: Equipo [];
 
   // Tipo de Servicios
@@ -298,7 +298,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
       this.solicitudRepuesto.repuestos = this.repuestos;
     }
     this.ordenTrabajo = new OrdenTrabajo(null, this.estado, this.tipoServicio, null, this.diagnostico,
-      this.responsable, this.equipos, this.solicitudRepuesto, this.fechaArealizarse);
+      this.responsable, this.equipos, this.solicitudRepuesto, this.fechaRealizacion);
     this.saveOrdenTrabajo(this.ordenTrabajo);
   }
 

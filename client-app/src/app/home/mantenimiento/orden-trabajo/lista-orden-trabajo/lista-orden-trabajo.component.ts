@@ -12,7 +12,7 @@ import {DatePipe} from "@angular/common";
 export class ListaOrdenTrabajoComponent implements OnInit {
 
   // orden trabajo
-  SelectedOrdenTrabajo: OrdenTrabajo;
+  selectedOrdenTrabajo: OrdenTrabajo;
 
   // success actions
   successMessage: string;
@@ -34,7 +34,7 @@ export class ListaOrdenTrabajoComponent implements OnInit {
   ngOnInit() {
     this.success = false;
     this.error = false;
-    this.SelectedOrdenTrabajo = null;
+    this.selectedOrdenTrabajo = null;
     this.getAllOrdenTrabajo();
   }
 
@@ -62,8 +62,8 @@ export class ListaOrdenTrabajoComponent implements OnInit {
   formateoFechas() {
     const datepipe: DatePipe = new DatePipe('en-ES');
     for(let i=0; i< this.ordenTrabajoList.length; i++){
-      if(this.ordenTrabajoList[i].fechaArealizarse != null){
-        this.ordenTrabajoList[i].fechaArealizarse = datepipe.transform(this.ordenTrabajoList[i].fechaArealizarse, 'dd-MM-yyyy');
+      if(this.ordenTrabajoList[i].fechaRealizacion != null){
+        this.ordenTrabajoList[i].fechaRealizacion = datepipe.transform(this.ordenTrabajoList[i].fechaRealizacion, 'dd-MM-yyyy');
       }
     }
     this.loading = false;
@@ -81,7 +81,7 @@ export class ListaOrdenTrabajoComponent implements OnInit {
    * @param orden
    */
   selectOrdenTrabajo(orden: OrdenTrabajo): void {
-    this.SelectedOrdenTrabajo = orden;
+    this.selectedOrdenTrabajo = orden;
   }
 
   /**
@@ -89,7 +89,7 @@ export class ListaOrdenTrabajoComponent implements OnInit {
    */
   editarOrdenTrabajo() {
     this.router.navigate(['home/mantenimiento/orden-trabajo/editar-orden-trabajo/' +
-    this.SelectedOrdenTrabajo.id]);
+    this.selectedOrdenTrabajo.id]);
   }
 
   /**
@@ -97,7 +97,7 @@ export class ListaOrdenTrabajoComponent implements OnInit {
    */
   atenderOrdenTrabajo(): void {
     this.router.navigate(['home/mantenimiento/orden-trabajo/atender-orden-trabajo/' +
-    this.SelectedOrdenTrabajo.id]);
+    this.selectedOrdenTrabajo.id]);
   }
 
 }

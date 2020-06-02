@@ -56,6 +56,11 @@ export class EquipoService {
     return this.apiRequest.get(url);
   }
 
+  getEquiposFiltrados(equipo: Equipo): Observable<Equipo[]> {
+    const url = this.urlEquipos + 'filtro/';
+    return this.apiRequest.post(url, equipo);
+  }
+
   /**
    * Se crea un nuevo equipo con los datos introducidos en el formulario.
    * @param {Equipo} equipo

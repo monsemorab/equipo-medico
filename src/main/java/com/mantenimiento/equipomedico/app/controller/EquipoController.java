@@ -135,5 +135,12 @@ public class EquipoController
 			.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
+	@RequestMapping(value = "/filtro",
+		method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Equipo> getAllNumeroSerie(@RequestBody Equipo equipo)
+	{
+		return equipoService.getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(equipo.getNumeroSerie(), equipo.getNumeroPatrimonial());
+	}
+
 
 }

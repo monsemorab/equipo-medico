@@ -1,5 +1,5 @@
 <h2 class="form-add-equipo-title">Crear Equipo</h2>
-<form class="compact" #equipoForm="ngForm">
+<form class="clr-form clr-form-compact" #equipoForm="ngForm">
   <section class="form-block">
     <div class="form-group row flex-items-xs-left">
       <!--columna izquierda-->
@@ -92,11 +92,10 @@
             <label class="form-add-equipo-label"> Fecha Compra:</label>
           </div>
           <div class="col-xs-5">
-            <p-calendar [(ngModel)]="fechaCompra" dateFormat="dd-mm-yy"
-                        placeholder="dd-mm-yyyy" tabindex="6"
-                        [monthNavigator]="true" [yearNavigator]="true"
-                        yearRange="2000:2030"  name="fcompra">
-            </p-calendar>
+            <clr-date-container>
+              <input type="date" clrDate name="fechaCompra" [(ngModel)]="fechaCompra"
+                     min="2000-01-01" max="2030-12-31" tabindex="6">
+            </clr-date-container>
           </div>
         </div>
 
@@ -105,11 +104,10 @@
             <label class="form-add-equipo-label">Vto. Garantia:</label>
           </div>
           <div class="col-xs-5">
-            <p-calendar [(ngModel)]="fechaVenGarantia" dateFormat="dd-mm-yy"
-                        placeholder="dd-mm-yyyy" tabindex="8"
-                        [monthNavigator]="true" [yearNavigator]="true"
-                        yearRange="2000:2030"  name="fgarantia">
-            </p-calendar>
+            <clr-date-container>
+            <input type="date" clrDate name="fechaVenGarantia" [(ngModel)]="fechaVenGarantia"
+                   min="2000-01-01" max="2030-12-31" tabindex="8">
+            </clr-date-container>
           </div>
         </div>
 
@@ -118,11 +116,10 @@
             <label class="form-add-equipo-label">Puesta en Marcha:</label>
           </div>
           <div class="col-xs-5">
-            <p-calendar [(ngModel)]="fechaInstalacion" dateFormat="dd-mm-yy"
-                        placeholder="dd-mm-yyyy" tabindex="10"
-                        [monthNavigator]="true" [yearNavigator]="true"
-                        yearRange="2000:2030"  name="finstalacion">
-            </p-calendar>
+            <clr-date-container>
+              <input type="date" clrDate name="fechaInstalacion" [(ngModel)]="fechaInstalacion"
+                     min="2000-01-01" max="2030-12-31" tabindex="10">
+            </clr-date-container>
           </div>
         </div>
 

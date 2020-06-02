@@ -387,17 +387,17 @@ export class EditEquipoComponent implements OnInit {
   onSaveEquipo(): void {
     if (typeof this.fechaVenGarantia === 'string' || this.fechaVenGarantia instanceof String) {
       let parts = this.fechaVenGarantia.split('-');
-      this.fechaVenGarantia = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+      this.fechaVenGarantia = new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
 
     if (typeof this.fechaInstalacion === 'string' || this.fechaInstalacion instanceof String) {
       let parts = this.fechaInstalacion.split('-');
-      this.fechaInstalacion = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+      this.fechaInstalacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
 
     if (typeof this.fechaCompra === 'string' || this.fechaCompra instanceof String) {
       let parts = this.fechaCompra.split('-');
-      this.fechaCompra = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+      this.fechaCompra = new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
 
     this.equipo = new Equipo(this.equipoId, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,

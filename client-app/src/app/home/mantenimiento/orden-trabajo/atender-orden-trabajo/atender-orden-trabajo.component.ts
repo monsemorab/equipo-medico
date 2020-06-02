@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {OrdenTrabajo, TipoServicio} from '../../../../domain/orden-trabajo';
+import {OrdenTrabajo} from '../../../../domain/orden-trabajo';
 import {Equipo} from '../../../../domain/equipo';
-import {ParamsBusquedaEquipo} from '../../../../domain/ParamsBusquedaEquipo';
 import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
 import {Repuesto} from '../../../../domain/repuesto';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {EquipoService} from '../../../../service/equipo.service';
 import {OrdenTrabajoService} from '../../../../service/orden-trabajo.service';
-import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 import {switchMap} from 'rxjs/operators';
 import {DatePipe} from "@angular/common";
+import {Mantenimiento} from "../../../../domain/mantenimiento";
 
 @Component({
   selector: 'app-atender-orden-trabajo',
@@ -25,56 +23,36 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
   tipoServicio: string;
   diagnostico: string;
   responsable: string;
-  fechaArealizarse: any;
+  fechaRealizacion: any;
   equipos: Equipo [];
-
-  // Tipo de Servicios
-  tipoServicios: TipoServicio[];
-
-  // Datos Equipo
-  equipoSeleccionado: Equipo;
-  numeroSerie: string;
-  numeroPatrimonial: string;
-  requestEquipo: ParamsBusquedaEquipo;
-  showAgregarBtn = false;
-
-  // solicitud repuesto
-  solicitudRepId: number;
   solicitudRepuesto: SolicitudRepuesto;
-
-  // modal para agregar/editar repuestos
-  modalAddEditRepuestoOpen = false;
-  repuestoSeleccionado: Repuesto;
-  isEditRepuesto: boolean;
   repuestos = new Array<Repuesto>();
 
+  // mantenimiento
+  tareaRealizada: string;
+  informeNro: number;
+  nombreTecnico: string;
+  fechaMantenimiento: any;
+  servicioRealizado: Mantenimiento;
 
   // Errors
   error: boolean;
   errorMessage: string;
-  equipoErrorMessage: string;
-  equipoError: boolean;
-  repErrorMessage: string;
-  repError: boolean;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private equipoService: EquipoService,
-              private ordenTrabajoService: OrdenTrabajoService,
-              private solicitudRepuestoService: SolicitudRepuestoService) {
+              private ordenTrabajoService: OrdenTrabajoService) {
   }
 
   ngOnInit() {
     this.equipos = [];
-    this.limpiarCampos();
-    this.getTipoServicios();
-
+    this.fechaMantenimiento = new Date();
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => this.ordenTrabajoService.getOrdenTrabajoById(+params.get('id')))
       ).subscribe(orden => {
         this.ordenTrabajo = new OrdenTrabajo(orden.id, orden.estado, orden.tipoServicio, orden.mantenimiento,
-          orden.diagnostico, orden.responsable, orden.equipos, orden.solicitudRepuesto, orden.fechaArealizarse);
+          orden.diagnostico, orden.responsable, orden.equipos, orden.solicitudRepuesto, orden.fechaRealizacion);
         this.camposAEditar(this.ordenTrabajo);
       },
       error => {
@@ -82,22 +60,6 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
         console.log(this.errorMessage)
         this.error = true;
       });
-  }
-
-  /**
-   * Se obtiene la lista de los tipos de servicios para un mantenimiento.
-   */
-  getTipoServicios(): void {
-    this.ordenTrabajoService.getTipoServicios().subscribe(
-      servicios => {
-        this.tipoServicios = servicios;
-      },
-      error => {
-        this.errorMessage = error.error;
-        console.log(this.errorMessage)
-        this.tipoServicios = [];
-      }
-    );
   }
 
   /**
@@ -111,231 +73,38 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.tipoServicio = orden.tipoServicio;
     this.diagnostico = orden.diagnostico;
     this.responsable = orden.responsable;
-    this.fechaArealizarse = datepipe.transform(orden.fechaArealizarse, 'dd-MM-yyyy');
+    this.fechaRealizacion = datepipe.transform(orden.fechaRealizacion, 'dd-MM-yyyy').toString();
     this.equipos = orden.equipos;
-  }
-
-  /**
-   * Se selecciona un tipo de servicio de mantenimiento.
-   * @param value
-   */
-  onSelectedTipoMantinieminto(value: string): void {
-    this.tipoServicio = value;
-  }
-
-
-  /**
-   * Al presionar la tecla enter, se realiza la busqueda del equipo por el campo Nro. de serie.
-   * @param value
-   */
-  onEnterNroSerie(value: string) {
-    if (value !== '' && value != null) {
-      this.numeroSerie = value;
-      this.buscarEquipo(this.numeroSerie, this.numeroPatrimonial);
+    this.solicitudRepuesto = orden.solicitudRepuesto;
+    if(this.solicitudRepuesto != null) {
+      this.repuestos = this.solicitudRepuesto.repuestos;
     }
   }
-
-  /**
-   * Se obtiene el valor introducido en el campo nro. serie.
-   * @param value
-   */
-  onKeyNroSerie(value: string) {
-    this.numeroSerie = value;
-  }
-
-  /**
-   * Al presionar la tecla enter, se realiza la busqueda del equipo por el campo Nro. patrimonial.
-   * @param value
-   */
-  onEnterNroPatrimonial(value: string) {
-    if (value !== '' && value != null) {
-      this.numeroPatrimonial = value;
-      this.buscarEquipo(this.numeroSerie, this.numeroPatrimonial);
-    }
-  }
-
-  /**
-   * Se obtiene el valor introducido en el campo nro. patrimonial.
-   * @param value
-   */
-  onKeyNroPatrimonial(value: string) {
-    this.numeroPatrimonial = value;
-  }
-
-  /**
-   * Se realiza la busqueda del equipo, segun los campos nro. serie y/o nro. patrimonial.
-   * Si existe un equipo que coincidan sus datos con los datos introducidos,
-   * se muestra el equipo encontrado, si no, se muestra un mensaje al usuario.
-   *
-   * @param nroSerie
-   * @param nroPatrimonial
-   */
-  buscarEquipo(nroSerie: string, nroPatrimonial: string): void {
-    this.requestEquipo = new ParamsBusquedaEquipo(nroSerie, nroPatrimonial);
-    this.equipoService.getEquipoByParams(this.requestEquipo).subscribe(
-      equipo => {
-        this.equipoSeleccionado = equipo;
-        this.showAgregarBtn = this.equipoSeleccionado != null;
-      },
-      error => {
-        this.equipoErrorMessage = error;
-        this.equipoError = true;
-        this.showAgregarBtn = false;
-      }
-    );
-  }
-
-  /**
-   * Se limpian los campos del equipo buscado.
-   */
-  clearDatosEquipos() {
-    this.equipoSeleccionado = null;
-    this.onKeyNroSerie('');
-    this.onKeyNroPatrimonial('');
-    this.showAgregarBtn = false;
-  }
-
-  /**
-   * Se agrega el equipo obtenido de la busqueda a la lista de equipos.
-   */
-  onAddEquipo(): void {
-    this.equipos.push(this.equipoSeleccionado);
-    this.clearDatosEquipos();
-  }
-
-  /**
-   * Se elimina de la lista de equipos, el equipo seleccionado.
-   * @param id
-   */
-  onRemoveEquipo(id: number): void {
-    for (let i = 0; i < this.equipos.length; i++) {
-      if (id === this.equipos[i].id) {
-        this.equipos.splice(i, 1);
-        break;
-      }
-    }
-  }
-
-  /**
-   *Se busca la solicitud de repuestos que coincida con el id introducido,
-   * si la solicitud existe, se muestra la lista de repuestos agregados,
-   * si no existe se muestra un mensaje al usuario.
-   */
-  buscarSolicitudRepuestoById() {
-    this.solicitudRepuestoService.getSolicitudRepuestoById(this.solicitudRepId).subscribe(
-      solicitudRep => {
-        this.solicitudRepuesto = solicitudRep;
-        this.repuestos = this.solicitudRepuesto.repuestos;
-      },
-      error => {
-        this.repErrorMessage = error;
-        this.repError = true;
-      }
-    );
-  }
-
-  /**
-   * Cuando se presiona el botón para crear un nuevo repuesto.
-   */
-  agregarRepuesto(): void {
-    this.repuestoSeleccionado = null;
-    this.modalAddEditRepuestoOpen = true;
-  }
-
-  /**
-   * Cuando se selecciona un repuesto para editar sus datos.
-   */
-  editarRepuesto(): void {
-    this.eliminarRepuesto(this.repuestoSeleccionado);
-    this.modalAddEditRepuestoOpen = true;
-  }
-
-  /**
-   * Se quita de la lista de repuestos existentes, el repuesto que se quiere  editar.
-   */
-  eliminarRepuesto(repuestoSeleccionado: Repuesto): void {
-    for (let i = 0; i < this.repuestos.length; i++) {
-      if (repuestoSeleccionado.id === this.repuestos[i].id) {
-        this.repuestos.splice(i, 1);
-        break;
-      }
-    }
-  }
-
-  /**
-   * Cuando se selecciona un repuesto de la lista.
-   * @param repuesto
-   */
-  selectRepuesto(repuesto: Repuesto): void {
-    this.repuestoSeleccionado = repuesto;
-  }
-
-  /**
-   * El repuesto creado o editado es agregado a la lista de repuestos.
-   * @param value
-   */
-  addEditRepuesto(value: Repuesto) {
-    this.repuestos.push(value);
-    this.repuestoSeleccionado = null;
-    this.isEditRepuesto = true;
-    this.modalAddEditRepuestoOpen = false;
-  }
-
-  /**
-   * Cuando se cancela la edición de un repuesto, el repuesto seleccionado se agrega de nuevo a la lista de
-   * repuestos.
-   * @param value
-   */
-  onCancelAddEditRepuesto(value: Repuesto) {
-    if (this.isEditRepuesto) {
-      if (this.solicitudRepuesto != null) {
-        this.repuestos = this.solicitudRepuesto.repuestos;
-      }
-      this.repuestos.push(value);
-      this.repuestoSeleccionado = null;
-    }
-    this.modalAddEditRepuestoOpen = false;
-  }
-
 
   /**
    * Cuando se guarda la información introducida.
    */
-  onSaveAddOrdenTrabajo() {
-    // Si la solicitud de repuesto se crea a partir de la orden de trabajo
-    if (this.solicitudRepuesto == null) {
-      this.solicitudRepuesto = new SolicitudRepuesto(null, 'Pendiente', this.repuestos, new Date());
-    } else {
-      // si se obtuvo una solicitud de repuesto buscando por su Id
-      this.solicitudRepuesto.repuestos = this.repuestos;
-    }
-    if (typeof this.fechaArealizarse === 'string' || this.fechaArealizarse instanceof String) {
-      let parts = this.fechaArealizarse.split('-');
-      this.fechaArealizarse = new Date(+parts[2], +parts[1] - 1, +parts[0]);
-    }
-
-    this.ordenTrabajo = new OrdenTrabajo(this.id, this.estado, this.tipoServicio, null, this.diagnostico,
-      this.responsable, this.equipos, this.solicitudRepuesto, this.fechaArealizarse);
-    this.saveOrdenTrabajo(this.ordenTrabajo);
+  onSaveMantenimiento() {
+    this.servicioRealizado = new Mantenimiento(null, this.tareaRealizada, this.informeNro, this.nombreTecnico, this.fechaMantenimiento);
+    this.saveMantenimiento(this.servicioRealizado);
   }
 
   /**
-   * Se guarda la orden de trabajo creada.
-   * @param ordenTrabajo
+   * Se guardan los datos del servicio realizado a la orden de trabajo.
+   * @param servicioRealizado
    */
-  saveOrdenTrabajo(ordenTrabajo: OrdenTrabajo) {
-    this.ordenTrabajoService.editarOrdenTrabajo(ordenTrabajo).subscribe(
-      orden => {
-        this.ordenTrabajo = orden;
-        this.limpiarCampos();
-        this.goBack();
-      },
-      error => {
-        this.errorMessage = error.error;
-        console.log(this.errorMessage)
-        this.ordenTrabajo = null;
-      }
-    );
+  saveMantenimiento(servicioRealizado: Mantenimiento) {
+    // this.ordenTrabajoService.editarOrdenTrabajo(ordenTrabajo).subscribe(
+    //   orden => {
+    //     this.ordenTrabajo = orden;
+    //     this.goBack();
+    //   },
+    //   error => {
+    //     this.errorMessage = error.error;
+    //     console.log(this.errorMessage)
+    //     this.ordenTrabajo = null;
+    //   }
+    // );
   }
 
   /**
@@ -343,23 +112,6 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
    */
   goBack(): void {
     this.router.navigate(['home/mantenimiento/orden-trabajo/lista-orden-trabajo']);
-  }
-
-  limpiarCampos(): void {
-    this.clearDatosEquipos();
-    this.equipoSeleccionado = null;
-    this.numeroSerie = '';
-    this.numeroPatrimonial = '';
-    this.requestEquipo = null;
-
-    this.solicitudRepId = null;
-    this.repuestoSeleccionado = null;
-    this.repuestos = [];
-
-    this.equipoErrorMessage = '';
-    this.equipoError = false;
-    this.repErrorMessage = '';
-    this.repError = false;
   }
 }
 
