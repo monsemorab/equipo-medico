@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {OrdenTrabajo, TipoServicio} from '../../../../domain/orden-trabajo';
-import {OrdenTrabajoService} from '../../../../service/orden-trabajo.service';
+import { Component, OnInit } from '@angular/core';
+import {OrdenTrabajo, TipoServicio} from "../../../../domain/orden-trabajo";
+import {Router} from "@angular/router";
+import {OrdenTrabajoService} from "../../../../service/orden-trabajo.service";
 import {DatePipe} from "@angular/common";
 
 @Component({
-  selector: 'app-lista-orden-trabajo',
-  templateUrl: './lista-orden-trabajo.component.html',
-  styleUrls: ['./lista-orden-trabajo.component.css']
+  selector: 'app-lista-orden-trabajo-atendidas',
+  templateUrl: './lista-orden-trabajo-atendidas.component.html',
+  styleUrls: ['./lista-orden-trabajo-atendidas.component.css']
 })
-export class ListaOrdenTrabajoComponent implements OnInit {
+export class ListaOrdenTrabajoAtendidasComponent implements OnInit {
+
 
   // orden trabajo
   selectedOrdenTrabajo: OrdenTrabajo;
@@ -123,34 +124,10 @@ export class ListaOrdenTrabajoComponent implements OnInit {
   }
 
   /**
-   * Cuando se presiona el botón Add.
+   * Editar un mantenimineto realizado.
    */
-  crearOrdenTrabajo() {
-    this.router.navigate(['home/mantenimiento/orden-trabajo/crear-orden-trabajo']);
-  }
-
-  /**
-   * Cuando se selecciona una orden de trabajo de la lista.
-   * @param orden
-   */
-  selectOrdenTrabajo(orden: OrdenTrabajo): void {
-    this.selectedOrdenTrabajo = orden;
-  }
-
-  /**
-   * Editar una orden de trabajo creada.
-   */
-  editarOrdenTrabajo() {
-    this.router.navigate(['home/mantenimiento/orden-trabajo/editar-orden-trabajo/' +
-    this.selectedOrdenTrabajo.id]);
-  }
-
-  /**
-   * Atender una orden de trabajo creada.
-   */
-  atenderOrdenTrabajo(): void {
-    this.router.navigate(['home/mantenimiento/orden-trabajo/atender-orden-trabajo/' +
-    this.selectedOrdenTrabajo.id]);
+  editarMantenimineto(ordenTrabajoId: number): void {
+    this.router.navigate(['home/mantenimiento/orden-trabajo/editar-mantenimineto/' + ordenTrabajoId]);
   }
 
 }

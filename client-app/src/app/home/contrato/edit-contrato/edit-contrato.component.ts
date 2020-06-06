@@ -200,12 +200,12 @@ export class EditContratoComponent implements OnInit {
   onSaveContrato(): void {
 
     if (typeof this.fechaInicio === 'string' || this.fechaInicio instanceof String) {
-      let parts = this.fechaInicio.split('-');
+      let parts = this.fechaInicio.split('/');
       this.fechaInicio = new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
 
     if (typeof this.fechaFin === 'string' || this.fechaFin instanceof String) {
-      let parts = this.fechaFin.split('-');
+      let parts = this.fechaFin.split('/');
       this.fechaFin = new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion, this.tipoProcedimiento,

@@ -35,27 +35,6 @@
     </a>
   </div>
 
-  <section>
-    <div class="form-group row flex-items-xs-left">
-      <button class="btn btn-sm btn-success"
-              (click)="crearOrdenTrabajo()">
-        <clr-icon shape="plus"></clr-icon>
-        Crear
-      </button>
-      <button class="btn btn-sm btn-success"
-              *ngIf="selectedOrdenTrabajo"
-              (click)="editarOrdenTrabajo()">
-        <clr-icon shape="pencil"></clr-icon>
-        Editar
-      </button>
-      <button class="btn btn-sm btn-primary"
-              *ngIf="selectedOrdenTrabajo"
-              (click)="atenderOrdenTrabajo()">
-        <clr-icon shape="check"></clr-icon>
-        Atender
-      </button>
-    </div>
-  </section>
   <!--lista de orden-trabajo-->
   <clr-datagrid [clrDgLoading]="loading">
     <clr-dg-action-bar>
@@ -76,14 +55,13 @@
     <clr-dg-column>Tipo de Mantenimiento</clr-dg-column>
     <clr-dg-column>Diagnostico</clr-dg-column>
     <clr-dg-column>Equipo</clr-dg-column>
+    <clr-dg-column>Acción</clr-dg-column>
     <clr-dg-placeholder>
       <div *ngIf="ordenTrabajoList && ordenTrabajoList.length === 0">
         No existen datos para la orden de trabajo
       </div>
     </clr-dg-placeholder>
-    <clr-dg-row *ngFor="let ordenTrabajo of ordenTrabajoList"
-                (click)="selectOrdenTrabajo(ordenTrabajo)"
-                [class.selectOrdenTrabajo]="ordenTrabajo === selectedOrdenTrabajo">
+    <clr-dg-row *ngFor="let ordenTrabajo of ordenTrabajoList">
       <clr-dg-cell>{{ordenTrabajo.fechaRealizacion}}</clr-dg-cell>
       <clr-dg-cell>{{ordenTrabajo.estado}}</clr-dg-cell>
       <clr-dg-cell>{{ordenTrabajo.tipoServicio}}</clr-dg-cell>
@@ -92,6 +70,12 @@
         <ul class="list-unstyled" *ngFor="let equipo of ordenTrabajo.equipos">
           <li>{{equipo.numeroSerie}}-{{equipo.descripcionEquipo}}</li>
         </ul>
+      </clr-dg-cell>
+      <clr-dg-cell>
+        <a class="btn btn-sm btn-warning"
+           (click)="editarMantenimineto(ordenTrabajo.id)">
+          Editar
+        </a>
       </clr-dg-cell>
     </clr-dg-row>
 

@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import {OrdenTrabajo} from '../../../../domain/orden-trabajo';
-import {Equipo} from '../../../../domain/equipo';
-import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
-import {Repuesto} from '../../../../domain/repuesto';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {OrdenTrabajoService} from '../../../../service/orden-trabajo.service';
-import {switchMap} from 'rxjs/operators';
-import {DatePipe} from "@angular/common";
+import {OrdenTrabajo} from "../../../../domain/orden-trabajo";
+import {Equipo} from "../../../../domain/equipo";
+import {SolicitudRepuesto} from "../../../../domain/solicitud-repuesto";
+import {Repuesto} from "../../../../domain/repuesto";
 import {Mantenimiento} from "../../../../domain/mantenimiento";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {OrdenTrabajoService} from "../../../../service/orden-trabajo.service";
+import {switchMap} from "rxjs/operators";
+import {DatePipe} from "@angular/common";
 import {ManteniminetoService} from "../../../../service/mantenimineto.service";
 
 @Component({
-  selector: 'app-atender-orden-trabajo',
-  templateUrl: './atender-orden-trabajo.component.html',
-  styleUrls: ['./atender-orden-trabajo.component.css']
+  selector: 'app-edit-mantenimiento',
+  templateUrl: './edit-mantenimiento.component.html',
+  styleUrls: ['./edit-mantenimiento.component.css']
 })
-export class AtenderOrdenTrabajoComponent implements OnInit {
+export class EditMantenimientoComponent implements OnInit {
 
   // orden trabajo
   ordenTrabajo: OrdenTrabajo;
@@ -116,4 +116,3 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.router.navigate(['home/mantenimiento/orden-trabajo/lista-orden-trabajo-finalizadas']);
   }
 }
-

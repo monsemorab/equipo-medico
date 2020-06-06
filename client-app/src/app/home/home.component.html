@@ -10,10 +10,10 @@
     </div>
     <nav class="sidenav">
       <section class="sidenav-content">
-        <a routerLink="./equipos/lista-equipo" class="nav-link" routerLinkActive="active">
+        <a (click)="irPaginaEquipo()" class="nav-link" routerLinkActive="active">
           Equipos
         </a>
-        <a routerLink="./contratos/lista-contrato" class="nav-link" routerLinkActive="active">
+        <a (click)="irPaginaContrato()" class="nav-link" routerLinkActive="active">
           Contratos
         </a>
 
@@ -22,13 +22,18 @@
           <label for="mantenimiento">Mantenimiento</label>
           <ul class="nav-list">
             <li>
-              <a routerLink="./mantenimiento/orden-trabajo/lista-orden-trabajo"
-                 class="nav-link" routerLinkActive="active">Orden Trabajo
+              <a (click)="irPaginaSolicitudRepuesto()"
+                 class="nav-link" routerLinkActive="active">Solicitud Repuestos
               </a>
             </li>
             <li>
-              <a routerLink="./mantenimiento/repuestos/lista-solicitud-repuesto"
-                 class="nav-link" routerLinkActive="active">Solicitud Repuestos
+              <a (click)="irPaginaOTPendientes()"
+                 class="nav-link" routerLinkActive="active">Orden de Trabajo Pendientes
+              </a>
+            </li>
+            <li *ngIf="existenOTAtendidas">
+              <a routerLink="./mantenimiento/orden-trabajo/lista-orden-trabajo-finalizadas"
+                 class="nav-link" routerLinkActive="active">Orden de Trabajo Atendidas
               </a>
             </li>
           </ul>

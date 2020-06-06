@@ -15,10 +15,6 @@ export class ListaContratoComponent implements OnInit {
   selectedContrato: Contrato;
   numeroContrato: string;
 
-  // modal
-  modalConfirmOpen: boolean;
-
-
   // Errors
   errorMessage: string;
   error: boolean;
@@ -37,7 +33,6 @@ export class ListaContratoComponent implements OnInit {
   ngOnInit() {
     this.info = false;
     this.error = false;
-    this.modalConfirmOpen = false;
     this.selectedContrato = null;
     this.numeroContrato = "";
     this.getAllContratos();
@@ -58,7 +53,6 @@ export class ListaContratoComponent implements OnInit {
       }
     );
   }
-
 
   filtrarContrato(): void {
     this.info = false;
@@ -115,7 +109,11 @@ export class ListaContratoComponent implements OnInit {
    * @param {Contrato} contrato
    */
   selectContrato(contrato: Contrato): void {
-    this.selectedContrato = contrato;
+    if(this.selectedContrato!= null && this.selectedContrato.id == contrato.id) {
+      this.selectedContrato = null;
+    } else {
+      this.selectedContrato = contrato;
+    }
     console.log('selectedContrato ', this.selectedContrato);
   }
 

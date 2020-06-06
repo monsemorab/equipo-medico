@@ -34,84 +34,75 @@
       <clr-icon aria-hidden="true" shape="close"></clr-icon>
     </button>
   </div>
-
   <br>
-  <div class="clr-row">
-    <div class="clr-col-5">
-      <div class="clr-form-control clr-row">
-        <label for="nroSerie" class="clr-control-label clr-col-10 clr-col-md-3">Nro. Serie:</label>
-        <div class="clr-control-container clr-col-10 clr-col-md-2">
-          <div class="clr-input-wrapper">
-            <input id="nroSerie" class="clr-input"
-                   name="nroContrato" [(ngModel)]="numeroSerie">
+  <clr-datagrid [clrDgLoading]="loading">
+    <clr-dg-action-bar>
+      <div class="clr-row clr-col-12">
+        <div class="clr-col-12">
+          <div class="clr-form-control clr-row">
+            <label for="nroSerie" class="clr-control-label clr-col-auto">Nro. Serie:</label>
+            <div class="clr-control-container clr-col-12 clr-col-md-2">
+              <div class="clr-input-wrapper">
+                <input id="nroSerie" class="clr-input"
+                       name="nroContrato" [(ngModel)]="numeroSerie">
+              </div>
+            </div>
+            <label for="nroPatrimonial" class="clr-control-label clr-col-auto">Nro. Patrimonial:</label>
+            <div class="clr-control-container clr-col-12 clr-col-md-2">
+              <div class="clr-input-wrapper">
+                <input id="nroPatrimonial" class="clr-input"
+                       name="nroContrato" [(ngModel)]="numeroPatrimonial">
+              </div>
+            </div>
+            <div class="clr-control-container clr-col-12 clr-col-md-2">
+              <a class="btn btn-sm btn-primary" (click)="filtrarEquipo()">
+                <clr-icon shape="search"></clr-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="clr-col-12">
+          <div class="clr-form-control clr-row">
+            <a class="btn btn-sm btn-success"
+               (click)="addEquipo()">
+              <clr-icon shape="plus"></clr-icon>
+              Crear
+            </a>
+            <a class="btn btn-sm btn-success"
+               *ngIf="selectedEquipo != null"
+               (click)="editEquipo()">
+              <clr-icon shape="pencil"></clr-icon>
+              Editar
+            </a>
           </div>
         </div>
       </div>
-      <div class="clr-form-control clr-row">
-        <label for="nroPatrimonial" class="clr-control-label clr-col-10 clr-col-md-3">Nro. Patrimonial:</label>
-        <div class="clr-control-container clr-col-10 clr-col-md-2">
-          <div class="clr-input-wrapper">
-            <input id="nroPatrimonial" class="clr-input"
-                   name="nroContrato" [(ngModel)]="numeroPatrimonial">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="clr-col-5">
-      <div class="clr-form-control clr-row">
-        <div class="clr-control-container clr-col-10 clr-col-md-4">
-          <button class="btn btn-sm btn-success" (click)="filtrarEquipo()">
-            <clr-icon shape="search"></clr-icon>
-            Buscar
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br>
-  <hr>
-  <section>
-    <div>
-      <button class="btn btn-sm btn-success"
-              (click)="addEquipo()">
-        <clr-icon shape="plus"></clr-icon>
-        Crear
-      </button>
-      <button class="btn btn-sm btn-success"
-              *ngIf="selectedEquipo != null"
-              (click)="editEquipo()">
-        <clr-icon shape="pencil"></clr-icon>
-        Editar
-      </button>
-    </div>
+    </clr-dg-action-bar>
+    <clr-dg-column [clrDgSortBy]="'numeroSerie'">Nro. Serie</clr-dg-column>
+    <clr-dg-column [clrDgSortBy]="'numeroPatrimonial'">Nro. Patrimonial</clr-dg-column>
+    <clr-dg-column>Descripción</clr-dg-column>
+    <clr-dg-column>Tipo</clr-dg-column>
+    <clr-dg-column>Modelo</clr-dg-column>
+    <clr-dg-column>Contrato</clr-dg-column>
+    <clr-dg-column>Representante</clr-dg-column>
+    <clr-dg-column>Ubicación</clr-dg-column>
 
-    <clr-datagrid [clrDgLoading]="loading">
-      <clr-dg-column [clrDgSortBy]="'numeroSerie'">Nro. Serie</clr-dg-column>
-      <clr-dg-column [clrDgSortBy]="'numeroPatrimonial'">Nro. Patrimonial</clr-dg-column>
-      <clr-dg-column>Descripción</clr-dg-column>
-      <clr-dg-column>Tipo</clr-dg-column>
-      <clr-dg-column>Modelo</clr-dg-column>
-      <clr-dg-column>Contrato</clr-dg-column>
-      <clr-dg-column>Representante</clr-dg-column>
-      <clr-dg-column>Ubicación</clr-dg-column>
+    <clr-dg-row *ngFor="let equipo of equipos" (click)="selectEquipo(equipo)"
+                [class.selectEquipo]="equipo === selectedEquipo">
+      <clr-dg-cell>{{equipo.numeroSerie}}</clr-dg-cell>
+      <clr-dg-cell>{{equipo.numeroPatrimonial}}</clr-dg-cell>
+      <clr-dg-cell>{{equipo.descripcionEquipo}}</clr-dg-cell>
+      <clr-dg-cell>{{equipo.tipoEquipo?.tipo}}</clr-dg-cell>
+      <clr-dg-cell>{{equipo.modeloEquipo?.modelo}}</clr-dg-cell>
+      <clr-dg-cell>{{equipo.contrato?.numeroContrato}}</clr-dg-cell>
+      <clr-dg-cell>{{equipo.representante?.nombre}}</clr-dg-cell>
+      <clr-dg-cell>{{equipo.ubicacion?.numeroSala}}</clr-dg-cell>
+    </clr-dg-row>
 
-      <clr-dg-row *ngFor="let equipo of equipos" (click)="selectEquipo(equipo)"
-                  [class.selectEquipo]="equipo === selectedEquipo">
-        <clr-dg-cell>{{equipo.numeroSerie}}</clr-dg-cell>
-        <clr-dg-cell>{{equipo.numeroPatrimonial}}</clr-dg-cell>
-        <clr-dg-cell>{{equipo.descripcionEquipo}}</clr-dg-cell>
-        <clr-dg-cell>{{equipo.tipoEquipo?.tipo}}</clr-dg-cell>
-        <clr-dg-cell>{{equipo.modeloEquipo?.modelo}}</clr-dg-cell>
-        <clr-dg-cell>{{equipo.contrato?.numeroContrato}}</clr-dg-cell>
-        <clr-dg-cell>{{equipo.representante?.nombre}}</clr-dg-cell>
-        <clr-dg-cell>{{equipo.ubicacion?.numeroSala}}</clr-dg-cell>
-      </clr-dg-row>
-
-      <clr-dg-footer>
-        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} de {{total}} Equipos
-        <clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>
-      </clr-dg-footer>
-    </clr-datagrid>
-  </section>
+    <clr-dg-footer>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} de {{total}} Equipos
+      <clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
 </form>
 

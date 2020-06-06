@@ -21,6 +21,8 @@ import {ListarSolicitudComponent} from './home/mantenimiento/solicitud-repuesto/
 import {AddSolicitudComponent} from './home/mantenimiento/solicitud-repuesto/add-solicitud/add-solicitud.component';
 import {EditSolicitudComponent} from './home/mantenimiento/solicitud-repuesto/edit-solicitud/edit-solicitud.component';
 import {SolicitudRepuestoComponent} from './home/mantenimiento/solicitud-repuesto/solicitud-repuesto.component';
+import {ListaOrdenTrabajoAtendidasComponent} from "./home/mantenimiento/orden-trabajo/lista-orden-trabajo-atendidas/lista-orden-trabajo-atendidas.component";
+import {EditMantenimientoComponent} from "./home/mantenimiento/orden-trabajo/edit-mantenimiento/edit-mantenimiento.component";
 
 
 const appRoutes: Routes = [
@@ -53,7 +55,9 @@ const appRoutes: Routes = [
               {path: 'lista-orden-trabajo', component: ListaOrdenTrabajoComponent},
               {path: 'crear-orden-trabajo', component: AddOrdenTrabajoComponent},
               {path: 'editar-orden-trabajo/:id', component: EditOrdenTrabajoComponent},
-              {path: 'atender-orden-trabajo/:id', component: AtenderOrdenTrabajoComponent}
+              {path: 'atender-orden-trabajo/:id', component: AtenderOrdenTrabajoComponent},
+              {path: 'lista-orden-trabajo-finalizadas', component: ListaOrdenTrabajoAtendidasComponent},
+              {path: 'editar-mantenimiento-realizado/:id', component: EditMantenimientoComponent}
             ]
           },
           {

@@ -51,13 +51,13 @@
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let equipo of equipos">
-          <td class="left">{{equipo.numeroSerie}}</td>
-          <td>{{equipo.numeroPatrimonial}}</td>
-          <td>{{equipo.tipoEquipo?.tipo}}</td>
-          <td>{{equipo.modeloEquipo?.modelo}}</td>
-          <td class="left">{{equipo.ubicacion?.numeroSala}}</td>
-        </tr>
+      <tr *ngFor="let equipo of equipos">
+        <td class="left">{{equipo.numeroSerie}}</td>
+        <td>{{equipo.numeroPatrimonial}}</td>
+        <td>{{equipo.tipoEquipo?.tipo}}</td>
+        <td>{{equipo.modeloEquipo?.modelo}}</td>
+        <td class="left">{{equipo.ubicacion?.numeroSala}}</td>
+      </tr>
       </tbody>
     </table>
   </section>

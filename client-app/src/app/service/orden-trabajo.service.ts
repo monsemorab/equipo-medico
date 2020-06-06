@@ -30,6 +30,16 @@ export class OrdenTrabajoService {
     return this.apiRequest.get(this.urlOrdenTrabajo);
   }
 
+  getAllByEstado(estado: string): Observable<OrdenTrabajo[]> {
+    const url = this.urlOrdenTrabajo + '/byEstado/' + estado;
+    return this.apiRequest.get(url);
+  }
+
+  getAllByTipoMantenimiento(tipo: string): Observable<OrdenTrabajo[]> {
+    const url = this.urlOrdenTrabajo + '/filtro/byTipoMantenimiento/' + tipo;
+    return this.apiRequest.get(url);
+  }
+
   /**
    * Se obtiene una orden de trabajo por su Id.
    * @param ordenId
@@ -53,7 +63,7 @@ export class OrdenTrabajoService {
    * @param ordenTrabajo
    */
   editarOrdenTrabajo(ordenTrabajo: OrdenTrabajo): Observable<OrdenTrabajo> {
-    const url = this.urlOrdenTrabajo +'/';;
+    const url = this.urlOrdenTrabajo +'/';
     return this.apiRequest.put(url, ordenTrabajo);
   }
 

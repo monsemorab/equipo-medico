@@ -1,0 +1,18 @@
+.form-orden-trabajo-title {
+  font-weight: bold;
+  text-align: center;
+}
+
+.form-orden-trabajo-label {
+  font-weight: bold;
+}
+
+.selectOrdenTrabajo {
+  background-color: darkgrey !important;
+  cursor: pointer !important;
+}
+
+pre {
+  border: 0 solid #ccc !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}

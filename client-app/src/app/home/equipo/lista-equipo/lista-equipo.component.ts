@@ -46,7 +46,7 @@ export class ListaEquipoComponent implements OnInit {
       this.getAllEquipos();
     } else {
       let equipo = new Equipo(null, this.numeroSerie, this.numeroPatrimonial, null, null, null,
-        null, null, null, null,null, null, null,
+        null, null, null, null, null, null, null,
         null, null, null, null, null);
       this.getAllEquiposFiltrados(equipo);
     }
@@ -105,7 +105,12 @@ export class ListaEquipoComponent implements OnInit {
    * @param {Equipo} equipo
    */
   selectEquipo(equipo: Equipo): void {
-    this.selectedEquipo = equipo;
+    if (this.selectedEquipo != null && this.selectedEquipo.id == equipo.id) {
+      this.selectedEquipo = null;
+    } else {
+      this.selectedEquipo = equipo;
+    }
+
     console.log('selectedEquipo ', this.selectedEquipo);
   }
 
