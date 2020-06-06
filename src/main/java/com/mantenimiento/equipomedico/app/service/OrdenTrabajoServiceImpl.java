@@ -1,7 +1,6 @@
 package com.mantenimiento.equipomedico.app.service;
 
 import com.mantenimiento.equipomedico.app.entidad.OrdenTrabajo;
-import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuesto;
 import com.mantenimiento.equipomedico.app.repository.OrdenTrabajoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +57,17 @@ public class OrdenTrabajoServiceImpl implements OrdenTrabajoService {
     @Override
     public List<OrdenTrabajo> getAll() {
         return (ArrayList<OrdenTrabajo>) ordenTrabajoRepository.findAll();
+    }
+
+    @Override
+    public List<OrdenTrabajo> getAllByEstadoEquals(String estado)
+    {
+        return ordenTrabajoRepository.getAllByEstadoEquals(estado);
+    }
+
+    @Override
+    public List<OrdenTrabajo> getAllByTipoServicioEquals(String tipoServicio)
+    {
+        return ordenTrabajoRepository.getAllByTipoServicioEquals(tipoServicio);
     }
 }

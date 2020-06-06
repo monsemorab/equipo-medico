@@ -67,6 +67,17 @@ public class OrdenTrabajoController
         return ordenTrabajoService.getAll();
     }
 
+    @RequestMapping(value = "byEstado/{estado}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<OrdenTrabajo> getAllByEstado(@PathVariable String estado) {
+        return ordenTrabajoService.getAllByEstadoEquals(estado);
+    }
+
+    @RequestMapping(value = "filtro/byTipoMantenimiento/{tipo}",
+        method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<OrdenTrabajo> getAllByTipoMantenimiento(@PathVariable String tipo) {
+        return ordenTrabajoService.getAllByTipoServicioEquals(tipo);
+    }
+
     /**
      * Obtiene determinada orden de trabajo.
      *
