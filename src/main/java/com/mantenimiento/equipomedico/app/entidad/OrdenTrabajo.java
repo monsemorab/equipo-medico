@@ -53,6 +53,9 @@ public class OrdenTrabajo implements Serializable {
     @Column(name = "fechaRealizacion")
     private Date fechaRealizacion;
 
+    @Column(name= "responsable")
+   private String responsable;
+
     /**
      * Gets id
      *
@@ -212,5 +215,25 @@ public class OrdenTrabajo implements Serializable {
     public void setFechaRealizacion(Date fechaRealizacion)
     {
         this.fechaRealizacion = fechaRealizacion;
+    }
+
+    /**
+     * Gets responsable
+     *
+     * @return value of responsable
+     */
+    public String getResponsable()
+    {
+        return responsable;
+    }
+
+    /**
+     * Set responsable
+     *
+     * @param responsable
+     */
+    public void setResponsable(String responsable)
+    {
+        this.responsable = responsable;
     }
 }
