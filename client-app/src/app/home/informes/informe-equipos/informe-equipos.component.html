@@ -1,0 +1,82 @@
+<!-- información del equipo-->
+<h2 class="form-orden-trabajo-sub-title">Información del Equipo</h2>
+<section class="form-block">
+  <!-- errors -->
+  <div class="alert alert-danger" *ngIf="error">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{errorMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="error = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+  </div>
+</section>
+<section class="form-block">
+  <div class="form-group row flex-items-xs-left">
+    <div class="col-xs-1 col-label-equipo">
+      <label class="form-orden-trabajo-label" for="nroSerie">N. Serie:</label>
+    </div>
+    <div class="col-xs-2">
+      <input class="form-control" id="nroSerie"
+             name="nroSerie" #nroSerie
+             (keyup.enter)="onEnterNroSerie(nroSerie.value)"
+             (keyup)="onKeyNroSerie(nroSerie.value)"
+             [(ngModel)]="numeroSerie">
+    </div>
+    <div class="col-xs-2"></div>
+    <div class="col-xs-2 col-label-equipo">
+      <label class="form-orden-trabajo-label" for="numeroPatrimonial">N. Patrimonial:</label>
+    </div>
+    <div class="col-xs-2">
+      <input class="form-control" id="numeroPatrimonial"
+             name="numeroPatrimonial" #nroPatrimonial
+             (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"
+             (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"
+             [(ngModel)]="numeroPatrimonial">
+    </div>
+  </div>
+  <div class="form-group row flex-items-xs-left">
+    <div class="col-xs-1 col-label-equipo">
+      <label class="form-orden-trabajo-label">Tipo:</label>
+    </div>
+    <div class="col-xs-4">
+      <label class="form-control">
+        {{equipoSeleccionado?.tipoEquipo?.tipo}}
+      </label>
+    </div>
+
+    <div class="col-xs-2 col-label-equipo">
+      <label class="form-orden-trabajo-label">Modelo:</label>
+    </div>
+    <div class="col-xs-4">
+      <label class="form-control">
+        {{equipoSeleccionado?.modeloEquipo?.modelo}}
+      </label>
+    </div>
+  </div>
+  <div class="form-group row flex-items-xs-left">
+    <div class="col-xs-1 col-label-equipo">
+      <label class="form-orden-trabajo-label">Ubicación:</label>
+    </div>
+    <div class="col-xs-4">
+      <label class="form-control">
+        {{equipoSeleccionado?.ubicacion?.servicio}} {{equipoSeleccionado?.ubicacion?.bloque}}
+        {{equipoSeleccionado?.ubicacion?.nivel}} {{equipoSeleccionado?.ubicacion?.numeroSala}}
+      </label>
+    </div>
+
+    <div class="col-xs-2 col-label-equipo">
+      <label class="form-orden-trabajo-label">Contrato:</label>
+    </div>
+    <div class="col-xs-4">
+      <label class="form-control">
+        {{equipoSeleccionado?.contrato?.numeroContrato}}
+      </label>
+    </div>
+  </div>
+</section>

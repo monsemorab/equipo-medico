@@ -6,6 +6,8 @@ import {MantenimientoModule} from './mantenimiento/mantenimiento.module';
 import {HomeComponent} from './home.component';
 import {CommonModuleImportsModule} from '../shared/common-module-imports.module';
 import {ApiRequestService} from '../service/api-request.service';
+import { InformesComponent } from './informes/informes.component';
+import { InformeEquiposComponent } from './informes/informe-equipos/informe-equipos.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import {ApiRequestService} from '../service/api-request.service';
     ApiRequestService
   ],
   declarations: [
-    HomeComponent
+    HomeComponent,
+    InformesComponent,
+    InformeEquiposComponent
   ]
 })
 export class HomeModule {

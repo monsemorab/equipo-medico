@@ -23,6 +23,8 @@ import {EditSolicitudComponent} from './home/mantenimiento/solicitud-repuesto/ed
 import {SolicitudRepuestoComponent} from './home/mantenimiento/solicitud-repuesto/solicitud-repuesto.component';
 import {ListaOrdenTrabajoAtendidasComponent} from "./home/mantenimiento/orden-trabajo/lista-orden-trabajo-atendidas/lista-orden-trabajo-atendidas.component";
 import {EditMantenimientoComponent} from "./home/mantenimiento/orden-trabajo/edit-mantenimiento/edit-mantenimiento.component";
+import {InformesComponent} from "./home/informes/informes.component";
+import {InformeEquiposComponent} from "./home/informes/informe-equipos/informe-equipos.component";
 
 
 const appRoutes: Routes = [
@@ -68,6 +70,12 @@ const appRoutes: Routes = [
               {path: 'editar-solicitud-repuesto/:id', component: EditSolicitudComponent}
             ]
           },
+        ]
+      },
+      {
+        path: 'informes', component: InformesComponent,
+        children: [
+          {path: 'informe-equipo', component: InformeEquiposComponent},
         ]
       }
     ]

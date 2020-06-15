@@ -30,6 +30,7 @@ export class EditMantenimientoComponent implements OnInit {
   repuestos = new Array<Repuesto>();
 
   // mantenimiento
+  mantenimientoId: number;
   tareaRealizada: string;
   informeNro: number;
   nombreTecnico: string;
@@ -81,22 +82,27 @@ export class EditMantenimientoComponent implements OnInit {
     if(this.solicitudRepuesto != null) {
       this.repuestos = this.solicitudRepuesto.repuestos;
     }
+    this.servicioRealizado = orden.mantenimiento;
+    this.mantenimientoId = this.servicioRealizado.id;
+    this.tareaRealizada = this.servicioRealizado.tareaRealizada;
+    this.informeNro = this.servicioRealizado.informeNro;
+    this.nombreTecnico = this.servicioRealizado.nombreTecnico;
   }
 
   /**
    * Cuando se guarda la información introducida.
    */
   onSaveMantenimiento() {
-    this.servicioRealizado = new Mantenimiento(null, this.tareaRealizada, this.informeNro, this.nombreTecnico, this.fechaMantenimiento);
-    this.saveMantenimiento(this.servicioRealizado);
+    this.servicioRealizado = new Mantenimiento(this.mantenimientoId, this.tareaRealizada, this.informeNro, this.nombreTecnico, this.fechaMantenimiento);
+    this.updateMantenimiento(this.servicioRealizado);
   }
 
   /**
-   * Se guardan los datos del servicio realizado a la orden de trabajo.
+   * Se guardan los datos modificados del servicio realizado a la orden de trabajo.
    * @param servicioRealizado
    */
-  saveMantenimiento(servicioRealizado: Mantenimiento) {
-    this.manteniminetoService.crearMantenimineto(servicioRealizado).subscribe(
+  updateMantenimiento(servicioRealizado: Mantenimiento) {
+    this.manteniminetoService.editarMantenimineto(servicioRealizado).subscribe(
       mantenimineto => {
         this.servicioRealizado = mantenimineto;
         this.goBack();
