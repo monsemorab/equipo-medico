@@ -61,7 +61,7 @@ export class EditSolicitudComponent implements OnInit {
     this.id = solicitud.id;
     this.estado = solicitud.estado;
     this.repuestos = solicitud.repuestos;
-    this.fechaSolicitud = datepipe.transform(solicitud.fechaSolicitud, 'dd-MM-yyyy');
+    this.fechaSolicitud = datepipe.transform(solicitud.fechaSolicitud, 'MM/dd/yyyy');
   }
 
   /**
@@ -97,28 +97,12 @@ export class EditSolicitudComponent implements OnInit {
   }
 
   /**
-   * El repuesto creado o editado es agregado a la lista de repuestos.
+   * Cuando el control es devuelto a la pantalla principal.
    * @param value
    */
-  addEditRepuesto(value: Repuesto) {
+  closeRepuestoModal(value: Repuesto) {
     if(value != null) {
       this.repuestos.push(value);
-    }
-    this.repuestoSeleccionado = value;
-    this.modalAddEditRepuestoOpen = false;
-  }
-
-  /**
-   * Cuando se cancela la edición de un repuesto, el repuesto seleccionado se agrega de nuevo a la lista de
-   * repuestos.
-   * @param value
-   */
-  onCancelAddEditRepuesto(value: Repuesto) {
-    if (this.isEditRepuesto) {
-      this.repuestos = this.solicitudRepuesto.repuestos;
-      if(value != null) {
-        this.repuestos.push(value);
-      }
     }
     this.modalAddEditRepuestoOpen = false;
   }
@@ -128,8 +112,8 @@ export class EditSolicitudComponent implements OnInit {
    */
   onSaveSolicitudRepuesto(): void {
     if (typeof this.fechaSolicitud === 'string' || this.fechaSolicitud instanceof String) {
-      let parts = this.fechaSolicitud.split('-');
-      this.fechaSolicitud = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+      let parts = this.fechaSolicitud.split('/');
+      this.fechaSolicitud = new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
     this.solicitudRepuesto = new SolicitudRepuesto(this.id, this.estado, this.repuestos, this.fechaSolicitud);
     this.saveSolicitudRepuesto(this.solicitudRepuesto);

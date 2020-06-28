@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {OrdenTrabajo} from '../../../../domain/orden-trabajo';
 import {Equipo} from '../../../../domain/equipo';
 import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
@@ -9,6 +9,7 @@ import {switchMap} from 'rxjs/operators';
 import {DatePipe} from "@angular/common";
 import {Mantenimiento} from "../../../../domain/mantenimiento";
 import {ManteniminetoService} from "../../../../service/mantenimineto.service";
+import {EquipoService} from "../../../../service/equipo.service";
 
 @Component({
   selector: 'app-atender-orden-trabajo',
@@ -42,6 +43,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private equipoService: EquipoService,
               private ordenTrabajoService: OrdenTrabajoService,
               private manteniminetoService: ManteniminetoService) {
   }
@@ -75,10 +77,12 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.tipoServicio = orden.tipoServicio;
     this.diagnostico = orden.diagnostico;
     this.responsable = orden.responsable;
-    this.fechaRealizacion = datepipe.transform(orden.fechaRealizacion, 'dd-MM-yyyy').toString();
+    if (orden.fechaRealizacion != null) {
+      this.fechaRealizacion = datepipe.transform(orden.fechaRealizacion, 'MM/dd/yyyy');
+    }
     this.equipos = orden.equipos;
     this.solicitudRepuesto = orden.solicitudRepuesto;
-    if(this.solicitudRepuesto != null) {
+    if (this.solicitudRepuesto != null) {
       this.repuestos = this.solicitudRepuesto.repuestos;
     }
   }
@@ -87,8 +91,12 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
    * Cuando se guarda la información introducida.
    */
   onSaveMantenimiento() {
-    this.servicioRealizado = new Mantenimiento(null, this.tareaRealizada, this.informeNro, this.nombreTecnico, this.fechaMantenimiento);
-    this.saveMantenimiento(this.servicioRealizado);
+    if(this.tareaRealizada != '' && this.nombreTecnico != '') {
+      this.servicioRealizado = new Mantenimiento(null, this.tareaRealizada, this.informeNro, this.nombreTecnico, this.fechaMantenimiento);
+      this.saveMantenimiento(this.servicioRealizado);
+    } else {
+      this.goBack();
+    }
   }
 
   /**
@@ -99,7 +107,8 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.manteniminetoService.crearMantenimineto(servicioRealizado).subscribe(
       mantenimineto => {
         this.servicioRealizado = mantenimineto;
-        this.goBack();
+        this.manteniminetoService.emitExisteOrdenTrabajoAtendida(true);
+        this.updateOrdenTrabajo(this.servicioRealizado);
       },
       error => {
         this.errorMessage = error.error;
@@ -109,11 +118,49 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     );
   }
 
+  updateOrdenTrabajo(servcioRealizado: Mantenimiento) {
+    this.ordenTrabajo.estado = "Finalizada";
+    this.ordenTrabajo.mantenimiento = servcioRealizado;
+    this.ordenTrabajoService.editarOrdenTrabajo(this.ordenTrabajo).subscribe(
+      orden => {
+        this.ordenTrabajo = orden;
+        this.onUpdateEstadoEquipos(this.ordenTrabajo.equipos);
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  onUpdateEstadoEquipos(equipos: Equipo[]): void {
+    for (let i = 0; i < equipos.length; i++) {
+      equipos[i].estado = 'Inoperativo';
+      this.updateEquipo(equipos[i]);
+    }
+    this.goBack();
+  }
+
+  updateEquipo(equipo: Equipo): void {
+    this.equipoService.editarEquipo(equipo).subscribe(
+      respuesta => {
+        console.log(respuesta)
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+
   /**
-   * Cuando se presiona sobre el botón cancelar, regresa a la página del listado.
+   * Cuando se presiona sobre el botón cancelar, regresa a la página del listado de orden de trabajos pendientes.
    */
   goBack(): void {
-    this.router.navigate(['home/mantenimiento/orden-trabajo/lista-orden-trabajo-finalizadas']);
+    this.router.navigate(['home/mantenimiento/orden-trabajo/lista-orden-trabajo']);
   }
 }
 

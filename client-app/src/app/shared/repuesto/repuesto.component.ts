@@ -73,6 +73,7 @@ export class RepuestoComponent implements OnInit {
       this.modalRepuestoTitle = 'Agregar Repuesto';
       this.id = -1;
       this.readonlyField = true;
+      this.fechaActualizacion = new Date();
     } else {
       this.modalRepuestoTitle = 'Editar Repuesto';
       this.camposAEditar(this.repuesto);
@@ -136,7 +137,7 @@ export class RepuestoComponent implements OnInit {
     this.precio = repuesto.precio;
     this.cantAdquirida = repuesto.cantidadAdquirida;
     this.cantRestante = repuesto.cantidadRestante;
-    this.fechaActualizacion = datepipe.transform(repuesto.fechaActualizacion, 'dd-MM-yyyy');
+    this.fechaActualizacion = datepipe.transform(repuesto.fechaActualizacion, 'MM/dd/yyyy');
     this.tipoEquipo = repuesto.tipoEquipo;
     if(repuesto.tipoEquipo != null) {
       this.tipoId = repuesto.tipoEquipo.id;
@@ -277,8 +278,8 @@ export class RepuestoComponent implements OnInit {
    */
   addRepuesto() {
     if (typeof this.fechaActualizacion === 'string' || this.fechaActualizacion instanceof String) {
-      let parts = this.fechaActualizacion.split('-');
-      this.fechaActualizacion = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+      let parts = this.fechaActualizacion.split('/');
+      this.fechaActualizacion =  new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
     this.repuesto = new Repuesto(this.id, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
       this.cantRestante, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);

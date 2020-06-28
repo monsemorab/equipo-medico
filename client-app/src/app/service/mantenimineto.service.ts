@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {ApiRequestService} from "./api-request.service";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {Mantenimiento} from "../domain/mantenimiento";
 
 @Injectable({
@@ -9,7 +9,11 @@ import {Mantenimiento} from "../domain/mantenimiento";
 })
 export class ManteniminetoService {
 
-  private urlMantenimineto = environment.service_uri + '/api/mantenimientos';
+  private urlMantenimineto = environment.service_uri + '/mantenimientos';
+
+
+  private emitSiExisteOrdenTrabajoAtendida = new BehaviorSubject<boolean>(false);
+  emittedSiExisteOrdenTrabajoAtendida= this.emitSiExisteOrdenTrabajoAtendida.asObservable();
 
   constructor(private apiRequest: ApiRequestService) {
   }
@@ -30,5 +34,14 @@ export class ManteniminetoService {
   editarMantenimineto(mantenimiento: Mantenimiento): Observable<Mantenimiento> {
     const url = this.urlMantenimineto +'/';
     return this.apiRequest.put(url, mantenimiento);
+  }
+
+  /**
+   * Cuando una orden de trabajo fue atendida, se avisa a la pagina home que puede mostrar la lista de orden de trabajos atendidas al presionar
+   * sobre el boton Orden de Trabajo Atendidas del menú lateral
+   * @param change
+   */
+  emitExisteOrdenTrabajoAtendida (change: boolean) {
+    this.emitSiExisteOrdenTrabajoAtendida.next(change);
   }
 }

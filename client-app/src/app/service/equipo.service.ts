@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Equipo} from '../domain/equipo';
 import {environment} from '../../environments/environment';
 import {ApiRequestService} from './api-request.service';
@@ -8,6 +8,9 @@ import {ParamsBusquedaEquipo} from '../domain/ParamsBusquedaEquipo';
 @Injectable()
 export class EquipoService {
   private urlEquipos = environment.service_uri + '/equipos/';
+
+  private emitSiExisteListaEquipos = new BehaviorSubject<boolean>(false);
+  emittedSiExisteListaEquipos = this.emitSiExisteListaEquipos.asObservable();
 
   constructor(private apiRequest: ApiRequestService) {
   }
@@ -80,4 +83,14 @@ export class EquipoService {
     const url = this.urlEquipos;
     return this.apiRequest.put(url, equipo);
   }
+
+  /**
+   * Cuando se crea un nuevo equipo, se avisa a la pagina home que peude mostrar la lista de equipos al presionar
+   * sobre el boton Equipos dl menú lateral
+   * @param change
+   */
+  emitExisteListaEquipos(change: boolean) {
+    this.emitSiExisteListaEquipos.next(change);
+  }
+
 }

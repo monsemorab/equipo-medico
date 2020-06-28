@@ -70,27 +70,12 @@ export class AddSolicitudComponent implements OnInit {
   }
 
   /**
-   * El repuesto creado o editado es agregado a la lista de repuestos.
+   * Cuando el control es devuelto a la pantalla principal.
    * @param value
    */
-  addEditRepuesto(value: Repuesto) {
+  closeRepuestoModal(value: Repuesto) {
     if(value != null) {
       this.repuestos.push(value);
-    }
-    this.repuestoSeleccionado = value;
-    this.modalAddEditRepuestoOpen = false;
-  }
-
-  /**
-   * Cuando se cancela la edición de un repuesto, el repuesto seleccionado se agrega de nuevo a la lista de
-   * repuestos.
-   * @param value
-   */
-  onCancelAddEditRepuesto(value: Repuesto) {
-    if (this.isEditRepuesto) {
-      if(value != null) {
-        this.repuestos.push(value);
-      }
     }
     this.modalAddEditRepuestoOpen = false;
   }
@@ -99,6 +84,10 @@ export class AddSolicitudComponent implements OnInit {
    * Se guarda la información de la solicitud de repuesto creada.
    */
   onSaveSolicitudRepuesto(): void {
+    if (typeof this.fechaSolicitud === 'string' || this.fechaSolicitud instanceof String) {
+      let parts = this.fechaSolicitud.split('/');
+      this.fechaSolicitud = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+    }
     this.solicitudRepuesto = new SolicitudRepuesto(null, this.estado, this.repuestos, this.fechaSolicitud);
     this.saveSolicitudRepuesto(this.solicitudRepuesto);
   }
@@ -112,6 +101,7 @@ export class AddSolicitudComponent implements OnInit {
       // tslint:disable-next-line:no-shadowed-variable
       solicitud => {
         this.solicitudRepuesto = solicitud;
+        this.solicitudRepuestoService.emitExisteSolicitudRepuesto(true);
         this.goBack();
       },
       error => {
@@ -123,8 +113,7 @@ export class AddSolicitudComponent implements OnInit {
   }
 
   goBack(): void {
-    // this.router.navigate(['home/mantenimiento/repuestos/lista-solicitud-repuesto']);
-    this.location.back();
+    this.router.navigate(['home/mantenimiento/repuestos/lista-solicitud-repuesto']);
   }
 
 

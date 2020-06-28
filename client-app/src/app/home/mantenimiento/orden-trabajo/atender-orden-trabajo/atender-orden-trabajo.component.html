@@ -52,10 +52,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let equipo of equipos">
-          <td class="left">{{equipo.numeroSerie}}</td>
-          <td>{{equipo.numeroPatrimonial}}</td>
-          <td>{{equipo.tipoEquipo?.tipo}}</td>
-          <td>{{equipo.modeloEquipo?.modelo}}</td>
+          <td class="left">{{equipo?.numeroSerie}}</td>
+          <td>{{equipo?.numeroPatrimonial}}</td>
+          <td>{{equipo?.tipoEquipo?.tipo}}</td>
+          <td>{{equipo?.modeloEquipo?.modelo}}</td>
           <td class="left">{{equipo.ubicacion?.numeroSala}}</td>
         </tr>
       </tbody>
@@ -67,7 +67,7 @@
   <section>
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-2">
-        <label class="form-mantenimiento-label">Solicitud Repuesto: {{solicitudRepuesto.id}}</label>
+        <label class="form-mantenimiento-label">Solicitud Repuesto: {{solicitudRepuesto?.id}}</label>
       </div>
     </div>
 
@@ -82,10 +82,10 @@
       </thead>
       <tbody>
       <tr *ngFor="let repuesto of repuestos">
-        <td class="left">{{repuesto.codigo}}</td>
-        <td>{{repuesto.descripcionArticulo}}</td>
-        <td>{{repuesto.cantidadAdquirida}}</td>
-        <td class="left">{{repuesto.precio}}</td>
+        <td class="left">{{repuesto?.codigo}}</td>
+        <td>{{repuesto?.descripcionArticulo}}</td>
+        <td>{{repuesto?.cantidadAdquirida}}</td>
+        <td class="left">{{repuesto?.precio}}</td>
       </tr>
       </tbody>
     </table>
@@ -130,7 +130,7 @@
   <section class="form-block">
     <button class="btn btn-sm btn-success"
             [disabled]="(mantenimientoForm.form.invalid )"
-            (click)="onSaveMantenimiento">
+            (click)="onSaveMantenimiento()">
       <clr-icon shape="floppy"></clr-icon>
       Save
     </button>
@@ -138,7 +138,7 @@
     <button class="btn btn-sm btn-secondary"
             (click)="goBack()">
       <clr-icon shape="window-close"></clr-icon>
-      Cerrar
+      Cancelar
     </button>
   </section>
 </form>

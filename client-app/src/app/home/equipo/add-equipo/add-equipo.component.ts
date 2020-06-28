@@ -342,6 +342,21 @@ export class AddEquipoComponent implements OnInit {
    * Se guarda la información del equipo creado.
    */
   onSaveEquipo(): void {
+    if (typeof this.fechaVenGarantia === 'string' || this.fechaVenGarantia instanceof String) {
+      let parts = this.fechaVenGarantia.split('/');
+      this.fechaVenGarantia = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+    }
+
+    if (typeof this.fechaInstalacion === 'string' || this.fechaInstalacion instanceof String) {
+      let parts = this.fechaInstalacion.split('/');
+      this.fechaInstalacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+    }
+
+    if (typeof this.fechaCompra === 'string' || this.fechaCompra instanceof String) {
+      let parts = this.fechaCompra.split('/');
+      this.fechaCompra = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+    }
+
     this.equipo = new Equipo(null, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
       this.versionSw, this.descripcionEquipo, this.costo, this.repreSeleccionado, this.tipoSeleccionado,
       this.modeloSeleccionado, this.ubicacionSeleccionada, null, this.licitacionCompra, this.fechaFabricacion,
@@ -358,6 +373,7 @@ export class AddEquipoComponent implements OnInit {
       // tslint:disable-next-line:no-shadowed-variable
       equipo => {
         this.equipo = equipo;
+        this.equipoService.emitExisteListaEquipos(true);
         this.goBack();
       },
       error => {

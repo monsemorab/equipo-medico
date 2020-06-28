@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ApiRequestService} from './api-request.service';
-import {Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {OrdenTrabajo, TipoServicio} from '../domain/orden-trabajo';
 import {environment} from '../../environments/environment';
 import {SERVICIO} from '../utils/mock-data/constantes';
@@ -11,6 +11,10 @@ export class OrdenTrabajoService {
 
   private tipoServicios = SERVICIO;
   private urlOrdenTrabajo = environment.service_uri + '/ordentrabajo';
+
+
+  private emitSiExisteListaOrdenTrabajo = new BehaviorSubject<boolean>(false);
+  emittedSiExisteListaOrdenTrabajo = this.emitSiExisteListaOrdenTrabajo.asObservable();
 
   constructor(private apiRequest: ApiRequestService) {
   }
@@ -65,6 +69,15 @@ export class OrdenTrabajoService {
   editarOrdenTrabajo(ordenTrabajo: OrdenTrabajo): Observable<OrdenTrabajo> {
     const url = this.urlOrdenTrabajo +'/';
     return this.apiRequest.put(url, ordenTrabajo);
+  }
+
+  /**
+   * Cuando se crea una nueva orden de trabajo, se avisa a la pagina home que puede mostrar la lista de orden de trabajos pendientes al presionar
+   * sobre el boton Orden de trabajo del menú lateral
+   * @param change
+   */
+  emitExisteListaOrdenTrabajo (change: boolean) {
+    this.emitSiExisteListaOrdenTrabajo.next(change);
   }
 
 }

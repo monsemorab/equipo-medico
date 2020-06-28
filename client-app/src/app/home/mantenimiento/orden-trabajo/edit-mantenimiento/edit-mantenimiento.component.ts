@@ -93,8 +93,17 @@ export class EditMantenimientoComponent implements OnInit {
    * Cuando se guarda la información introducida.
    */
   onSaveMantenimiento() {
-    this.servicioRealizado = new Mantenimiento(this.mantenimientoId, this.tareaRealizada, this.informeNro, this.nombreTecnico, this.fechaMantenimiento);
-    this.updateMantenimiento(this.servicioRealizado);
+    if (this.fechaRealizacion != null && (typeof this.fechaRealizacion === 'string' || this.fechaRealizacion instanceof String)) {
+      let parts = this.fechaRealizacion.split('/');
+      this.fechaRealizacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+    }
+    this.servicioRealizado = new Mantenimiento(this.mantenimientoId, this.tareaRealizada, this.informeNro,
+      this.nombreTecnico, this.fechaMantenimiento);
+    if(this.tareaRealizada != '' && this.nombreTecnico != '') {
+      this.updateMantenimiento(this.servicioRealizado);
+    } else {
+      this.goBack();
+    }
   }
 
   /**

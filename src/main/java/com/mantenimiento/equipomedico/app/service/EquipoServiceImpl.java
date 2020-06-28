@@ -66,8 +66,8 @@ public class EquipoServiceImpl implements EquipoService {
      * @return
      */
     @Override
-    public Equipo getByNumeroPatrimonial(String numeroPatrimonial) {
-        return equipoRepository.getEquipoByNumeroPatrimonial(numeroPatrimonial);
+    public Equipo getByNumeroPatrimonialAndEstadoEquals(String numeroPatrimonial, String estado) {
+        return equipoRepository.getEquipoByNumeroPatrimonialAndEstadoEquals(numeroPatrimonial, estado);
     }
 
     /**
@@ -77,8 +77,8 @@ public class EquipoServiceImpl implements EquipoService {
      * @return
      */
     @Override
-    public Equipo getByNumeroSerie(String numeroSerie) {
-        return equipoRepository.getEquipoByNumeroSerie(numeroSerie);
+    public Equipo getByNumeroSerieAndEstadoEquals(String numeroSerie, String estado) {
+        return equipoRepository.getEquipoByNumeroSerieAndEstadoEquals(numeroSerie, estado);
     }
 
     @Override

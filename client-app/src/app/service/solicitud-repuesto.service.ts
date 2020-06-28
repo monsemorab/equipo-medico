@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {ApiRequestService} from './api-request.service';
 import {SolicitudRepuesto} from '../domain/solicitud-repuesto';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,10 @@ import {Observable} from 'rxjs';
 export class SolicitudRepuestoService {
 
   private urlRepuestos = environment.service_uri + '/solicitudrepuestos';
+
+
+  private emitSiExisteSolicitudRepuesto = new BehaviorSubject<boolean>(false);
+  emittedSiExisteSolicitudRepuesto  = this.emitSiExisteSolicitudRepuesto.asObservable();
 
   constructor(private apiRequest: ApiRequestService) {
   }
@@ -46,5 +50,14 @@ export class SolicitudRepuestoService {
   editarSolicitudRepuesto(repuesto: SolicitudRepuesto): Observable<SolicitudRepuesto> {
     const url = this.urlRepuestos;
     return this.apiRequest.put(url, repuesto);
+  }
+
+  /**
+   * Cuando se crea una nueva orden de trabajo, se avisa a la pagina home que puede mostrar la lista de solicitud de repuestos al presionar
+   * sobre el boton Solicitud Repuesto del menú lateral
+   * @param change
+   */
+  emitExisteSolicitudRepuesto(change: boolean) {
+    this.emitSiExisteSolicitudRepuesto.next(change);
   }
 }

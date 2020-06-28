@@ -127,7 +127,7 @@ export class ListaOrdenTrabajoAtendidasComponent implements OnInit {
    * Editar un mantenimineto realizado.
    */
   editarMantenimineto(ordenTrabajoId: number): void {
-    this.router.navigate(['home/mantenimiento/orden-trabajo/editar-mantenimineto/' + ordenTrabajoId]);
+    this.router.navigate(['home/mantenimiento/orden-trabajo/editar-mantenimiento-realizado/' + ordenTrabajoId]);
   }
 
 }

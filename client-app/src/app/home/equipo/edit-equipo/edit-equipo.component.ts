@@ -182,9 +182,9 @@ export class EditEquipoComponent implements OnInit {
     this.descripcionEquipo = equipo.descripcionEquipo;
     this.costo = equipo.costo;
     this.fechaFabricacion = equipo.fechaFabricacion;
-    this.fechaVenGarantia = datepipe.transform(equipo.fechaVenGarantia, 'dd-MM-yyyy');
-    this.fechaInstalacion = datepipe.transform(equipo.fechaInstalacion, 'dd-MM-yyyy');
-    this.fechaCompra  = datepipe.transform(equipo.fechaCompra, 'dd-MM-yyyy');
+    this.fechaVenGarantia = datepipe.transform(equipo.fechaVenGarantia, 'MM/dd/yyyy');
+    this.fechaInstalacion = datepipe.transform(equipo.fechaInstalacion, 'MM/dd/yyyy');
+    this.fechaCompra  = datepipe.transform(equipo.fechaCompra, 'MM/dd/yyyy');
     this.tipoSeleccionado = equipo.tipoEquipo;
     this.tipoId = equipo.tipoEquipo.id;
     this.modeloSeleccionado = equipo.modeloEquipo;

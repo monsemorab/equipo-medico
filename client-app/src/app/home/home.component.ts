@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {EquipoService} from "../service/equipo.service";
 import {Equipo} from "../domain/equipo";
@@ -8,13 +8,15 @@ import {SolicitudRepuesto} from "../domain/solicitud-repuesto";
 import {SolicitudRepuestoService} from "../service/solicitud-repuesto.service";
 import {OrdenTrabajo} from "../domain/orden-trabajo";
 import {OrdenTrabajoService} from "../service/orden-trabajo.service";
+import {ISubscription} from "rxjs-compat/Subscription";
+import {ManteniminetoService} from "../service/mantenimineto.service";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   equipos: Equipo[];
   existenEquiposCreados: boolean;
@@ -37,11 +39,21 @@ export class HomeComponent implements OnInit {
   error: boolean;
 
 
+  // subscriptions
+  private subscriptionListaEquipos: ISubscription;
+  private subscriptionListaContratos: ISubscription;
+  private subscriptionListaOrdenTrabajo: ISubscription;
+  private subscriptionListaMantenimiento: ISubscription;
+  private subscriptionListaSolicitudeRep: ISubscription;
+
+
   constructor(private router: Router,
               private equipoService: EquipoService,
               private contratoService: ContratoService,
               private solicitudRepuestoService: SolicitudRepuestoService,
-              private ordenTrabajoService: OrdenTrabajoService) { }
+              private ordenTrabajoService: OrdenTrabajoService,
+              private mantenimientoService: ManteniminetoService) {
+  }
 
   ngOnInit() {
     this.existenEquiposCreados = false;
@@ -49,11 +61,50 @@ export class HomeComponent implements OnInit {
     this.existenSolicitudesCreadas = false;
     this.existenOTPendientes = false;
     this.existenOTAtendidas = false;
+
+    this.subscriptionListaEquipos = this.equipoService.emittedSiExisteListaEquipos.subscribe(
+      existeListaEquipos => {
+        this.existenEquiposCreados = existeListaEquipos;
+      }
+    );
+
+    this.subscriptionListaContratos = this.contratoService.emittedSiExisteListaContratos.subscribe(
+      existeListaContratos => {
+        this.existenContratosCreados = existeListaContratos;
+      }
+    );
+
+    this.subscriptionListaOrdenTrabajo = this.ordenTrabajoService.emittedSiExisteListaOrdenTrabajo.subscribe(
+      existeOrdenTrabajoPendiente => {
+        this.existenOTPendientes = existeOrdenTrabajoPendiente;
+      }
+    );
+
+    this.subscriptionListaMantenimiento = this.mantenimientoService.emittedSiExisteOrdenTrabajoAtendida.subscribe(
+      existeOrdenTrabajoAtendida => {
+        this.existenOTAtendidas = existeOrdenTrabajoAtendida;
+      }
+    );
+
+    this.subscriptionListaSolicitudeRep = this.solicitudRepuestoService.emittedSiExisteSolicitudRepuesto.subscribe(
+      existeSolicitudRepuesto => {
+        this.existenSolicitudesCreadas = existeSolicitudRepuesto;
+      }
+    );
+
     this.getAllEquipos();
     this.getAllContratos();
     this.getSolicitudRepuestos();
     this.getAllOrdenTrabajoPendientes();
     this.getAllOrdenTrabajoAtendidas();
+  }
+
+  ngOnDestroy() {
+    this.subscriptionListaEquipos.unsubscribe();
+    this.subscriptionListaContratos.unsubscribe();
+    this.subscriptionListaOrdenTrabajo.unsubscribe();
+    this.subscriptionListaMantenimiento.unsubscribe();
+    this.subscriptionListaSolicitudeRep.unsubscribe();
   }
 
   /**
@@ -63,7 +114,7 @@ export class HomeComponent implements OnInit {
     this.equipoService.getAllEquipos().subscribe(
       list => {
         this.equipos = list;
-        if(this.equipos.length > 0) {
+        if (this.equipos.length > 0) {
           this.existenEquiposCreados = true;
         }
         console.log(this.equipos)
@@ -79,7 +130,7 @@ export class HomeComponent implements OnInit {
     this.contratoService.getAllContratos().subscribe(
       list => {
         this.contratos = list;
-        if(this.contratos.length > 0) {
+        if (this.contratos.length > 0) {
           this.existenContratosCreados = true;
         }
       },
@@ -95,7 +146,7 @@ export class HomeComponent implements OnInit {
     this.solicitudRepuestoService.getAllSolicitudRepuestos().subscribe(
       list => {
         this.solicitudRepuestos = list;
-        if(this.solicitudRepuestos.length > 0) {
+        if (this.solicitudRepuestos.length > 0) {
           this.existenSolicitudesCreadas = true;
         }
       },
@@ -110,7 +161,7 @@ export class HomeComponent implements OnInit {
     this.ordenTrabajoService.getAllByEstado("Pendiente").subscribe(
       list => {
         this.ordenTrabajoPendientes = list;
-        if(this.ordenTrabajoPendientes.length > 0) {
+        if (this.ordenTrabajoPendientes.length > 0) {
           this.existenOTPendientes = true;
         }
       },
@@ -125,7 +176,7 @@ export class HomeComponent implements OnInit {
     this.ordenTrabajoService.getAllByEstado("Finalizada").subscribe(
       list => {
         this.ordenTrabajoAtendidas = list;
-        if(this.ordenTrabajoAtendidas.length > 0) {
+        if (this.ordenTrabajoAtendidas.length > 0) {
           this.existenOTAtendidas = true;
         }
       },
@@ -136,32 +187,32 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  irPaginaEquipo(): void{
-    if(this.existenEquiposCreados) {
+  irPaginaEquipo(): void {
+    if (this.existenEquiposCreados) {
       this.router.navigate(['home/equipos/lista-equipo']);
     } else {
       this.router.navigate(['home/equipos/crear-equipo']);
     }
   }
 
-  irPaginaContrato(): void{
-    if(this.existenContratosCreados) {
+  irPaginaContrato(): void {
+    if (this.existenContratosCreados) {
       this.router.navigate(['home/contratos/lista-contrato']);
     } else {
       this.router.navigate(['home/contratos/crear-contrato']);
     }
   }
 
-  irPaginaSolicitudRepuesto(): void{
-    if(this.existenSolicitudesCreadas) {
+  irPaginaSolicitudRepuesto(): void {
+    if (this.existenSolicitudesCreadas) {
       this.router.navigate(['home/mantenimiento/repuestos/lista-solicitud-repuesto']);
     } else {
       this.router.navigate(['home/mantenimiento/repuestos/crear-solicitud-repuesto']);
     }
   }
 
-  irPaginaOTPendientes(): void{
-    if(this.existenOTPendientes) {
+  irPaginaOTPendientes(): void {
+    if (this.existenOTPendientes) {
       this.router.navigate(['home/mantenimiento/orden-trabajo/lista-orden-trabajo']);
     } else {
       this.router.navigate(['home/mantenimiento/orden-trabajo/crear-orden-trabajo']);

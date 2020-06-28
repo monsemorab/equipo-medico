@@ -47,7 +47,7 @@ public interface EquipoService
 	 * @param numeroPatrimonial
 	 * @return
 	 */
-	Equipo getByNumeroPatrimonial(String numeroPatrimonial);
+	Equipo getByNumeroPatrimonialAndEstadoEquals(String numeroPatrimonial, String estado);
 
 	/**
 	 * Obtiene el equipo mediante su numero de serie.
@@ -55,7 +55,7 @@ public interface EquipoService
 	 * @param numeroSerie
 	 * @return
 	 */
-	Equipo getByNumeroSerie(String numeroSerie);
+	Equipo getByNumeroSerieAndEstadoEquals(String numeroSerie, String estado);
 
 	List<Equipo> getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(String numeroSerie, String numeroPatrimonial);
 }

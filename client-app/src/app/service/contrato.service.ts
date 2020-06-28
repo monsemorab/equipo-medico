@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 
 import {ESTADO_CONTRATO} from '../utils/mock-data/constantes';
 import {Contrato, EstadoContrato} from '../domain/contrato';
@@ -11,6 +11,10 @@ export class ContratoService {
 
   private estadosContrato = ESTADO_CONTRATO;
   private urlContratos = environment.service_uri + '/contratos';
+
+
+  private emitSiExisteListaContratos = new BehaviorSubject<boolean>(false);
+  emittedSiExisteListaContratos = this.emitSiExisteListaContratos.asObservable();
 
   constructor(private apiRequest: ApiRequestService) {}
 
@@ -65,6 +69,15 @@ export class ContratoService {
   editarContrato(contrato: Contrato): Observable<Contrato> {
     const url = this.urlContratos;
     return this.apiRequest.put(url, contrato);
+  }
+
+  /**
+   * Cuando se crea un nuevo contrato, se avisa a la pagina home que puede mostrar la lista de contratos al presionar
+   * sobre el boton Contratos del menú lateral
+   * @param change
+   */
+  emitExisteListaContratos(change: boolean) {
+    this.emitSiExisteListaContratos.next(change);
   }
 
 }

@@ -4,6 +4,7 @@ import {Equipo} from '../../../domain/equipo';
 import {EquipoService} from '../../../service/equipo.service';
 import {ContratoService} from '../../../service/contrato.service';
 import {Router} from '@angular/router';
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-add-contrato',
@@ -163,6 +164,16 @@ export class AddContratoComponent implements OnInit {
    * Se guarda la información del contrato creado o editado.
    */
   onSaveContrato(): void {
+    if (typeof this.fechaInicio === 'string' || this.fechaInicio instanceof String) {
+      let parts = this.fechaInicio.split('/');
+      this.fechaInicio = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+    }
+
+    if (typeof this.fechaFin === 'string' || this.fechaFin instanceof String) {
+      let parts = this.fechaFin.split('/');
+      this.fechaFin = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+    }
+
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion,
       this.tipoProcedimiento, this.numeroProcedimiento, this.estadoContrato, this.convocante, this.pdf,
       this.selectedEquipos, this.fechaInicio, this.fechaFin);
@@ -178,6 +189,7 @@ export class AddContratoComponent implements OnInit {
       // tslint:disable-next-line:no-shadowed-variable
       contrato => {
         this.contrato = contrato;
+        this.contratoService.emitExisteListaContratos(true);
         this.goBack();
       },
       error => {

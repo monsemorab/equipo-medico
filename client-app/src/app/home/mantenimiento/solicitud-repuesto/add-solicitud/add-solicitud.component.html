@@ -13,11 +13,10 @@
         <label class="form-add-edit-repuesto-label">Fecha:</label>
       </div>
       <div class="col-xs-2">
-        <p-calendar [(ngModel)]="fechaSolicitud" dateFormat="dd-mm-yy"
-                    placeholder="dd-mm-yyyy" tabindex="9"
-                    [monthNavigator]="true" [yearNavigator]="true"
-                    yearRange="2000:2030" name="fsolicitud">
-        </p-calendar>
+        <clr-date-container>
+          <input type="date" clrDate name="fechaFin" [(ngModel)]="fechaSolicitud"
+                 min="2000-01-01" max="2030-12-31">
+        </clr-date-container>
       </div>
     </div>
 
@@ -78,6 +77,6 @@
 <app-repuesto *ngIf="modalAddEditRepuestoOpen"
               [repuesto]="repuestoSeleccionado"
               [isEditRepuesto]="isEditRepuesto"
-              (repuestoToUpdate)="addEditRepuesto($event)"
-              (cancelAddEditRepuesto)="onCancelAddEditRepuesto($event)">
+              (repuestoToUpdate)="closeRepuestoModal($event)"
+              (cancelAddEditRepuesto)="closeRepuestoModal($event)">
 </app-repuesto>
