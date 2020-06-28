@@ -43,7 +43,7 @@ public class Contrato implements Serializable {
     private Date fechaFin;
 
     @OneToMany(mappedBy="contrato")
-    @JsonIgnoreProperties("contrato")
+    @JsonIgnoreProperties(value="contrato", allowSetters = true)
     private List<Equipo> equipos;
 
     @Column(name = "convocante")

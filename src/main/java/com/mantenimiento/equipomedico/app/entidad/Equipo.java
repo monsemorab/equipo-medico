@@ -61,7 +61,7 @@ public class Equipo implements Serializable {
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "contrato_id")
-    @JsonIgnoreProperties("equipos")
+    @JsonIgnoreProperties(value="equipos", allowSetters = true)
     private Contrato contrato;
 
     @Column(name = "licitacion_compra")
