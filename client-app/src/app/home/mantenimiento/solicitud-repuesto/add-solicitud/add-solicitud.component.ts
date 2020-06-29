@@ -35,6 +35,7 @@ export class AddSolicitudComponent implements OnInit {
 
   ngOnInit() {
     this.isEditRepuesto = false;
+    this.estado = "Pendiente";
   }
 
   /**

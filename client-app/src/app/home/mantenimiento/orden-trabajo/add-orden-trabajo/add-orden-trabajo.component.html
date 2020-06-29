@@ -48,11 +48,10 @@
         <label class="form-orden-trabajo-label">Fecha:</label>
       </div>
       <div class="col-xs-2">
-        <p-calendar [(ngModel)]="fechaRealizacion" dateFormat="dd-mm-yy"
-										placeholder="dd-mm-yyyy"
-										[monthNavigator]="true" [yearNavigator]="true"
-										yearRange="2000:2030" name="fecha">
-        </p-calendar>
+        <clr-date-container>
+          <input type="date" clrDate name="fechaInstalacion" [(ngModel)]="fechaRealizacion"
+                 min="2000-01-01" max="2030-12-31" tabindex="10">
+        </clr-date-container>
       </div>
     </div>
     <br>
@@ -81,16 +80,16 @@
   <h4 class="form-orden-trabajo-sub-title">Información del Equipo</h4>
   <section class="form-block">
     <!-- errors -->
-    <div class="alert alert-danger" *ngIf="equipoError">
+    <div class="alert alert-warning" *ngIf="equipoWarning">
       <div class="alert-items">
         <div class="alert-item static">
           <div class="alert-icon-wrapper">
             <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
           </div>
-          <span class="alert-text">{{equipoErrorMessage}}</span>
+          <span class="alert-text">{{equipoWarningMessage}}</span>
         </div>
       </div>
-      <button type="button" class="close" aria-label="Close" (click)="equipoError = false">
+      <button type="button" class="close" aria-label="Close" (click)="equipoWarning = false">
         <clr-icon aria-hidden="true" shape="close"></clr-icon>
       </button>
     </div>
@@ -107,7 +106,13 @@
                (keyup)="onKeyNroSerie(nroSerie.value)"
                [(ngModel)]="numeroSerie">
       </div>
-      <div class="col-xs-2"></div>
+      <div class="col-xs-1" *ngIf="equipoSuccess">
+        <clr-icon shape="check-circle alert-icon alert-success"></clr-icon>
+      </div>
+      <div class="col-xs-1" *ngIf="equipoWarning">
+        <clr-icon shape="warning-standard alert-icon alert-warning"></clr-icon>
+      </div>
+      <div class="col-xs-1"></div>
       <div class="col-xs-2 col-label-equipo">
         <label class="form-orden-trabajo-label" for="numeroPatrimonial">N. Patrimonial:</label>
       </div>
@@ -117,6 +122,12 @@
                (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"
                (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"
                [(ngModel)]="numeroPatrimonial">
+      </div>
+      <div class="col-xs-1" *ngIf="equipoSuccess">
+        <clr-icon shape="check-circle alert-icon alert-success"></clr-icon>
+      </div>
+      <div class="col-xs-1" *ngIf="equipoWarning">
+        <clr-icon shape="warning-standard alert-icon alert-warning"></clr-icon>
       </div>
     </div>
     <div class="form-group row flex-items-xs-left">
@@ -215,23 +226,34 @@
       <div class="col-xs-2">
         <label class="form-orden-trabajo-label">Solicitud Repuesto:</label>
       </div>
-      <div class="col-xs-2">
-        <input class="form-control" id="codigoRep"
-               name="solicitudRepId" #solRepId
-               [(ngModel)]="solicitudRepId">
+<!--      <div class="col-xs-2">-->
+<!--        <input class="form-control" id="codigoRep"-->
+<!--               name="solicitudRepId" #solRepId-->
+<!--               [(ngModel)]="solicitudRepId">-->
+<!--      </div>-->
+<!--      <div class="col-xs-1 col-btn-buscar-solicitud">-->
+<!--        <a class="btn btn-sm btn-success"-->
+<!--                (click)="buscarSolicitudRepuestoById()">-->
+<!--          <clr-icon shape="search"></clr-icon>-->
+<!--        </a>-->
+<!--      </div>-->
+      <div class="col-xs-3">
+        <div class="select form-control">
+          <select clrSelect name="representante" [(ngModel)]="solicitudRepId"
+                  (ngModelChange)="onSelectedSolicitudRepuesto()">
+            <option>Seleccionar Solicitud</option>
+            <option *ngFor="let solicitud of solicitudRepuestoPendientes"
+                    value={{solicitud.id}}>{{solicitud.id}}
+            </option>
+          </select>
+        </div>
       </div>
-      <div class="col-xs-1 col-btn-buscar-solicitud">
-        <a class="btn btn-sm btn-success"
-                (click)="buscarSolicitudRepuestoById()">
-          <clr-icon shape="search"></clr-icon>
-        </a>
-      </div>
-      <clr-tooltip>
-        <clr-icon clrTooltipTrigger shape="info-circle" size="24" aria-label="Uniq tooltip 1"></clr-icon>
-        <clr-tooltip-content clrPosition="top-right" clrSize="lg" *clrIfOpen>
-          <span>Buscar una Solicitud de Repuesto</span>
-        </clr-tooltip-content>
-      </clr-tooltip>
+<!--      <clr-tooltip>-->
+<!--        <clr-icon clrTooltipTrigger shape="info-circle" size="24" aria-label="Uniq tooltip 1"></clr-icon>-->
+<!--        <clr-tooltip-content clrPosition="top-right" clrSize="lg" *clrIfOpen>-->
+<!--          <span>Buscar una Solicitud de Repuesto</span>-->
+<!--        </clr-tooltip-content>-->
+<!--      </clr-tooltip>-->
     </div>
   </section>
 

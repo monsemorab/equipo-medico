@@ -135,11 +135,32 @@ public class EquipoController
 			.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
+	@RequestMapping(value = "/by-numero-serie/by-numero/patrimonial/{numeroSerie}/{numeroPatrimonial}",
+		method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Equipo> getByNumeroSerieAndNumeroPatrimonial(
+		@PathVariable String numeroSerie,
+		@PathVariable String numeroPatrimonial)
+	{
+		Equipo equipo = equipoService.getEquiposByNumeroSerieAndNumeroPatrimonialAndEstadoEquals(
+			numeroSerie, numeroPatrimonial, "Operativo");
+		return Optional.ofNullable(equipo)
+			.map(result -> new ResponseEntity<>(
+				result,
+				HttpStatus.OK))
+			.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+
 	@RequestMapping(value = "/filtro",
 		method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Equipo> getAllNumeroSerie(@RequestBody Equipo equipo)
+	public List<Equipo> getAllFilter(@RequestBody Equipo equipo)
 	{
-		return equipoService.getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(equipo.getNumeroSerie(), equipo.getNumeroPatrimonial());
+		if(equipo.getNumeroSerie().isEmpty() && !equipo.getNumeroPatrimonial().isEmpty()) {
+			return equipoService.getEquiposByNumeroPatrimonialContains(equipo.getNumeroPatrimonial());
+		} else if(!equipo.getNumeroSerie().isEmpty() && equipo.getNumeroPatrimonial().isEmpty()) {
+			return equipoService.getEquiposByNumeroSerieContains(equipo.getNumeroSerie());
+		}
+		return equipoService.getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(
+			equipo.getNumeroSerie(), equipo.getNumeroPatrimonial());
 	}
 
 

@@ -166,7 +166,7 @@
 
         <div class="col-xs-1 col-btn-edit-equipo" *ngIf="tipoId == 'Agregar Tipo'">
           <button class=" btn btn-sm btn-success"
-                  (click)="addNewTipoEquipo()">
+                  (click)="addNewTipoEquipo()" required>
             <clr-icon shape="plus"></clr-icon>
             Add
           </button>
@@ -188,7 +188,7 @@
         <div class="col-xs-6">
           <div class="select form-control">
             <select clrSelect name="modelo" [(ngModel)]="modeloId"
-                    (ngModelChange)="onSelectedModelo()">
+                    (ngModelChange)="onSelectedModelo()" required>
               <option>Agregar Modelo</option>
               <option *ngFor="let modelo of modelos"
                       value={{modelo.id}}>{{modelo.modelo}}
@@ -221,7 +221,7 @@
         <div class="col-xs-6">
           <div class="select form-control">
             <select clrSelect name="representante" [(ngModel)]="repreId"
-                    (ngModelChange)="onSelectedRepresentante()">
+                    (ngModelChange)="onSelectedRepresentante()" required>
               <option>Agregar Representante</option>
               <option *ngFor="let repre of representantes"
                       value={{repre.id}}>{{repre.nombre}}

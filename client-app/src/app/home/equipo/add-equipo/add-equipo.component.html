@@ -145,7 +145,7 @@
         <div class="col-xs-6">
           <div class="select form-control">
             <select clrSelect name="tipo" [(ngModel)]="tipoId"
-                    (ngModelChange)="onSelectedTipo()">
+                    (ngModelChange)="onSelectedTipo()" required>
               <option>Agregar Tipo</option>
               <option *ngFor="let tipo of tipos"
                       value={{tipo.id}}>{{tipo.tipo}}
@@ -178,7 +178,7 @@
         <div class="col-xs-6">
           <div class="select form-control">
             <select clrSelect name="modelo" [(ngModel)]="modeloId"
-                    (ngModelChange)="onSelectedModelo()">
+                    (ngModelChange)="onSelectedModelo()" required>
               <option>Agregar Modelo</option>
               <option *ngFor="let modelo of modelos"
                       value={{modelo.id}}>{{modelo.modelo}}
@@ -211,7 +211,7 @@
         <div class="col-xs-6">
           <div class="select form-control">
             <select clrSelect name="representante" [(ngModel)]="repreId"
-                    (ngModelChange)="onSelectedRepresentante()">
+                    (ngModelChange)="onSelectedRepresentante()" required>
               <option>Agregar Representante</option>
               <option *ngFor="let repre of representantes"
                       value={{repre.id}}>{{repre.nombre}}

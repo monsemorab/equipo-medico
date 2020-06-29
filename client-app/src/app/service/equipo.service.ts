@@ -49,12 +49,14 @@ export class EquipoService {
   getEquipoByParams(params: ParamsBusquedaEquipo): Observable<Equipo> {
     let url = this.urlEquipos;
     let param = '';
-    if(params.numeroSerie != null) {
+    if(params.numeroSerie != '' && params.numeroPatrimonial == '') {
       param = params.numeroSerie;
       url = url + 'by-numero-serie/' + param;
-    } else {
+    } else if(params.numeroSerie == '' && params.numeroPatrimonial != '') {
       param = params.numeroPatrimonial;
-      url = url + '/by-numero/patrimonial/' + param;
+      url = url + 'by-numero/patrimonial/' + param;
+    } else {
+      url = url + 'by-numero-serie/by-numero/patrimonial/' + params.numeroSerie +'/' + params.numeroPatrimonial;
     }
     return this.apiRequest.get(url);
   }

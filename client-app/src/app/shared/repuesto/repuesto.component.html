@@ -41,14 +41,14 @@
           <div class="col-xs-6">
             <div class="form-group row flex-items-xs-left">
               <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label">Código:</label>
+                <label class="form-repuesto-label required">Código:</label>
               </div>
               <div class="col-xs-5" *ngIf="!isEditRepuesto">
                 <input class="form-control" id="codRepuesto"
                        name="codRepuesto" #codRep tabindex="1"
                        (keyup.enter)="onEnterCodigoRepuesto(codRep.value)"
                        (keyup)="onKeyCodigoRepuesto(codRep.value)"
-                       [(ngModel)]="codigo">
+                       [(ngModel)]="codigo" required>
               </div>
               <div class="col-xs-5" *ngIf="isEditRepuesto">
                 <input class="form-control" id="codigo" tabindex="1"
@@ -117,12 +117,12 @@
           <div class="col-xs-6">
             <div class="form-group row flex-items-xs-left">
               <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label" for="descripcion">Descripción:</label>
+                <label class="form-repuesto-label required" for="descripcion">Descripción:</label>
               </div>
               <div class="col-xs-8">
             <textarea class="form-control" id="descripcion" rows="2" tabindex="2"
                       name="descripcion" [(ngModel)]="descripcion"
-                      [disabled]="readonlyField">
+                      [disabled]="readonlyField" required>
             </textarea>
               </div>
             </div>

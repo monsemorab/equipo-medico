@@ -25,6 +25,11 @@ export class SolicitudRepuestoService {
     return this.apiRequest.get(this.urlRepuestos);
   }
 
+  getAllSolicitudRepuestosPendientes(): Observable<SolicitudRepuesto[]> {
+    const url = this.urlRepuestos + '/pendientes';
+    return this.apiRequest.get(url);
+  }
+
   /**
    * Se obtiene la solicitud de repuesto por su Id.
    * @param solicitudId

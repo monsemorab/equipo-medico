@@ -2,10 +2,10 @@
 <form class="compact" #repuestoForm="ngForm">
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-1">
-        <label class="form-add-edit-repuesto-label" for="estado">Estado:</label>
+        <label class="form-add-edit-repuesto-label required" for="estado">Estado:</label>
       </div>
       <div class="col-xs-3">
-        <input class="form-control" id="estado"
+        <input class="form-control" id="estado" required
                name="codigoDes" [(ngModel)]="estado">
       </div>
       <div class="col-xs-1"></div>
