@@ -139,7 +139,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
       equipos[i].estado = 'Inoperativo';
       this.updateEquipo(equipos[i]);
     }
-    this.goBack();
+    this.goListaDeTrabajosFinalizados();
   }
 
   updateEquipo(equipo: Equipo): void {
@@ -161,6 +161,10 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
    */
   goBack(): void {
     this.router.navigate(['home/mantenimiento/orden-trabajo/lista-orden-trabajo']);
+  }
+
+  goListaDeTrabajosFinalizados(): void {
+    this.router.navigate(['home/mantenimiento/orden-trabajo/lista-orden-trabajo-finalizadas']);
   }
 }
 

@@ -76,7 +76,9 @@ export class EditMantenimientoComponent implements OnInit {
     this.tipoServicio = orden.tipoServicio;
     this.diagnostico = orden.diagnostico;
     this.responsable = orden.responsable;
-    this.fechaRealizacion = datepipe.transform(orden.fechaRealizacion, 'dd-MM-yyyy').toString();
+    if(orden.fechaRealizacion != null) {
+      this.fechaRealizacion = datepipe.transform(orden.fechaRealizacion, 'dd-MM-yyyy').toString();
+    }
     this.equipos = orden.equipos;
     this.solicitudRepuesto = orden.solicitudRepuesto;
     if(this.solicitudRepuesto != null) {
@@ -85,7 +87,7 @@ export class EditMantenimientoComponent implements OnInit {
     this.servicioRealizado = orden.mantenimiento;
     this.mantenimientoId = this.servicioRealizado.id;
     this.tareaRealizada = this.servicioRealizado.tareaRealizada;
-    this.informeNro = this.servicioRealizado.informeNro;
+    this.informeNro = this.servicioRealizado.informeNumero;
     this.nombreTecnico = this.servicioRealizado.nombreTecnico;
   }
 

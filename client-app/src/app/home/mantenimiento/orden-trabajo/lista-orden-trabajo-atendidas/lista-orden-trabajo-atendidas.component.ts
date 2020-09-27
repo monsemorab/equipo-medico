@@ -63,7 +63,7 @@ export class ListaOrdenTrabajoAtendidasComponent implements OnInit {
    * Se obtiene la lista de todas las ordenes de trabajo pendientes.
    */
   getAllOrdenTrabajo(): void {
-    this.ordenTrabajoService.getAllByEstado("Pendiente").subscribe(
+    this.ordenTrabajoService.getAllByEstado("Finalizada").subscribe(
       list => {
         this.ordenTrabajoList = list;
         this.formateoFechas();

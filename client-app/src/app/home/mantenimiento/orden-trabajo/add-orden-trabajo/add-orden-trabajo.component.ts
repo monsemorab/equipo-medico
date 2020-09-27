@@ -73,6 +73,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
     this.fueActualizada = false;
     this.equipoSuccess = false;
     this.solicitudRepId = "Seleccionar Solicitud";
+    this.estado = "Pendiente";
     this.getTipoServicios();
     this.getAllSolicitudRepuestosPendientes();
   }
