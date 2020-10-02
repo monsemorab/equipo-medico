@@ -41,11 +41,12 @@ public class OrdenTrabajo implements Serializable {
     private String diagnostico;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne()
     @JoinColumn(name="solicitud_repuesto_id")
     private SolicitudRepuesto solicitudRepuesto;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne()
     @JoinColumn(name="mantenimiento_id")
     private Mantenimiento mantenimiento;
 

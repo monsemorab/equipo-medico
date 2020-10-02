@@ -25,6 +25,10 @@ import {ListaOrdenTrabajoAtendidasComponent} from "./home/mantenimiento/orden-tr
 import {EditMantenimientoComponent} from "./home/mantenimiento/orden-trabajo/edit-mantenimiento/edit-mantenimiento.component";
 import {InformesComponent} from "./home/informes/informes.component";
 import {InformeEquiposComponent} from "./home/informes/informe-equipos/informe-equipos.component";
+import {RepuestosComponent} from "./home/mantenimiento/repuestos/repuestos.component";
+import {ListaRepuestosComponent} from "./home/mantenimiento/repuestos/lista-repuestos/lista-repuestos.component";
+import {AddRepuestoComponent} from "./home/mantenimiento/repuestos/add-repuesto/add-repuesto.component";
+import {EditRepuestoComponent} from "./home/mantenimiento/repuestos/edit-repuesto/edit-repuesto.component";
 
 
 const appRoutes: Routes = [
@@ -63,11 +67,19 @@ const appRoutes: Routes = [
             ]
           },
           {
-            path: 'repuestos', component: SolicitudRepuestoComponent,
+            path: 'solicitud', component: SolicitudRepuestoComponent,
             children: [
               {path: 'lista-solicitud-repuesto', component: ListarSolicitudComponent},
               {path: 'crear-solicitud-repuesto', component: AddSolicitudComponent},
               {path: 'editar-solicitud-repuesto/:id', component: EditSolicitudComponent}
+            ]
+          },
+          {
+            path: 'repuestos', component: RepuestosComponent,
+            children: [
+              {path: 'lista-repuestos', component: ListaRepuestosComponent},
+              {path: 'crear-repuesto', component: AddRepuestoComponent},
+              {path: 'editar-repuesto/:id', component: EditRepuestoComponent}
             ]
           },
         ]

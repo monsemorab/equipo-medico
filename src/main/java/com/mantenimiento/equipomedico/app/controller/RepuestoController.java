@@ -68,15 +68,15 @@ public class RepuestoController {
      * @param id
      * @return
      */
-//    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<Repuesto> get(@PathVariable Long id) {
-//        Repuesto repuesto = repuestoService.get(id);
-//        return Optional.ofNullable(repuesto)
-//                .map(result -> new ResponseEntity<>(
-//                        result,
-//                        HttpStatus.OK))
-//                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Repuesto> get(@PathVariable Long id) {
+        Repuesto repuesto = repuestoService.get(id);
+        return Optional.ofNullable(repuesto)
+                .map(result -> new ResponseEntity<>(
+                        result,
+                        HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 
     /**
      * Obtiene determinado repuesto por el código

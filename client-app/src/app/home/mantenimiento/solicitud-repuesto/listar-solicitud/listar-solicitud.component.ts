@@ -67,7 +67,7 @@ export class ListarSolicitudComponent implements OnInit {
    * Cuando se presiona el botón Add.
    */
   addSolicitudRepuesto() {
-    this.router.navigate(['home/mantenimiento/repuestos/crear-solicitud-repuesto']);
+    this.router.navigate(['home/mantenimiento/solicitud/crear-solicitud-repuesto']);
   }
 
   /**
@@ -82,7 +82,7 @@ export class ListarSolicitudComponent implements OnInit {
    * Cuando se presiona el botón Edit.
    */
   editSolicitudRepuesto() {
-    this.router.navigate(['home/mantenimiento/repuestos/editar-solicitud-repuesto/' + this.selectedRepuesto.id]);
+    this.router.navigate(['home/mantenimiento/solicitud/editar-solicitud-repuesto/' + this.selectedRepuesto.id]);
   }
 
 }

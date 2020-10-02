@@ -62,7 +62,6 @@ export class ListaEquipoComponent implements OnInit {
         this.equipos = list;
         this.total = list.length;
         this.loading = false;
-        console.log(this.equipos)
       },
       error => {
         this.errorMessage = error.error;
@@ -110,8 +109,6 @@ export class ListaEquipoComponent implements OnInit {
     } else {
       this.selectedEquipo = equipo;
     }
-
-    console.log('selectedEquipo ', this.selectedEquipo);
   }
 
   /**

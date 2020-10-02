@@ -1,0 +1,14 @@
+form-repuesto-title {
+  font-weight: bold;
+  text-align: center;
+}
+
+.selectRepuesto {
+  background-color: darkgrey !important;
+  cursor: pointer !important;
+}
+
+pre {
+  border: 0px solid #ccc !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}

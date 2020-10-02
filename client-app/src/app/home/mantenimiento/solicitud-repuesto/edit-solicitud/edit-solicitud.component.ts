@@ -139,7 +139,7 @@ export class EditSolicitudComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['home/mantenimiento/repuestos/lista-solicitud-repuesto']);
+    this.router.navigate(['home/mantenimiento/solicitud/lista-solicitud-repuesto']);
   }
 
 }

@@ -10,6 +10,8 @@ import {OrdenTrabajo} from "../domain/orden-trabajo";
 import {OrdenTrabajoService} from "../service/orden-trabajo.service";
 import {ISubscription} from "rxjs-compat/Subscription";
 import {ManteniminetoService} from "../service/mantenimineto.service";
+import {Repuesto} from "../domain/repuesto";
+import {RepuestoService} from "../service/repuesto.service";
 
 @Component({
   selector: 'app-home',
@@ -23,6 +25,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   contratos: Contrato[];
   existenContratosCreados: boolean;
+
+  repuestos: Repuesto[];
+  existenRepuestosCreados: boolean;
 
   solicitudRepuestos: SolicitudRepuesto[];
   existenSolicitudesCreadas: boolean;
@@ -42,6 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   // subscriptions
   private subscriptionListaEquipos: ISubscription;
   private subscriptionListaContratos: ISubscription;
+  private subscriptionListaRepuestos: ISubscription;
   private subscriptionListaOrdenTrabajo: ISubscription;
   private subscriptionListaMantenimiento: ISubscription;
   private subscriptionListaSolicitudeRep: ISubscription;
@@ -50,6 +56,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private equipoService: EquipoService,
               private contratoService: ContratoService,
+              private repuestoService: RepuestoService,
               private solicitudRepuestoService: SolicitudRepuestoService,
               private ordenTrabajoService: OrdenTrabajoService,
               private mantenimientoService: ManteniminetoService) {
@@ -58,6 +65,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.existenEquiposCreados = false;
     this.existenContratosCreados = false
+    this.existenRepuestosCreados = false
     this.existenSolicitudesCreadas = false;
     this.existenOTPendientes = false;
     this.existenOTAtendidas = false;
@@ -71,6 +79,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscriptionListaContratos = this.contratoService.emittedSiExisteListaContratos.subscribe(
       existeListaContratos => {
         this.existenContratosCreados = existeListaContratos;
+      }
+    );
+
+    this.subscriptionListaRepuestos = this.repuestoService.emittedSiExisteRepuesto.subscribe(
+      existeListaRepuesto => {
+        this.existenRepuestosCreados = existeListaRepuesto;
       }
     );
 
@@ -94,6 +108,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.getAllEquipos();
     this.getAllContratos();
+    this.getAllRepuestos();
     this.getSolicitudRepuestos();
     this.getAllOrdenTrabajoPendientes();
     this.getAllOrdenTrabajoAtendidas();
@@ -138,6 +153,21 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.errorMessage = error.error;
         console.log(this.errorMessage)
         this.contratos = [];
+      }
+    );
+  }
+
+  getAllRepuestos(): void {
+    this.repuestoService.getAllRepuestos().subscribe(
+      list => {
+        this.repuestos = list;
+        if (this.repuestos.length > 0) {
+          this.existenRepuestosCreados = true;
+        }
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
       }
     );
   }
@@ -203,11 +233,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  irPaginaRepuesto(): void {
+    if (this.existenRepuestosCreados) {
+      this.router.navigate(['home/mantenimiento/repuestos/lista-repuestos']);
+    } else {
+      this.router.navigate(['home/mantenimiento/repuestos/crear-repuesto']);
+    }
+  }
+
   irPaginaSolicitudRepuesto(): void {
     if (this.existenSolicitudesCreadas) {
-      this.router.navigate(['home/mantenimiento/repuestos/lista-solicitud-repuesto']);
+      this.router.navigate(['home/mantenimiento/solicitud/lista-solicitud-repuesto']);
     } else {
-      this.router.navigate(['home/mantenimiento/repuestos/crear-solicitud-repuesto']);
+      this.router.navigate(['home/mantenimiento/solicitud/crear-solicitud-repuesto']);
     }
   }
 

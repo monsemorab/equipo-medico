@@ -114,7 +114,6 @@ export class ListaContratoComponent implements OnInit {
     } else {
       this.selectedContrato = contrato;
     }
-    console.log('selectedContrato ', this.selectedContrato);
   }
 
   /**

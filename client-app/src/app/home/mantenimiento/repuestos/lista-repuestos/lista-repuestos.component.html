@@ -1,0 +1,64 @@
+<form class="clr-form clr-form-compact">
+  <h2 class="form-repuesto-title">Repuestos</h2>
+  <br>
+
+  <!-- errors -->
+  <div class="alert alert-danger alert-sm" *ngIf="error">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon"
+                    shape="exclamation-circle">
+          </clr-icon>
+        </div>
+        <span class="alert-text">{{errorMessage}}</span>
+      </div>
+    </div>
+    <a type="button" class="close" aria-label="Close"
+       (click)="error = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </a>
+  </div>
+  <br>
+
+  <clr-datagrid [clrDgLoading]="loading">
+    <clr-dg-action-bar>
+      <div class="clr-row clr-col-12">
+        <div class="clr-col-6">
+          <div class="clr-form-control clr-row">
+            <a class="btn btn-sm btn-success"
+               (click)="goNewRepuestoForm()">
+              <clr-icon shape="plus"></clr-icon>
+              Crear
+            </a>
+            <a class="btn btn-sm btn-success"
+               *ngIf="repuestoSeleccionado != null"
+               (click)="editRepuesto()">
+              <clr-icon shape="pencil"></clr-icon>
+              Editar
+            </a>
+          </div>
+        </div>
+      </div>
+    </clr-dg-action-bar>
+    <clr-dg-column>Código</clr-dg-column>
+    <clr-dg-column>Descripción</clr-dg-column>
+    <clr-dg-column>Cantidad Adquirida</clr-dg-column>
+    <clr-dg-column>Precio</clr-dg-column>
+    <clr-dg-column></clr-dg-column>
+    <clr-dg-row *ngFor="let repuesto of repuestos" (click)="selectRepuesto(repuesto)"
+                [class.selectRepeusto]="repuesto === repuestoSeleccionado">
+      <clr-dg-cell>{{repuesto?.codigo}}</clr-dg-cell>
+      <clr-dg-cell>{{repuesto?.descripcionArticulo}}</clr-dg-cell>
+      <clr-dg-cell>{{repuesto?.cantidadAdquirida}}</clr-dg-cell>
+      <clr-dg-cell>{{repuesto?.precio}}</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} de {{total}} Repuestos
+      <clr-dg-pagination #pagination [clrDgPageSize]="10" [clrDgTotalItems]="total"></clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+</form>
+
+

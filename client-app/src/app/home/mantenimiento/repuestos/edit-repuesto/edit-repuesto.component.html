@@ -1,0 +1,162 @@
+<h2 class="modal-title form-repuesto-title">Editar Repuesto</h2>
+<form class="compact" #repuestoForm="ngForm">
+  <!-- info -->
+  <div class="alert alert-info" *ngIf="info">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{errorMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="info = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+  </div>
+
+  <!-- errors -->
+  <div class="alert alert-danger" *ngIf="error">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{errorMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="error = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+  </div>
+
+  <section class="form-block">
+    <div class="form-group row flex-items-xs-left">
+      <!--columna izquierda-->
+      <div class="col-xs-6">
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4 col-label-repuesto">
+            <label class="form-repuesto-label required">Código:</label>
+          </div>
+          <div class="col-xs-5">
+            <input class="form-control" id="codigo" tabindex="1"
+                   name="codigo" [(ngModel)]="codigo" disabled>
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4 col-label-repuesto">
+            <label class="form-repuesto-label" for="precio">Precio:</label>
+          </div>
+          <div class="col-xs-5">
+            <input class="form-control" id="precio"
+                   name="precio" [(ngModel)]="precio" tabindex="3">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4 col-label-repuesto">
+            <label class="form-repuesto-label" for="cantidadAd">Cant. Adquirida:</label>
+          </div>
+          <div class="col-xs-5">
+            <input class="form-control" id="cantidadAd"
+                   name="cantidadAd" [(ngModel)]="cantAdquirida" tabindex="4">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4 col-label-repuesto">
+            <label class="form-repuesto-label">Tipo:</label>
+          </div>
+          <div class="col-xs-7">
+            <div class="select form-control">
+              <select class="select-form-repuesto" id="selectTipo" #selectedTipo name="selectTipo"
+                      [(ngModel)]="tipoId"  tabindex="6"
+                      (change)="onSelectedTipoEquipo(selectedTipo.value)">
+                <option disabled>Seleccionar Tipo</option>
+                <option *ngFor="let tipo of tipos"
+                        value={{tipo.id}}>{{tipo.tipo}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4 col-label-repuesto">
+            <label class="form-repuesto-label">Representante:</label>
+          </div>
+          <div class="col-xs-7">
+            <div class="select form-control">
+              <select class="select-form-repuesto" id="selectRepre" #selectedRepre name="selectRepre"
+                      [(ngModel)]="repreId"  tabindex="8"
+                      (change)="onSelectedRepresentante(selectedRepre.value)">
+                <option disabled>Seleccionar Representante</option>
+                <option *ngFor="let repre of representantes"
+                        value={{repre.id}}>{{repre.nombre}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--columna derecha-->
+      <div class="col-xs-6">
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4 col-label-repuesto">
+            <label class="form-repuesto-label required" for="descripcion">Descripción:</label>
+          </div>
+          <div class="col-xs-8">
+            <textarea class="form-control" id="descripcion" rows="2" tabindex="2"
+                      name="descripcion" [(ngModel)]="descripcion"
+                       required>
+            </textarea>
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4 col-label-repuesto">
+            <label class="form-repuesto-label" for="cantidadRes">Cant. Restante:</label>
+          </div>
+          <div class="col-xs-5">
+            <input class="form-control" id="cantidadRes"
+                   name="cantidadRes" [(ngModel)]="cantRestante" tabindex="5">
+          </div>
+        </div>
+
+        <div class="form-group row flex-items-xs-left">
+          <div class="col-xs-4 col-label-repuesto">
+            <label class="form-repuesto-label">Modelo:</label>
+          </div>
+          <div class="col-xs-7">
+            <div class="select form-control">
+              <select class="select-form-repuesto" id="selectModelo" #selectedModelo name="selectModelo"
+                      [(ngModel)]="modeloId"  tabindex="7"
+                      (change)="onSelectedModeloEquipo(selectedModelo.value)">
+                <option disabled>Seleccionar Modelo</option>
+                <option *ngFor="let modelo of modelos"
+                        value={{modelo.id}}>{{modelo.modelo}}, {{modelo.marca}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="form-block">
+    <button class="btn btn-sm btn-success"
+            [disabled]="(repuestoForm.form.invalid )"
+            (click)="onEditRepuesto()">
+      <clr-icon shape="floppy"></clr-icon>
+      Guardar
+    </button>
+
+    <button class="btn btn-sm btn-secondary"
+            (click)="goBack()">
+      <clr-icon shape="window-close"></clr-icon>
+      Cancelar
+    </button>
+  </section>
+</form>
