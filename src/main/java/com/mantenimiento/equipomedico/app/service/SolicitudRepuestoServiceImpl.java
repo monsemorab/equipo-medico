@@ -2,6 +2,8 @@ package com.mantenimiento.equipomedico.app.service;
 
 import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuesto;
+import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuestoDetalles;
+import com.mantenimiento.equipomedico.app.repository.SolicitudRepuestoDetallesRepository;
 import com.mantenimiento.equipomedico.app.repository.SolicitudRepuestoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class SolicitudRepuestoServiceImpl implements SolicitudRepuestoService {
     @Autowired
     private SolicitudRepuestoRepository solicitudRepuestoRepository;
 
+    @Autowired
+    private SolicitudRepuestoDetallesRepository solicitudRepuestoDetallesRepository;
+
     /**
      * Creación de una nueva solicitud de repuesto.
      *
@@ -24,7 +29,12 @@ public class SolicitudRepuestoServiceImpl implements SolicitudRepuestoService {
      */
     @Override
     public SolicitudRepuesto create(SolicitudRepuesto solicitudRepuesto) {
-        return solicitudRepuestoRepository.save(solicitudRepuesto);
+        SolicitudRepuesto result = solicitudRepuestoRepository.save(solicitudRepuesto);
+        for(SolicitudRepuestoDetalles detalle : result.getSolicitudRepuestoDetalles()){
+            detalle.setSolicitud(result);
+            detalle = solicitudRepuestoDetallesRepository.save(detalle);
+        }
+        return result;
     }
 
     /**

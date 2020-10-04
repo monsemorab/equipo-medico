@@ -28,8 +28,8 @@ public class SolicitudRepuesto implements Serializable {
     @Column(name = "estado")
     private String estado;
 
-    @OneToMany()
-    private List<Repuesto> repuestos;
+    @OneToMany(mappedBy = "solicitud")
+    private List<SolicitudRepuestoDetalles> solicitudRepuestoDetalles;
 
     /**
      * Gets id
@@ -86,20 +86,23 @@ public class SolicitudRepuesto implements Serializable {
     }
 
     /**
-     * Gets repuestos
+     * Gets solicitudRepuestoDetalles
      *
-     * @return value of repuestos
+     * @return value of solicitudRepuestoDetalles
      */
-    public List<Repuesto> getRepuestos() {
-        return repuestos;
+    public List<SolicitudRepuestoDetalles> getSolicitudRepuestoDetalles()
+    {
+        return solicitudRepuestoDetalles;
     }
 
     /**
-     * Set repuestos
+     * Set solicitudRepuestoDetalles
      *
-     * @param repuestos
+     * @param solicitudRepuestoDetalles
      */
-    public void setRepuestos(List<Repuesto> repuestos) {
-        this.repuestos = repuestos;
+    public void setSolicitudRepuestoDetalles(
+        List<SolicitudRepuestoDetalles> solicitudRepuestoDetalles)
+    {
+        this.solicitudRepuestoDetalles = solicitudRepuestoDetalles;
     }
 }

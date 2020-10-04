@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * Registro del mantenimiento.
- *
+ * Registro del servicio
  * @author Brenda Quiñonez
  *
  */

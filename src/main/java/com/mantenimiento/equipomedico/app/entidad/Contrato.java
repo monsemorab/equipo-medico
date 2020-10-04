@@ -55,6 +55,10 @@ public class Contrato implements Serializable {
     @Column(name = "numero_procedimiento")
     private String numeroProcedimiento;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "representante_id")
+    private Representante representante;
+
 
     /**
      * Gets nombreLicitacion
@@ -256,5 +260,25 @@ public class Contrato implements Serializable {
     public void setNumeroProcedimiento(String numeroProcedimiento)
     {
         this.numeroProcedimiento = numeroProcedimiento;
+    }
+
+    /**
+     * Gets representante
+     *
+     * @return value of representante
+     */
+    public Representante getRepresentante()
+    {
+        return representante;
+    }
+
+    /**
+     * Set representante
+     *
+     * @param representante
+     */
+    public void setRepresentante(Representante representante)
+    {
+        this.representante = representante;
     }
 }

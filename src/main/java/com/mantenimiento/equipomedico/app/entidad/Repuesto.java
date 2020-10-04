@@ -52,6 +52,7 @@ public class Repuesto implements Serializable {
     @JoinColumn(name="representante_id")
     private Representante representante;
 
+
     /**
      * Gets id
      *
@@ -231,4 +232,5 @@ public class Repuesto implements Serializable {
     public void setRepresentante(Representante representante) {
         this.representante = representante;
     }
+
 }

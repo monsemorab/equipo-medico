@@ -78,7 +78,9 @@ public class Equipo implements Serializable {
 
     @Column(name = "fecha_compra")
     private Date fechaCompra;
-    
+
+    @Column(name = "horas_uso")
+    private Integer horasUso;
 
     /**
      * Gets numeroSerie
@@ -406,5 +408,25 @@ public class Equipo implements Serializable {
      */
     public void setContrato(Contrato contrato) {
         this.contrato = contrato;
+    }
+
+    /**
+     * Gets horasUso
+     *
+     * @return value of horasUso
+     */
+    public Integer getHorasUso()
+    {
+        return horasUso;
+    }
+
+    /**
+     * Set horasUso
+     *
+     * @param horasUso
+     */
+    public void setHorasUso(Integer horasUso)
+    {
+        this.horasUso = horasUso;
     }
 }

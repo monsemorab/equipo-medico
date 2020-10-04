@@ -51,8 +51,8 @@ public class OrdenTrabajo implements Serializable {
     private Mantenimiento mantenimiento;
 
     // Para el tipo de servicio PREVENTIVO
-    @Column(name = "fechaRealizacion")
-    private Date fechaRealizacion;
+    @Column(name = "fechaSolicitud")
+    private Date fechaSolicitud;
 
     @Column(name= "responsable")
    private String responsable;
@@ -199,23 +199,23 @@ public class OrdenTrabajo implements Serializable {
     }
 
     /**
-     * Gets fechaRealizacion
+     * Gets fechaSolicitud
      *
-     * @return value of fechaRealizacion
+     * @return value of fechaSolicitud
      */
-    public Date getFechaRealizacion()
+    public Date getFechaSolicitud()
     {
-        return fechaRealizacion;
+        return fechaSolicitud;
     }
 
     /**
-     * Set fechaRealizacion
+     * Set fechaSolicitud
      *
-     * @param fechaRealizacion
+     * @param fechaSolicitud
      */
-    public void setFechaRealizacion(Date fechaRealizacion)
+    public void setFechaSolicitud(Date fechaSolicitud)
     {
-        this.fechaRealizacion = fechaRealizacion;
+        this.fechaSolicitud = fechaSolicitud;
     }
 
     /**
