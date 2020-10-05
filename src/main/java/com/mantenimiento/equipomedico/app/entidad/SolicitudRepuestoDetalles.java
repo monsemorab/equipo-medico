@@ -34,6 +34,8 @@ public class SolicitudRepuestoDetalles implements Serializable
 
 	private Integer cantidadSolicitada;
 
+	private Integer cantidadUsada;
+
 	/**
 	 * Gets id
 	 *
@@ -112,5 +114,25 @@ public class SolicitudRepuestoDetalles implements Serializable
 	public void setCantidadSolicitada(Integer cantidadSolicitada)
 	{
 		this.cantidadSolicitada = cantidadSolicitada;
+	}
+
+	/**
+	 * Gets cantidadUsada
+	 *
+	 * @return value of cantidadUsada
+	 */
+	public Integer getCantidadUsada()
+	{
+		return cantidadUsada;
+	}
+
+	/**
+	 * Set cantidadUsada
+	 *
+	 * @param cantidadUsada
+	 */
+	public void setCantidadUsada(Integer cantidadUsada)
+	{
+		this.cantidadUsada = cantidadUsada;
 	}
 }

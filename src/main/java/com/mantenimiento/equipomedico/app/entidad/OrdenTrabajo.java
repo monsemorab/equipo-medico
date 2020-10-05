@@ -28,11 +28,9 @@ public class OrdenTrabajo implements Serializable {
     @Column(name = "estado")
     private String estado;
 
-    @OneToMany(
-        cascade = CascadeType.MERGE,
-        orphanRemoval = true
-    )
-    private List<Equipo> equipos  = new ArrayList<>();;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "equipo_id")
+    private Equipo equipo;
 
     @Column(name = "tipo_servicio")
     private String tipoServicio;
@@ -96,26 +94,6 @@ public class OrdenTrabajo implements Serializable {
     public void setEstado(String estado)
     {
         this.estado = estado;
-    }
-
-    /**
-     * Gets equipos
-     *
-     * @return value of equipos
-     */
-    public List<Equipo> getEquipos()
-    {
-        return equipos;
-    }
-
-    /**
-     * Set equipos
-     *
-     * @param equipos
-     */
-    public void setEquipos(List<Equipo> equipos)
-    {
-        this.equipos = equipos;
     }
 
     /**
@@ -236,5 +214,25 @@ public class OrdenTrabajo implements Serializable {
     public void setResponsable(String responsable)
     {
         this.responsable = responsable;
+    }
+
+    /**
+     * Gets equipo
+     *
+     * @return value of equipo
+     */
+    public Equipo getEquipo()
+    {
+        return equipo;
+    }
+
+    /**
+     * Set equipo
+     *
+     * @param equipo
+     */
+    public void setEquipo(Equipo equipo)
+    {
+        this.equipo = equipo;
     }
 }

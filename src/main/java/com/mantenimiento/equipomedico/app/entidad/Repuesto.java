@@ -37,8 +37,8 @@ public class Repuesto implements Serializable {
     @Column(name = "cantidad_adquirida")
     private Integer cantidadAdquirida;
 
-    @Column(name = "cantidad_restante")
-    private Integer cantidadRestante;
+    @Column(name = "cantidad_existente")
+    private Integer cantidadExistente;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="tipo_equipo_id")
@@ -162,21 +162,23 @@ public class Repuesto implements Serializable {
     }
 
     /**
-     * Gets cantidadRestante
+     * Gets cantidadExistente
      *
-     * @return value of cantidadRestante
+     * @return value of cantidadExistente
      */
-    public Integer getCantidadRestante() {
-        return cantidadRestante;
+    public Integer getCantidadExistente()
+    {
+        return cantidadExistente;
     }
 
     /**
-     * Set cantidadRestante
+     * Set cantidadExistente
      *
-     * @param cantidadRestante
+     * @param cantidadExistente
      */
-    public void setCantidadRestante(Integer cantidadRestante) {
-        this.cantidadRestante = cantidadRestante;
+    public void setCantidadExistente(Integer cantidadExistente)
+    {
+        this.cantidadExistente = cantidadExistente;
     }
 
     /**
