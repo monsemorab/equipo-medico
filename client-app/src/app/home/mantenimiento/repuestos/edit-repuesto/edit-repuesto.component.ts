@@ -24,7 +24,7 @@ export class EditRepuestoComponent implements OnInit {
   descripcion: string;
   precio: number;
   cantAdquirida: number;
-  cantRestante: number;
+  cantExistente: number;
   tipoEquipo: TipoEquipo;
   modeloEquipo: ModeloEquipo;
   representante: Representante;
@@ -65,7 +65,7 @@ export class EditRepuestoComponent implements OnInit {
         switchMap((params: ParamMap) => this.repuestoService.getRepuestoById(+params.get('id')))
       ).subscribe(repuesto => {
         this.repuesto = new Repuesto(repuesto.id, repuesto.codigo, repuesto.descripcionArticulo, repuesto.precio,
-          repuesto.cantidadAdquirida, repuesto.cantidadRestante, repuesto.tipoEquipo, repuesto.modeloEquipo,
+          repuesto.cantidadAdquirida, repuesto.cantidadExistente, repuesto.tipoEquipo, repuesto.modeloEquipo,
           repuesto.representante, repuesto.fechaActualizacion);
         this.camposAEditar(this.repuesto);
       },
@@ -135,7 +135,7 @@ export class EditRepuestoComponent implements OnInit {
     this.descripcion = repuesto.descripcionArticulo;
     this.precio = repuesto.precio;
     this.cantAdquirida = repuesto.cantidadAdquirida;
-    this.cantRestante = repuesto.cantidadRestante;
+    this.cantExistente = repuesto.cantidadExistente;
     this.fechaActualizacion = datepipe.transform(repuesto.fechaActualizacion, 'MM/dd/yyyy');
     this.tipoEquipo = repuesto.tipoEquipo;
     if(repuesto.tipoEquipo != null) {
@@ -233,7 +233,7 @@ export class EditRepuestoComponent implements OnInit {
       this.fechaActualizacion =  new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
     this.repuesto = new Repuesto(this.id, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
-      this.cantRestante, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);
+      this.cantExistente, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);
     this.editarRepuesto(this.repuesto);
 
   }

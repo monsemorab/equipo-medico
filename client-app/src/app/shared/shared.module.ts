@@ -7,6 +7,7 @@ import {ModeloEquipoComponent} from './modelo-equipo/modelo-equipo.component';
 import {UbicacionComponent} from './ubicacion/ubicacion.component';
 import {RepuestoComponent} from './repuesto/repuesto.component';
 import {CalendarModule} from "primeng/primeng";
+import {SolicitudRepuestoDetalleComponent} from "./solicitud-detalle/solicitud-repuesto-detalle/solicitud-repuesto-detalle.component";
 
 @NgModule({
   imports: [
@@ -19,14 +20,16 @@ import {CalendarModule} from "primeng/primeng";
     TipoEquipoComponent,
     ModeloEquipoComponent,
     UbicacionComponent,
-    RepuestoComponent
+    RepuestoComponent,
+    SolicitudRepuestoDetalleComponent
   ],
   exports: [
     RepresentanteComponent,
     TipoEquipoComponent,
     ModeloEquipoComponent,
     UbicacionComponent,
-    RepuestoComponent
+    RepuestoComponent,
+    SolicitudRepuestoDetalleComponent
   ]
 })
 export class SharedModule {

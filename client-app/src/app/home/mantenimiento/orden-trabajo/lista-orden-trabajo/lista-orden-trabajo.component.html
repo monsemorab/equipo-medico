@@ -84,15 +84,11 @@
     <clr-dg-row *ngFor="let ordenTrabajo of ordenTrabajoList"
                 (click)="selectOrdenTrabajo(ordenTrabajo)"
                 [class.selectOrdenTrabajo]="ordenTrabajo === selectedOrdenTrabajo">
-      <clr-dg-cell>{{ordenTrabajo.fechaRealizacion}}</clr-dg-cell>
+      <clr-dg-cell>{{ordenTrabajo.fechaSolicitud}}</clr-dg-cell>
       <clr-dg-cell>{{ordenTrabajo.estado}}</clr-dg-cell>
       <clr-dg-cell>{{ordenTrabajo.tipoServicio}}</clr-dg-cell>
       <clr-dg-cell>{{ordenTrabajo.diagnostico}}</clr-dg-cell>
-      <clr-dg-cell>
-        <ul class="list-unstyled" *ngFor="let equipo of ordenTrabajo.equipos">
-          <li>{{equipo.numeroSerie}}-{{equipo.descripcionEquipo}}</li>
-        </ul>
-      </clr-dg-cell>
+      <clr-dg-cell>{{ordenTrabajo.equipo?.numeroSerie}}-{{ordenTrabajo.equipo?.descripcionEquipo}}</clr-dg-cell>
     </clr-dg-row>
 
     <clr-dg-footer>

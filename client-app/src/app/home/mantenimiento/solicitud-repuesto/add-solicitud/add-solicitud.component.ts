@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
-import {Repuesto} from '../../../../domain/repuesto';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
+import {SolicitudRepuestoDetalle} from "../../../../domain/solicitud-repuesto-detalle";
 
 @Component({
   selector: 'app-add-solicitud',
@@ -18,11 +18,11 @@ export class AddSolicitudComponent implements OnInit {
   fechaSolicitud: any;
 
 
-  // modal para agregar/editar repuestos
-  modalAddEditRepuestoOpen = false;
-  repuestoSeleccionado: Repuesto;
-  isEditRepuesto: boolean;
-  repuestos = new Array<Repuesto>();
+  // modal para agregar/editar detalle de repuesto a la solicitud
+  modalAddEditDetalleOpen = false;
+  detalleSeleccionado: SolicitudRepuestoDetalle;
+  isEditDetalle: boolean;
+  solicitudRepuestoDetalles = new Array<SolicitudRepuestoDetalle>();
 
   // error
   errorMessage: string;
@@ -34,7 +34,6 @@ export class AddSolicitudComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isEditRepuesto = false;
     this.estado = "Pendiente";
   }
 
@@ -42,29 +41,29 @@ export class AddSolicitudComponent implements OnInit {
    * Cuando se presiona el botón para crear un nuevo repuesto.
    */
   addNewRepuesto(): void {
-    this.repuestoSeleccionado = null;
-    this.isEditRepuesto = false;
-    this.modalAddEditRepuestoOpen = true;
+    this.isEditDetalle = false;
+    this.detalleSeleccionado = null;
+    this.modalAddEditDetalleOpen = true;
   }
 
   /**
    * Cuando se selecciona un repuesto para editar sus datos.
    * @param repuesto
    */
-  editRepuesto(repuesto: Repuesto): void {
-    this.repuestoSeleccionado = repuesto;
-    this.isEditRepuesto = false;
-    this.eliminarRepuesto(this.repuestoSeleccionado);
-    this.modalAddEditRepuestoOpen = true;
+  editRepuesto(repuesto: SolicitudRepuestoDetalle): void {
+    this.detalleSeleccionado = repuesto;
+    this.isEditDetalle = true;
+    this.eliminarDetalleRepuesto(this.detalleSeleccionado);
+    this.modalAddEditDetalleOpen = true;
   }
 
   /**
-   * Se quita de la lista de repuestos existentes, el repuesto que se quiere  editar.
+   * Se quita de la lista de detalles el repuesto que se quiere  editar.
    */
-  eliminarRepuesto(repuestoSeleccionado: Repuesto): void {
-    for (let i = 0; i < this.repuestos.length; i++) {
-      if (repuestoSeleccionado.id === this.repuestos[i].id) {
-        this.repuestos.splice(i, 1);
+  eliminarDetalleRepuesto(repuestoSeleccionado: SolicitudRepuestoDetalle): void {
+    for (let i = 0; i < this.solicitudRepuestoDetalles.length; i++) {
+      if (repuestoSeleccionado.id === this.solicitudRepuestoDetalles[i].id) {
+        this.solicitudRepuestoDetalles.splice(i, 1);
         break;
       }
     }
@@ -74,11 +73,11 @@ export class AddSolicitudComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    * @param value
    */
-  closeRepuestoModal(value: Repuesto) {
+  closeRepuestoModal(value: SolicitudRepuestoDetalle) {
     if(value != null) {
-      this.repuestos.push(value);
+      this.solicitudRepuestoDetalles.push(value);
     }
-    this.modalAddEditRepuestoOpen = false;
+    this.modalAddEditDetalleOpen = false;
   }
 
   /**
@@ -89,7 +88,7 @@ export class AddSolicitudComponent implements OnInit {
       let parts = this.fechaSolicitud.split('/');
       this.fechaSolicitud = new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
-    this.solicitudRepuesto = new SolicitudRepuesto(null, this.estado, this.repuestos, this.fechaSolicitud);
+    this.solicitudRepuesto = new SolicitudRepuesto(null, this.estado, this.solicitudRepuestoDetalles, this.fechaSolicitud);
     this.saveSolicitudRepuesto(this.solicitudRepuesto);
   }
 

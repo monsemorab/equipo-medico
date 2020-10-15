@@ -40,26 +40,71 @@
   <!-- información del equipo-->
   <h4 class="form-mantenimiento-sub-title">Información del Equipo</h4>
   <section class="form-block">
-    <table class="table table-compact table-noborder">
-      <thead>
-      <tr>
-        <th class="left">Nro. Serie</th>
-        <th>Nro. Patrimonial</th>
-        <th>Tipo</th>
-        <th>Modelo</th>
-        <th class="left">Ubicación</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let equipo of equipos">
-        <td class="left">{{equipo.numeroSerie}}</td>
-        <td>{{equipo.numeroPatrimonial}}</td>
-        <td>{{equipo.tipoEquipo?.tipo}}</td>
-        <td>{{equipo.modeloEquipo?.modelo}}</td>
-        <td class="left">{{equipo.ubicacion?.numeroSala}}</td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1 col-label-equipo">
+        <label class="form-orden-trabajo-label" for="nroSerie">N. Serie:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="nroSerie"
+               name="nroSerie"
+               [(ngModel)]="equipo.numeroSerie">
+      </div>
+      <div class="col-xs-1"></div>
+      <div class="col-xs-2 col-label-equipo">
+        <label class="form-orden-trabajo-label" for="numeroPatrimonial">N. Patrimonial:</label>
+      </div>
+      <div class="col-xs-2">
+        <input class="form-control" id="numeroPatrimonial"
+               name="numeroPatrimonial"
+               [(ngModel)]="equipo.numeroPatrimonial">
+      </div>
+    </div>
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1 col-label-equipo">
+        <label class="form-orden-trabajo-label">Tipo:</label>
+      </div>
+      <div class="col-xs-4">
+        <label class="form-control">
+          {{equipo?.tipoEquipo.tipo}}
+        </label>
+      </div>
+
+      <div class="col-xs-2 col-label-equipo">
+        <label class="form-orden-trabajo-label">Modelo:</label>
+      </div>
+      <div class="col-xs-4">
+        <label class="form-control">
+          {{equipo?.modeloEquipo.modelo}}
+        </label>
+      </div>
+    </div>
+    <div class="form-group row flex-items-xs-left">
+      <div class="col-xs-1 col-label-equipo">
+        <label class="form-orden-trabajo-label">Ubicación:</label>
+      </div>
+      <div class="col-xs-4">
+        <label class="form-control">
+          {{equipo.ubicacion.servicio}} {{equipo.ubicacion.bloque}}
+          {{equipo.ubicacion.nivel}} {{equipo.ubicacion.numeroSala}}
+        </label>
+      </div>
+
+      <div class="col-xs-2 col-label-equipo">
+        <label class="form-orden-trabajo-label">Contrato:</label>
+      </div>
+      <div class="col-xs-4">
+        <label class="form-control">
+          {{equipo.contrato.numeroContrato}}
+        </label>
+      </div>
+    </div>
+
+    <!--    <a type="button" class="btn btn-sm btn-secondary"-->
+    <!--       [hidden]="!showAgregarBtn"-->
+    <!--       (click)="onAddEquipo()">-->
+    <!--      <clr-icon shape="plus"></clr-icon>-->
+    <!--      Agregar-->
+    <!--    </a>-->
   </section>
   <br>
   <hr>
@@ -71,24 +116,34 @@
       </div>
     </div>
 
-    <table class="table table-compact table-noborder">
-      <thead>
-      <tr>
-        <th class="left">Código</th>
-        <th>Descripción</th>
-        <th>Cantidad Adquirida</th>
-        <th class="left">Precio</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let repuesto of repuestos">
-        <td class="left">{{repuesto?.codigo}}</td>
-        <td>{{repuesto?.descripcionArticulo}}</td>
-        <td>{{repuesto?.cantidadAdquirida}}</td>
-        <td class="left">{{repuesto?.precio}}</td>
-      </tr>
-      </tbody>
-    </table>
+    <clr-datagrid>
+      <clr-dg-column>Código</clr-dg-column>
+      <clr-dg-column>Descripción</clr-dg-column>
+      <clr-dg-column>Tipo</clr-dg-column>
+      <clr-dg-column>Marca</clr-dg-column>
+      <clr-dg-column>Modelo</clr-dg-column>
+      <clr-dg-column>Representante</clr-dg-column>
+      <clr-dg-column>Precio</clr-dg-column>
+      <clr-dg-column>Cantidad Solicitada</clr-dg-column>
+      <clr-dg-column></clr-dg-column>
+      <clr-dg-row *ngFor="let detalle of solicitudRepuestoDetalles">
+        <clr-dg-cell>{{detalle.repuesto.codigo}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto.descripcionArticulo}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto.tipoEquipo?.tipo}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto.modeloEquipo?.marca}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto.modeloEquipo?.modelo}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto.representante?.nombre}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto.precio}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.cantidadSolicitada}}</clr-dg-cell>
+        <clr-dg-cell>
+          <a type="button" class="btn btn-sm btn-secondary"
+             (click)="editarRepuesto(detalle)">
+            <clr-icon shape="plus"></clr-icon>
+            Editar
+          </a>
+        </clr-dg-cell>
+      </clr-dg-row>
+    </clr-datagrid>
   </section>
   <hr>
   <!--  Registro de servicio-->
@@ -142,3 +197,12 @@
     </button>
   </section>
 </form>
+
+<!--Modal para agregar o editar los datos de un repuesto-->
+<app-solicitud-repuesto-detalle *ngIf="modalAddEditDetalleOpen"
+                                [solicitudRepuestoDetalle]="detalleSeleccionado"
+                                [isEditRepuesto]="true"
+                                [isAtenderOT]="true"
+                                (detalleRepuestoToUpdate)="addEditRepuesto($event)"
+                                (cancelAddEditRepuesto)="onCancelAddEditRepuesto($event)">
+</app-solicitud-repuesto-detalle>

@@ -81,8 +81,8 @@ export class ListaOrdenTrabajoComponent implements OnInit {
   formateoFechas() {
     const datepipe: DatePipe = new DatePipe('en-ES');
     for (let i = 0; i < this.ordenTrabajoList.length; i++) {
-      if (this.ordenTrabajoList[i].fechaRealizacion != null) {
-        this.ordenTrabajoList[i].fechaRealizacion = datepipe.transform(this.ordenTrabajoList[i].fechaRealizacion, 'dd-MM-yyyy');
+      if (this.ordenTrabajoList[i].fechaSolicitud != null) {
+        this.ordenTrabajoList[i].fechaSolicitud = datepipe.transform(this.ordenTrabajoList[i].fechaSolicitud, 'dd-MM-yyyy');
       }
     }
     this.loading = false;

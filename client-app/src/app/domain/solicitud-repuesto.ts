@@ -1,9 +1,9 @@
-import {Repuesto} from './repuesto';
+import {SolicitudRepuestoDetalle} from "./solicitud-repuesto-detalle";
 
 export class SolicitudRepuesto {
   constructor(public id: number,
               public estado: string, // indica si ya se tiene los repuestos o no
-              public repuestos: Repuesto[],
+              public solicitudRepuestoDetalles: SolicitudRepuestoDetalle[],
               public fechaSolicitud?: any) {
   }
 }

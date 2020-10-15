@@ -34,24 +34,32 @@
       </clr-dg-action-bar>
       <clr-dg-column>Código</clr-dg-column>
       <clr-dg-column>Descripción</clr-dg-column>
-      <clr-dg-column>Cantidad Adquirida</clr-dg-column>
+      <clr-dg-column>Tipo</clr-dg-column>
+      <clr-dg-column>Marca</clr-dg-column>
+      <clr-dg-column>Modelo</clr-dg-column>
+      <clr-dg-column>Representante</clr-dg-column>
       <clr-dg-column>Precio</clr-dg-column>
+      <clr-dg-column>Cantidad Solicitada</clr-dg-column>
       <clr-dg-column></clr-dg-column>
-      <clr-dg-row *ngFor="let repuesto of repuestos">
-        <clr-dg-cell>{{repuesto?.codigo}}</clr-dg-cell>
-        <clr-dg-cell>{{repuesto?.descripcionArticulo}}</clr-dg-cell>
-        <clr-dg-cell>{{repuesto?.cantidadAdquirida}}</clr-dg-cell>
-        <clr-dg-cell>{{repuesto?.precio}}</clr-dg-cell>
+      <clr-dg-row *ngFor="let detalle of solicitudRepuestoDetalles">
+        <clr-dg-cell>{{detalle.repuesto?.codigo}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto?.descripcionArticulo}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto?.tipoEquipo?.tipo}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto?.modeloEquipo?.marca}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto?.modeloEquipo?.modelo}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto?.representante?.nombre}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.repuesto?.precio}}</clr-dg-cell>
+        <clr-dg-cell>{{detalle.cantidadSolicitada}}</clr-dg-cell>
         <clr-dg-cell>
-          <button class="btn btn-sm btn-warning"
-                  (click)="eliminarRepuesto(repuesto)">
-            <clr-icon shape="trash"></clr-icon>
-          </button>
-
-          <button type="button" class="btn btn-sm btn-secondary"
-                  (click)="editRepuesto(repuesto)">
-            <clr-icon shape="pencil"></clr-icon>
-          </button>
+          <a class="btn btn-sm btn-warning"
+             (click)="eliminarDetalleRepuesto(detalle)">
+            Eliminar
+          </a>
+          <a type="button" class="btn btn-sm btn-secondary"
+             (click)="editRepuesto(detalle)">
+            <clr-icon shape="plus"></clr-icon>
+            Editar
+          </a>
         </clr-dg-cell>
       </clr-dg-row>
     </clr-datagrid>
@@ -74,8 +82,10 @@
 </form>
 
 <!--Modal para agregar o editar los datos de un repuesto-->
-<app-repuesto *ngIf="modalAddEditRepuestoOpen"
-              [repuesto]="repuestoSeleccionado"
-              (repuestoToUpdate)="closeRepuestoModal($event)"
-              (cancelAddEditRepuesto)="closeRepuestoModal($event)">
-</app-repuesto>
+<app-solicitud-repuesto-detalle *ngIf="modalAddEditDetalleOpen"
+                                [solicitudRepuestoDetalle]="detalleSeleccionado"
+                                [isEditRepuesto]="isEditDetalle"
+                                [isAtenderOT]="false"
+                                (detalleRepuestoToUpdate)="closeRepuestoModal($event)"
+                                (cancelAddEditRepuesto)="closeRepuestoModal($event)">
+</app-solicitud-repuesto-detalle>

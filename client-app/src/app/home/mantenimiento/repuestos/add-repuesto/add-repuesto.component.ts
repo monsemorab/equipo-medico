@@ -21,7 +21,7 @@ export class AddRepuestoComponent implements OnInit {
   descripcion: string;
   precio: number;
   cantAdquirida: number;
-  cantRestante: number;
+  cantExistente: number;
   tipoEquipo: TipoEquipo;
   modeloEquipo: ModeloEquipo;
   representante: Representante;
@@ -228,7 +228,7 @@ export class AddRepuestoComponent implements OnInit {
       this.fechaActualizacion =  new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
     this.repuesto = new Repuesto(null, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
-      this.cantRestante, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);
+      this.cantExistente, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);
     this.crearRepuesto(this.repuesto);
 
   }
@@ -264,7 +264,7 @@ export class AddRepuestoComponent implements OnInit {
     this.descripcion = '';
     this.precio = null;
     this.cantAdquirida = null;
-    this.cantRestante = null;
+    this.cantExistente = null;
     this.tipoEquipo = null;
     this.modeloEquipo = null;
     this.representante = null;

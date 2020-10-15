@@ -68,13 +68,24 @@
 
             <div class="form-group row flex-items-xs-left">
               <div class="col-xs-4 col-label-repuesto">
+                <label class="form-repuesto-label" for="cantidadSolicitada">Cant. Solicitada:</label>
+              </div>
+              <div class="col-xs-5">
+                <input class="form-control" id="cantidadSolicitada" [disabled]="readonlyField"
+                       name="cantidadSolicitada" [(ngModel)]="cantidadSolicitada" tabindex="4">
+              </div>
+            </div>
+
+            <div class="form-group row flex-items-xs-left">
+              <div class="col-xs-4 col-label-repuesto">
                 <label class="form-repuesto-label" for="cantidadAd">Cant. Adquirida:</label>
               </div>
               <div class="col-xs-5">
-                <input class="form-control" id="cantidadAd" [disabled]="readonlyField"
-                       name="cantidadAd" [(ngModel)]="cantAdquirida" tabindex="4">
+                <input class="form-control" id="cantidadAd" disabled type="text"
+                       name="cantidadAd" [(ngModel)]="cantAdquirida">
               </div>
             </div>
+
 
             <div class="form-group row flex-items-xs-left">
               <div class="col-xs-4 col-label-repuesto">
@@ -129,11 +140,21 @@
 
             <div class="form-group row flex-items-xs-left">
               <div class="col-xs-4 col-label-repuesto">
+                <label class="form-repuesto-label" for="cantidadUsada">Cant. Usada:</label>
+              </div>
+              <div class="col-xs-5">
+                <input class="form-control" id="cantidadUsada" [disabled]="!isAtenderOT"
+                       name="cantidadUsada" [(ngModel)]="cantidadUsada" tabindex="5">
+              </div>
+            </div>
+
+            <div class="form-group row flex-items-xs-left">
+              <div class="col-xs-4 col-label-repuesto">
                 <label class="form-repuesto-label" for="cantidadRes">Cant. Existente:</label>
               </div>
               <div class="col-xs-5">
-                <input class="form-control" id="cantidadRes" [disabled]="readonlyField"
-                       name="cantidadRes" [(ngModel)]="cantExistente" tabindex="5">
+                <input class="form-control" id="cantidadRes" disabled type="text"
+                       name="cantidadRes" [(ngModel)]="cantExistente">
               </div>
             </div>
 

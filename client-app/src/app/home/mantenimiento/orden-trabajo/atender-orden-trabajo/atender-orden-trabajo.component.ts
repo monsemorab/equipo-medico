@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {OrdenTrabajo} from '../../../../domain/orden-trabajo';
 import {Equipo} from '../../../../domain/equipo';
 import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
-import {Repuesto} from '../../../../domain/repuesto';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {OrdenTrabajoService} from '../../../../service/orden-trabajo.service';
 import {switchMap} from 'rxjs/operators';
@@ -10,6 +9,7 @@ import {DatePipe} from "@angular/common";
 import {Mantenimiento} from "../../../../domain/mantenimiento";
 import {ManteniminetoService} from "../../../../service/mantenimineto.service";
 import {EquipoService} from "../../../../service/equipo.service";
+import {SolicitudRepuestoDetalle} from "../../../../domain/solicitud-repuesto-detalle";
 
 @Component({
   selector: 'app-atender-orden-trabajo',
@@ -26,9 +26,13 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
   diagnostico: string;
   responsable: string;
   fechaRealizacion: any;
-  equipos: Equipo [];
+  equipo: Equipo;
   solicitudRepuesto: SolicitudRepuesto;
-  repuestos = new Array<Repuesto>();
+
+  // modal para agregar/editar detalle de repuesto a la solicitud
+  modalAddEditDetalleOpen = false;
+  detalleSeleccionado: SolicitudRepuestoDetalle;
+  solicitudRepuestoDetalles = new Array<SolicitudRepuestoDetalle>();
 
   // mantenimiento
   tareaRealizada: string;
@@ -49,14 +53,13 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.equipos = [];
     this.fechaMantenimiento = new Date();
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => this.ordenTrabajoService.getOrdenTrabajoById(+params.get('id')))
       ).subscribe(orden => {
-        this.ordenTrabajo = new OrdenTrabajo(orden.id, orden.estado, orden.tipoServicio, orden.mantenimiento,
-          orden.diagnostico, orden.responsable, orden.equipos, orden.solicitudRepuesto, orden.fechaRealizacion);
+        this.ordenTrabajo = new OrdenTrabajo(orden.id, orden.estado, orden.tipoServicio, orden.diagnostico,
+          orden.responsable, orden.equipo, orden.solicitudRepuesto, orden.mantenimiento, orden.fechaSolicitud);
         this.camposAEditar(this.ordenTrabajo);
       },
       error => {
@@ -77,21 +80,65 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.tipoServicio = orden.tipoServicio;
     this.diagnostico = orden.diagnostico;
     this.responsable = orden.responsable;
-    if (orden.fechaRealizacion != null) {
-      this.fechaRealizacion = datepipe.transform(orden.fechaRealizacion, 'MM/dd/yyyy');
+    if (orden.fechaSolicitud != null) {
+      this.fechaRealizacion = datepipe.transform(orden.fechaSolicitud, 'MM/dd/yyyy');
     }
-    this.equipos = orden.equipos;
+    this.equipo = orden.equipo;
     this.solicitudRepuesto = orden.solicitudRepuesto;
     if (this.solicitudRepuesto != null) {
-      this.repuestos = this.solicitudRepuesto.repuestos;
+      this.solicitudRepuestoDetalles = this.solicitudRepuesto.solicitudRepuestoDetalles;
     }
+  }
+
+  /**
+   * Cuando se selecciona un detalle repuesto para editar sus datos.
+   */
+  editarRepuesto(repuesto: SolicitudRepuestoDetalle): void {
+    this.detalleSeleccionado = repuesto;
+    this.eliminarDetalleRepuesto(this.detalleSeleccionado);
+    this.modalAddEditDetalleOpen = true;
+  }
+
+  /**
+   * Se quita de la lista de detalles el repuesto que se quiere  editar.
+   */
+  eliminarDetalleRepuesto(repuestoSeleccionado: SolicitudRepuestoDetalle): void {
+    for (let i = 0; i < this.solicitudRepuestoDetalles.length; i++) {
+      if (repuestoSeleccionado.id === this.solicitudRepuestoDetalles[i].id) {
+        this.solicitudRepuestoDetalles.splice(i, 1);
+        break;
+      }
+    }
+  }
+
+  /**
+   * El repuesto creado o editado es agregado a la lista de detalles de la solicitud de repuestos.
+   * @param value
+   */
+  addEditRepuesto(value: SolicitudRepuestoDetalle) {
+    this.solicitudRepuestoDetalles.push(value);
+    this.detalleSeleccionado = null;
+    this.modalAddEditDetalleOpen = false;
+  }
+
+  /**
+   * Cuando se cancela la edición de un repuesto, el repuesto seleccionado se agrega de nuevo a la lista de
+   * detalles de la solicitud repuestos.
+   * @param value
+   */
+  onCancelAddEditRepuesto(value: SolicitudRepuestoDetalle) {
+    if (value != null) {
+      this.solicitudRepuestoDetalles.push(value);
+    }
+    this.detalleSeleccionado = null;
+    this.modalAddEditDetalleOpen = false;
   }
 
   /**
    * Cuando se guarda la información introducida.
    */
   onSaveMantenimiento() {
-    if(this.tareaRealizada != '' && this.nombreTecnico != '') {
+    if (this.tareaRealizada != '' && this.nombreTecnico != '') {
       this.servicioRealizado = new Mantenimiento(null, this.tareaRealizada, this.informeNro, this.nombreTecnico, this.fechaMantenimiento);
       this.saveMantenimiento(this.servicioRealizado);
     } else {
@@ -124,7 +171,8 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.ordenTrabajoService.editarOrdenTrabajo(this.ordenTrabajo).subscribe(
       orden => {
         this.ordenTrabajo = orden;
-        this.onUpdateEstadoEquipos(this.ordenTrabajo.equipos);
+        this.ordenTrabajo.equipo.estado = 'Operativo';
+        this.updateEquipo(this.ordenTrabajo.equipo);
       },
       error => {
         this.errorMessage = error.error;
@@ -132,14 +180,6 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
         this.error = true;
       }
     );
-  }
-
-  onUpdateEstadoEquipos(equipos: Equipo[]): void {
-    for (let i = 0; i < equipos.length; i++) {
-      equipos[i].estado = 'Inoperativo';
-      this.updateEquipo(equipos[i]);
-    }
-    this.goListaDeTrabajosFinalizados();
   }
 
   updateEquipo(equipo: Equipo): void {

@@ -9,7 +9,7 @@ export class Repuesto {
               public descripcionArticulo: string,
               public precio: number,
               public cantidadAdquirida: number,
-              public cantidadRestante: number,
+              public cantidadExistente: number,
               public tipoEquipo: TipoEquipo,
               public modeloEquipo: ModeloEquipo,
               public representante: Representante,

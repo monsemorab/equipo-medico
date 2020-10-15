@@ -1,44 +1,54 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Repuesto} from '../../domain/repuesto';
-import {TipoEquipo} from '../../domain/tipo-equipo';
-import {ModeloEquipo} from '../../domain/modelo-equipo';
-import {EquipoService} from '../../service/equipo.service';
-import {RepuestoService} from '../../service/repuesto.service';
-import {ModeloEquipoService} from '../../service/modelo-equipo.service';
-import {TipoEquipoService} from '../../service/tipo-equipo.service';
+import {Repuesto} from "../../../domain/repuesto";
+import {TipoEquipo} from "../../../domain/tipo-equipo";
+import {ModeloEquipo} from "../../../domain/modelo-equipo";
+import {Representante} from "../../../domain/representante";
+import {EquipoService} from "../../../service/equipo.service";
+import {ModeloEquipoService} from "../../../service/modelo-equipo.service";
+import {TipoEquipoService} from "../../../service/tipo-equipo.service";
+import {RepuestoService} from "../../../service/repuesto.service";
+import {RepresentanteService} from "../../../service/representante.service";
 import {DatePipe} from "@angular/common";
-import {Representante} from "../../domain/representante";
-import {RepresentanteService} from "../../service/representante.service";
+import {SolicitudRepuestoDetalle} from "../../../domain/solicitud-repuesto-detalle";
 
 @Component({
-  selector: 'app-repuesto',
-  templateUrl: './repuesto.component.html',
-  styleUrls: ['./repuesto.component.css']
+  selector: 'app-solicitud-repuesto-detalle',
+  templateUrl: './solicitud-repuesto-detalle.component.html',
+  styleUrls: ['./solicitud-repuesto-detalle.component.css']
 })
-export class RepuestoComponent implements OnInit {
+export class SolicitudRepuestoDetalleComponent implements OnInit {
 
   // modal add/edit repuesto
   modalRepuestoOpen = true;
   modalRepuestoTitle: string;
 
   // Repuesto
-  @Input() repuesto: Repuesto;
+  repuesto: Repuesto;
+
+  // Detalle solicitud repuesto
+  @Input() solicitudRepuestoDetalle: SolicitudRepuestoDetalle
+  @Input() isAtenderOT: boolean;
   @Input() isEditRepuesto: boolean;
-  @Output() repuestoToUpdate: EventEmitter<any> = new EventEmitter();
+  @Output() detalleRepuestoToUpdate: EventEmitter<any> = new EventEmitter();
   @Output() cancelAddEditRepuesto: EventEmitter<any> = new EventEmitter();
 
   // Datos Repuesto
-  id: number;
+  idRepuesto: number;
   codigo: string;
   descripcion: string;
   precio: number;
-  cantAdquirida: number;
-  cantExistente: number;
+  cantAdquirida: number;  // solo lectura
+  cantExistente: number;  // solo lectura
   tipoEquipo: TipoEquipo;
   modeloEquipo: ModeloEquipo;
   representante: Representante;
   fechaActualizacion: any;
   readonlyField: boolean;
+
+  // Datos Solicitud Repuesto Detalle
+  id: number;
+  cantidadSolicitada: number;
+  cantidadUsada: number
 
   tipos = new Array<TipoEquipo>();
   modelos = new Array<ModeloEquipo>();
@@ -69,14 +79,14 @@ export class RepuestoComponent implements OnInit {
     this.getAllModelos();
     this.getAllRepresentantes();
 
-    if (this.repuesto == null) {
+    if (this.solicitudRepuestoDetalle == null) {
       this.modalRepuestoTitle = 'Agregar Repuesto';
       this.id = -1;
       this.readonlyField = true;
       this.fechaActualizacion = new Date();
     } else {
       this.modalRepuestoTitle = 'Editar Repuesto';
-      this.camposAEditar(this.repuesto);
+      this.camposAEditar(this.solicitudRepuestoDetalle);
     }
     this.modalRepuestoOpen = true;
   }
@@ -129,7 +139,19 @@ export class RepuestoComponent implements OnInit {
     );
   }
 
-  camposAEditar(repuesto: Repuesto) {
+  camposAEditar(solicitudRepuesto: SolicitudRepuestoDetalle) {
+    // datos de la solicitd de repuesto
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    this.id = solicitudRepuesto.id;
+    this.cantidadSolicitada = solicitudRepuesto.cantidadSolicitada;
+    this.cantidadUsada = solicitudRepuesto.cantidadUsada;
+
+    // datos del repuesto
+    this.repuesto = solicitudRepuesto.repuesto;
+    this.camposAEditarDelRepuesto(this.repuesto);
+  }
+
+  camposAEditarDelRepuesto(repuesto: Repuesto) {
     const datepipe: DatePipe = new DatePipe('en-ES');
     this.id = repuesto.id;
     this.codigo = repuesto.codigo;
@@ -150,7 +172,7 @@ export class RepuestoComponent implements OnInit {
     if(repuesto.representante != null) {
       this.repreId = repuesto.representante.id;
     }
-    this.readonlyField = false;
+    this.readonlyField = this.isAtenderOT;
   }
 
   /**
@@ -255,7 +277,7 @@ export class RepuestoComponent implements OnInit {
   buscarRepuestoByCodigo(codigo: string) {
     this.repuestoService.getRepuestoByCodigo(codigo).subscribe(
       repuesto => {
-        this.camposAEditar(repuesto);
+        this.camposAEditarDelRepuesto(repuesto);
       },
       error => {
         this.errorMessage = error.error;
@@ -281,7 +303,7 @@ export class RepuestoComponent implements OnInit {
       let parts = this.fechaActualizacion.split('/');
       this.fechaActualizacion =  new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
-    this.repuesto = new Repuesto(this.id, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
+    this.repuesto = new Repuesto(this.idRepuesto, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
       this.cantExistente, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);
 
     if (this.isEditRepuesto) {
@@ -292,15 +314,15 @@ export class RepuestoComponent implements OnInit {
   }
 
   /**
-   * Se crea un nuveo repeusto.
+   * Se crea un nuveo repuesto.
    * @param repuesto
    */
-  agregarRepuestoCreado(repuesto: Repuesto) {
+  agregarRepuestoCreado(repuesto: Repuesto): void {
     this.repuestoService.crearRepuesto(repuesto).subscribe(
       repuesto => {
         this.repuesto = repuesto;
         this.repuestoService.emitExisteRepuesto(true);
-        this.repuestoToUpdate.emit(this.repuesto);
+        this.emitSolicitudRepuestoDetalle();
       },
       error => {
         this.errorMessage = error.error;
@@ -315,11 +337,11 @@ export class RepuestoComponent implements OnInit {
    * Se guardan los datos editados del repuesto seleccionado.
    * @param repuesto
    */
-  editarRepuestoExistente(repuesto: Repuesto) {
+  editarRepuestoExistente(repuesto: Repuesto): void {
     this.repuestoService.editarRepuesto(repuesto).subscribe(
       repuesto => {
         this.repuesto = repuesto;
-        this.repuestoToUpdate.emit(this.repuesto);
+        this.emitSolicitudRepuestoDetalle();
       },
       error => {
         this.errorMessage = error.error;
@@ -327,6 +349,11 @@ export class RepuestoComponent implements OnInit {
         this.error = true;
       }
     );
+  }
+
+  emitSolicitudRepuestoDetalle(): void {
+    this.solicitudRepuestoDetalle = new SolicitudRepuestoDetalle(this.id, null, this.repuesto, this.cantidadSolicitada, this.cantidadUsada);
+    this.detalleRepuestoToUpdate.emit(this.solicitudRepuestoDetalle);
   }
 
   /**
