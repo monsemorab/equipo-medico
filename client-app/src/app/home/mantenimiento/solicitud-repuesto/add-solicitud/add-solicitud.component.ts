@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 import {SolicitudRepuestoDetalle} from "../../../../domain/solicitud-repuesto-detalle";
+import {EstadoSolicitudRepuesto} from "../../../../utils/estado-solicitud-repuesto";
 
 @Component({
   selector: 'app-add-solicitud',
@@ -34,7 +35,7 @@ export class AddSolicitudComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estado = "Pendiente";
+    this.estado = EstadoSolicitudRepuesto.PENDIENTE;
   }
 
   /**
@@ -106,7 +107,7 @@ export class AddSolicitudComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(error.error + error.message)
         this.error = true;
       }
     );

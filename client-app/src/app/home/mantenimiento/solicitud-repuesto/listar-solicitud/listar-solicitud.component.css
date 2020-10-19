@@ -7,3 +7,19 @@
   background-color: darkgrey !important;
   cursor: pointer !important;
 }
+
+.table-header {
+  font-size: 13px !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  text-align: center !important;
+}
+
+.table-column {
+  font-size: 12px !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.cod-cant-field {
+  min-width: 5% !important;
+  width: 5% !important;
+}

@@ -22,5 +22,9 @@ export class OrdenTrabajo {
 export class TipoServicio {
   constructor(public nombre: string) {
   }
+}
 
+export class EstadoOrdenTrabajoLista {
+  constructor(public nombre: string) {
+  }
 }

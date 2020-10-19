@@ -36,6 +36,22 @@
   margin-top: -6px !important;
 }
 
+.table-header {
+  font-size: 13px !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  text-align: center !important;
+}
+
+.table-column {
+  font-size: 12px !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.cod-cant-field {
+  min-width: 5% !important;
+  width: 5% !important;
+}
+
 @media only screen and (max-width: 1250px) {
   .col-tooltip {
     margin-left: 0 !important;

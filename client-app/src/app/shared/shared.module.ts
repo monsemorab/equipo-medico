@@ -5,7 +5,6 @@ import {RepresentanteComponent} from './representante/representante.component';
 import {TipoEquipoComponent} from './tipo-equipo/tipo-equipo.component';
 import {ModeloEquipoComponent} from './modelo-equipo/modelo-equipo.component';
 import {UbicacionComponent} from './ubicacion/ubicacion.component';
-import {RepuestoComponent} from './repuesto/repuesto.component';
 import {CalendarModule} from "primeng/primeng";
 import {SolicitudRepuestoDetalleComponent} from "./solicitud-detalle/solicitud-repuesto-detalle/solicitud-repuesto-detalle.component";
 
@@ -20,7 +19,6 @@ import {SolicitudRepuestoDetalleComponent} from "./solicitud-detalle/solicitud-r
     TipoEquipoComponent,
     ModeloEquipoComponent,
     UbicacionComponent,
-    RepuestoComponent,
     SolicitudRepuestoDetalleComponent
   ],
   exports: [
@@ -28,7 +26,6 @@ import {SolicitudRepuestoDetalleComponent} from "./solicitud-detalle/solicitud-r
     TipoEquipoComponent,
     ModeloEquipoComponent,
     UbicacionComponent,
-    RepuestoComponent,
     SolicitudRepuestoDetalleComponent
   ]
 })

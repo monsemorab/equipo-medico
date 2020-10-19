@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {OrdenTrabajo} from "../../../../domain/orden-trabajo";
+import {EstadoOrdenTrabajoLista, OrdenTrabajo} from "../../../../domain/orden-trabajo";
 import {Equipo} from "../../../../domain/equipo";
 import {SolicitudRepuesto} from "../../../../domain/solicitud-repuesto";
 import {Mantenimiento} from "../../../../domain/mantenimiento";
@@ -10,6 +10,9 @@ import {DatePipe} from "@angular/common";
 import {ManteniminetoService} from "../../../../service/mantenimineto.service";
 import {SolicitudRepuestoDetalle} from "../../../../domain/solicitud-repuesto-detalle";
 import {EquipoService} from "../../../../service/equipo.service";
+import {EstadoOrdenTrabajo} from "../../../../utils/estado-orden";
+import {EstadoSolicitudRepuesto} from "../../../../utils/estado-solicitud-repuesto";
+import {EstadoEquipo} from "../../../../utils/estado-equipo";
 
 @Component({
   selector: 'app-edit-mantenimiento',
@@ -28,6 +31,7 @@ export class EditMantenimientoComponent implements OnInit {
   fechaRealizacion: any;
   equipo: Equipo;
   solicitudRepuesto: SolicitudRepuesto;
+  estados: EstadoOrdenTrabajoLista[];
 
   // mantenimiento
   mantenimientoId: number;
@@ -56,6 +60,7 @@ export class EditMantenimientoComponent implements OnInit {
 
   ngOnInit() {
     this.fechaMantenimiento = new Date();
+    this.getEstadosOrdenTrabajo();
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => this.ordenTrabajoService.getOrdenTrabajoById(+params.get('id')))
@@ -66,9 +71,33 @@ export class EditMantenimientoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(error.error + error.message)
         this.error = true;
       });
+  }
+
+  /**
+   * Se obtiene la lista de los estados para editar una solicitud.
+   */
+  getEstadosOrdenTrabajo(): void {
+    this.ordenTrabajoService.getEstadosOrdenAtendida().subscribe(
+      estados => {
+        this.estados = estados;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.estados = [];
+      }
+    );
+  }
+
+  /**
+   * Se selecciona un estado para la orden de trabajo.
+   * @param {string} value
+   */
+  onSelectedEstado(value: string): void {
+    this.estado = value;
   }
 
   /**
@@ -95,6 +124,10 @@ export class EditMantenimientoComponent implements OnInit {
     this.tareaRealizada = this.servicioRealizado.tareaRealizada;
     this.informeNro = this.servicioRealizado.informeNumero;
     this.nombreTecnico = this.servicioRealizado.nombreTecnico;
+
+    if(this.estado === EstadoOrdenTrabajo.FINALIZADO) {
+      this.readOnlyField = true;
+    }
   }
 
   /**
@@ -145,15 +178,35 @@ export class EditMantenimientoComponent implements OnInit {
    * Cuando se guarda la información introducida.
    */
   onSaveMantenimiento() {
-    if (this.fechaRealizacion != null && (typeof this.fechaRealizacion === 'string' || this.fechaRealizacion instanceof String)) {
-      let parts = this.fechaRealizacion.split('/');
-      this.fechaRealizacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+    if(this.ordenTrabajo.estado === EstadoOrdenTrabajo.FINALIZADO) {
+      if(this.solicitudRepuesto.estado !== EstadoSolicitudRepuesto.FINALIZADO) {
+        this.errorMessage = "La Orden de Trabajo no puede ser Finalizada. La Solicitud de Repuesto aún no fue finalizada.";
+        this.error = true;
+      } else {
+        let cantUsadaNoActualizada = false;
+        for (let i = 0; i < this.solicitudRepuestoDetalles.length; i++) {
+          if (this.solicitudRepuestoDetalles[i].cantidadUsada === null ||
+            this.solicitudRepuestoDetalles[i].cantidadUsada === undefined) {
+            cantUsadaNoActualizada = true;
+            break;
+          }
+        }
+        if(cantUsadaNoActualizada) {
+          this.errorMessage = "La Orden de Trabajo no puede ser Finalizada. El campo Cant. Usada del repuesto no ha sido actualziada.";
+          this.error = true;
+        }
+      }
     }
-    this.servicioRealizado = new Mantenimiento(this.mantenimientoId, this.tareaRealizada, this.informeNro,
-      this.nombreTecnico, this.fechaMantenimiento);
-    if(this.tareaRealizada != '' && this.nombreTecnico != '') {
-      this.updateMantenimiento(this.servicioRealizado);
-    } else {
+    if(!this.error) {
+      if (this.fechaRealizacion != null && (typeof this.fechaRealizacion === 'string' || this.fechaRealizacion instanceof String)) {
+        let parts = this.fechaRealizacion.split('/');
+        this.fechaRealizacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      }
+      this.servicioRealizado = new Mantenimiento(this.mantenimientoId, this.tareaRealizada, this.informeNro,
+        this.nombreTecnico, this.fechaMantenimiento);
+      if (this.tareaRealizada != '' && this.nombreTecnico != '') {
+        this.updateMantenimiento(this.servicioRealizado);
+      }
       this.goBack();
     }
   }
@@ -166,28 +219,29 @@ export class EditMantenimientoComponent implements OnInit {
     this.manteniminetoService.editarMantenimineto(servicioRealizado).subscribe(
       mantenimineto => {
         this.servicioRealizado = mantenimineto;
-        this.updateOrdenTrabajo(this.servicioRealizado);
+        if(this.ordenTrabajo.estado === EstadoOrdenTrabajo.FINALIZADO) {
+          this.updateOrdenTrabajo(this.servicioRealizado);
+        }
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(error.error + error.message)
         this.ordenTrabajo = null;
       }
     );
   }
 
   updateOrdenTrabajo(servcioRealizado: Mantenimiento) {
-    this.ordenTrabajo.estado = "Finalizada";
     this.ordenTrabajo.mantenimiento = servcioRealizado;
     this.ordenTrabajoService.editarOrdenTrabajo(this.ordenTrabajo).subscribe(
       orden => {
         this.ordenTrabajo = orden;
-        this.ordenTrabajo.equipo.estado = 'Operativo';
+        this.ordenTrabajo.equipo.estado = EstadoEquipo.OPERATIVO;
         this.updateEquipo(this.ordenTrabajo.equipo);
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(error.error + error.message)
         this.error = true;
       }
     );
@@ -200,7 +254,7 @@ export class EditMantenimientoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(error.error + error.message)
         this.error = true;
       }
     );

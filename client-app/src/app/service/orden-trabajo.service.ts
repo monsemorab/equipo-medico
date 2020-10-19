@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import {ApiRequestService} from './api-request.service';
 import {BehaviorSubject, Observable, of} from 'rxjs';
-import {OrdenTrabajo, TipoServicio} from '../domain/orden-trabajo';
+import {EstadoOrdenTrabajoLista, OrdenTrabajo, TipoServicio} from '../domain/orden-trabajo';
 import {environment} from '../../environments/environment';
-import {SERVICIO} from '../utils/mock-data/constantes';
+import {ESTADO_ORDEN_ATENDIDA, SERVICIO} from '../utils/mock-data/constantes';
 
 
 @Injectable()
 export class OrdenTrabajoService {
 
   private tipoServicios = SERVICIO;
+  private estadosOrdenAtendida = ESTADO_ORDEN_ATENDIDA;
   private urlOrdenTrabajo = environment.service_uri + '/ordentrabajo';
 
 
@@ -17,6 +18,15 @@ export class OrdenTrabajoService {
   emittedSiExisteListaOrdenTrabajo = this.emitSiExisteListaOrdenTrabajo.asObservable();
 
   constructor(private apiRequest: ApiRequestService) {
+  }
+
+  /**
+   * Se obtiene la lista de los estados para atender una orden de trabajo.
+   * Esta lista no se obtiene de la BD, son datos predefinidos.
+   * @returns {Observable<EstadoOrdenTrabajo[]>}
+   */
+  getEstadosOrdenAtendida(): Observable<EstadoOrdenTrabajoLista[]> {
+    return of(this.estadosOrdenAtendida);
   }
 
   /**
@@ -72,8 +82,8 @@ export class OrdenTrabajoService {
   }
 
   /**
-   * Cuando se crea una nueva orden de trabajo, se avisa a la pagina home que puede mostrar la lista de orden de trabajos pendientes al presionar
-   * sobre el boton Orden de trabajo del menú lateral
+   * Cuando se crea una nueva orden de trabajo, se avisa a la pagina home que puede mostrar la lista de orden de trabajos
+   * pendientes al presionar sobre el boton Orden de trabajo del menú lateral
    * @param change
    */
   emitExisteListaOrdenTrabajo (change: boolean) {

@@ -1,12 +1,38 @@
 <h2 class="form-mantenimiento-title">Atender Orden de Trabajo</h2>
 <form class="compact" #mantenimientoForm="ngForm">
+  <!-- errors -->
+  <div class="alert alert-danger alert-sm" *ngIf="error">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon"
+                    shape="exclamation-circle">
+          </clr-icon>
+        </div>
+        <span class="alert-text">{{errorMessage}}</span>
+      </div>
+    </div>
+    <a type="button" class="close" aria-label="Close"
+       (click)="error = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </a>
+  </div>
+
   <section class="form-block">
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-1">
         <label class="form-mantenimiento-label">Estado:</label>
       </div>
       <div class="col-xs-2">
-        <label class="form-control">{{estado}}</label>
+        <div class="select form-control">
+          <select class="select-form-orden-trabajo" id="estado" #selectEstado name="estado"
+                  [(ngModel)]="estado"
+                  (change)="onSelectedEstado(selectEstado.value)">
+            <option *ngFor="let estado of estados"
+                    value={{estado.nombre}}>{{estado.nombre}}
+            </option>
+          </select>
+      </div>
       </div>
     </div>
     <div class="form-group row flex-items-xs-left">
@@ -117,25 +143,25 @@
     </div>
 
     <clr-datagrid>
-      <clr-dg-column>Código</clr-dg-column>
-      <clr-dg-column>Descripción</clr-dg-column>
-      <clr-dg-column>Tipo</clr-dg-column>
-      <clr-dg-column>Marca</clr-dg-column>
-      <clr-dg-column>Modelo</clr-dg-column>
-      <clr-dg-column>Representante</clr-dg-column>
-      <clr-dg-column>Precio</clr-dg-column>
-      <clr-dg-column>Cantidad Solicitada</clr-dg-column>
-      <clr-dg-column></clr-dg-column>
+      <clr-dg-column class="table-header cod-cant-field">Código</clr-dg-column>
+      <clr-dg-column class="table-header">Descripción</clr-dg-column>
+      <clr-dg-column class="table-header">Tipo</clr-dg-column>
+      <clr-dg-column class="table-header">Marca</clr-dg-column>
+      <clr-dg-column class="table-header">Modelo</clr-dg-column>
+      <clr-dg-column class="table-header">Representante</clr-dg-column>
+      <clr-dg-column class="table-header">Precio</clr-dg-column>
+      <clr-dg-column class="table-header cod-cant-field">Cantidad Solicitada</clr-dg-column>
+      <clr-dg-column class="table-header cod-cant-field"></clr-dg-column>
       <clr-dg-row *ngFor="let detalle of solicitudRepuestoDetalles">
-        <clr-dg-cell>{{detalle.repuesto.codigo}}</clr-dg-cell>
-        <clr-dg-cell>{{detalle.repuesto.descripcionArticulo}}</clr-dg-cell>
-        <clr-dg-cell>{{detalle.repuesto.tipoEquipo?.tipo}}</clr-dg-cell>
-        <clr-dg-cell>{{detalle.repuesto.modeloEquipo?.marca}}</clr-dg-cell>
-        <clr-dg-cell>{{detalle.repuesto.modeloEquipo?.modelo}}</clr-dg-cell>
-        <clr-dg-cell>{{detalle.repuesto.representante?.nombre}}</clr-dg-cell>
-        <clr-dg-cell>{{detalle.repuesto.precio}}</clr-dg-cell>
-        <clr-dg-cell>{{detalle.cantidadSolicitada}}</clr-dg-cell>
-        <clr-dg-cell>
+        <clr-dg-cell class="table-column cod-cant-field">{{detalle.repuesto.codigo}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">{{detalle.repuesto.descripcionArticulo}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">{{detalle.repuesto.tipoEquipo?.tipo}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">{{detalle.repuesto.modeloEquipo?.marca}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">{{detalle.repuesto.modeloEquipo?.modelo}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">{{detalle.repuesto.representante?.nombre}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">{{detalle.repuesto.precio}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">{{detalle.cantidadSolicitada}}</clr-dg-cell>
+        <clr-dg-cell class="table-column cod-cant-field">
           <a type="button" class="btn btn-sm btn-secondary"
              (click)="editarRepuesto(detalle)">
             <clr-icon shape="plus"></clr-icon>

@@ -33,7 +33,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   @Output() cancelAddEditRepuesto: EventEmitter<any> = new EventEmitter();
 
   // Datos Repuesto
-  idRepuesto: number;
+  repuestoId: number;
   codigo: string;
   descripcion: string;
   precio: number;
@@ -46,7 +46,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   readonlyField: boolean;
 
   // Datos Solicitud Repuesto Detalle
-  id: number;
+  detalleId: number;
   cantidadSolicitada: number;
   cantidadUsada: number
 
@@ -81,7 +81,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
 
     if (this.solicitudRepuestoDetalle == null) {
       this.modalRepuestoTitle = 'Agregar Repuesto';
-      this.id = -1;
+      this.detalleId = null;
       this.readonlyField = true;
       this.fechaActualizacion = new Date();
     } else {
@@ -141,8 +141,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
 
   camposAEditar(solicitudRepuesto: SolicitudRepuestoDetalle) {
     // datos de la solicitd de repuesto
-    const datepipe: DatePipe = new DatePipe('en-ES');
-    this.id = solicitudRepuesto.id;
+    this.detalleId = solicitudRepuesto.id;
     this.cantidadSolicitada = solicitudRepuesto.cantidadSolicitada;
     this.cantidadUsada = solicitudRepuesto.cantidadUsada;
 
@@ -153,7 +152,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
 
   camposAEditarDelRepuesto(repuesto: Repuesto) {
     const datepipe: DatePipe = new DatePipe('en-ES');
-    this.id = repuesto.id;
+    this.repuestoId = repuesto.id;
     this.codigo = repuesto.codigo;
     this.descripcion = repuesto.descripcionArticulo;
     this.precio = repuesto.precio;
@@ -173,6 +172,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
       this.repreId = repuesto.representante.id;
     }
     this.readonlyField = this.isAtenderOT;
+    this.isEditRepuesto = true;
   }
 
   /**
@@ -303,7 +303,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
       let parts = this.fechaActualizacion.split('/');
       this.fechaActualizacion =  new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
-    this.repuesto = new Repuesto(this.idRepuesto, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
+    this.repuesto = new Repuesto(this.repuestoId, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
       this.cantExistente, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);
 
     if (this.isEditRepuesto) {
@@ -352,8 +352,8 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   }
 
   emitSolicitudRepuestoDetalle(): void {
-    this.solicitudRepuestoDetalle = new SolicitudRepuestoDetalle(this.id, null, this.repuesto, this.cantidadSolicitada, this.cantidadUsada);
-    this.detalleRepuestoToUpdate.emit(this.solicitudRepuestoDetalle);
+    this.solicitudRepuestoDetalle = new SolicitudRepuestoDetalle(this.detalleId, null, this.repuesto,
+      this.cantidadSolicitada, this.cantidadUsada);this.detalleRepuestoToUpdate.emit(this.solicitudRepuestoDetalle);
   }
 
   /**

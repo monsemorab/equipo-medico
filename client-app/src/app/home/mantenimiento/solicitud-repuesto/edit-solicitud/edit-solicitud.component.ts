@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
+import {EstadoSolicitud, SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
 import {switchMap} from 'rxjs/operators';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 import {DatePipe} from "@angular/common";
 import {SolicitudRepuestoDetalle} from "../../../../domain/solicitud-repuesto-detalle";
+import {EstadoContrato} from "../../../../domain/contrato";
 
 @Component({
   selector: 'app-edit-solicitud',
@@ -18,7 +19,8 @@ export class EditSolicitudComponent implements OnInit {
   id: number;
   estado: string;
   fechaSolicitud: any;
-
+  // estado solicitud
+  estados: EstadoSolicitud[];
 
   // modal para agregar/editar detalle de repuesto a la solicitud
   modalAddEditDetalleOpen = false;
@@ -36,6 +38,8 @@ export class EditSolicitudComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getEstadosEditSolicitud();
+
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) =>
@@ -50,6 +54,30 @@ export class EditSolicitudComponent implements OnInit {
         console.log(this.errorMessage)
         this.error = true;
       });
+  }
+
+  /**
+   * Se obtiene la lista de los estados para editar una solicitud.
+   */
+  getEstadosEditSolicitud(): void {
+    this.solicitudRepuestoService.getEstadosEditSolicitud().subscribe(
+        estados => {
+          this.estados = estados;
+        },
+        error => {
+          this.errorMessage = error.error;
+          console.log(this.errorMessage)
+          this.estados = [];
+        }
+    );
+  }
+
+  /**
+   * Se selecciona un estado para la solicitud.
+   * @param {string} value
+   */
+  onSelectedEstadoSolicitud(value: string): void {
+    this.estado = value;
   }
 
   /**
@@ -132,7 +160,7 @@ export class EditSolicitudComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(error.error + error.message)
         this.error = true;
       }
     );

@@ -8,6 +8,9 @@ import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.s
 import {OrdenTrabajo, TipoServicio} from '../../../../domain/orden-trabajo';
 import {OrdenTrabajoService} from '../../../../service/orden-trabajo.service';
 import {SolicitudRepuestoDetalle} from "../../../../domain/solicitud-repuesto-detalle";
+import {EstadoSolicitudRepuesto} from "../../../../utils/estado-solicitud-repuesto";
+import {EstadoEquipo} from "../../../../utils/estado-equipo";
+import {EstadoOrdenTrabajo} from "../../../../utils/estado-orden";
 
 @Component({
   selector: 'app-add-orden-trabajo',
@@ -23,7 +26,6 @@ export class AddOrdenTrabajoComponent implements OnInit {
   diagnostico: string;
   responsable: string;
   fechaRealizacion: any;
-  equipo: Equipo;
 
   // Tipo de Servicios
   tipoServicios: TipoServicio[];
@@ -33,7 +35,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
   numeroSerie: string;
   numeroPatrimonial: string;
   requestEquipo: ParamsBusquedaEquipo;
-  showAgregarBtn = false;
+  selectedEquipo: boolean;
 
   // solicitud repuesto
   solicitudRepId: any;
@@ -67,12 +69,13 @@ export class AddOrdenTrabajoComponent implements OnInit {
 
   ngOnInit() {
     this.limpiarCampos();
+    this.selectedEquipo = false;
     this.tipoServicio = 'OPERATIVO';
     this.esNuevaSolicitudRepuesto = false;
     this.fueActualizada = false;
     this.equipoSuccess = false;
     this.solicitudRepId = "Seleccionar Solicitud";
-    this.estado = "Pendiente";
+    this.estado = EstadoOrdenTrabajo.PENDIENTE;
     this.getTipoServicios();
     this.getAllSolicitudRepuestosPendientes();
   }
@@ -171,7 +174,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
         this.equipoSeleccionado = equipo;
         this.numeroPatrimonial = equipo.numeroPatrimonial;
         this.numeroSerie = equipo.numeroSerie;
-        this.showAgregarBtn = this.equipoSeleccionado != null;
+        this.selectedEquipo = this.equipoSeleccionado != null;
         this.equipoWarning = false;
         this.equipoSuccess = true;
       },
@@ -179,7 +182,6 @@ export class AddOrdenTrabajoComponent implements OnInit {
         this.equipoWarningMessage = "No se encontraron registros para esta busqueda.";
         console.log(this.equipoWarningMessage);
         this.equipoWarning = true;
-        this.showAgregarBtn = false;
         this.equipoSuccess = false;
       }
     );
@@ -192,7 +194,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
     this.equipoSeleccionado = null;
     this.onKeyNroSerie('');
     this.onKeyNroPatrimonial('');
-    this.showAgregarBtn = false;
+    this.selectedEquipo = false;
   }
 
   /**
@@ -303,10 +305,11 @@ export class AddOrdenTrabajoComponent implements OnInit {
       // Si la solicitud de repuesto se crea a partir de la orden de trabajo
       if (this.solicitudRepuesto == null) {
         this.esNuevaSolicitudRepuesto = true;
-        this.solicitudRepuesto = new SolicitudRepuesto(null, 'En Proceso', this.solicitudRepuestoDetalles, new Date());
+        this.solicitudRepuesto = new SolicitudRepuesto(null, EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO,
+          this.solicitudRepuestoDetalles, new Date());
       } else {
         // si se obtuvo una solicitud de repuesto buscando por su Id
-        this.solicitudRepuesto.estado = 'En Proceso';
+        this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO;
         this.solicitudRepuesto.solicitudRepuestoDetalles = this.solicitudRepuestoDetalles;
       }
     } else {
@@ -321,7 +324,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
     }
 
     this.ordenTrabajo = new OrdenTrabajo(null, this.estado, this.tipoServicio, this.diagnostico, this.responsable,
-      this.equipo, null, null, this.fechaRealizacion);
+      this.equipoSeleccionado, null, null, this.fechaRealizacion);
 
     if (this.esNuevaSolicitudRepuesto) {
       this.saveSolicitudRepuesto(this.solicitudRepuesto);
@@ -349,7 +352,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(error.error + error.message)
         this.error = true;
       }
     );
@@ -369,7 +372,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(error.error + error.message)
         this.error = true;
       }
     );
@@ -385,7 +388,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
         this.ordenTrabajo = orden;
         this.ordenTrabajoService.emitExisteListaOrdenTrabajo(true);
         if (this.ordenTrabajo.equipo != null) {
-          this.ordenTrabajo.equipo.estado = 'Inoperativo';
+          this.ordenTrabajo.equipo.estado = EstadoEquipo.INOPERATIVO;
           this.updateEquipo(this.ordenTrabajo.equipo);
         } else {
           this.goBack();
@@ -394,7 +397,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(error.error + error.message)
         this.error = true;
       }
     );
@@ -407,7 +410,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(error.error + error.message)
         this.error = true;
       }
     );

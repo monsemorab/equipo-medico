@@ -71,11 +71,11 @@
         </div>
       </div>
     </clr-dg-action-bar>
-    <clr-dg-column [clrDgSortBy]="'fecha'">Fecha a realizarse el trabajo</clr-dg-column>
-    <clr-dg-column>Estado</clr-dg-column>
-    <clr-dg-column>Tipo de Mantenimiento</clr-dg-column>
-    <clr-dg-column>Diagnostico</clr-dg-column>
-    <clr-dg-column>Equipo</clr-dg-column>
+    <clr-dg-column class="table-header" [clrDgSortBy]="'fecha'">Fecha a realizarse el trabajo</clr-dg-column>
+    <clr-dg-column class="table-header">Estado</clr-dg-column>
+    <clr-dg-column class="table-header">Tipo de Mantenimiento</clr-dg-column>
+    <clr-dg-column class="table-header">Diagnostico</clr-dg-column>
+    <clr-dg-column class="table-header">Equipo</clr-dg-column>
     <clr-dg-placeholder>
       <div *ngIf="ordenTrabajoList && ordenTrabajoList.length === 0">
         No existen datos para la orden de trabajo
@@ -84,11 +84,11 @@
     <clr-dg-row *ngFor="let ordenTrabajo of ordenTrabajoList"
                 (click)="selectOrdenTrabajo(ordenTrabajo)"
                 [class.selectOrdenTrabajo]="ordenTrabajo === selectedOrdenTrabajo">
-      <clr-dg-cell>{{ordenTrabajo.fechaSolicitud}}</clr-dg-cell>
-      <clr-dg-cell>{{ordenTrabajo.estado}}</clr-dg-cell>
-      <clr-dg-cell>{{ordenTrabajo.tipoServicio}}</clr-dg-cell>
-      <clr-dg-cell>{{ordenTrabajo.diagnostico}}</clr-dg-cell>
-      <clr-dg-cell>{{ordenTrabajo.equipo?.numeroSerie}}-{{ordenTrabajo.equipo?.descripcionEquipo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{ordenTrabajo.fechaSolicitud}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{ordenTrabajo.estado}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{ordenTrabajo.tipoServicio}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{ordenTrabajo.diagnostico}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{ordenTrabajo.equipo?.numeroSerie}} - {{ordenTrabajo.equipo?.descripcionEquipo}}</clr-dg-cell>
     </clr-dg-row>
 
     <clr-dg-footer>

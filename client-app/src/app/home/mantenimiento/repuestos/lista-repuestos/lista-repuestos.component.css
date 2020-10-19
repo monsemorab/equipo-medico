@@ -1,4 +1,4 @@
-form-repuesto-title {
+.form-repuesto-title {
   font-weight: bold;
   text-align: center;
 }
@@ -11,4 +11,21 @@ form-repuesto-title {
 pre {
   border: 0px solid #ccc !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+
+.table-header {
+  font-size: 13px !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  text-align: center !important;
+}
+
+.table-column {
+  font-size: 12px !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.cod-cant-field {
+  min-width: 5% !important;
+  width: 5% !important;
 }

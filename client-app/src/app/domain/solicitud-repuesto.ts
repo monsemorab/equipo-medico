@@ -7,3 +7,9 @@ export class SolicitudRepuesto {
               public fechaSolicitud?: any) {
   }
 }
+
+export class EstadoSolicitud {
+
+  constructor(public nombre: string) {
+  }
+}

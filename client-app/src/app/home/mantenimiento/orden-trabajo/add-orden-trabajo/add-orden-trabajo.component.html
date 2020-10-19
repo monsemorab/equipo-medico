@@ -129,6 +129,12 @@
       <div class="col-xs-1" *ngIf="equipoWarning">
         <clr-icon shape="warning-standard alert-icon alert-warning"></clr-icon>
       </div>
+      <div class="col-xs-1" *ngIf="selectedEquipo">
+        <a type="button" class="btn btn-sm btn-warning"
+        (click)="clearDatosEquipos()">
+          <clr-icon shape="trash"></clr-icon>
+        </a>
+      </div>
     </div>
     <div class="form-group row flex-items-xs-left">
       <div class="col-xs-1 col-label-equipo">
@@ -169,13 +175,6 @@
         </label>
       </div>
     </div>
-
-<!--    <a type="button" class="btn btn-sm btn-secondary"-->
-<!--       [hidden]="!showAgregarBtn"-->
-<!--       (click)="onAddEquipo()">-->
-<!--      <clr-icon shape="plus"></clr-icon>-->
-<!--      Agregar-->
-<!--    </a>-->
   </section>
   <hr>
   <h4 class="form-orden-trabajo-sub-title">Repuestos Solicitados</h4>
@@ -225,24 +224,24 @@
         </a>
       </div>
     </clr-dg-action-bar>
-    <clr-dg-column>Código</clr-dg-column>
-    <clr-dg-column>Descripción</clr-dg-column>
-    <clr-dg-column>Tipo</clr-dg-column>
-    <clr-dg-column>Marca</clr-dg-column>
-    <clr-dg-column>Modelo</clr-dg-column>
-    <clr-dg-column>Representante</clr-dg-column>
-    <clr-dg-column>Precio</clr-dg-column>
-    <clr-dg-column>Cantidad Solicitada</clr-dg-column>
+    <clr-dg-column class="table-header cod-cant-field">Código</clr-dg-column>
+    <clr-dg-column class="table-header">Descripción</clr-dg-column>
+    <clr-dg-column class="table-header">Tipo</clr-dg-column>
+    <clr-dg-column class="table-header">Marca</clr-dg-column>
+    <clr-dg-column class="table-header">Modelo</clr-dg-column>
+    <clr-dg-column class="table-header">Representante</clr-dg-column>
+    <clr-dg-column class="table-header">Precio</clr-dg-column>
+    <clr-dg-column class="table-header cod-cant-field">Cantidad Solicitada</clr-dg-column>
     <clr-dg-column></clr-dg-column>
     <clr-dg-row *ngFor="let detalle of solicitudRepuestoDetalles">
-      <clr-dg-cell>{{detalle.repuesto?.codigo}}</clr-dg-cell>
-      <clr-dg-cell>{{detalle.repuesto?.descripcionArticulo}}</clr-dg-cell>
-      <clr-dg-cell>{{detalle.repuesto?.tipoEquipo?.tipo}}</clr-dg-cell>
-      <clr-dg-cell>{{detalle.repuesto?.modeloEquipo?.marca}}</clr-dg-cell>
-      <clr-dg-cell>{{detalle.repuesto?.modeloEquipo?.modelo}}</clr-dg-cell>
-      <clr-dg-cell>{{detalle.repuesto?.representante?.nombre}}</clr-dg-cell>
-      <clr-dg-cell>{{detalle.repuesto?.precio}}</clr-dg-cell>
-      <clr-dg-cell>{{detalle.cantidadSolicitada}}</clr-dg-cell>
+      <clr-dg-cell class="table-column cod-cant-field">{{detalle.repuesto?.codigo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.descripcionArticulo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.tipoEquipo?.tipo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.modeloEquipo?.marca}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.modeloEquipo?.modelo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.representante?.nombre}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.precio}}</clr-dg-cell>
+      <clr-dg-cell class="table-column cod-cant-field">{{detalle.cantidadSolicitada}}</clr-dg-cell>
       <clr-dg-cell>
         <a class="btn btn-sm btn-warning"
            (click)="eliminarDetalleRepuesto(detalle, true)">

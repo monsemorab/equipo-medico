@@ -1,14 +1,16 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {ApiRequestService} from './api-request.service';
-import {SolicitudRepuesto} from '../domain/solicitud-repuesto';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {EstadoSolicitud, SolicitudRepuesto} from '../domain/solicitud-repuesto';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {ESTADO_EDIT_SOLICITUD} from "../utils/mock-data/constantes";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SolicitudRepuestoService {
 
+  private estadosEditSolicitud = ESTADO_EDIT_SOLICITUD;
   private urlRepuestos = environment.service_uri + '/solicitudrepuestos';
 
 
@@ -19,12 +21,22 @@ export class SolicitudRepuestoService {
   }
 
   /**
+   * Se obtiene la lista de los estados para editar una solicitud de repuesto.
+   * Esta lista no se obtiene de la BD, son datos predefinidos.
+   * @returns {Observable<EstadoSolicitud[]>}
+   */
+  getEstadosEditSolicitud(): Observable<EstadoSolicitud[]> {
+    return of(this.estadosEditSolicitud);
+  }
+
+  /**
    * Se obtiene la lista de todas las solicitudes de repuestos.
    */
   getAllSolicitudRepuestos(): Observable<SolicitudRepuesto[]> {
     return this.apiRequest.get(this.urlRepuestos);
   }
 
+  // TODO: falta metodo del lado backend
   getAllSolicitudRepuestosPendientes(): Observable<SolicitudRepuesto[]> {
     const url = this.urlRepuestos + '/pendientes';
     return this.apiRequest.get(url);

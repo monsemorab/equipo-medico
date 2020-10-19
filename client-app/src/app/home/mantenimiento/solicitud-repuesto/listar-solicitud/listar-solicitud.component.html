@@ -34,22 +34,22 @@
     </div>
 
     <clr-datagrid>
-      <clr-dg-column [clrDgSortBy]="'id'">ID</clr-dg-column>
-      <clr-dg-column>Estado</clr-dg-column>
-      <clr-dg-column>Repuestos</clr-dg-column>
-      <clr-dg-column>Fecha</clr-dg-column>
+      <clr-dg-column class="table-header cod-cant-field" [clrDgSortBy]="'id'">ID</clr-dg-column>
+      <clr-dg-column class="table-header">Estado</clr-dg-column>
+      <clr-dg-column class="table-header" >Repuestos</clr-dg-column>
+      <clr-dg-column class="table-header">Fecha</clr-dg-column>
 
       <clr-dg-row *ngFor="let solicitud of solicitudRepuestos"
                   (click)="selectSolicitudRepuesto(solicitud)"
                   [class.selectRepuesto]="solicitud === selectedRepuesto">
-        <clr-dg-cell>{{solicitud.id}}</clr-dg-cell>
-        <clr-dg-cell>{{solicitud.estado}}</clr-dg-cell>
-        <clr-dg-cell>
-          <ul class="list-unstyled" *ngFor="let repuesto of solicitud.repuestos">
-            <li>{{repuesto.descripcionArticulo}}</li>
+        <clr-dg-cell class="table-column cod-cant-field">>{{solicitud.id}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">{{solicitud.estado}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">
+          <ul class="list-unstyled" *ngFor="let repuesto of solicitud.solicitudRepuestoDetalles">
+            <li>{{repuesto}}</li>
           </ul>
         </clr-dg-cell>
-        <clr-dg-cell>{{solicitud.fechaSolicitud}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">{{solicitud.fechaSolicitud}}</clr-dg-cell>
       </clr-dg-row>
 
       <clr-dg-footer>
