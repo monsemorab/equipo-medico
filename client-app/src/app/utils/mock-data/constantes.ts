@@ -1,7 +1,7 @@
 /** Mock data*/
 
 import {EstadoContrato} from '../../domain/contrato';
-import {EstadoOrdenTrabajo, TipoServicio} from '../../domain/orden-trabajo';
+import {EstadoOrdenTrabajoLista, TipoServicio} from '../../domain/orden-trabajo';
 import {EstadoSolicitud} from "../../domain/solicitud-repuesto";
 
 
@@ -23,7 +23,7 @@ export const ESTADO_EDIT_SOLICITUD: EstadoSolicitud[] = [
   new EstadoSolicitud('Cancelado')
 ];
 
-export const ESTADO_ORDEN_ATENDIDA: EstadoOrdenTrabajo[] = [
-  new EstadoOrdenTrabajo('En Proceso'),
-  new EstadoOrdenTrabajo('Finalizado')
+export const ESTADO_ORDEN_ATENDIDA: EstadoOrdenTrabajoLista[] = [
+  new EstadoOrdenTrabajoLista('En Proceso'),
+  new EstadoOrdenTrabajoLista('Finalizado')
 ];

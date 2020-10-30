@@ -2,6 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {EquipoService} from "../../../service/equipo.service";
 import {Equipo} from "../../../domain/equipo";
 import {Router} from "@angular/router";
+import {ModeloEquipoService} from "../../../service/modelo-equipo.service";
+import {TipoEquipoService} from "../../../service/tipo-equipo.service";
+import {TipoEquipo} from "../../../domain/tipo-equipo";
+import {ModeloEquipo} from "../../../domain/modelo-equipo";
+import {Ubicacion} from "../../../domain/ubicacion";
+import {UbicacionEquipoService} from "../../../service/ubicacion-equipo.service";
+import {ContratoService} from "../../../service/contrato.service";
+import {EstadoContrato} from "../../../domain/contrato";
 
 @Component({
   selector: 'app-lista-equipo',
@@ -26,8 +34,23 @@ export class ListaEquipoComponent implements OnInit {
   total: number;
   equipos: Equipo[];
 
+  // filtro
+  tipos = new Array<TipoEquipo>();
+  modelos = new Array<ModeloEquipo>();
+  ubicaciones = new Array<Ubicacion>();
+  estadosContrato: EstadoContrato[];
+  tipoId: any;
+  modeloId: any;
+  ubicacionId: any;
+  estadoEquipo: string;
+  estadoContrato: string;
+
   constructor(private router: Router,
-              private equipoService: EquipoService) {
+              private equipoService: EquipoService,
+              private modeloEquipoService: ModeloEquipoService,
+              private tipoEquipoService: TipoEquipoService,
+              private ubicacionEquipoService: UbicacionEquipoService,
+              private contratoService: ContratoService) {
   }
 
   ngOnInit() {
@@ -37,21 +60,80 @@ export class ListaEquipoComponent implements OnInit {
     this.numeroSerie = "";
     this.numeroPatrimonial = "";
     this.getAllEquipos();
+    this.getAllTipos();
+    this.getAllModelos();
+    this.getAllUbicaciones();
+    this.getEstadoContratos();
+    this.tipoId = 'Filtrar por Tipo';
+    this.modeloId = 'Filtrar por Marca/Modelo';
+    this.ubicacionId = 'Filtrar por Ubicacion';
+    this.estadoEquipo = "Filtrar por Estado Equipo";
+    this.estadoContrato = 'Filtrar por Estado Contrato';
   }
 
-  filtrarEquipo(): void {
-    this.info = false;
-    this.infoMessage = "";
-    if (this.numeroSerie == "" && this.numeroPatrimonial == "") {
-      this.getAllEquipos();
-    } else {
-      let equipo = new Equipo(null, this.numeroSerie, this.numeroPatrimonial, null, null, null,
-        null, null, null, null, null, null, null,
-        null, null, null, null, null);
-      this.getAllEquiposFiltrados(equipo);
-    }
+  /**
+   * Se obtiene la lista de tipos de equipos.
+   */
+  getAllTipos(): void {
+    this.tipoEquipoService.getAllTipoEquipos().subscribe(
+      tipos => {
+        this.tipos = tipos;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        // this.error = true;
+      }
+    );
   }
 
+  /**
+   * Se obtiene la lista de modelos para los equipos.
+   */
+  getAllModelos(): void {
+    this.modeloEquipoService.getAllModelosEquipos().subscribe(
+      modelos => {
+        this.modelos = modelos;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        // this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Se obtiene la lista de ubicaciones de los equipos.
+   */
+  getAllUbicaciones(): void {
+    this.ubicacionEquipoService.getAllUbicaciones().subscribe(
+      ubicaciones => {
+        this.ubicaciones = ubicaciones;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Se obtiene la lista de los estados para un contrato.
+   */
+  getEstadoContratos(): void {
+    this.contratoService.getEstadosContrato().subscribe(
+      estados => {
+        this.estadosContrato = estados;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.estadosContrato = [];
+      }
+    );
+  }
 
   /**
    * Se obtiene la lista de todos los equipos.
@@ -70,6 +152,35 @@ export class ListaEquipoComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  /**
+   * Se selecciona un estado de la lista
+   * @param value
+   */
+  onSelectedEstado(value: string): void {
+    this.estadoEquipo = value;
+  }
+
+  /**
+   * Se selecciona un estado para el contrato.
+   * @param value
+   */
+  onSelectedEstadoContrado(value: string): void {
+    this.estadoContrato = value;
+  }
+
+  filtrarEquipo(): void {
+    this.info = false;
+    this.infoMessage = "";
+    if (this.tipoId == 'Filtrar por Tipo' && this.modeloId == 'Filtrar por Marca/Modelo' &&
+      this.ubicacionId == 'Filtrar por Ubicacion' && this.estadoEquipo == "Filtrar por Estado Equipo" &&
+      this.estadoContrato == 'Filtrar por Estado Contrato'){
+      this.getAllEquipos();
+    } else {
+      //TODO: ver como enviar los datos para el filtro
+      // this.getAllEquiposFiltrados(equipo);
+    }
   }
 
   getAllEquiposFiltrados(equipo: Equipo): void {
