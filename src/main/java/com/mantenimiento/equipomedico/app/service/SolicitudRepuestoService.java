@@ -40,5 +40,5 @@ public interface SolicitudRepuestoService {
     List<SolicitudRepuesto> getAll();
 
 
-    List<SolicitudRepuesto> getAllSolicitudRepuestosPendientes();
+    List<SolicitudRepuesto> getAllRepuestosByEstado(String estado);
 }

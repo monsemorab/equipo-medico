@@ -70,8 +70,8 @@ public class SolicitudRepuestoServiceImpl implements SolicitudRepuestoService {
     }
 
     @Override
-    public List<SolicitudRepuesto> getAllSolicitudRepuestosPendientes()
+    public List<SolicitudRepuesto> getAllRepuestosByEstado(String estado)
     {
-        return solicitudRepuestoRepository.findAllByEstadoEquals("PENDIENTE");
+        return solicitudRepuestoRepository.findAllByEstadoEquals(estado);
     }
 }
