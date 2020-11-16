@@ -1,6 +1,7 @@
 package com.mantenimiento.equipomedico.app.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mantenimiento.equipomedico.app.entidad.Contrato;
 import com.mantenimiento.equipomedico.app.entidad.Equipo;
@@ -64,4 +65,6 @@ public interface EquipoService
 	List<Equipo> getEquiposByNumeroPatrimonialContains(String numeroPatrimonial);
 
 	List<Equipo> getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(String numeroSerie, String numeroPatrimonial);
+
+	List<Equipo> getEquiposByFilter(Map<String, String> customQuery);
 }

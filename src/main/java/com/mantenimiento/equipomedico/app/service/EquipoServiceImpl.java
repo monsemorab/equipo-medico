@@ -1,13 +1,14 @@
 package com.mantenimiento.equipomedico.app.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import com.mantenimiento.equipomedico.app.entidad.Equipo;
 import com.mantenimiento.equipomedico.app.repository.EquipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EquipoServiceImpl implements EquipoService
@@ -113,6 +114,41 @@ public class EquipoServiceImpl implements EquipoService
 	{
 		return equipoRepository.getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(
 			numeroSerie, numeroPatrimonial);
+	}
+
+	@Override
+	public List<Equipo> getEquiposByFilter(
+		Map<String, String> customQuery)
+	{
+		String tipo = null;
+		String marca = null;
+		String modelo = null;
+		String servicio = null;
+		String estadoEquipo = null;
+		String estadoContrato = null;
+		if(customQuery.containsKey("tipo")) {
+			customQuery.get("tipo");
+		}
+		if(customQuery.containsKey("tipo")) {
+			tipo = customQuery.get("tipo");
+		}
+		if(customQuery.containsKey("marca")) {
+			marca = customQuery.get("marca");
+		}
+		if(customQuery.containsKey("modelo")) {
+			modelo = customQuery.get("modelo");
+		}
+		if(customQuery.containsKey("servicio")) {
+			servicio = customQuery.get("servicio");
+		}
+		if(customQuery.containsKey("estadoEquipo")) {
+			estadoEquipo = customQuery.get("estadoEquipo");
+		}
+		if(customQuery.containsKey("estadoContrato")) {
+			estadoContrato = customQuery.get("estadoContrato");
+		}
+
+		return equipoRepository.getEquiposByFilter(tipo, marca, modelo, servicio, estadoEquipo, estadoContrato);
 	}
 
 }

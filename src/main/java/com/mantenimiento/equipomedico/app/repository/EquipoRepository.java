@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EquipoRepository extends CrudRepository<Equipo, Long> {
+public interface EquipoRepository extends CrudRepository<Equipo, Long> , EquipoRepositoryCustom{
 
     List<Equipo> findAllByContratoIsNull();
 
@@ -22,4 +22,5 @@ public interface EquipoRepository extends CrudRepository<Equipo, Long> {
     List<Equipo> getEquiposByNumeroPatrimonialContains(String numeroSerie);
 
     List<Equipo> getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(String numeroSerie, String numeroPatrimonial);
+
 }

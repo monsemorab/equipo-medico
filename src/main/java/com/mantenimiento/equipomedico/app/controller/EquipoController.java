@@ -3,6 +3,7 @@ package com.mantenimiento.equipomedico.app.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.mantenimiento.equipomedico.app.entidad.Equipo;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -163,5 +165,12 @@ public class EquipoController
 			equipo.getNumeroSerie(), equipo.getNumeroPatrimonial());
 	}
 
+	@RequestMapping(value = "/by-filter",
+		method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Equipo> getByFilter(
+		@RequestParam Map<String, String> customQuery)
+	{
+		return equipoService.getEquiposByFilter(customQuery);
+	}
 
 }
