@@ -2,6 +2,7 @@ package com.mantenimiento.equipomedico.app.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.mantenimiento.equipomedico.app.entidad.Repuesto;
@@ -75,5 +76,31 @@ public class RepuestoServiceImpl implements RepuestoService
 	public Repuesto getByCodigo(String codigo)
 	{
 		return repuestoRepository.getRepuestoByCodigo(codigo);
+	}
+
+	@Override
+	public List<Repuesto> getRepuestosByFilter(
+		Map<String, String> customQuery)
+	{
+		String codigo = null;
+		String tipo = null;
+		String marca = null;
+		String modelo = null;
+		if(customQuery.containsKey("codigo")) {
+			codigo = customQuery.get("codigo");
+		}
+		if(customQuery.containsKey("tipo")) {
+			customQuery.get("tipo");
+		}
+		if(customQuery.containsKey("tipo")) {
+			tipo = customQuery.get("tipo");
+		}
+		if(customQuery.containsKey("marca")) {
+			marca = customQuery.get("marca");
+		}
+		if(customQuery.containsKey("modelo")) {
+			modelo = customQuery.get("modelo");
+		}
+		return repuestoRepository.getRepuestoByFilter(codigo, tipo, marca, modelo);
 	}
 }

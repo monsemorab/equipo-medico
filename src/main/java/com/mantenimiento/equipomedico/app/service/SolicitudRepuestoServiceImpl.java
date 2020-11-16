@@ -1,6 +1,5 @@
 package com.mantenimiento.equipomedico.app.service;
 
-import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuesto;
 import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuestoDetalles;
 import com.mantenimiento.equipomedico.app.repository.SolicitudRepuestoDetallesRepository;
@@ -68,5 +67,11 @@ public class SolicitudRepuestoServiceImpl implements SolicitudRepuestoService {
     @Override
     public List<SolicitudRepuesto> getAll() {
         return (ArrayList<SolicitudRepuesto>)solicitudRepuestoRepository.findAll();
+    }
+
+    @Override
+    public List<SolicitudRepuesto> getAllSolicitudRepuestosPendientes()
+    {
+        return solicitudRepuestoRepository.findAllByEstadoEquals("PENDIENTE");
     }
 }

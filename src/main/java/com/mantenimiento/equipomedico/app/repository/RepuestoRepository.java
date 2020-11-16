@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RepuestoRepository extends CrudRepository<Repuesto, Long> {
+public interface RepuestoRepository extends CrudRepository<Repuesto, Long>, RepuestoRepositoryCustom {
 
 	Repuesto getRepuestoByCodigo(String codigo);
 

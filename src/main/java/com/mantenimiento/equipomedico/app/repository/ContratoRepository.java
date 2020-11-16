@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ContratoRepository extends CrudRepository<Contrato, Long> {
+public interface ContratoRepository extends CrudRepository<Contrato, Long>, ContratoRepositoryCustom {
 
 	Contrato getContratoByNumeroContrato(String numeroContrato);
 	List<Contrato> getAllByNumeroContratoContains(String numeroContrato);

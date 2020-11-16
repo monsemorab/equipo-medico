@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -84,5 +85,12 @@ public class ContratoController {
         return (List<Contrato>)contratoService.getAllByNumeroContratoContains(nroContrato);
     }
 
+    @RequestMapping(value = "/by-filter",
+        method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Contrato> getByFilter(
+        @RequestParam Map<String, String> customQuery)
+    {
+        return contratoService.getContratosByFilter(customQuery);
+    }
 
 }

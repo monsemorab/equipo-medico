@@ -4,6 +4,7 @@ import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface RepuestoService {
@@ -46,4 +47,6 @@ public interface RepuestoService {
      * @return
      */
     Repuesto getByCodigo(String codigo);
+
+    List<Repuesto> getRepuestosByFilter(Map<String, String> customQuery);
 }

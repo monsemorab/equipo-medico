@@ -1,9 +1,11 @@
 package com.mantenimiento.equipomedico.app.service;
 
 import com.mantenimiento.equipomedico.app.entidad.Contrato;
+import com.mantenimiento.equipomedico.app.entidad.Equipo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface ContratoService {
@@ -32,5 +34,7 @@ public interface ContratoService {
     List<Contrato> getAll();
 
     List<Contrato> getAllByNumeroContratoContains(String numeroContrato);
+
+    List<Contrato> getContratosByFilter(Map<String, String> customQuery);
 
 }

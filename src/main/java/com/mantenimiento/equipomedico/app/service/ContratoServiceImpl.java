@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -71,5 +72,27 @@ public class ContratoServiceImpl implements ContratoService {
     public List<Contrato> getAllByNumeroContratoContains(String numeroContrato)
     {
         return contratoRepository.getAllByNumeroContratoContains(numeroContrato);
+    }
+
+    @Override
+    public List<Contrato> getContratosByFilter(
+        Map<String, String> customQuery)
+    {
+        String numeroContrato = null;
+        String tipoProcedimiento = null;
+        String estadoContrato = null;
+        if(customQuery.containsKey("tipo")) {
+            customQuery.get("tipo");
+        }
+        if(customQuery.containsKey("numeroContrato")) {
+            numeroContrato = customQuery.get("numeroContrato");
+        }
+        if(customQuery.containsKey("tipoProcedimiento")) {
+            tipoProcedimiento = customQuery.get("tipoProcedimiento");
+        }
+        if(customQuery.containsKey("estadoContrato")) {
+            estadoContrato = customQuery.get("estadoContrato");
+        }
+        return contratoRepository.getContratoByFilter(numeroContrato, tipoProcedimiento,estadoContrato);
     }
 }

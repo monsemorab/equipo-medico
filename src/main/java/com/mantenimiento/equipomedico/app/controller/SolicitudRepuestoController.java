@@ -83,4 +83,14 @@ public class SolicitudRepuestoController {
     }
 
 
+    /**
+     * Obtiene la lista de solicitudes de repuesto pendientes.
+     *
+     * @return solicitudes lista de solicitudes de repuesto.
+     */
+    @RequestMapping(value = "/pendientes",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<SolicitudRepuesto> getAllRepuestosPendientes() {
+        return solicitudRepuestoService.getAllSolicitudRepuestosPendientes();
+    }
+
 }
