@@ -34,7 +34,7 @@
     </div>
 
     <clr-datagrid>
-      <clr-dg-column class="table-header cod-cant-field" [clrDgSortBy]="'id'">ID</clr-dg-column>
+      <clr-dg-column class="table-header cod-cant-field">ID</clr-dg-column>
       <clr-dg-column class="table-header">Estado</clr-dg-column>
       <clr-dg-column class="table-header" >Repuestos</clr-dg-column>
       <clr-dg-column class="table-header">Fecha</clr-dg-column>
@@ -42,11 +42,13 @@
       <clr-dg-row *ngFor="let solicitud of solicitudRepuestos"
                   (click)="selectSolicitudRepuesto(solicitud)"
                   [class.selectRepuesto]="solicitud === selectedRepuesto">
-        <clr-dg-cell class="table-column cod-cant-field">>{{solicitud.id}}</clr-dg-cell>
+        <clr-dg-cell class="table-column cod-cant-field">{{solicitud.id}}</clr-dg-cell>
         <clr-dg-cell class="table-column">{{solicitud.estado}}</clr-dg-cell>
         <clr-dg-cell class="table-column">
-          <ul class="list-unstyled" *ngFor="let repuesto of solicitud.solicitudRepuestoDetalles">
-            <li>{{repuesto}}</li>
+          <ul class="list-unstyled" *ngFor="let detalle of solicitud.solicitudRepuestoDetalles">
+            <li>{{detalle.repuesto.codigo}} {{detalle.repuesto.descripcionArticulo}}
+              {{detalle.repuesto.tipoEquipo?.tipo}} {{detalle.repuesto.modeloEquipo?.modelo}}
+              {{detalle.repuesto.modeloEquipo?.marca}}</li>
           </ul>
         </clr-dg-cell>
         <clr-dg-cell class="table-column">{{solicitud.fechaSolicitud}}</clr-dg-cell>

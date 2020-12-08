@@ -4,7 +4,6 @@ import {Equipo} from '../../../domain/equipo';
 import {EquipoService} from '../../../service/equipo.service';
 import {ContratoService} from '../../../service/contrato.service';
 import {Router} from '@angular/router';
-import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-add-contrato',
@@ -64,7 +63,7 @@ export class AddContratoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.equipos = [];
       }
     );
@@ -80,7 +79,7 @@ export class AddContratoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.estadosContrato = [];
       }
     );
@@ -115,7 +114,7 @@ export class AddContratoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.selectedEquipo = null;
       }
     );
@@ -127,7 +126,7 @@ export class AddContratoComponent implements OnInit {
   addEquipo(): void {
     this.selectedEquipos.push(this.selectedEquipo);
     for (let i = 0; i < this.equipos.length; i++) {
-      if (this.selectedEquipo == this.equipos[i]) {
+      if (this.selectedEquipo === this.equipos[i]) {
         this.equipos.splice(i, 1);
       }
     }
@@ -165,13 +164,13 @@ export class AddContratoComponent implements OnInit {
    */
   onSaveContrato(): void {
     if (typeof this.fechaInicio === 'string' || this.fechaInicio instanceof String) {
-      let parts = this.fechaInicio.split('/');
-      this.fechaInicio = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      const parts = this.fechaInicio.split('-');
+      this.fechaInicio = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     if (typeof this.fechaFin === 'string' || this.fechaFin instanceof String) {
-      let parts = this.fechaFin.split('/');
-      this.fechaFin = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      const parts = this.fechaFin.split('-');
+      this.fechaFin = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion,
@@ -194,7 +193,7 @@ export class AddContratoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );

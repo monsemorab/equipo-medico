@@ -92,10 +92,9 @@
             <label class="form-edit-equipo-label">Fecha Compra:</label>
           </div>
           <div class="col-xs-5">
-            <clr-date-container>
-              <input type="date" clrDate name="fechaCompra" [(ngModel)]="fechaCompra"
-                     min="2000-01-01" max="2030-12-31" tabindex="6">
-            </clr-date-container>
+            <input type="date" name="fechaCompra" [(ngModel)]="fechaCompra"
+                   min="1990-01-01" max="2050-12-31" tabindex="6">
+
           </div>
         </div>
 
@@ -104,10 +103,8 @@
             <label class="form-edit-equipo-label">Vto. Garantia:</label>
           </div>
           <div class="col-xs-5">
-            <clr-date-container>
-              <input type="date" clrDate name="fechaVenGarantia" [(ngModel)]="fechaVenGarantia"
-                     min="2000-01-01" max="2030-12-31" tabindex="8">
-            </clr-date-container>
+            <input type="date" name="fechaVenGarantia" [(ngModel)]="fechaVenGarantia"
+                   min="1990-01-01" max="2050-12-31" tabindex="8">
           </div>
         </div>
 
@@ -116,11 +113,8 @@
             <label class="form-edit-equipo-label">Puesta en Marcha:</label>
           </div>
           <div class="col-xs-5">
-            <clr-date-container>
-              <input type="date" clrDate name="fechaInstalacion" [(ngModel)]="fechaInstalacion"
-                     min="2000-01-01" max="2030-12-31" tabindex="8">
-            </clr-date-container>
-
+            <input type="date" name="fechaInstalacion" [(ngModel)]="fechaInstalacion"
+                   min="1990-01-01" max="2050-12-31" tabindex="8">
           </div>
         </div>
 

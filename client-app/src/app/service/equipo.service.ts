@@ -49,21 +49,25 @@ export class EquipoService {
   getEquipoByParams(params: ParamsBusquedaEquipo): Observable<Equipo> {
     let url = this.urlEquipos;
     let param = '';
-    if(params.numeroSerie != '' && params.numeroPatrimonial == '') {
+    if(params.numeroSerie !== '' && params.numeroPatrimonial === '') {
       param = params.numeroSerie;
       url = url + 'by-numero-serie/' + param;
-    } else if(params.numeroSerie == '' && params.numeroPatrimonial != '') {
+    } else if(params.numeroSerie === '' && params.numeroPatrimonial !== '') {
       param = params.numeroPatrimonial;
       url = url + 'by-numero/patrimonial/' + param;
     } else {
-      url = url + 'by-numero-serie/by-numero/patrimonial/' + params.numeroSerie +'/' + params.numeroPatrimonial;
+      url = url + 'by-numero-serie/by-numero/patrimonial/' + params.numeroSerie + '/' + params.numeroPatrimonial;
     }
     return this.apiRequest.get(url);
   }
 
-  getEquiposFiltrados(equipo: Equipo): Observable<Equipo[]> {
-    const url = this.urlEquipos + 'filtro/';
-    return this.apiRequest.post(url, equipo);
+  /**
+   * Se obtiene la lista de equipos filtrados
+   * @param filtro
+   */
+  getEquiposFiltrados(filtro: string): Observable<Equipo[]> {
+    const url = this.urlEquipos + 'by-filter?' + filtro;
+    return this.apiRequest.get(url);
   }
 
   /**

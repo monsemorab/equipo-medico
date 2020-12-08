@@ -23,40 +23,106 @@
 
   <clr-datagrid [clrDgLoading]="loading">
     <clr-dg-action-bar>
-      <div class="clr-row clr-col-12">
-        <div class="clr-col-6">
-          <div class="clr-form-control clr-row">
-            <a class="btn btn-sm btn-success"
-               (click)="goNewRepuestoForm()">
-              <clr-icon shape="plus"></clr-icon>
-              Crear
-            </a>
-            <a class="btn btn-sm btn-success"
-               *ngIf="repuestoSeleccionado != null"
-               (click)="editRepuesto()">
-              <clr-icon shape="pencil"></clr-icon>
-              Editar
-            </a>
+      <div class="clr-row clr-justify-content-start clr-col-12">
+        <div class="clr-col-4">
+          <div class="form-group row flex-items-xs-center">
+            <div class="col-3">
+              <label class="form-filter-label">Tipo:</label>
+            </div>
+            <div class="col-4">
+              <div class="select form-control">
+                <select class="select-form-repuesto" id="selectTipo" #selectedTipo name="selectTipo"
+                        [(ngModel)]="tipoId">
+                  <option>Filtrar por Tipo</option>
+                  <option *ngFor="let tipo of tipos"
+                          value={{tipo.id}}>{{tipo.tipo}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clr-col-4">
+          <div class="form-group row flex-items-xs-center">
+            <div class="col-3">
+              <label class="form-filter-label">Marca/Modelo:</label>
+            </div>
+            <div class="col-4">
+              <div class="select form-control">
+                <select class="select-form-repuesto" id="selectModelo" #selectedModelo
+                        name="selectModelo" [(ngModel)]="modeloId">
+                  <option>Filtrar por Marca/Modelo</option>
+                  <option *ngFor="let modelo of modelos"
+                          value={{modelo.id}}>{{modelo.marca}}/{{modelo.modelo}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clr-col-2">
+          <a class="btn btn-sm btn-primary" (click)="filtrarRepuesto()">
+            <clr-icon shape="search"></clr-icon>
+          </a>
+        </div>
+        <div class="clr-row clr-col-12">
+          <div class="clr-col-4">
+            <div class="form-group row flex-items-xs-center">
+              <div class="col-3">
+                <label class="form-filter-label">Estado Equipo:</label>
+              </div>
+              <div class="col-4">
+                <div class="select form-control">
+                  <select class="select-form-equipo" id="estadoEquipo" #selectedEstadoEquipo
+                          name="estadoEquipo" [(ngModel)]="estadoEquipo"
+                          (change)="onSelectedEstadoEquipo(selectedEstadoEquipo.value)">
+                    <option disabled>Filtrar por Estado Equipo</option>
+                    <option>Operativo</option>
+                    <option>Inoperativo</option>
+                    <option>Irreparable</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="clr-col-4">
+          </div>
+        </div>
+        <div class="clr-row clr-col-12">
+          <div class="clr-col-6">
+            <div class="clr-form-control clr-row">
+              <a class="btn btn-sm btn-success"
+                 (click)="goNewRepuestoForm()">
+                <clr-icon shape="plus"></clr-icon>
+                Crear
+              </a>
+              <a class="btn btn-sm btn-success"
+                 *ngIf="repuestoSeleccionado != null"
+                 (click)="editRepuesto()">
+                <clr-icon shape="pencil"></clr-icon>
+                Editar
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </clr-dg-action-bar>
-    <clr-dg-column class="table-header cod-cant-field">Código</clr-dg-column>
+    <clr-dg-column class="table-header">Código</clr-dg-column>
     <clr-dg-column class="table-header">Descripción</clr-dg-column>
     <clr-dg-column class="table-header">Precio</clr-dg-column>
     <clr-dg-column class="table-header">Cantidad Adquirida</clr-dg-column>
-    <clr-dg-column class="table-header cod-cant-field">Stock</clr-dg-column>
+    <clr-dg-column class="table-header">Stock</clr-dg-column>
     <clr-dg-column class="table-header">Tipo</clr-dg-column>
     <clr-dg-column class="table-header">Marca</clr-dg-column>
     <clr-dg-column class="table-header">Modelo</clr-dg-column>
     <clr-dg-column class="table-header">Representante</clr-dg-column>
     <clr-dg-row *ngFor="let repuesto of repuestos" (click)="selectRepuesto(repuesto)"
                 [class.selectRepeusto]="repuesto === repuestoSeleccionado">
-      <clr-dg-cell class="table-column cod-cant-field">{{repuesto?.codigo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto?.codigo}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{repuesto?.descripcionArticulo}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{repuesto?.precio}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{repuesto?.cantidadAdquirida}}</clr-dg-cell>
-      <clr-dg-cell class="table-column cod-cant-field">{{repuesto?.cantidadExistente}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto?.cantidadExistente}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{repuesto?.tipoEquipo?.tipo}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{repuesto?.modeloEquipo?.marca}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{repuesto?.modeloEquipo?.modelo}}</clr-dg-cell>
@@ -69,5 +135,4 @@
     </clr-dg-footer>
   </clr-datagrid>
 </form>
-
 

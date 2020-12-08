@@ -38,24 +38,50 @@
 
   <clr-datagrid [clrDgLoading]="loading">
     <clr-dg-action-bar>
-      <div class="clr-row clr-col-12">
-        <div class="clr-col-6">
-          <div class="clr-form-control clr-row">
-            <label for="nroContrato" class="clr-control-label clr-col-auto">Nro. Contrato:</label>
-            <div class="clr-control-container clr-col-12 clr-col-md-5">
-              <div class="clr-input-wrapper">
-                <input id="nroContrato" class="clr-input"
-                       name="nroContrato" [(ngModel)]="numeroContrato">
+      <div class="clr-row clr-justify-content-start clr-col-12">
+        <div class="clr-col-5">
+          <div class="form-group row">
+            <div class="col-4">
+              <label class="form-filter-label">Estado Contrato:</label>
+            </div>
+            <div class="col-4">
+              <div class="select form-control">
+                <select class="select-form-equipo" id="estadoContrato" #selectEstadoContrato name="estadoContrato"
+                        [(ngModel)]="estadoContrato"
+                        (change)="onSelectedEstadoContrado(selectEstadoContrato.value)">
+                  <option>Filtrar por Estado Contrato</option>
+                  <option *ngFor="let estado of estadosContrato"
+                          value={{estado.nombre}}>{{estado.nombre}}
+                  </option>
+                </select>
               </div>
             </div>
-            <div class="clr-control-container clr-col-12 clr-col-md-2">
-              <a class="btn btn-sm btn-primary" (click)="filtrarContrato()">
-                <clr-icon shape="search"></clr-icon>
-              </a>
+          </div>
+          <div class="form-group row">
+            <div class="col-4">
+              <label class="form-filter-label">Tipo Procedimiento:</label>
+            </div>
+            <div class="col-4">
+              <input class="form-control" id="tipoProc"
+                     name="tipo" [(ngModel)]="tipoProcedimiento">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-4">
+              <label class="form-filter-label" for="nroContrato">Nro. Contrato:</label>
+            </div>
+            <div class="col-4">
+              <input class="form-control" id="nroContrato"
+                     name="nroContrato" [(ngModel)]="numeroContrato">
             </div>
           </div>
         </div>
-        <div class="clr-col-6">
+        <div class="clr-col-2">
+          <a class="btn btn-sm btn-primary" (click)="filtrarContrato()">
+            <clr-icon shape="search"></clr-icon>
+          </a>
+        </div>
+        <div class="clr-col-12">
           <div class="clr-form-control clr-row">
             <a class="btn btn-sm btn-success"
                (click)="goNewContratoForm()">
@@ -72,29 +98,29 @@
         </div>
       </div>
     </clr-dg-action-bar>
-    <clr-dg-column [clrDgSortBy]="'id'">ID</clr-dg-column>
-    <clr-dg-column [clrDgSortBy]="'numeroContrato'">Nro. Contrato</clr-dg-column>
-    <clr-dg-column>Nombre Licitación</clr-dg-column>
-    <clr-dg-column>Tipo</clr-dg-column>
-    <clr-dg-column>Estado</clr-dg-column>
-    <clr-dg-column>Equipos</clr-dg-column>
-    <clr-dg-column>Inicio</clr-dg-column>
-    <clr-dg-column>Finalización</clr-dg-column>
+    <clr-dg-column class="table-header">ID</clr-dg-column>
+    <clr-dg-column class="table-header">Nro. Contrato</clr-dg-column>
+    <clr-dg-column class="table-header">Nombre Licitación</clr-dg-column>
+    <clr-dg-column class="table-header">Tipo</clr-dg-column>
+    <clr-dg-column class="table-header">Estado</clr-dg-column>
+    <clr-dg-column class="table-header">Equipos</clr-dg-column>
+    <clr-dg-column class="table-header">Inicio</clr-dg-column>
+    <clr-dg-column class="table-header">Finalización</clr-dg-column>
 
     <clr-dg-row *ngFor="let contrato of contratos" (click)="selectContrato(contrato)"
                 [class.selectContrato]="contrato === selectedContrato">
-      <clr-dg-cell>{{contrato.id}}</clr-dg-cell>
-      <clr-dg-cell>{{contrato.numeroContrato}}</clr-dg-cell>
-      <clr-dg-cell>{{contrato.nombreLicitacion}}</clr-dg-cell>
-      <clr-dg-cell>{{contrato.tipoProcedimiento}}</clr-dg-cell>
-      <clr-dg-cell>{{contrato.estadoContrato}}</clr-dg-cell>
-      <clr-dg-cell>
+      <clr-dg-cell class="table-column">{{contrato.id}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{contrato.numeroContrato}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{contrato.nombreLicitacion}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{contrato.tipoProcedimiento}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{contrato.estadoContrato}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">
         <ul class="list-unstyled" *ngFor="let equipo of contrato.equipos">
           <li>{{equipo.numeroSerie}}-{{equipo.descripcionEquipo}}</li>
         </ul>
       </clr-dg-cell>
-      <clr-dg-cell>{{contrato.fechaInicio}}</clr-dg-cell>
-      <clr-dg-cell>{{contrato.fechaFin}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{contrato.fechaInicio}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{contrato.fechaFin}}</clr-dg-cell>
     </clr-dg-row>
 
     <clr-dg-footer>
@@ -103,5 +129,4 @@
     </clr-dg-footer>
   </clr-datagrid>
 </form>
-
 

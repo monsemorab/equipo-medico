@@ -46,7 +46,7 @@
             <div class="col-4">
               <div class="select form-control">
                 <select class="select-form-equipo" id="selectTipo" #selectedTipo name="selectTipo"
-                        [(ngModel)]="tipoId">
+                        [(ngModel)]="tipoId" (change)="onSelectedTipo(selectedTipo.value)">
                   <option>Filtrar por Tipo</option>
                   <option *ngFor="let tipo of tipos"
                           value={{tipo.id}}>{{tipo.tipo}}
@@ -62,7 +62,8 @@
             <div class="col-4">
               <div class="select form-control">
                 <select class="select-form-equipo" id="selectModelo" #selectedModelo
-                        name="selectModelo" [(ngModel)]="modeloId">
+                        name="selectModelo" [(ngModel)]="modeloId"
+                        (change)="onSelectedMarcaModelo(selectedModelo.value)">
                   <option>Filtrar por Marca/Modelo</option>
                   <option *ngFor="let modelo of modelos"
                           value={{modelo.id}}>{{modelo.marca}}/{{modelo.modelo}}
@@ -78,7 +79,8 @@
             <div class="col-4">
               <div class="select form-control">
                 <select class="select-form-equipo" id="selectUbi" #selectedUbi name="selectUbi"
-                        [(ngModel)]="ubicacionId">
+                        [(ngModel)]="ubicacionId"
+                        (change)="onSelectedUbicacion(selectedUbi.value)">
                   <option>Filtrar por Ubicacion</option>
                   <option *ngFor="let ubicacion of ubicaciones"
                           value={{ubicacion.id}}>{{ubicacion.servicio}}
@@ -174,4 +176,3 @@
     </clr-dg-footer>
   </clr-datagrid>
 </form>
-

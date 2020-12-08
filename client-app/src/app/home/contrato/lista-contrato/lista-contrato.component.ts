@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Contrato} from '../../../domain/contrato';
+import {Contrato, EstadoContrato} from '../../../domain/contrato';
 import {Router} from '@angular/router';
 import {ContratoService} from '../../../service/contrato.service';
-import {DatePipe} from "@angular/common";
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-lista-contrato',
@@ -26,6 +26,12 @@ export class ListaContratoComponent implements OnInit {
   total: number;
   contratos: Contrato[];
 
+  // filtro
+  estadosContrato: EstadoContrato[];
+  estadoContrato: string;
+  selectedEstado: string;
+  tipoProcedimiento: string;
+
   constructor(private router: Router,
               private contratoService: ContratoService) {
   }
@@ -34,8 +40,11 @@ export class ListaContratoComponent implements OnInit {
     this.info = false;
     this.error = false;
     this.selectedContrato = null;
-    this.numeroContrato = "";
+    this.numeroContrato = '';
+    this.tipoProcedimiento = '';
+    this.estadoContrato = 'Filtrar por Estado Contrato';
     this.getAllContratos();
+    this.getEstadoContratos();
   }
 
   getAllContratos(): void {
@@ -47,41 +56,88 @@ export class ListaContratoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.contratos = [];
         this.loading = false;
       }
     );
   }
 
+  /**
+   * Se obtiene la lista de los estados para un contrato.
+   */
+  getEstadoContratos(): void {
+    this.contratoService.getEstadosContrato().subscribe(
+      estados => {
+        this.estadosContrato = estados;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
+        this.estadosContrato = [];
+      }
+    );
+  }
+
+  /**
+   * Se selecciona un estado para el contrato.
+   * @param value
+   */
+  onSelectedEstadoContrado(value: string): void {
+    this.estadoContrato = value;
+    this.selectedEstado = '';
+    this.selectedEstado = 'estadoContrato=' + value;
+  }
+
   filtrarContrato(): void {
     this.info = false;
-    this.infoMessage = "";
-    if (this.numeroContrato != "") {
-      this.filtrarContratoPorNroContrato(this.numeroContrato);
-    } else {
+    this.infoMessage = '';
+    if (this.estadoContrato === 'Filtrar por Estado Contrato' && this.tipoProcedimiento === '' && this.numeroContrato === '') {
       this.getAllContratos();
+    } else {
+      let filtros = '';
+      if (this.selectedEstado !==  '' ) {
+        if (filtros === '') {
+          filtros = this.selectedEstado;
+        } else {
+          filtros = filtros  + '&' + this.selectedEstado;
+        }
+      }
+      if (this.numeroContrato !== '' ) {
+        if (filtros === '' ) {
+          filtros = 'numeroContrato=' + this.numeroContrato;
+        } else {
+          filtros = filtros  + '&numeroContrato=' + this.numeroContrato;
+        }
+      }
+      if (this.tipoProcedimiento !== '') {
+        if (filtros === '') {
+          filtros = 'tipoProcedimiento=' + this.tipoProcedimiento;
+        } else {
+          filtros = filtros  + '&tipoProcedimiento=' + this.tipoProcedimiento;
+        }
+      }
+      this.getAllContratosFiltrados(filtros);
     }
   }
 
   /**
-   * Se obtienen los contratos que coincidad con el nro de contrato introducido
-   * @param numeroContrato
+   * Se obtienen los contratos que coincida con el filtro ingresado
    */
-  filtrarContratoPorNroContrato(numeroContrato: string): void {
-    this.contratoService.getContratoByNroContrato(numeroContrato).subscribe(
+  getAllContratosFiltrados(filtro: string): void {
+    this.contratoService.getContratosFiltrados(filtro).subscribe(
       list => {
         this.contratos = list;
         this.formateoFechas();
         this.total = list.length;
-        if (this.total == 0) {
+        if (this.total === 0) {
           this.info = true;
-          this.infoMessage = "No se encontraron registros para esta busqueda.";
+          this.infoMessage = 'No se encontraron registros para esta busqueda.';
         }
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.contratos = [];
         this.loading = false;
       }
@@ -109,7 +165,7 @@ export class ListaContratoComponent implements OnInit {
    * @param {Contrato} contrato
    */
   selectContrato(contrato: Contrato): void {
-    if(this.selectedContrato!= null && this.selectedContrato.id == contrato.id) {
+    if (this.selectedContrato != null && this.selectedContrato.id === contrato.id) {
       this.selectedContrato = null;
     } else {
       this.selectedContrato = contrato;

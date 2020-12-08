@@ -182,9 +182,9 @@ export class EditEquipoComponent implements OnInit {
     this.descripcionEquipo = equipo.descripcionEquipo;
     this.costo = equipo.costo;
     this.fechaFabricacion = equipo.fechaFabricacion;
-    this.fechaVenGarantia = datepipe.transform(equipo.fechaVenGarantia, 'MM/dd/yyyy');
-    this.fechaInstalacion = datepipe.transform(equipo.fechaInstalacion, 'MM/dd/yyyy');
-    this.fechaCompra  = datepipe.transform(equipo.fechaCompra, 'MM/dd/yyyy');
+    this.fechaVenGarantia = datepipe.transform(equipo.fechaVenGarantia, 'yyyy-MM-dd');
+    this.fechaInstalacion = datepipe.transform(equipo.fechaInstalacion, 'yyyy-MM-dd');
+    this.fechaCompra  = datepipe.transform(equipo.fechaCompra, 'yyyy-MM-dd');
     this.tipoSeleccionado = equipo.tipoEquipo;
     this.tipoId = equipo.tipoEquipo.id;
     this.modeloSeleccionado = equipo.modeloEquipo;
@@ -386,18 +386,18 @@ export class EditEquipoComponent implements OnInit {
    */
   onSaveEquipo(): void {
     if (typeof this.fechaVenGarantia === 'string' || this.fechaVenGarantia instanceof String) {
-      let parts = this.fechaVenGarantia.split('/');
-      this.fechaVenGarantia = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      let parts = this.fechaVenGarantia.split('-');
+      this.fechaVenGarantia = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     if (typeof this.fechaInstalacion === 'string' || this.fechaInstalacion instanceof String) {
-      let parts = this.fechaInstalacion.split('/');
-      this.fechaInstalacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      let parts = this.fechaInstalacion.split('-');
+      this.fechaInstalacion = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     if (typeof this.fechaCompra === 'string' || this.fechaCompra instanceof String) {
-      let parts = this.fechaCompra.split('/');
-      this.fechaCompra = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      let parts = this.fechaCompra.split('-');
+      this.fechaCompra = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     this.equipo = new Equipo(this.equipoId, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,

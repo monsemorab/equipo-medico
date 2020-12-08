@@ -5,7 +5,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {ContratoService} from '../../../service/contrato.service';
 import {EquipoService} from '../../../service/equipo.service';
 import {switchMap} from 'rxjs/operators';
-import {DatePipe} from "@angular/common";
+import {DatePipe} from '@angular/common';
 
 
 @Component({
@@ -65,7 +65,7 @@ export class EditContratoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       });
   }
@@ -80,7 +80,7 @@ export class EditContratoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.equipos = [];
       }
     );
@@ -96,7 +96,7 @@ export class EditContratoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.estadosContrato = [];
       }
     );
@@ -117,8 +117,8 @@ export class EditContratoComponent implements OnInit {
     this.estadoContrato = contrato.estadoContrato;
     this.convocante = contrato.convocante;
     this.pdf = contrato.pdf;
-    this.fechaInicio = datepipe.transform(contrato.fechaInicio, 'MM/dd/yyyy');
-    this.fechaFin = datepipe.transform(contrato.fechaFin, 'MM/dd/yyyy');
+    this.fechaInicio = datepipe.transform(contrato.fechaInicio, 'yyyy-MM-dd');
+    this.fechaFin = datepipe.transform(contrato.fechaFin, 'yyyy-MM-dd');
     this.selectedEquipos = contrato.equipos;
   }
 
@@ -150,7 +150,7 @@ export class EditContratoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.selectedEquipo = null;
       }
     );
@@ -200,13 +200,13 @@ export class EditContratoComponent implements OnInit {
   onSaveContrato(): void {
 
     if (typeof this.fechaInicio === 'string' || this.fechaInicio instanceof String) {
-      let parts = this.fechaInicio.split('/');
-      this.fechaInicio = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      const parts = this.fechaInicio.split('-');
+      this.fechaInicio = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     if (typeof this.fechaFin === 'string' || this.fechaFin instanceof String) {
-      let parts = this.fechaFin.split('/');
-      this.fechaFin = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      const parts = this.fechaFin.split('-');
+      this.fechaFin = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion, this.tipoProcedimiento,
       this.numeroProcedimiento, this.estadoContrato, this.convocante, this.pdf, this.selectedEquipos, this.fechaInicio,
@@ -227,7 +227,7 @@ export class EditContratoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );

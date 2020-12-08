@@ -43,6 +43,15 @@ export class ContratoService {
   }
 
   /**
+   * Se obtiene la lista de contratos filtrados
+   * @param filtro
+   */
+  getContratosFiltrados(filtro: string): Observable<Contrato[]> {
+    const url = this.urlContratos + '/by-filter?' + filtro;
+    return this.apiRequest.get(url);
+  }
+
+  /**
    * Se obtiene la lista de los estados para un contrato.
    * Esta lista no se obtiene de la BD, son datos predefinidos.
    * @returns {Observable<EstadoContrato[]>}

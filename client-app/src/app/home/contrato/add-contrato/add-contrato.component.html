@@ -98,10 +98,8 @@
         <label class="form-add-contrato-label required">Fecha Inicio:</label>
       </div>
       <div class="col-xs-2">
-        <clr-date-container>
-          <input type="date" clrDate name="fechaInicio" [(ngModel)]="fechaInicio"
-                 min="2000-01-01" max="2030-12-31" required>
-        </clr-date-container>
+        <input type="date" name="fechaInicio" [(ngModel)]="fechaInicio"
+               min="1990-01-01" max="2050-12-31" required>
       </div>
     </div>
     <div class="form-group row flex-items-xs-left">
@@ -109,10 +107,9 @@
         <label class="form-add-contrato-label required">Finalización:</label>
       </div>
       <div class="col-xs-2">
-        <clr-date-container>
-          <input type="date" clrDate name="fechaFin" [(ngModel)]="fechaFin"
-                 min="2000-01-01" max="2030-12-31" required>
-        </clr-date-container>
+        <input type="date" name="fechaFin" [(ngModel)]="fechaFin"
+               min="1990-01-01" max="2050-12-31" required>
+
       </div>
     </div>
 

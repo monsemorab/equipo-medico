@@ -20,3 +20,19 @@ pre {
   border: 0px solid #ccc !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
 }
+
+.form-filter-label {
+  font-weight: bold;
+  text-align: left;
+}
+
+.table-header {
+  font-size: 13px !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  text-align: center !important;
+}
+
+.table-column {
+  font-size: 12px !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}

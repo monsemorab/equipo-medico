@@ -92,10 +92,8 @@
             <label class="form-add-equipo-label"> Fecha Compra:</label>
           </div>
           <div class="col-xs-5">
-            <clr-date-container>
-              <input type="date" clrDate name="fechaCompra" [(ngModel)]="fechaCompra"
-                     min="2000-01-01" max="2030-12-31" tabindex="6">
-            </clr-date-container>
+            <input type="date" name="fechaCompra" [(ngModel)]="fechaCompra"
+                   min="1990-01-01" max="2050-12-31" tabindex="6">
           </div>
         </div>
 
@@ -104,10 +102,8 @@
             <label class="form-add-equipo-label">Vto. Garantia:</label>
           </div>
           <div class="col-xs-5">
-            <clr-date-container>
-            <input type="date" clrDate name="fechaVenGarantia" [(ngModel)]="fechaVenGarantia"
-                   min="2000-01-01" max="2030-12-31" tabindex="8">
-            </clr-date-container>
+            <input type="date" name="fechaCompra" [(ngModel)]="fechaVenGarantia"
+                   min="1990-01-01" max="2050-12-31" tabindex="8">
           </div>
         </div>
 
@@ -116,10 +112,8 @@
             <label class="form-add-equipo-label">Puesta en Marcha:</label>
           </div>
           <div class="col-xs-5">
-            <clr-date-container>
-              <input type="date" clrDate name="fechaInstalacion" [(ngModel)]="fechaInstalacion"
-                     min="2000-01-01" max="2030-12-31" tabindex="10">
-            </clr-date-container>
+            <input type="date" name="fechaInstalacion" [(ngModel)]="fechaInstalacion"
+                   min="1990-01-01" max="2050-12-31" tabindex="10">
           </div>
         </div>
 
@@ -155,19 +149,19 @@
         </div>
 
         <div class="col-xs-1 col-btn-add-equipo" *ngIf="tipoId == 'Agregar Tipo'">
-          <button class=" btn btn-sm btn-success"
-                  (click)="addNewTipoEquipo()">
+          <a class=" btn btn-sm btn-success"
+             (click)="addNewTipoEquipo()">
             <clr-icon shape="plus"></clr-icon>
             Add
-          </button>
+          </a>
         </div>
 
         <div class="col-xs-1 col-btn-add-equipo" *ngIf="tipoId != 'Agregar Tipo'">
-          <button class=" btn btn-sm btn-success"
-                  (click)="editTipoEquipo()">
+          <a class=" btn btn-sm btn-success"
+             (click)="editTipoEquipo()">
             <clr-icon shape="pencil"></clr-icon>
             Edit
-          </button>
+          </a>
         </div>
       </div>
 
@@ -187,19 +181,19 @@
           </div>
         </div>
         <div class="col-xs-1 col-btn-add-equipo" *ngIf="modeloId == 'Agregar Modelo'">
-          <button class=" btn btn-sm btn-success"
-                  (click)="addNewModeloEquipo()">
+          <a class=" btn btn-sm btn-success"
+             (click)="addNewModeloEquipo()">
             <clr-icon shape="plus"></clr-icon>
             Add
-          </button>
+          </a>
         </div>
 
         <div class="col-xs-1 col-btn-add-equipo" *ngIf="modeloId != 'Agregar Modelo'">
-          <button class=" btn btn-sm btn-success"
-                  (click)="editModeloEquipo()">
+          <a class=" btn btn-sm btn-success"
+             (click)="editModeloEquipo()">
             <clr-icon shape="pencil"></clr-icon>
             Edit
-          </button>
+          </a>
         </div>
       </div>
 
@@ -221,18 +215,18 @@
         </div>
 
         <div class="col-xs-1 col-btn-add-equipo" *ngIf="repreId == 'Agregar Representante'">
-          <button class="btn btn-sm btn-success"
-                  (click)="addNewRepresentante()">
+          <a class="btn btn-sm btn-success"
+             (click)="addNewRepresentante()">
             <clr-icon shape="user"></clr-icon>
             Add
-          </button>
+          </a>
         </div>
         <div class="col-xs-1 col-btn-add-equipo" *ngIf="repreId != 'Agregar Representante'">
-          <button class="btn btn-sm btn-success"
-                  (click)="editRepresentante()">
+          <a class="btn btn-sm btn-success"
+             (click)="editRepresentante()">
             <clr-icon shape="user"></clr-icon>
             Edit
-          </button>
+          </a>
         </div>
       </div>
       <div class="form-group row flex-items-xs-left">
@@ -251,19 +245,19 @@
           </div>
         </div>
         <div class="col-xs-1 col-btn-add-equipo" *ngIf="ubicacionId == 'Agregar Ubicación'">
-          <button class=" btn btn-sm btn-success"
-                  (click)="addNewUbicacionEquipo()">
+          <a class=" btn btn-sm btn-success"
+             (click)="addNewUbicacionEquipo()">
             <clr-icon shape="plus"></clr-icon>
             Add
-          </button>
+          </a>
         </div>
 
         <div class="col-xs-1 col-btn-add-equipo" *ngIf="ubicacionId != 'Agregar Ubicación'">
-          <button class="btn btn-sm btn-success"
-                  (click)="editUbicacionEquipo()">
+          <a class="btn btn-sm btn-success"
+             (click)="editUbicacionEquipo()">
             <clr-icon shape="user"></clr-icon>
             Edit
-          </button>
+          </a>
         </div>
       </div>
     </div>
