@@ -43,6 +43,15 @@ export class RepuestoService {
   }
 
   /**
+   * Se obtiene la lista de repuestos filtrados
+   * @param filtro
+   */
+  getRepuestosFiltrados(filtro: string): Observable<Repuesto[]> {
+    const url = this.urlRepuesto + 'by-filter?' + filtro;
+    return this.apiRequest.get(url);
+  }
+
+  /**
    * Se crea un nuevo repuesto.
    * @param repuesto
    */

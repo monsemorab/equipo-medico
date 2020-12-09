@@ -92,26 +92,26 @@ export class ListaContratoComponent implements OnInit {
   filtrarContrato(): void {
     this.info = false;
     this.infoMessage = '';
-    if (this.estadoContrato === 'Filtrar por Estado Contrato' && this.tipoProcedimiento === '' && this.numeroContrato === '') {
+    if (this.estadoContrato == 'Filtrar por Estado Contrato' && this.tipoProcedimiento == '' && this.numeroContrato == '') {
       this.getAllContratos();
     } else {
       let filtros = '';
       if (this.selectedEstado !==  '' ) {
-        if (filtros === '') {
+        if (filtros == '') {
           filtros = this.selectedEstado;
         } else {
           filtros = filtros  + '&' + this.selectedEstado;
         }
       }
       if (this.numeroContrato !== '' ) {
-        if (filtros === '' ) {
+        if (filtros == '' ) {
           filtros = 'numeroContrato=' + this.numeroContrato;
         } else {
           filtros = filtros  + '&numeroContrato=' + this.numeroContrato;
         }
       }
       if (this.tipoProcedimiento !== '') {
-        if (filtros === '') {
+        if (filtros == '') {
           filtros = 'tipoProcedimiento=' + this.tipoProcedimiento;
         } else {
           filtros = filtros  + '&tipoProcedimiento=' + this.tipoProcedimiento;
@@ -130,7 +130,7 @@ export class ListaContratoComponent implements OnInit {
         this.contratos = list;
         this.formateoFechas();
         this.total = list.length;
-        if (this.total === 0) {
+        if (this.total == 0) {
           this.info = true;
           this.infoMessage = 'No se encontraron registros para esta busqueda.';
         }
@@ -165,7 +165,7 @@ export class ListaContratoComponent implements OnInit {
    * @param {Contrato} contrato
    */
   selectContrato(contrato: Contrato): void {
-    if (this.selectedContrato != null && this.selectedContrato.id === contrato.id) {
+    if (this.selectedContrato != null && this.selectedContrato.id == contrato.id) {
       this.selectedContrato = null;
     } else {
       this.selectedContrato = contrato;

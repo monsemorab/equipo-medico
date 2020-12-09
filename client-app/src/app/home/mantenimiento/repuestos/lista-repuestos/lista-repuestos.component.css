@@ -9,8 +9,13 @@
 }
 
 pre {
-  border: 0px solid #ccc !important;
+  border: 0 solid #ccc !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.form-filter-label {
+  font-weight: bold;
+  text-align: left;
 }
 
 .select .select-form-repuesto {

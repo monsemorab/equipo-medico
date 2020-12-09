@@ -167,7 +167,7 @@ export class ListaEquipoComponent implements OnInit {
     this.tipoId = value;
     this.selectedTipo = '';
     for (let i = 0; i < this.tipos.length; i++) {
-      if (this.tipos[i].id === this.tipoId) {
+      if (this.tipos[i].id == this.tipoId) {
         this.selectedTipo = 'tipo=' + this.tipos[i].tipo;
         break;
       }
@@ -178,7 +178,7 @@ export class ListaEquipoComponent implements OnInit {
     this.modeloId = value;
     this.selectedModeloMarca = '';
     for (let i = 0; i < this.modelos.length; i++) {
-      if (this.modelos[i].id === this.modeloId) {
+      if (this.modelos[i].id == this.modeloId) {
         this.selectedModeloMarca = 'marca=' + this.modelos[i].marca;
         this.selectedModeloMarca = this.selectedModeloMarca + '&modelo=' + this.modelos[i].modelo;
         break;
@@ -190,7 +190,7 @@ export class ListaEquipoComponent implements OnInit {
     this.ubicacionId = value;
     this.selectedUbi = '';
     for (let i = 0; i < this.ubicaciones.length; i++) {
-      if (this.ubicaciones[i].id === this.ubicacionId) {
+      if (this.ubicaciones[i].id == this.ubicacionId) {
         this.selectedUbi = 'servicio=' + this.ubicaciones[i].servicio;
         break;
       }
@@ -218,38 +218,41 @@ export class ListaEquipoComponent implements OnInit {
     this.selectedEstadoContrato = 'estadoContrato=' + value;
   }
 
+  /**
+   * se filtra la lista de equipos por los datos seleccionados
+   */
   filtrarEquipo(): void {
     this.info = false;
     this.infoMessage = '';
-    if (this.tipoId === 'Filtrar por Tipo' && this.modeloId === 'Filtrar por Marca/Modelo' &&
-      this.ubicacionId === 'Filtrar por Ubicacion' && this.estadoEquipo === 'Filtrar por Estado Equipo' &&
-      this.estadoContrato === 'Filtrar por Estado Contrato') {
+    if (this.tipoId == 'Filtrar por Tipo' && this.modeloId == 'Filtrar por Marca/Modelo' &&
+      this.ubicacionId == 'Filtrar por Ubicacion' && this.estadoEquipo == 'Filtrar por Estado Equipo' &&
+      this.estadoContrato == 'Filtrar por Estado Contrato') {
       this.getAllEquipos();
     } else {
       let filtros = '';
       if (this.selectedEstadoEquipo !== '' ) {
-        if (filtros === '' ) {
+        if (filtros == '' ) {
           filtros = this.selectedEstadoEquipo;
         } else {
           filtros = filtros  + '&' + this.selectedEstadoEquipo;
         }
       }
       if (this.selectedTipo !== '' ) {
-        if (filtros === '' ) {
+        if (filtros == '' ) {
           filtros = this.selectedTipo;
         } else {
           filtros = filtros  + '&' + this.selectedTipo;
         }
       }
       if (this.selectedModeloMarca !== '') {
-        if (filtros === '') {
+        if (filtros == '') {
           filtros = this.selectedModeloMarca;
         } else {
           filtros = filtros  + '&' + this.selectedModeloMarca;
         }
       }
       if (this.selectedUbi !== '' ) {
-        if (filtros === '' ) {
+        if (filtros == '' ) {
           filtros = this.selectedUbi;
         } else {
           filtros = filtros  + '&' + this.selectedUbi;
@@ -257,7 +260,7 @@ export class ListaEquipoComponent implements OnInit {
       }
 
       if (this.selectedEstadoContrato !==  '' ) {
-        if (filtros === '') {
+        if (filtros == '') {
           filtros = this.selectedEstadoContrato;
         } else {
           filtros = filtros  + '&' + this.selectedEstadoContrato;
@@ -267,13 +270,17 @@ export class ListaEquipoComponent implements OnInit {
     }
   }
 
+  /**
+   * Se obtiene la lista de equipos filtrada
+   * @param filtro
+   */
   getAllEquiposFiltrados(filtro: string): void {
     this.equipoService.getEquiposFiltrados(filtro).subscribe(
       list => {
         this.equipos = list;
         this.total = list.length;
         this.loading = false;
-        if (this.total === 0) {
+        if (this.total == 0) {
           this.info = true;
           this.infoMessage = 'No se encontraron registros para esta busqueda.';
         }
@@ -299,7 +306,7 @@ export class ListaEquipoComponent implements OnInit {
    * @param {Equipo} equipo
    */
   selectEquipo(equipo: Equipo): void {
-    if (this.selectedEquipo != null && this.selectedEquipo.id === equipo.id) {
+    if (this.selectedEquipo != null && this.selectedEquipo.id == equipo.id) {
       this.selectedEquipo = null;
     } else {
       this.selectedEquipo = equipo;

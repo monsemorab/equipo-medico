@@ -36,9 +36,11 @@ export class SolicitudRepuestoService {
     return this.apiRequest.get(this.urlRepuestos);
   }
 
-  // TODO: falta metodo del lado backend
+  /**
+   * Se obtienen las solicitudes de repeustos pendientes
+   */
   getAllSolicitudRepuestosPendientes(): Observable<SolicitudRepuesto[]> {
-    const url = this.urlRepuestos + '/pendientes';
+    const url = this.urlRepuestos + '/by-estado/PENDIENTE';
     return this.apiRequest.get(url);
   }
 
