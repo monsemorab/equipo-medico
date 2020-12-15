@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -105,9 +106,10 @@ public class RepuestoController {
         return repuestoService.getRepuestosByFilter(customQuery);
     }
 
-    @RequestMapping(value = "by-equipo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Repuesto> getAllByEquipoId(@PathVariable Long id) {
-        return repuestoService.getAllByEquipoId(id);
+    @RequestMapping(value = "by-equipo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Repuesto> getAllByEquipoId(@RequestParam Long id,
+        @RequestParam Date fechaInicio, @RequestParam Date fechaFin) {
+        return repuestoService.getAllByEquipoId(id, fechaInicio, fechaFin);
     }
 
 }

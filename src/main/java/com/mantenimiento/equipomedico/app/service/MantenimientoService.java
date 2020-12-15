@@ -3,6 +3,7 @@ package com.mantenimiento.equipomedico.app.service;
 import com.mantenimiento.equipomedico.app.entidad.Mantenimiento;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,6 +40,6 @@ public interface MantenimientoService {
      */
     List<Mantenimiento> getAll();
 
-    List<Mantenimiento> getAllByEquipoId(Long id);
+    List<Mantenimiento> getAllByEquipoId(Long id, Date fechaInicio, Date fechaFin);
 
 }

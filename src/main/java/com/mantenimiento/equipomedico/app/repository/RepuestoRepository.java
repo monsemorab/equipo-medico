@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import com.mantenimiento.equipomedico.app.entidad.Repuesto;
@@ -16,7 +17,8 @@ public interface RepuestoRepository extends CrudRepository<Repuesto, Long>, Repu
 		"JOIN solicitud_repuesto_detalles srd ON r.id = srd.repuesto_id\n" +
 		"JOIN solicitud_repuesto sr ON srd.solicitud_id = sr.id\n" +
 		"JOIN orden_trabajo ot ON sr.id = ot.solicitud_repuesto_id\n" +
-		"WHERE ot.equipo_id = ?1", nativeQuery = true)
-	List<Repuesto> getAllByEquipoId(Long equipoId);
+		"WHERE ot.equipo_id = ?1 AND ot.fecha_solicitud " +
+		"BETWEEN ?2 AND ?3", nativeQuery = true)
+	List<Repuesto> getAllByEquipoId(Long equipoId, Date fechaInicio, Date fechaFin);
 
 }

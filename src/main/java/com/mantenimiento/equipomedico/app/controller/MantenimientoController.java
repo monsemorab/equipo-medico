@@ -2,6 +2,7 @@ package com.mantenimiento.equipomedico.app.controller;
 
 import com.mantenimiento.equipomedico.app.entidad.Mantenimiento;
 import com.mantenimiento.equipomedico.app.entidad.OrdenTrabajo;
+import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import com.mantenimiento.equipomedico.app.service.MantenimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,8 +86,9 @@ public class MantenimientoController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "by-equipo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Mantenimiento> getAllByEquipoId(@PathVariable Long id) {
-        return mantenimientoService.getAllByEquipoId(id);
+    @RequestMapping(value = "by-equipo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Mantenimiento> getAllByEquipoId(@RequestParam Long id,
+        @RequestParam Date fechaInicio, @RequestParam Date fechaFin) {
+        return mantenimientoService.getAllByEquipoId(id, fechaInicio, fechaFin);
     }
 }

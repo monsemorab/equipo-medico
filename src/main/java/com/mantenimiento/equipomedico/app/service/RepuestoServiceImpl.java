@@ -1,6 +1,7 @@
 package com.mantenimiento.equipomedico.app.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -101,8 +102,8 @@ public class RepuestoServiceImpl implements RepuestoService
 	}
 
 	@Override
-	public List<Repuesto> getAllByEquipoId(Long id)
+	public List<Repuesto> getAllByEquipoId(Long id, Date fechaInicio, Date fechaFin)
 	{
-		return repuestoRepository.getAllByEquipoId(id);
+		return repuestoRepository.getAllByEquipoId(id,fechaInicio, fechaFin);
 	}
 }

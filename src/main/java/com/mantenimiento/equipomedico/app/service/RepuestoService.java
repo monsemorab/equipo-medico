@@ -4,6 +4,7 @@ import com.mantenimiento.equipomedico.app.entidad.Mantenimiento;
 import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -51,5 +52,5 @@ public interface RepuestoService {
 
     List<Repuesto> getRepuestosByFilter(Map<String, String> customQuery);
 
-    List<Repuesto> getAllByEquipoId(Long id);
+    List<Repuesto> getAllByEquipoId(Long id, Date fechaInicio, Date fechaFin);
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,9 +18,6 @@ public class MantenimientoServiceImpl implements MantenimientoService {
 
     @Autowired
     private MantenimientoRepository mantenimientoRepository;
-
-    @Autowired
-    private OrdenTrabajoRepository ordenTrabajoRepository;
 
     /**
      * Creación de un nuevo mantenimiento.
@@ -66,12 +64,8 @@ public class MantenimientoServiceImpl implements MantenimientoService {
     }
 
     @Override
-    public List<Mantenimiento> getAllByEquipoId(Long id)
+    public List<Mantenimiento> getAllByEquipoId(Long id, Date fechaInicio, Date fechaFin)
     {
-        List<OrdenTrabajo> ordenTrabajoList = ordenTrabajoRepository.getAllByEquipoId(id);
-        List<Mantenimiento> mantenimientoList = ordenTrabajoList.stream().
-            map(ordenTrabajo -> ordenTrabajo.getMantenimiento()).collect(
-            Collectors.toList());
-        return mantenimientoList;
+        return mantenimientoRepository.getAllByEquipoId(id, fechaInicio, fechaFin);
     }
 }
