@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.service;
 
+import com.mantenimiento.equipomedico.app.entidad.Mantenimiento;
 import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import org.springframework.stereotype.Service;
 
@@ -49,4 +50,6 @@ public interface RepuestoService {
     Repuesto getByCodigo(String codigo);
 
     List<Repuesto> getRepuestosByFilter(Map<String, String> customQuery);
+
+    List<Repuesto> getAllByEquipoId(Long id);
 }

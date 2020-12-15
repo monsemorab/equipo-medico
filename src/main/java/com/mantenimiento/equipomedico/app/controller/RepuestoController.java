@@ -105,5 +105,9 @@ public class RepuestoController {
         return repuestoService.getRepuestosByFilter(customQuery);
     }
 
+    @RequestMapping(value = "by-equipo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Repuesto> getAllByEquipoId(@PathVariable Long id) {
+        return repuestoService.getAllByEquipoId(id);
+    }
 
 }

@@ -26,11 +26,11 @@ public class ContratoRepositoryCustomImpl implements ContratoRepositoryCustom
 
 		List<Predicate> predicates = new ArrayList<>();
 
-		if(estadoContrato != null) {
-			predicates.add(cb.equal(contratoRoot.get("estadoContrato"), estadoContrato));
-		}
 		if(numeroContrato != null) {
 			predicates.add(cb.equal(contratoRoot.get("numeroContrato"), numeroContrato));
+		}
+		if(estadoContrato != null) {
+			predicates.add(cb.equal(contratoRoot.get("estadoContrato"), estadoContrato));
 		}
 		if(tipoProcedimiento != null) {
 			predicates.add(cb.equal(contratoRoot.get("tipoProcedimiento"), tipoProcedimiento));

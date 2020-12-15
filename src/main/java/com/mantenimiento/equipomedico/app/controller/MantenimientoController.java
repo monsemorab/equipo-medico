@@ -1,6 +1,7 @@
 package com.mantenimiento.equipomedico.app.controller;
 
 import com.mantenimiento.equipomedico.app.entidad.Mantenimiento;
+import com.mantenimiento.equipomedico.app.entidad.OrdenTrabajo;
 import com.mantenimiento.equipomedico.app.service.MantenimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -82,5 +83,8 @@ public class MantenimientoController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-
+    @RequestMapping(value = "by-equipo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Mantenimiento> getAllByEquipoId(@PathVariable Long id) {
+        return mantenimientoService.getAllByEquipoId(id);
+    }
 }

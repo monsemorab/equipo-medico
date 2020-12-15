@@ -70,4 +70,10 @@ public class OrdenTrabajoServiceImpl implements OrdenTrabajoService {
     {
         return ordenTrabajoRepository.getAllByTipoServicioEquals(tipoServicio);
     }
+
+    @Override
+    public List<OrdenTrabajo> getAllByEquipoId(Long id)
+    {
+        return ordenTrabajoRepository.getAllByEquipoId(id);
+    }
 }

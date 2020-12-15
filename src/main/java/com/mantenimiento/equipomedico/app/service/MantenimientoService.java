@@ -39,4 +39,6 @@ public interface MantenimientoService {
      */
     List<Mantenimiento> getAll();
 
+    List<Mantenimiento> getAllByEquipoId(Long id);
+
 }

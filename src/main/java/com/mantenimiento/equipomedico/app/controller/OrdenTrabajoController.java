@@ -94,5 +94,9 @@ public class OrdenTrabajoController
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @RequestMapping(value = "by-equipo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<OrdenTrabajo> getAllByEquipoId(@PathVariable Long id) {
+        return ordenTrabajoService.getAllByEquipoId(id);
+    }
 
 }

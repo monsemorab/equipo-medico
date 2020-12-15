@@ -17,7 +17,7 @@ public class RepuestoRepositoryCustomImpl implements RepuestoRepositoryCustom
 	private EntityManager entityManager;
 
 	@Override
-	public List<Repuesto> getRepuestoByFilter(String codigo, String tipo, String marca, String modelo)
+	public List<Repuesto> getRepuestoByFilter(String tipo, String marca, String modelo)
 	{
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Repuesto> query = cb.createQuery(Repuesto.class);
@@ -25,9 +25,6 @@ public class RepuestoRepositoryCustomImpl implements RepuestoRepositoryCustom
 
 		List<Predicate> predicates = new ArrayList<>();
 
-		if(codigo != null) {
-			predicates.add(cb.equal(repuestoRoot.get("codigo"), codigo));
-		}
 		if(tipo != null) {
 			predicates.add(cb.equal(repuestoRoot.join("tipoEquipo").get("tipo"), tipo));
 		}

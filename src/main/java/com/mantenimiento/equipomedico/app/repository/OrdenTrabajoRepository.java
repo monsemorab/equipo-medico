@@ -10,5 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface OrdenTrabajoRepository extends CrudRepository<OrdenTrabajo, Long> {
 	List<OrdenTrabajo> getAllByEstadoEquals(String estado);
 	List<OrdenTrabajo> getAllByTipoServicioEquals(String tipoServicio);
+	List<OrdenTrabajo> getAllByEquipoId(Long id);
 
 }

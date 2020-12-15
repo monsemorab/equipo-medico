@@ -82,13 +82,9 @@ public class RepuestoServiceImpl implements RepuestoService
 	public List<Repuesto> getRepuestosByFilter(
 		Map<String, String> customQuery)
 	{
-		String codigo = null;
 		String tipo = null;
 		String marca = null;
 		String modelo = null;
-		if(customQuery.containsKey("codigo")) {
-			codigo = customQuery.get("codigo");
-		}
 		if(customQuery.containsKey("tipo")) {
 			customQuery.get("tipo");
 		}
@@ -101,6 +97,12 @@ public class RepuestoServiceImpl implements RepuestoService
 		if(customQuery.containsKey("modelo")) {
 			modelo = customQuery.get("modelo");
 		}
-		return repuestoRepository.getRepuestoByFilter(codigo, tipo, marca, modelo);
+		return repuestoRepository.getRepuestoByFilter(tipo, marca, modelo);
+	}
+
+	@Override
+	public List<Repuesto> getAllByEquipoId(Long id)
+	{
+		return repuestoRepository.getAllByEquipoId(id);
 	}
 }

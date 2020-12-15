@@ -42,4 +42,6 @@ public interface OrdenTrabajoService {
     List<OrdenTrabajo> getAllByEstadoEquals(String estado);
     List<OrdenTrabajo> getAllByTipoServicioEquals(String tipoServicio);
 
+    List<OrdenTrabajo> getAllByEquipoId(Long id);
+
 }

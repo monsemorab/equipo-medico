@@ -6,5 +6,5 @@ import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 
 public interface RepuestoRepositoryCustom
 {
-	List<Repuesto> getRepuestoByFilter(String codigo, String tipo, String marca, String modelo);
+	List<Repuesto> getRepuestoByFilter(String tipo, String marca, String modelo);
 }
