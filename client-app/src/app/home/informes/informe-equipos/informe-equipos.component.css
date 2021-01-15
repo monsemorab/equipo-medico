@@ -1,0 +1,16 @@
+.form-informe-label {
+  font-weight: bold !important;
+}
+
+.form-informe-title{
+  text-align: center;
+}
+
+.form-informe-sub-title{
+  font-weight: bold !important;
+  text-align: left;
+}
+
+.column-width{
+  width: 26% !important
+}

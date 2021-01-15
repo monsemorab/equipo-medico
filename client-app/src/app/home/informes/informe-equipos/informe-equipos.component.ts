@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Equipo} from "../../../domain/equipo";
 import {ParamsBusquedaEquipo} from "../../../domain/ParamsBusquedaEquipo";
 import {EquipoService} from "../../../service/equipo.service";
+import {DatePipe} from "@angular/common";
+import {Mantenimiento} from "../../../domain/mantenimiento";
+import {SolicitudRepuesto} from "../../../domain/solicitud-repuesto";
 
 @Component({
   selector: 'app-informe-equipos',
@@ -15,6 +18,20 @@ export class InformeEquiposComponent implements OnInit {
   numeroSerie: string;
   numeroPatrimonial: string;
   requestEquipo: ParamsBusquedaEquipo;
+  fechaFabricacion: any;
+  fechaVenGarantia: any;
+  fechaInstalacion: any;
+  fechaCompra: any;
+
+  // mantenimiento
+  mantenimientos: Mantenimiento[];
+  fehcaIniServicio: any;
+  fechaFinServicio: any;
+
+  // repuesto
+  solRepuestos: SolicitudRepuesto[];
+  fehcaIniRepuesto: any;
+  fechaFinRepuesto: any;
 
   // Errors
   errorMessage: string;
@@ -23,6 +40,8 @@ export class InformeEquiposComponent implements OnInit {
   constructor(private equipoService: EquipoService) { }
 
   ngOnInit() {
+    this.numeroSerie = '';
+    this.numeroPatrimonial = '';
   }
 
   /**
@@ -77,6 +96,7 @@ export class InformeEquiposComponent implements OnInit {
     this.equipoService.getEquipoByParams(this.requestEquipo).subscribe(
       equipo => {
         this.equipoSeleccionado = equipo;
+        this.camposEquipo(equipo);
         this.error = false;
       },
       error => {
@@ -87,13 +107,12 @@ export class InformeEquiposComponent implements OnInit {
     );
   }
 
-  /**
-   * Se limpian los campos del equipo buscado.
-   */
-  clearDatosEquipos() {
-    this.equipoSeleccionado = null;
-    this.onKeyNroSerie('');
-    this.onKeyNroPatrimonial('');
+  camposEquipo(equipo: Equipo) {
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    this.fechaFabricacion = equipo.fechaFabricacion;
+    this.fechaVenGarantia = datepipe.transform(equipo.fechaVenGarantia, 'yyyy-MM-dd');
+    this.fechaInstalacion = datepipe.transform(equipo.fechaInstalacion, 'yyyy-MM-dd');
+    this.fechaCompra  = datepipe.transform(equipo.fechaCompra, 'yyyy-MM-dd');
   }
 
 }
