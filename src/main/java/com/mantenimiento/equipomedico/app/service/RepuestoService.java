@@ -51,6 +51,4 @@ public interface RepuestoService {
     Repuesto getByCodigo(String codigo);
 
     List<Repuesto> getRepuestosByFilter(Map<String, String> customQuery);
-
-    List<Repuesto> getAllByEquipoId(Long id, Date fechaInicio, Date fechaFin);
 }

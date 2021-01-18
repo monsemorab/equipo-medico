@@ -40,6 +40,8 @@ public interface MantenimientoService {
      */
     List<Mantenimiento> getAll();
 
-    List<Mantenimiento> getAllByEquipoId(Long id, Date fechaInicio, Date fechaFin);
+    List<Mantenimiento> getAllByEquipoIdAndFecha(Long id, Date fechaInicio, Date fechaFin);
+
+    List<Mantenimiento> getAllByEquipoId(Long equipoId);
 
 }

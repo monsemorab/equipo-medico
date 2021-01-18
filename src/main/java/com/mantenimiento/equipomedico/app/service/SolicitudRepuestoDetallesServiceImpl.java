@@ -1,9 +1,11 @@
 package com.mantenimiento.equipomedico.app.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuestoDetalles;
 import com.mantenimiento.equipomedico.app.repository.SolicitudRepuestoDetallesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +78,16 @@ public class SolicitudRepuestoDetallesServiceImpl implements SolicitudRepuestoDe
 			solicitudId);
 	}
 
+	@Override
+	public List<SolicitudRepuestoDetalles> getAllByEquipoIdAndFecha(Long id, Date fechaInicio, Date fechaFin)
+	{
+		return solicitudRepuestoDetallesRepository.getAllByEquipoIdAndFecha(id,fechaInicio, fechaFin);
+	}
+
+	@Override
+	public List<SolicitudRepuestoDetalles> getAllByEquipoId(Long id)
+	{
+		return solicitudRepuestoDetallesRepository.getAllByEquipoId(id);
+	}
 
 }

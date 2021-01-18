@@ -100,10 +100,4 @@ public class RepuestoServiceImpl implements RepuestoService
 		}
 		return repuestoRepository.getRepuestoByFilter(tipo, marca, modelo);
 	}
-
-	@Override
-	public List<Repuesto> getAllByEquipoId(Long id, Date fechaInicio, Date fechaFin)
-	{
-		return repuestoRepository.getAllByEquipoId(id,fechaInicio, fechaFin);
-	}
 }

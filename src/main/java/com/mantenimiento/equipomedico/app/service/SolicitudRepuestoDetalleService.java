@@ -1,7 +1,9 @@
 package com.mantenimiento.equipomedico.app.service;
 
+import java.util.Date;
 import java.util.List;
 
+import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuestoDetalles;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +49,9 @@ public interface SolicitudRepuestoDetalleService
      * @return
      */
     List<SolicitudRepuestoDetalles> getBySolicitudId(Long solicitudId);
+
+    List<SolicitudRepuestoDetalles> getAllByEquipoIdAndFecha(Long id, Date fechaInicio, Date fechaFin);
+
+    List<SolicitudRepuestoDetalles> getAllByEquipoId(Long id);
 
 }

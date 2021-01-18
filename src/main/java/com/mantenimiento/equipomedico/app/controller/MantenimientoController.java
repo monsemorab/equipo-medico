@@ -86,9 +86,14 @@ public class MantenimientoController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "by-equipo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Mantenimiento> getAllByEquipoId(@RequestParam Long id,
+    @RequestMapping(value = "by-equipo-and-fecha", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Mantenimiento> getAllByEquipoIdAndFecha(@RequestParam Long id,
         @RequestParam Date fechaInicio, @RequestParam Date fechaFin) {
-        return mantenimientoService.getAllByEquipoId(id, fechaInicio, fechaFin);
+        return mantenimientoService.getAllByEquipoIdAndFecha(id, fechaInicio, fechaFin);
+    }
+
+    @RequestMapping(value = "by-equipo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Mantenimiento> getAllByEquipoId(@RequestParam Long id) {
+        return mantenimientoService.getAllByEquipoId(id);
     }
 }

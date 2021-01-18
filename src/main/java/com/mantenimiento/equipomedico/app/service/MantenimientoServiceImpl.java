@@ -64,8 +64,14 @@ public class MantenimientoServiceImpl implements MantenimientoService {
     }
 
     @Override
-    public List<Mantenimiento> getAllByEquipoId(Long id, Date fechaInicio, Date fechaFin)
+    public List<Mantenimiento> getAllByEquipoIdAndFecha(Long id, Date fechaInicio, Date fechaFin)
     {
-        return mantenimientoRepository.getAllByEquipoId(id, fechaInicio, fechaFin);
+        return mantenimientoRepository.getAllByEquipoIdAAndFechaMantenimiento(id, fechaInicio, fechaFin);
+    }
+
+    @Override
+    public List<Mantenimiento> getAllByEquipoId(Long id)
+    {
+        return mantenimientoRepository.getAllByEquipoId(id);
     }
 }

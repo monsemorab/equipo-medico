@@ -33,6 +33,12 @@ public class Mantenimiento implements Serializable {
     @Column(name = "nombre_tecnico")
     private String nombreTecnico;
 
+    @Column(name = "tipo_servicio")
+    private String tipoServicio;
+
+    @Column(name = "estado")
+    private String estadoEquipo;
+
     /**
      * Gets id
      *
@@ -122,5 +128,45 @@ public class Mantenimiento implements Serializable {
      */
     public void setNombreTecnico(String nombreTecnico) {
         this.nombreTecnico = nombreTecnico;
+    }
+
+    /**
+     * Gets tipoServicio
+     *
+     * @return value of tipoServicio
+     */
+    public String getTipoServicio()
+    {
+        return tipoServicio;
+    }
+
+    /**
+     * Set tipoServicio
+     *
+     * @param tipoServicio
+     */
+    public void setTipoServicio(String tipoServicio)
+    {
+        this.tipoServicio = tipoServicio;
+    }
+
+    /**
+     * Gets estadoEquipo
+     *
+     * @return value of estadoEquipo
+     */
+    public String getEstadoEquipo()
+    {
+        return estadoEquipo;
+    }
+
+    /**
+     * Set estadoEquipo
+     *
+     * @param estadoEquipo
+     */
+    public void setEstadoEquipo(String estadoEquipo)
+    {
+        this.estadoEquipo = estadoEquipo;
     }
 }

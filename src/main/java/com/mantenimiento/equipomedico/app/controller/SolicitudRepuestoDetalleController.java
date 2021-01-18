@@ -2,6 +2,7 @@ package com.mantenimiento.equipomedico.app.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -99,6 +101,17 @@ public class SolicitudRepuestoDetalleController
 	public List<SolicitudRepuestoDetalles> getAllBySolicitudId(@PathVariable Long solicitudId)
 	{
 		return solicitudRepuestoDetalleService.getBySolicitudId(solicitudId);
+	}
+
+	@RequestMapping(value = "by-equipo-and-fecha", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<SolicitudRepuestoDetalles> getAllByEquipoIdAndFecha(@RequestParam Long id,
+		@RequestParam Date fechaInicio, @RequestParam Date fechaFin) {
+		return solicitudRepuestoDetalleService.getAllByEquipoIdAndFecha(id, fechaInicio, fechaFin);
+	}
+
+	@RequestMapping(value = "by-equipo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<SolicitudRepuestoDetalles> getAllByEquipoId(@RequestParam Long id) {
+		return solicitudRepuestoDetalleService.getAllByEquipoId(id);
 	}
 
 }
