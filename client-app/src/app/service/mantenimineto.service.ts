@@ -18,6 +18,16 @@ export class ManteniminetoService {
   constructor(private apiRequest: ApiRequestService) {
   }
 
+  getAllMantenimientoByEquipoId(equipoId: number):Observable<Mantenimiento[]> {
+    const url = this.urlMantenimineto + '/by-equipo?id='+equipoId;
+    return this.apiRequest.get(url);
+  }
+
+  getAllMantenimientoByEquipoIdAndFecha(equipoId: number, fehcaIni: any, fechaFin: any):Observable<Mantenimiento[]> {
+    const url = this.urlMantenimineto + '/by-equipo-and-fecha?id='+equipoId+'&fechaInicio='+fehcaIni+'&fechaFin='+fechaFin;
+    return this.apiRequest.get(url);
+  }
+
   /**
    * Se crea un mantenimineto
    * @param mantenimiento
@@ -29,7 +39,7 @@ export class ManteniminetoService {
 
   /**
    * Se actualizan los datos de un mantenimiento existente.
-   * @param ordenTrabajo
+   * @param mantenimiento
    */
   editarMantenimineto(mantenimiento: Mantenimiento): Observable<Mantenimiento> {
     const url = this.urlMantenimineto +'/';
@@ -37,8 +47,8 @@ export class ManteniminetoService {
   }
 
   /**
-   * Cuando una orden de trabajo fue atendida, se avisa a la pagina home que puede mostrar la lista de orden de trabajos atendidas al presionar
-   * sobre el boton Orden de Trabajo Atendidas del menú lateral
+   * Cuando una orden de trabajo fue atendida, se avisa a la pagina home que puede mostrar la lista de
+   * orden de trabajos atendidas al presionar sobre el boton Orden de Trabajo Atendidas del menú lateral
    * @param change
    */
   emitExisteOrdenTrabajoAtendida (change: boolean) {

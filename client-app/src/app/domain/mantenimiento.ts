@@ -4,6 +4,8 @@ export class Mantenimiento {
               public tareaRealizada: string,
               public informeNumero: number,
               public nombreTecnico: string,
+              public tipoServicio: string,
+              public estadoEquipo: string,
               public fechaMantenimiento: any) {
   }
 }

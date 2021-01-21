@@ -36,3 +36,15 @@ pre {
   font-size: 12px !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
 }
+
+.margin-col-label {
+  margin-left: 2% !important;
+}
+
+.margin-col-input {
+  margin-left: 1% !important;
+}
+
+.margin-col-btn {
+  margin-top: -1% !important;
+}

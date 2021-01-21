@@ -1,1 +1,118 @@
-<p>informe-contratos works!</p>
+<!-- información del contrato-->
+<h2 class="form-informe-title">Información del Contrato</h2>
+<!-- errors -->
+<div class="clr-row">
+  <div class="alert alert-danger" role="alert" *ngIf="error">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{errorMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="error = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+  </div>
+
+  <!-- info -->
+  <div class="alert alert-info" *ngIf="info">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{errorMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="info = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+  </div>
+</div>
+<br/>
+
+<div class="clr-row">
+  <label class="clr-col-2 form-informe-label">Nro de Contrato:</label>
+  <input clrControl class="clr-col-2" id="nroContrato"
+         name="nroContrato" #nroContrato
+         (keyup.enter)="onEnterContrato(nroContrato.value)"
+         (keyup)="onKeyNroContrato(nroContrato.value)"
+         [(ngModel)]="numeroContrato"/>
+</div>
+<div class="clr-row">
+  <div class="clr-col-6">
+    <table class="table table-vertical">
+      <tbody>
+      <tr>
+        <th class="column-width">ID:</th>
+        <td>{{contrato?.id}}</td>
+      </tr>
+      <tr>
+        <th class="column-width">Nro. Contrato:</th>
+        <td>{{contrato?.numeroContrato}}</td>
+      </tr>
+      <tr>
+        <th class="column-width">Nombre de la Licitación:</th>
+        <td>{{contrato?.nombreLicitacion}}</td>
+      </tr>
+      <tr>
+        <th class="column-width">Inicio:</th>
+        <td>{{fechaInicio}}</td>
+      </tr>
+      <tr>
+        <th class="column-width">Representante:</th>
+        <td>{{contrato?.convocante}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="clr-col-6">
+    <table class="table table-vertical">
+      <tbody>
+      <tr>
+        <th class="column-width">Estado del Contrato:</th>
+        <td>{{contrato?.estadoContrato}}</td>
+      </tr>
+      <tr>
+        <th class="column-width">Tipo Procedimiento:</th>
+        <td>{{contrato?.tipoProcedimiento}}</td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <th class="column-width">Fin:</th>
+        <td>{{fechaFin}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- lista de quipos-->
+<h3 class="form-informe-sub-title">Lista de Equipos</h3>
+<br/>
+<p-table [value]="equipos">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Tipo</th>
+      <th>Marca</th>
+      <th>Modelo</th>
+      <th>Nro. de Serie</th>
+      <th>Nro. Patrimonial</th>
+      <th>Ubicación</th>
+      <th>Estado</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-equipo>
+    <tr>
+      <td>{{equipo?.tipoEquipo?.tipo}}</td>
+      <td>{{equipo?.modeloEquipo?.marca}}</td>
+      <td>{{equipo?.modeloEquipo?.modelo}}</td>
+      <td>{{equipo?.numeroSerie}}</td>
+      <td>{{equipo?.numeroPatrimonial}}</td>
+      <td>{{equipo?.ubicacion?.servicio}}</td>
+      <td>{{equipo?.estado}}</td>
+    </tr>
+  </ng-template>
+</p-table>

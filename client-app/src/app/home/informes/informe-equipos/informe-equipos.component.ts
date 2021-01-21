@@ -4,7 +4,9 @@ import {ParamsBusquedaEquipo} from "../../../domain/ParamsBusquedaEquipo";
 import {EquipoService} from "../../../service/equipo.service";
 import {DatePipe} from "@angular/common";
 import {Mantenimiento} from "../../../domain/mantenimiento";
-import {SolicitudRepuesto} from "../../../domain/solicitud-repuesto";
+import {ManteniminetoService} from "../../../service/mantenimineto.service";
+import {SolicitudRepuestoDetalle} from "../../../domain/solicitud-repuesto-detalle";
+import {SolicitudRepuestoDetalleService} from "../../../service/solicitud-repuesto-detalle.service";
 
 @Component({
   selector: 'app-informe-equipos',
@@ -27,17 +29,22 @@ export class InformeEquiposComponent implements OnInit {
   mantenimientos: Mantenimiento[];
   fehcaIniServicio: any;
   fechaFinServicio: any;
+  habilitarBtnManFilter = false;
 
   // repuesto
-  solRepuestos: SolicitudRepuesto[];
+  solRepuestosDet: SolicitudRepuestoDetalle[];
   fehcaIniRepuesto: any;
   fechaFinRepuesto: any;
+  habilitarBtnRepFilter = false;
 
   // Errors
   errorMessage: string;
   error:boolean;
+  info: boolean;
 
-  constructor(private equipoService: EquipoService) { }
+  constructor(private equipoService: EquipoService,
+              private mantenimientoService: ManteniminetoService,
+              private solicitudRepuestoDetalleService: SolicitudRepuestoDetalleService) { }
 
   ngOnInit() {
     this.numeroSerie = '';
@@ -49,6 +56,9 @@ export class InformeEquiposComponent implements OnInit {
    * @param value
    */
   onEnterNroSerie(value: string) {
+    this.habilitarBtnManFilter = false;
+    this.habilitarBtnRepFilter  = false;
+    this.info = false;
     if (value !== '' && value != null) {
       this.numeroSerie = value;
       this.buscarEquipo(this.numeroSerie, this.numeroPatrimonial);
@@ -69,6 +79,9 @@ export class InformeEquiposComponent implements OnInit {
    * @param value
    */
   onEnterNroPatrimonial(value: string) {
+    this.habilitarBtnManFilter = false;
+    this.habilitarBtnRepFilter  = false;
+    this.info = false;
     if (value !== '' && value != null) {
       this.numeroPatrimonial = value;
       this.buscarEquipo(this.numeroSerie, this.numeroPatrimonial);
@@ -97,14 +110,124 @@ export class InformeEquiposComponent implements OnInit {
       equipo => {
         this.equipoSeleccionado = equipo;
         this.camposEquipo(equipo);
+        this.buscarMantenimientoByEquipo(equipo.id);
         this.error = false;
       },
       error => {
         this.errorMessage = error.error;
         console.log(this.errorMessage);
-        this.error = true;
+        if (this.errorMessage == null && error.status == '404') {
+          this.errorMessage = 'No existe el equipo buscado ';
+          this.info = true;
+        } else {
+          console.log(this.errorMessage)
+          this.error = true;
+        }
       }
     );
+  }
+
+  /**
+   * Se obtiene la lista de mantenimientos realizados a los equipos
+   * @param equipoId
+   */
+  buscarMantenimientoByEquipo(equipoId: number): void {
+    this.mantenimientoService.getAllMantenimientoByEquipoId(equipoId).subscribe(
+      mantenimientos => {
+        this.mantenimientos = mantenimientos;
+        if(mantenimientos.length > 0) {
+          this.habilitarBtnManFilter = true;
+        }
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
+      }
+    );
+  }
+
+  /**
+   * Se obtiene la lista de mantenimientos realizados a los equipos por rango de fechas
+   * @param equipoId
+   * @param fehcaIni
+   * @param fechaFin
+   */
+  buscarMantenimientoByEquipoAndRangoFechas(equipoId: number, fehcaIni: any, fechaFin: any): void {
+    this.mantenimientoService.getAllMantenimientoByEquipoIdAndFecha(equipoId, fehcaIni, fechaFin).subscribe(
+      mantenimientos => {
+        this.mantenimientos = mantenimientos;
+        if(mantenimientos.length > 0) {
+          this.habilitarBtnManFilter = true;
+        }
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
+      }
+    );
+  }
+
+  /**
+   * Filtrar por rango de fechas la lista de mantenimientos de un equipo
+   */
+  filtrarManteniiento():void {
+    if(this.fehcaIniServicio != '' && this.fechaFinServicio!= '') {
+      this.buscarMantenimientoByEquipoAndRangoFechas(this.equipoSeleccionado.id, this.fehcaIniServicio, this.fechaFinServicio);
+    } else {
+      this.buscarMantenimientoByEquipo(this.equipoSeleccionado.id);
+    }
+  }
+
+
+  /**
+   * Se obtiene la lista de mantenimientos realizados a los equipos
+   * @param equipoId
+   */
+  buscarSolicitudRepuestosByEquipo(equipoId: number): void {
+    this.solicitudRepuestoDetalleService.getAllSolicitudRepuestosDetByEquipoId(equipoId).subscribe(
+      detalles => {
+        this.solRepuestosDet = detalles;
+        if(detalles.length > 0) {
+          this.habilitarBtnRepFilter = true;
+        }
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
+      }
+    );
+  }
+
+  /**
+   * Se obtiene la lista de mantenimientos realizados a los equipos por rango de fechas
+   * @param equipoId
+   * @param fehcaIni
+   * @param fechaFin
+   */
+  buscarSolicitudRepuestosByEquipoAndRangoFechas(equipoId: number, fehcaIni: any, fechaFin: any): void {
+    this.solicitudRepuestoDetalleService.getAllSolicitudRepuestosDetByEquipoIdAndFecha(equipoId, fehcaIni, fechaFin).subscribe(
+      detalles => {
+        this.solRepuestosDet = detalles;
+        if(detalles.length > 0) {
+          this.habilitarBtnRepFilter = true;
+        }
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
+      }
+    );
+  }
+
+  /**
+   * Filtrar por fechas la lista de solicitud de repuestos de un equipo
+   */
+  filtrarRepuestos():void {
+    if(this.fehcaIniRepuesto != '' && this.fechaFinRepuesto!= '') {
+      this.buscarSolicitudRepuestosByEquipoAndRangoFechas(this.equipoSeleccionado.id, this.fehcaIniRepuesto, this.fechaFinRepuesto);
+    } else {
+      this.buscarSolicitudRepuestosByEquipo(this.equipoSeleccionado.id);
+    }
   }
 
   camposEquipo(equipo: Equipo) {

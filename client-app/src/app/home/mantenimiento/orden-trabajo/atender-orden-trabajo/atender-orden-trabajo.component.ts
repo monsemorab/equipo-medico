@@ -188,7 +188,8 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     }
     if(!this.error) {
       if (this.tareaRealizada != '' && this.nombreTecnico != '') {
-        this.servicioRealizado = new Mantenimiento(null, this.tareaRealizada, this.informeNro, this.nombreTecnico, this.fechaMantenimiento);
+        this.servicioRealizado = new Mantenimiento(null, this.tareaRealizada, this.informeNro, this.nombreTecnico,
+          this.ordenTrabajo.tipoServicio, this.equipo.estado, this.fechaMantenimiento);
         this.saveMantenimiento(this.servicioRealizado);
       }
       this.goBack();

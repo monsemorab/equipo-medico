@@ -15,7 +15,24 @@
       <clr-icon aria-hidden="true" shape="close"></clr-icon>
     </button>
   </div>
+
+
+  <!-- info -->
+  <div class="alert alert-info" *ngIf="info">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{errorMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="info = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+  </div>
 </div>
+
 <br/>
 
 <div class="clr-row">
@@ -30,7 +47,7 @@
          name="numeroPatrimonial" #nroPatrimonial
          (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"
          (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"
-         [(ngModel)]="numeroPatrimonial" />
+         [(ngModel)]="numeroPatrimonial"/>
 </div>
 
 <!-- información del equipo-->
@@ -155,6 +172,7 @@
 
 <!-- registro de servicios-->
 <h3 class="form-informe-sub-title">Registro de Servicios</h3>
+<br/>
 <div class="clr-row">
   <label class="clr-col-2 form-informe-label">Fecha Inicio:</label>
   <input type="date" name="fehcaIniServicio" [(ngModel)]="fehcaIniServicio"
@@ -162,6 +180,13 @@
   <label class="clr-col-2 form-informe-label">Fecha fin:</label>
   <input type="date" name="fechaFinServicio" [(ngModel)]="fechaFinServicio"
          min="1990-01-01" max="2050-12-31" tabindex="6">
+  <div class="clr-col-2">
+    <a class="btn btn-sm btn-success"
+       (click)="filtrarManteniiento()">
+      <clr-icon shape="plus"></clr-icon>
+      Filtrar
+    </a>
+  </div>
 </div>
 <p-table [value]="mantenimientos">
   <ng-template pTemplate="header">
@@ -188,15 +213,23 @@
 
 <!-- registro de repuestos-->
 <h3 class="form-informe-sub-title">Registro de Repuestos</h3>
+<br/>
 <div class="clr-row">
   <label class="clr-col-2 form-informe-label">Fecha Inicio:</label>
-  <input type="date" name="fehcaIniServicio" [(ngModel)]="fehcaIniServicio"
+  <input type="date" name="fehcaIniRepuesto" [(ngModel)]="fehcaIniRepuesto"
          min="1990-01-01" max="2050-12-31" tabindex="6">
   <label class="clr-col-2 form-informe-label">Fecha fin:</label>
-  <input type="date" name="fechaFinServicio" [(ngModel)]="fechaFinServicio"
+  <input type="date" name="fechaFinRepuesto" [(ngModel)]="fechaFinRepuesto"
          min="1990-01-01" max="2050-12-31" tabindex="6">
+  <div class="clr-col-2">
+    <a class="btn btn-sm btn-success"
+       (click)="filtrarRepuestos()">
+      <clr-icon shape="plus"></clr-icon>
+      Filtrar
+    </a>
+  </div>
 </div>
-<p-table [value]="solRepuestos">
+<p-table [value]="solRepuestosDet">
   <ng-template pTemplate="header">
     <tr>
       <th>Fecha</th>
@@ -208,13 +241,13 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-solRepuesto>
-    <tr *ngFor="let detalle of solRepuesto.solicitudRepuestoDetalles">
-      <td>{{solRepuesto.fechaSolicitud}}</td>
-      <td>{{detalle.repuesto.codigo}}</td>
-      <td>{{detalle.repuesto.descripcionArticulo}}</td>
-      <td>{{detalle.cantidadSolicitada}}</td>
-      <td>{{detalle.repuesto.precio}}</td>
-      <td>{{solRepuesto.estado}}</td>
+    <tr *ngFor="let detalle of solRepuesto">
+      <td>{{detalle?.solicitud?.fechaSolicitud}}</td>
+      <td>{{detalle?.repuesto?.codigo}}</td>
+      <td>{{detalle?.repuesto?.descripcionArticulo}}</td>
+      <td>{{detalle?.cantidadSolicitada}}</td>
+      <td>{{detalle?.repuesto?.precio}}</td>
+      <td>{{detalle?.solicitud?.estado}}</td>
     </tr>
   </ng-template>
 </p-table>

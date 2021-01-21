@@ -38,7 +38,7 @@ export class ContratoService {
    * Se obtiene el contrato por número de contrato
    * @param nroContrato
    */
-  getContratoByNroContrato(nroContrato: string): Observable<Contrato[]> {
+  getContratoByNroContrato(nroContrato: string): Observable<Contrato> {
     return this.apiRequest.get(this.urlContratos + '/filtrar/' + nroContrato);
   }
 

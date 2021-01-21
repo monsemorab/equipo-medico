@@ -29,6 +29,7 @@ import {RepuestosComponent} from "./home/mantenimiento/repuestos/repuestos.compo
 import {ListaRepuestosComponent} from "./home/mantenimiento/repuestos/lista-repuestos/lista-repuestos.component";
 import {AddRepuestoComponent} from "./home/mantenimiento/repuestos/add-repuesto/add-repuesto.component";
 import {EditRepuestoComponent} from "./home/mantenimiento/repuestos/edit-repuesto/edit-repuesto.component";
+import {InformeContratosComponent} from "./home/informes/informe-contratos/informe-contratos.component";
 
 
 const appRoutes: Routes = [
@@ -87,6 +88,7 @@ const appRoutes: Routes = [
       {
         path: 'informes', component: InformesComponent,
         children: [
+          {path: 'informe-contrato', component: InformeContratosComponent},
           {path: 'informe-equipo', component: InformeEquiposComponent},
         ]
       }
