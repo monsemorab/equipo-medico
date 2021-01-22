@@ -33,7 +33,7 @@ public interface ContratoService {
      */
     List<Contrato> getAll();
 
-    List<Contrato> getAllByNumeroContratoContains(String numeroContrato);
+    Contrato getContratoByNumeroContrato(String numeroContrato);
 
     List<Contrato> getContratosByFilter(Map<String, String> customQuery);
 
