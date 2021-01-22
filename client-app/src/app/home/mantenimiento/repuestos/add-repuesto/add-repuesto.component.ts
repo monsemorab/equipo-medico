@@ -35,6 +35,7 @@ export class AddRepuestoComponent implements OnInit {
   tipoId: any;
   modeloId: any;
   repreId: any;
+  addBtnHabilitado = false;
 
   // error
   errorMessage: string;
@@ -204,13 +205,15 @@ export class AddRepuestoComponent implements OnInit {
       repuesto => {
         this.errorMessage = 'Ya existe un repuesto con código ' + codigo;
         this.info = true;
+        this.addBtnHabilitado = false;
       },
       error => {
         this.errorMessage = error.error;
         if (this.errorMessage == null && error.status == '404') {
-          this.errorMessage = 'No existe repuesto con código ' + codigo;
+          this.errorMessage = 'No existe repuesto con código ' + codigo + " ingrese los datos requeridos para crearlo";
           this.info = true;
           this.readonlyField = false;
+          this.addBtnHabilitado = true;
         } else {
           console.log(this.errorMessage)
           this.error = true;
@@ -270,5 +273,6 @@ export class AddRepuestoComponent implements OnInit {
     this.representante = null;
     this.fechaActualizacion = '';
     this.readonlyField = false;
+    this.addBtnHabilitado = false;
   }
 }

@@ -112,7 +112,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
   /**
    * Se obtienen todas las solicitudes de repuestos con estado pendiente
    */
-  getAllSolicitudRepuestosPendientes():void {
+  getAllSolicitudRepuestosPendientes(): void {
     this.solicitudRepuestoService.getAllSolicitudRepuestosPendientes().subscribe(
       solicitudesPendientes => {
         this.solicitudRepuestoPendientes = solicitudesPendientes;
@@ -136,11 +136,13 @@ export class EditOrdenTrabajoComponent implements OnInit {
     this.tipoServicio = orden.tipoServicio;
     this.diagnostico = orden.diagnostico;
     this.responsable = orden.responsable;
-    if(orden.solicitudRepuesto != null) {
+    if (orden.solicitudRepuesto != null) {
       this.fechaRealizacion = datepipe.transform(orden.fechaSolicitud, 'MM/dd/yyyy');
     }
     this.equipoSeleccionado = orden.equipo;
-    this.selectedEquipo = this.equipoSeleccionado != null;
+    this.numeroPatrimonial = this.equipoSeleccionado.numeroPatrimonial;
+    this.numeroSerie = this.equipoSeleccionado.numeroPatrimonial;
+    this.selectedEquipo = true;
     this.solicitudRepuesto = orden.solicitudRepuesto;
     if (this.solicitudRepuesto != null) {
       this.solicitudRepId = this.solicitudRepuesto.id.toString();
@@ -248,7 +250,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
       this.fueActualizada = true;
     } else {
 
-      if(this.solicitudRepuesto != null) {
+      if (this.solicitudRepuesto != null) {
         this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO;
         this.updateSolicitudRepuesto(this.solicitudRepuesto, false, false);
         this.solicitudRepuesto = null;
@@ -309,10 +311,10 @@ export class EditOrdenTrabajoComponent implements OnInit {
 
     if (isAccionEliminar) {
       if (this.solicitudRepuestoDetalles.length < 1) {
-        if(this.solicitudRepuesto.estado == EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO){
+        if (this.solicitudRepuesto.estado == EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO) {
           this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE;
           this.updateSolicitudRepuesto(this.solicitudRepuesto, true, true);
-        }else {
+        } else {
           this.solicitudRepuesto = null;
           this.solicitudRepId = null;
         }
@@ -421,10 +423,10 @@ export class EditOrdenTrabajoComponent implements OnInit {
       // tslint:disable-next-line:no-shadowed-variable
       solicitud => {
         this.solicitudRepuesto = solicitud;
-        if(guardarOT) {
+        if (guardarOT) {
           this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
           this.saveOrdenTrabajo(this.ordenTrabajo);
-        } else if(isDelete) {
+        } else if (isDelete) {
           this.solicitudRepuesto = null;
           this.solicitudRepId = null;
         }
@@ -465,7 +467,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
     this.equipoService.editarEquipo(equipo).subscribe(
       respuesta => {
         console.log(respuesta)
-        if(isDelete) {
+        if (isDelete) {
           this.clearDatosEquipos();
         }
       },

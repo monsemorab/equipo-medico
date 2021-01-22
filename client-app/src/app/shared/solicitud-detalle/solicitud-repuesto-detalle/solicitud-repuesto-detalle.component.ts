@@ -44,6 +44,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   representante: Representante;
   fechaActualizacion: any;
   readonlyField: boolean;
+  addBtnHabilitado = false;
 
   // Datos Solicitud Repuesto Detalle
   detalleId: number;
@@ -173,6 +174,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     }
     this.readonlyField = this.isAtenderOT;
     this.isEditRepuesto = true;
+    this.addBtnHabilitado = true;
   }
 
   /**
@@ -282,14 +284,14 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
       error => {
         this.errorMessage = error.error;
         if (this.errorMessage == null && error.status == '404') {
-          this.errorMessage = 'No existe repuesto con código ' + this.codigo;
+          this.errorMessage = 'No existe repuesto con código ' + this.codigo + " ingrese los datos requeridos para crearlo";
           this.info = true;
           this.readonlyField = false;
+          this.addBtnHabilitado = true;
         } else {
           console.log(this.errorMessage)
           this.error = true;
         }
-
       }
     );
   }
@@ -353,7 +355,8 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
 
   emitSolicitudRepuestoDetalle(): void {
     this.solicitudRepuestoDetalle = new SolicitudRepuestoDetalle(this.detalleId, null, this.repuesto,
-      this.cantidadSolicitada, this.cantidadUsada);this.detalleRepuestoToUpdate.emit(this.solicitudRepuestoDetalle);
+      this.cantidadSolicitada, this.cantidadUsada);
+    this.detalleRepuestoToUpdate.emit(this.solicitudRepuestoDetalle);
   }
 
   /**
@@ -361,7 +364,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
    * Si se cancela la edición, el repuesto seleccionado es agregado de nuevo la la lista de repuestos.
    */
   onCancelAddEditRepuesto() {
-    this.cancelAddEditRepuesto.emit(this.repuesto);
+    this.cancelAddEditRepuesto.emit(this.solicitudRepuestoDetalle);
   }
 
   /**
@@ -378,6 +381,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     this.representante = null;
     this.fechaActualizacion = '';
     this.readonlyField = false;
+    this.addBtnHabilitado = false;
   }
 
 }

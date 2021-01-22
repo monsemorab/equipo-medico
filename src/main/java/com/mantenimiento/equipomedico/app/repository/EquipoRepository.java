@@ -13,9 +13,9 @@ public interface EquipoRepository extends CrudRepository<Equipo, Long> , EquipoR
 
     Equipo getEquipoByNumeroPatrimonialAndEstadoEquals(String numeroPatrimonial, String estado);
 
-    Equipo getEquipoByNumeroSerieAndEstadoEquals(String numeroSerie, String estado);
+    Equipo getEquipoByNumeroSerieEquals(String numeroSerie);
 
-    Equipo getEquiposByNumeroSerieAndNumeroPatrimonialAndEstadoEquals(String numeroSerie, String numeroPatrimonial, String estado);
+    Equipo getEquiposByNumeroSerieAndNumeroPatrimonialEquals(String numeroSerie, String numeroPatrimonial);
 
     List<Equipo> getEquiposByNumeroSerieContains(String numeroSerie);
 

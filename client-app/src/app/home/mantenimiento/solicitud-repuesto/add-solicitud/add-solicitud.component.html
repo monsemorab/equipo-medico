@@ -32,7 +32,7 @@
           </button>
         </div>
       </clr-dg-action-bar>
-      <clr-dg-column class="table-header cod-cant-field">Código</clr-dg-column>
+      <clr-dg-column class="table-header">Código</clr-dg-column>
       <clr-dg-column class="table-header">Descripción</clr-dg-column>
       <clr-dg-column class="table-header">Tipo</clr-dg-column>
       <clr-dg-column class="table-header">Marca</clr-dg-column>
@@ -42,14 +42,14 @@
       <clr-dg-column class="table-header cod-cant-field">Cantidad Solicitada</clr-dg-column>
       <clr-dg-column class="table-header cod-cant-field"></clr-dg-column>
       <clr-dg-row *ngFor="let detalle of solicitudRepuestoDetalles">
-        <clr-dg-cell class="table-column cod-cant-field">>{{detalle.repuesto?.codigo}}</clr-dg-cell>
+        <clr-dg-cell class="table-column">{{detalle.repuesto?.codigo}}</clr-dg-cell>
         <clr-dg-cell class="table-column">{{detalle.repuesto?.descripcionArticulo}}</clr-dg-cell>
         <clr-dg-cell class="table-column">{{detalle.repuesto?.tipoEquipo?.tipo}}</clr-dg-cell>
         <clr-dg-cell class="table-column">{{detalle.repuesto?.modeloEquipo?.marca}}</clr-dg-cell>
         <clr-dg-cell class="table-column">{{detalle.repuesto?.modeloEquipo?.modelo}}</clr-dg-cell>
         <clr-dg-cell class="table-column">{{detalle.repuesto?.representante?.nombre}}</clr-dg-cell>
         <clr-dg-cell class="table-column">{{detalle.repuesto?.precio}}</clr-dg-cell>
-        <clr-dg-cell class="table-column cod-cant-field">>{{detalle.cantidadSolicitada}}</clr-dg-cell>
+        <clr-dg-cell class="table-column cod-cant-field">{{detalle.cantidadSolicitada}}</clr-dg-cell>
         <clr-dg-cell class="table-header cod-cant-field">
           <a class="btn btn-sm btn-warning"
              (click)="eliminarDetalleRepuesto(detalle)">

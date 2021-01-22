@@ -173,6 +173,23 @@
 <!-- registro de servicios-->
 <h3 class="form-informe-sub-title">Registro de Servicios</h3>
 <br/>
+<!-- errors -->
+<div class="clr-row col-12">
+  <div class="alert alert-danger" role="alert" *ngIf="errorServicios">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{errorServiciosMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="errorServicios = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+    <br/>
+  </div>
+
 <div class="clr-row">
   <label class="clr-col-2 form-informe-label">Fecha Inicio:</label>
   <input type="date" name="fehcaIniServicio" [(ngModel)]="fehcaIniServicio"
@@ -214,6 +231,22 @@
 <!-- registro de repuestos-->
 <h3 class="form-informe-sub-title">Registro de Repuestos</h3>
 <br/>
+  <!-- errors -->
+  <div class="clr-row col-12">
+    <div class="alert alert-danger" role="alert" *ngIf="errorRepuestos">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+          </div>
+          <span class="alert-text">{{errorRepuestosMessage}}</span>
+        </div>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="errorRepuestos = false">
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+      <br/>
+    </div>
 <div class="clr-row">
   <label class="clr-col-2 form-informe-label">Fecha Inicio:</label>
   <input type="date" name="fehcaIniRepuesto" [(ngModel)]="fehcaIniRepuesto"
@@ -240,8 +273,8 @@
       <th>Estado del Repuesto</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-solRepuesto>
-    <tr *ngFor="let detalle of solRepuesto">
+  <ng-template pTemplate="body" let-detalle>
+    <tr>
       <td>{{detalle?.solicitud?.fechaSolicitud}}</td>
       <td>{{detalle?.repuesto?.codigo}}</td>
       <td>{{detalle?.repuesto?.descripcionArticulo}}</td>

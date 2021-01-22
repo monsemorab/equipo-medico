@@ -129,7 +129,7 @@ public class EquipoController
 		method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Equipo> getByNumeroSerie(@PathVariable String numeroSerie)
 	{
-		Equipo equipo = equipoService.getByNumeroSerieAndEstadoEquals(numeroSerie, "Operativo");
+		Equipo equipo = equipoService.getByNumeroSerieEquals(numeroSerie);
 		return Optional.ofNullable(equipo)
 			.map(result -> new ResponseEntity<>(
 				result,
@@ -143,8 +143,7 @@ public class EquipoController
 		@PathVariable String numeroSerie,
 		@PathVariable String numeroPatrimonial)
 	{
-		Equipo equipo = equipoService.getEquiposByNumeroSerieAndNumeroPatrimonialAndEstadoEquals(
-			numeroSerie, numeroPatrimonial, "Operativo");
+		Equipo equipo = equipoService.getEquiposByNumeroSerieAndNumeroPatrimonialEquals(numeroSerie, numeroPatrimonial);
 		return Optional.ofNullable(equipo)
 			.map(result -> new ResponseEntity<>(
 				result,

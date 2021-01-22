@@ -188,7 +188,7 @@
     </button>
     <button class="btn btn-success btn-sm" type="button"
             (click)="addRepuesto()"
-            [disabled]="(repuestoForm.form.invalid)">
+            [disabled]="!addBtnHabilitado">
       <clr-icon shape="check"></clr-icon>
       Agregar
     </button>

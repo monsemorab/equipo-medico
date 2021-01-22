@@ -154,7 +154,7 @@
     </section>
     <section class="form-block">
       <button class="btn btn-sm btn-success"
-              [disabled]="(repuestoForm.form.invalid )"
+              [disabled]="!addBtnHabilitado"
               (click)="addRepuesto()">
         <clr-icon shape="floppy"></clr-icon>
         Guardar

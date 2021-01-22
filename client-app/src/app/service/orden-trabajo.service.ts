@@ -45,12 +45,12 @@ export class OrdenTrabajoService {
   }
 
   getAllByEstado(estado: string): Observable<OrdenTrabajo[]> {
-    const url = this.urlOrdenTrabajo + '/byEstado/' + estado;
+    const url = this.urlOrdenTrabajo + '/by-estado/' + estado;
     return this.apiRequest.get(url);
   }
 
   getAllByTipoMantenimiento(tipo: string): Observable<OrdenTrabajo[]> {
-    const url = this.urlOrdenTrabajo + '/filtro/byTipoMantenimiento/' + tipo;
+    const url = this.urlOrdenTrabajo + '/filtro/by-Tipo/' + tipo;
     return this.apiRequest.get(url);
   }
 

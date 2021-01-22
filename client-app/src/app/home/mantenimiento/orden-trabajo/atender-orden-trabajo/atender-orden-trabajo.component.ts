@@ -167,7 +167,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
    * Cuando se guarda la información introducida.
    */
   onSaveMantenimiento() {
-    if(this.ordenTrabajo.estado === EstadoOrdenTrabajo.FINALIZADO) {
+    if(this.estado === EstadoOrdenTrabajo.FINALIZADO) {
       if(this.solicitudRepuesto.estado !== EstadoSolicitudRepuesto.FINALIZADO) {
         this.errorMessage = "La Orden de Trabajo no puede ser Finalizada. La Solicitud de Repuesto aún no fue finalizada.";
         this.error = true;
@@ -192,8 +192,8 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
           this.ordenTrabajo.tipoServicio, this.equipo.estado, this.fechaMantenimiento);
         this.saveMantenimiento(this.servicioRealizado);
       }
-      this.goBack();
     }
+
   }
 
   /**
@@ -237,6 +237,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.equipoService.editarEquipo(equipo).subscribe(
       respuesta => {
         console.log(respuesta)
+        this.goListaDeTrabajosFinalizados()
       },
       error => {
         this.errorMessage = error.error;

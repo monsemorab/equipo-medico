@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Equipo} from "../../../domain/equipo";
 import {ParamsBusquedaEquipo} from "../../../domain/ParamsBusquedaEquipo";
 import {EquipoService} from "../../../service/equipo.service";
@@ -39,12 +39,17 @@ export class InformeEquiposComponent implements OnInit {
 
   // Errors
   errorMessage: string;
-  error:boolean;
+  errorServiciosMessage: string;
+  errorRepuestosMessage: string;
+  error: boolean;
+  errorServicios: boolean;
+  errorRepuestos: boolean;
   info: boolean;
 
   constructor(private equipoService: EquipoService,
               private mantenimientoService: ManteniminetoService,
-              private solicitudRepuestoDetalleService: SolicitudRepuestoDetalleService) { }
+              private solicitudRepuestoDetalleService: SolicitudRepuestoDetalleService) {
+  }
 
   ngOnInit() {
     this.numeroSerie = '';
@@ -57,7 +62,7 @@ export class InformeEquiposComponent implements OnInit {
    */
   onEnterNroSerie(value: string) {
     this.habilitarBtnManFilter = false;
-    this.habilitarBtnRepFilter  = false;
+    this.habilitarBtnRepFilter = false;
     this.info = false;
     if (value !== '' && value != null) {
       this.numeroSerie = value;
@@ -80,7 +85,7 @@ export class InformeEquiposComponent implements OnInit {
    */
   onEnterNroPatrimonial(value: string) {
     this.habilitarBtnManFilter = false;
-    this.habilitarBtnRepFilter  = false;
+    this.habilitarBtnRepFilter = false;
     this.info = false;
     if (value !== '' && value != null) {
       this.numeroPatrimonial = value;
@@ -111,6 +116,7 @@ export class InformeEquiposComponent implements OnInit {
         this.equipoSeleccionado = equipo;
         this.camposEquipo(equipo);
         this.buscarMantenimientoByEquipo(equipo.id);
+        this.buscarSolicitudRepuestosByEquipo(equipo.id);
         this.error = false;
       },
       error => {
@@ -135,7 +141,8 @@ export class InformeEquiposComponent implements OnInit {
     this.mantenimientoService.getAllMantenimientoByEquipoId(equipoId).subscribe(
       mantenimientos => {
         this.mantenimientos = mantenimientos;
-        if(mantenimientos.length > 0) {
+        if (mantenimientos.length > 0) {
+          this.formateoFechasServicios();
           this.habilitarBtnManFilter = true;
         }
       },
@@ -156,7 +163,8 @@ export class InformeEquiposComponent implements OnInit {
     this.mantenimientoService.getAllMantenimientoByEquipoIdAndFecha(equipoId, fehcaIni, fechaFin).subscribe(
       mantenimientos => {
         this.mantenimientos = mantenimientos;
-        if(mantenimientos.length > 0) {
+        if (mantenimientos.length > 0) {
+          this.formateoFechasServicios();
           this.habilitarBtnManFilter = true;
         }
       },
@@ -170,9 +178,19 @@ export class InformeEquiposComponent implements OnInit {
   /**
    * Filtrar por rango de fechas la lista de mantenimientos de un equipo
    */
-  filtrarManteniiento():void {
-    if(this.fehcaIniServicio != '' && this.fechaFinServicio!= '') {
-      this.buscarMantenimientoByEquipoAndRangoFechas(this.equipoSeleccionado.id, this.fehcaIniServicio, this.fechaFinServicio);
+  filtrarManteniiento(): void {
+    this.errorServicios = false;
+    if (this.fehcaIniServicio != '' && this.fechaFinServicio != '') {
+      const partfehcaIni = this.fehcaIniServicio.split('-');
+      const partfechaFin = this.fechaFinServicio.split('-');
+      this.fehcaIniServicio = partfehcaIni[0] + '/' + partfehcaIni[1] + '/' + partfehcaIni[2];
+      this.fechaFinServicio = partfechaFin[0] + '/' + partfechaFin[1] + '/' + partfechaFin[2];
+      if (new Date(+partfehcaIni[0], +partfehcaIni[1] - 1, +partfehcaIni[2]) > new Date(+partfechaFin[0], +partfechaFin[1] - 1, +partfechaFin[2])) {
+        this.errorServiciosMessage = "La fecha final no puede ser mayor a la fecha inicial.";
+        this.errorServicios = true;
+      } else {
+        this.buscarMantenimientoByEquipoAndRangoFechas(this.equipoSeleccionado.id, this.fehcaIniServicio, this.fechaFinServicio);
+      }
     } else {
       this.buscarMantenimientoByEquipo(this.equipoSeleccionado.id);
     }
@@ -187,7 +205,8 @@ export class InformeEquiposComponent implements OnInit {
     this.solicitudRepuestoDetalleService.getAllSolicitudRepuestosDetByEquipoId(equipoId).subscribe(
       detalles => {
         this.solRepuestosDet = detalles;
-        if(detalles.length > 0) {
+        if (detalles.length > 0) {
+          this.formateoFechasRepuestosDet();
           this.habilitarBtnRepFilter = true;
         }
       },
@@ -208,7 +227,8 @@ export class InformeEquiposComponent implements OnInit {
     this.solicitudRepuestoDetalleService.getAllSolicitudRepuestosDetByEquipoIdAndFecha(equipoId, fehcaIni, fechaFin).subscribe(
       detalles => {
         this.solRepuestosDet = detalles;
-        if(detalles.length > 0) {
+        if (detalles.length > 0) {
+          this.formateoFechasRepuestosDet();
           this.habilitarBtnRepFilter = true;
         }
       },
@@ -222,11 +242,35 @@ export class InformeEquiposComponent implements OnInit {
   /**
    * Filtrar por fechas la lista de solicitud de repuestos de un equipo
    */
-  filtrarRepuestos():void {
-    if(this.fehcaIniRepuesto != '' && this.fechaFinRepuesto!= '') {
-      this.buscarSolicitudRepuestosByEquipoAndRangoFechas(this.equipoSeleccionado.id, this.fehcaIniRepuesto, this.fechaFinRepuesto);
+  filtrarRepuestos(): void {
+    this.errorRepuestos = false;
+    if (this.fehcaIniRepuesto != '' && this.fechaFinRepuesto != '') {
+      const partfehcaIniRep = this.fehcaIniRepuesto.split('-');
+      const partfechaFinRep = this.fehcaIniRepuesto.split('-');
+      this.fehcaIniRepuesto = partfehcaIniRep[0] + '/' + partfehcaIniRep[1] + '/' + partfehcaIniRep[2];
+      this.fechaFinRepuesto = partfechaFinRep[0] + '/' + partfechaFinRep[1] + '/' + partfechaFinRep[2];
+      if (new Date(+partfehcaIniRep[0], +partfehcaIniRep[1] - 1, +partfehcaIniRep[2]) > new Date(+partfechaFinRep[0], +partfechaFinRep[1] - 1, +partfechaFinRep[2])) {
+        this.errorRepuestosMessage = "La fecha final no puede ser mayor a la fecha inicial.";
+        this.errorRepuestos = true;
+      } else {
+        this.buscarSolicitudRepuestosByEquipoAndRangoFechas(this.equipoSeleccionado.id, this.fehcaIniRepuesto, this.fechaFinRepuesto);
+      }
     } else {
       this.buscarSolicitudRepuestosByEquipo(this.equipoSeleccionado.id);
+    }
+  }
+
+  formateoFechasRepuestosDet() {
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    for (let i = 0; i < this.solRepuestosDet.length; i++) {
+      this.solRepuestosDet[i].solicitud.fechaSolicitud = datepipe.transform(this.solRepuestosDet[i].solicitud.fechaSolicitud, 'dd-MM-yyyy');
+    }
+  }
+
+  formateoFechasServicios() {
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    for (let i = 0; i < this.mantenimientos.length; i++) {
+      this.mantenimientos[i].fechaMantenimiento = datepipe.transform(this.mantenimientos[i].fechaMantenimiento, 'dd-MM-yyyy');
     }
   }
 
@@ -235,7 +279,7 @@ export class InformeEquiposComponent implements OnInit {
     this.fechaFabricacion = equipo.fechaFabricacion;
     this.fechaVenGarantia = datepipe.transform(equipo.fechaVenGarantia, 'yyyy-MM-dd');
     this.fechaInstalacion = datepipe.transform(equipo.fechaInstalacion, 'yyyy-MM-dd');
-    this.fechaCompra  = datepipe.transform(equipo.fechaCompra, 'yyyy-MM-dd');
+    this.fechaCompra = datepipe.transform(equipo.fechaCompra, 'yyyy-MM-dd');
   }
 
 }

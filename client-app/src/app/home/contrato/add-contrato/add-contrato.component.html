@@ -25,7 +25,7 @@
         <label class="form-add-contrato-label required" for="id">ID:</label>
       </div>
       <div class="col-xs-2">
-        <input class="form-control" id="id" required
+        <input class="form-control" id="id" required tabindex="1"
                name="id" [(ngModel)]="contratoId">
       </div>
 
@@ -33,7 +33,7 @@
         <label class="form-add-contrato-label" for="nroContrato">Nro. Contrato:</label>
       </div>
       <div class="col-xs-2">
-        <input class="form-control" id="nroContrato"
+        <input class="form-control" id="nroContrato" tabindex="2"
                name="nroContrato" [(ngModel)]="numeroContrato">
       </div>
     </div>
@@ -43,7 +43,7 @@
         <label class="form-add-contrato-label required" for="tipo">Tipo Procedimiento:</label>
       </div>
       <div class="col-xs-2">
-        <input class="form-control" id="tipo" required
+        <input class="form-control" id="tipo" required tabindex="3"
                name="tipo" [(ngModel)]="tipoProcedimiento">
       </div>
 
@@ -51,7 +51,7 @@
         <label class="form-add-contrato-label" for="nroProc">Nro Procedimiento:</label>
       </div>
       <div class="col-xs-2">
-        <input class="form-control" id="nroProc"
+        <input class="form-control" id="nroProc" tabindex="4"
                name="nroProc" [(ngModel)]="numeroProcedimiento">
       </div>
     </div>
@@ -61,7 +61,7 @@
         <label class="form-add-contrato-label required" for="convocante">Convocante:</label>
       </div>
       <div class="col-xs-5">
-        <input class="form-control" id="convocante" required
+        <input class="form-control" id="convocante" required tabindex="5"
                name="convocante" [(ngModel)]="convocante">
       </div>
     </div>
@@ -71,7 +71,7 @@
         <label class="form-add-contrato-label required">Nombre Licitación:</label>
       </div>
       <div class="col-xs-5">
-        <textarea class="form-control" id="descripcion" rows="5" tabindex="9"
+        <textarea class="form-control" id="descripcion" rows="5" tabindex="6"
                   name="descripcion" [(ngModel)]="nombreLicitacion" required>
             </textarea>
       </div>
@@ -83,7 +83,7 @@
       </div>
       <div class="col-xs-2">
         <div class="select form-control">
-          <select class="select-form-contrato" id="estado" #selectEstado name="estado"
+          <select class="select-form-contrato" id="estado" #selectEstado name="estado" tabindex="7"
                   [(ngModel)]="estadoContrato"
                   (change)="onSelectedEstadoContrado(selectEstado.value)">
             <option *ngFor="let estado of estadosContrato"
@@ -98,7 +98,7 @@
         <label class="form-add-contrato-label required">Fecha Inicio:</label>
       </div>
       <div class="col-xs-2">
-        <input type="date" name="fechaInicio" [(ngModel)]="fechaInicio"
+        <input type="date" name="fechaInicio" [(ngModel)]="fechaInicio" tabindex="8"
                min="1990-01-01" max="2050-12-31" required>
       </div>
     </div>
@@ -107,7 +107,7 @@
         <label class="form-add-contrato-label required">Finalización:</label>
       </div>
       <div class="col-xs-2">
-        <input type="date" name="fechaFin" [(ngModel)]="fechaFin"
+        <input type="date" name="fechaFin" [(ngModel)]="fechaFin" tabindex="9"
                min="1990-01-01" max="2050-12-31" required>
 
       </div>
@@ -121,7 +121,7 @@
       <div class="col-xs-5">
         <div class="select form-control">
           <select class="select-form-contrato" id="equipo" #selectEquipo name="equipo"
-                  [(ngModel)]="equipoId"
+                  [(ngModel)]="equipoId" tabindex="10"
                   (change)="onSelectedEquipo(selectEquipo.value.toString())">
             <option *ngFor="let equipo of equipos"
                     value={{equipo.id}}>{{equipo.numeroSerie}} - {{equipo.descripcionEquipo}}-
