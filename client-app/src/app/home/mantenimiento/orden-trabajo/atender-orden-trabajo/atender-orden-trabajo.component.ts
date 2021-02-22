@@ -148,6 +148,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.solicitudRepuestoDetalles.push(value);
     this.detalleSeleccionado = null;
     this.modalAddEditDetalleOpen = false;
+    this.verificarSolicitudRepuesto();
   }
 
   /**
@@ -164,28 +165,39 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
   }
 
   /**
+   * Se verifica que todos los repuestos dentro de la solicitud de repuestos se hayan completado la cantidad adquirida
+   * y la cantidad usada en la orden de trabajo.
+   * Si estos campos estan vacios o son cero, se toma como que el repuesto no ha sido adquirido.
+   */
+  verificarSolicitudRepuesto() {
+    let repuestoAdquirido = 0;
+    for (let i = 0; i < this.solicitudRepuestoDetalles.length; i++) {
+      if ((this.solicitudRepuestoDetalles[i].cantidadUsada !== null && this.solicitudRepuestoDetalles[i].cantidadUsada > 0) &&
+        (this.solicitudRepuestoDetalles[i].repuesto.cantidadAdquirida !== undefined &&
+          this.solicitudRepuestoDetalles[i].repuesto.cantidadAdquirida > 0)) {
+        repuestoAdquirido++;
+      }
+    }
+
+    /**
+     * toda la lista de repuesto deben tener los campos cantidadUsada y cantidadAdquirida completados con valores mayores
+     * a cero para que el estado de la solicitud sea Finalizado. */
+    if(repuestoAdquirido === this.solicitudRepuestoDetalles.length) {
+      this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.FINALIZADO;
+    } else {
+      this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO ;
+    }
+  }
+
+  /**
    * Cuando se guarda la información introducida.
    */
   onSaveMantenimiento() {
-    if(this.estado === EstadoOrdenTrabajo.FINALIZADO) {
-      if(this.solicitudRepuesto.estado !== EstadoSolicitudRepuesto.FINALIZADO) {
-        this.errorMessage = "La Orden de Trabajo no puede ser Finalizada. La Solicitud de Repuesto aún no fue finalizada.";
-        this.error = true;
-      } else {
-        let cantUsadaNoActualizada = false;
-        for (let i = 0; i < this.solicitudRepuestoDetalles.length; i++) {
-          if (this.solicitudRepuestoDetalles[i].cantidadUsada === null ||
-            this.solicitudRepuestoDetalles[i].cantidadUsada === undefined) {
-            cantUsadaNoActualizada = true;
-            break;
-          }
-        }
-        if(cantUsadaNoActualizada) {
-          this.errorMessage = "La Orden de Trabajo no puede ser Finalizada. El campo Cant. Usada del repuesto no ha sido actualziada.";
-          this.error = true;
-        }
-      }
+    if (this.estado === EstadoOrdenTrabajo.FINALIZADO && this.solicitudRepuesto.estado !== EstadoSolicitudRepuesto.FINALIZADO) {
+      this.errorMessage = "La Orden de Trabajo no puede ser Finalizada. La Solicitud de Repuesto aún no fue finalizada.";
+      this.error = true;
     }
+
     if(!this.error) {
       if (this.tareaRealizada != '' && this.nombreTecnico != '') {
         this.servicioRealizado = new Mantenimiento(null, this.tareaRealizada, this.informeNro, this.nombreTecnico,

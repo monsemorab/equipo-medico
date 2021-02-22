@@ -1,5 +1,5 @@
 export enum EstadoOrdenTrabajo {
-  PENDIENTE = 'Pendiente ',
+  PENDIENTE = 'Pendiente',
   EN_PROCESO = 'En Proceso',
   CANCELADO = 'Cancelado',
   FINALIZADO = 'Finalizado'

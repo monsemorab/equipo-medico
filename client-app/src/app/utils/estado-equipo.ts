@@ -1,5 +1,5 @@
 export enum EstadoEquipo {
-  INOPERATIVO = 'Inoperativo ',
+  INOPERATIVO = 'Inoperativo',
   OPERATIVO = 'Operativo',
   IRREPARABLE = 'Irreparable',
 }
