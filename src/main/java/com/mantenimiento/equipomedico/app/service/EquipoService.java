@@ -67,4 +67,12 @@ public interface EquipoService
 	List<Equipo> getEquiposByNumeroSerieContainsAndNumeroPatrimonialContains(String numeroSerie, String numeroPatrimonial);
 
 	List<Equipo> getEquiposByFilter(Map<String, String> customQuery);
+
+	/**
+	 * Cambio de estado
+	 * @param id el id del equipo
+	 * @param estado el estado del equipo
+	 * @return
+	 */
+	Equipo cambioEstado(Long id, String estado);
 }

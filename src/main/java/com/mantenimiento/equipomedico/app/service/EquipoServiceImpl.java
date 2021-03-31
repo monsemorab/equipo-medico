@@ -1,12 +1,17 @@
 package com.mantenimiento.equipomedico.app.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.mantenimiento.equipomedico.app.entidad.Equipo;
+import com.mantenimiento.equipomedico.app.entidad.RegistroEstadosEquipo;
 import com.mantenimiento.equipomedico.app.repository.EquipoRepository;
+import com.mantenimiento.equipomedico.app.repository.RegistroEstadosEquipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +21,9 @@ public class EquipoServiceImpl implements EquipoService
 
 	@Autowired
 	private EquipoRepository equipoRepository;
+
+	@Autowired
+	private RegistroEstadosEquipoRepository registroEstadosEquipoRepository;
 
 
 	/**
@@ -150,5 +158,30 @@ public class EquipoServiceImpl implements EquipoService
 
 		return equipoRepository.getEquiposByFilter(tipo, marca, modelo, servicio, estadoEquipo, estadoContrato);
 	}
+
+	@Override
+	public Equipo cambioEstado(Long id, String estado)
+	{
+		Equipo equipo = equipoRepository.getById(id);
+		equipo.setEstado(estado);
+
+		LocalDateTime fechaActual = LocalDateTime.now();
+
+		RegistroEstadosEquipo ultimoRegistro = registroEstadosEquipoRepository.getRegistroEstadosEquipoByEquipoIdAndFechaFinIsNull(id);
+		if(Objects.nonNull(ultimoRegistro)){
+			ultimoRegistro.setFechaFin(fechaActual);
+			registroEstadosEquipoRepository.save(ultimoRegistro);
+		}
+
+		RegistroEstadosEquipo registroEstadosEquipo = new RegistroEstadosEquipo();
+		registroEstadosEquipo.setEquipoId(id);
+		registroEstadosEquipo.setEstado(estado);
+		registroEstadosEquipo.setFechaInicio(fechaActual);
+		registroEstadosEquipo.setFechaFin(null);
+		registroEstadosEquipoRepository.save(registroEstadosEquipo);
+
+		return equipoRepository.save(equipo);
+	}
+
 
 }

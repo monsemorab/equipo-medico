@@ -172,4 +172,20 @@ public class EquipoController
 		return equipoService.getEquiposByFilter(customQuery);
 	}
 
+
+	/**
+	 * Cambio de estado de un equipo
+	 *
+	 * @param equipoId el id correspondiente al equipo
+	 * @param estado el estado al que se desea cambiar
+	 * @return
+	 * @throws URISyntaxException
+	 */
+	@RequestMapping(value= "/cambio-estado", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Equipo> cambioEstado(@RequestParam Long equipoId, @RequestParam String estado) throws URISyntaxException
+	{
+		Equipo result = equipoService.cambioEstado(equipoId, estado);
+		return ResponseEntity.created(new URI("/api/equipos/cambio-estado" + result.getId()))
+			.body(result);
+	}
 }
