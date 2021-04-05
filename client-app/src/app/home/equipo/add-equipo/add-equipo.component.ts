@@ -373,6 +373,21 @@ export class AddEquipoComponent implements OnInit {
       // tslint:disable-next-line:no-shadowed-variable
       equipo => {
         this.equipo = equipo;
+        this.cambioEstadoEquipo(this.equipo);
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  cambioEstadoEquipo(equipo: Equipo): void {
+    this.equipoService.cambioEstadoEquipo(equipo).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
+      equipo => {
+        this.equipo = equipo;
         this.equipoService.emitExisteListaEquipos(true);
         this.goBack();
       },

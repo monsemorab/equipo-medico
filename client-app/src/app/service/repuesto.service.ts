@@ -47,7 +47,7 @@ export class RepuestoService {
    * @param filtro
    */
   getRepuestosFiltrados(filtro: string): Observable<Repuesto[]> {
-    const url = this.urlRepuesto + 'by-filter?' + filtro;
+    const url = this.urlRepuesto + '/by-filter?' + filtro;
     return this.apiRequest.get(url);
   }
 

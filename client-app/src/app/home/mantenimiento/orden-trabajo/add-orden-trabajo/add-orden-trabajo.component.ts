@@ -100,7 +100,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
    * Se obtienen todas las solicitudes de repuestos con estado pendiente
    */
   getAllSolicitudRepuestosPendientes(): void {
-    this.solicitudRepuestoService.getAllSolicitudRepuestos().subscribe(
+    this.solicitudRepuestoService.getAllSolicitudRepuestosPendientes().subscribe(
       solicitudesPendientes => {
         this.solicitudRepuestoPendientes = solicitudesPendientes;
       },
@@ -127,6 +127,10 @@ export class AddOrdenTrabajoComponent implements OnInit {
    */
   onEnterNroSerie(value: string) {
     if (value !== '' && value != null) {
+      if(this.selectedEquipo) {
+        this.numeroSerie = '';
+        this.numeroPatrimonial = '';
+      }
       this.numeroSerie = value;
       this.buscarEquipo(this.numeroSerie, this.numeroPatrimonial);
     }
@@ -146,6 +150,10 @@ export class AddOrdenTrabajoComponent implements OnInit {
    */
   onEnterNroPatrimonial(value: string) {
     if (value !== '' && value != null) {
+      if(this.selectedEquipo) {
+        this.numeroSerie = '';
+        this.numeroPatrimonial = '';
+      }
       this.numeroPatrimonial = value;
       this.buscarEquipo(this.numeroSerie, this.numeroPatrimonial);
     }
@@ -220,6 +228,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
         this.solicitudRepuesto = solicitudRep;
         this.solicitudRepuestoDetalles = this.solicitudRepuesto.solicitudRepuestoDetalles;
         this.repError = false;
+        this.fueActualizada = true;
       },
       error => {
         this.repErrorMessage = error.error;
@@ -406,11 +415,27 @@ export class AddOrdenTrabajoComponent implements OnInit {
   updateEquipo(equipo: Equipo): void {
     this.equipoService.editarEquipo(equipo).subscribe(
       respuesta => {
+        this.cambioEstadoEquipo(respuesta);
         console.log(respuesta)
       },
       error => {
         this.errorMessage = error.error;
         console.log(error.error + error.message)
+        this.error = true;
+      }
+    );
+  }
+
+  cambioEstadoEquipo(equipo: Equipo): void {
+    this.equipoService.cambioEstadoEquipo(equipo).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
+      equipo => {
+        console.log(equipo)
+        this.goBack();
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

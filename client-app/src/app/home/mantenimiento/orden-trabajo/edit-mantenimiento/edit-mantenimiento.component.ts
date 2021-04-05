@@ -250,11 +250,26 @@ export class EditMantenimientoComponent implements OnInit {
   updateEquipo(equipo: Equipo): void {
     this.equipoService.editarEquipo(equipo).subscribe(
       respuesta => {
-        console.log(respuesta)
+        console.log(respuesta);
+        this.cambioEstadoEquipo(respuesta);
       },
       error => {
         this.errorMessage = error.error;
         console.log(error.error + error.message)
+        this.error = true;
+      }
+    );
+  }
+
+  cambioEstadoEquipo(equipo: Equipo): void {
+    this.equipoService.cambioEstadoEquipo(equipo).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
+      respuesta => {
+        console.log(respuesta);
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

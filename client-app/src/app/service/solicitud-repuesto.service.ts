@@ -40,7 +40,7 @@ export class SolicitudRepuestoService {
    * Se obtienen las solicitudes de repeustos pendientes
    */
   getAllSolicitudRepuestosPendientes(): Observable<SolicitudRepuesto[]> {
-    const url = this.urlRepuestos + '/by-estado/PENDIENTE';
+    const url = this.urlRepuestos + '/by-estado/Pendiente';
     return this.apiRequest.get(url);
   }
 

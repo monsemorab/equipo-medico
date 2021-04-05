@@ -32,9 +32,7 @@
     </button>
   </div>
 </div>
-
 <br/>
-
 <div class="clr-row">
   <label class="clr-col-2 form-informe-label">Nro Serie:</label>
   <input clrControl class="clr-col-2" id="nroSerie"
@@ -174,21 +172,20 @@
 <h3 class="form-informe-sub-title">Registro de Servicios</h3>
 <br/>
 <!-- errors -->
-<div class="clr-row col-12">
-  <div class="alert alert-danger" role="alert" *ngIf="errorServicios">
-    <div class="alert-items">
-      <div class="alert-item static">
-        <div class="alert-icon-wrapper">
-          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-        </div>
-        <span class="alert-text">{{errorServiciosMessage}}</span>
+<div class="alert alert-danger" role="alert" *ngIf="errorServicios">
+  <div class="alert-items">
+    <div class="alert-item static">
+      <div class="alert-icon-wrapper">
+        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
       </div>
+      <span class="alert-text">{{errorServiciosMessage}}</span>
     </div>
-    <button type="button" class="close" aria-label="Close" (click)="errorServicios = false">
-      <clr-icon aria-hidden="true" shape="close"></clr-icon>
-    </button>
-    <br/>
   </div>
+  <button type="button" class="close" aria-label="Close" (click)="errorServicios = false">
+    <clr-icon aria-hidden="true" shape="close"></clr-icon>
+  </button>
+  <br/>
+</div>
 
 <div class="clr-row">
   <label class="clr-col-2 form-informe-label">Fecha Inicio:</label>
@@ -205,48 +202,34 @@
     </a>
   </div>
 </div>
-<p-table [value]="mantenimientos">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Fecha</th>
-      <th>Horas de uso del Equipo</th>
-      <th>Trabajo Realizado</th>
-      <th>Estado del Equipo</th>
-      <th>Informe Nro</th>
-      <th>Tipo de Mantenimiento</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-mantenimiento>
-    <tr>
-      <td>{{mantenimiento.fechaMantenimiento}}</td>
-      <td></td>
-      <td>{{mantenimiento.tareaRealizada}}</td>
-      <td></td>
-      <td>{{mantenimiento.informeNumero}}</td>
-      <td></td>
-    </tr>
-  </ng-template>
-</p-table>
+<table class="table table-compact">
+  <thead>
+  <tr>
+    <th class="left">Fecha</th>
+    <th>Horas de uso del Equipo</th>
+    <th>Trabajo Realizado</th>
+    <th>Estado del Equipo</th>
+    <th>Informe Nro</th>
+    <th class="left">Tipo de Mantenimiento</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let mantenimiento of mantenimientos">
+    <td class="left">{{mantenimiento.fechaMantenimiento}}</td>
+    <td></td>
+    <td>{{mantenimiento.tareaRealizada}}</td>
+    <td></td>
+    <td>{{mantenimiento.informeNumero}}</td>
+    <td class="left"></td>
+  </tr>
+  </tbody>
+</table>
+
 
 <!-- registro de repuestos-->
 <h3 class="form-informe-sub-title">Registro de Repuestos</h3>
 <br/>
-  <!-- errors -->
-  <div class="clr-row col-12">
-    <div class="alert alert-danger" role="alert" *ngIf="errorRepuestos">
-      <div class="alert-items">
-        <div class="alert-item static">
-          <div class="alert-icon-wrapper">
-            <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-          </div>
-          <span class="alert-text">{{errorRepuestosMessage}}</span>
-        </div>
-      </div>
-      <button type="button" class="close" aria-label="Close" (click)="errorRepuestos = false">
-        <clr-icon aria-hidden="true" shape="close"></clr-icon>
-      </button>
-      <br/>
-    </div>
+<!-- errors -->
 <div class="clr-row">
   <label class="clr-col-2 form-informe-label">Fecha Inicio:</label>
   <input type="date" name="fehcaIniRepuesto" [(ngModel)]="fehcaIniRepuesto"
@@ -262,25 +245,26 @@
     </a>
   </div>
 </div>
-<p-table [value]="solRepuestosDet">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Fecha</th>
-      <th>Código</th>
-      <th>Descripción</th>
-      <th>Cantidad Solicitada</th>
-      <th>Precio Unitario</th>
-      <th>Estado del Repuesto</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-detalle>
-    <tr>
-      <td>{{detalle?.solicitud?.fechaSolicitud}}</td>
-      <td>{{detalle?.repuesto?.codigo}}</td>
-      <td>{{detalle?.repuesto?.descripcionArticulo}}</td>
-      <td>{{detalle?.cantidadSolicitada}}</td>
-      <td>{{detalle?.repuesto?.precio}}</td>
-      <td>{{detalle?.solicitud?.estado}}</td>
-    </tr>
-  </ng-template>
-</p-table>
+
+<table class="table table-compact">
+  <thead>
+  <tr>
+    <th class="left">Fecha</th>
+    <th>Código</th>
+    <th>Descripción</th>
+    <th>Cantidad Solicitada</th>
+    <th>Precio Unitario</th>
+    <th class="left">Estado del Repuesto</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let detalle of solRepuestosDet">
+    <td class="left">{{detalle?.solicitud?.fechaSolicitud}}</td>
+    <td>{{detalle?.repuesto?.codigo}}</td>
+    <td>{{detalle?.repuesto?.descripcionArticulo}}</td>
+    <td>{{detalle?.cantidadSolicitada}}</td>
+    <td>{{detalle?.repuesto?.precio}}</td>
+    <td class="left">{{detalle?.solicitud?.estado}}</td>
+  </tr>
+  </tbody>
+</table>

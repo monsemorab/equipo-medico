@@ -119,7 +119,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(error.error + error.message);
+        console.log(this.errorMessage)
         this.tipoServicios = [];
       }
     );
@@ -270,6 +270,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
         this.solicitudRepuesto = solicitudRep;
         this.solicitudRepuestoDetalles = this.solicitudRepuesto.solicitudRepuestoDetalles;
         this.repError = false;
+        this.fueActualizada = true;
       },
       error => {
         this.repErrorMessage = error.error;
@@ -378,7 +379,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
       this.fechaRealizacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
 
-    this.ordenTrabajo = new OrdenTrabajo(null, this.estado, this.tipoServicio, this.diagnostico, this.responsable,
+    this.ordenTrabajo = new OrdenTrabajo(this.id, this.estado, this.tipoServicio, this.diagnostico, this.responsable,
       this.equipoSeleccionado, null, null, this.fechaRealizacion);
 
     if (this.esNuevaSolicitudRepuesto) {
@@ -467,6 +468,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
     this.equipoService.editarEquipo(equipo).subscribe(
       respuesta => {
         console.log(respuesta)
+        this.cambioEstadoEquipo(respuesta);
         if (isDelete) {
           this.clearDatosEquipos();
         }
@@ -474,6 +476,21 @@ export class EditOrdenTrabajoComponent implements OnInit {
       error => {
         this.errorMessage = error.error;
         console.log(error.error + error.message);
+        this.error = true;
+      }
+    );
+  }
+
+  cambioEstadoEquipo(equipo: Equipo): void {
+    this.equipoService.cambioEstadoEquipo(equipo).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
+      respuesta => {
+        console.log(respuesta);
+        this.goBack();
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

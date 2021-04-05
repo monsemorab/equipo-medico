@@ -81,6 +81,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.ordenTrabajoService.getEstadosOrdenAtendida().subscribe(
       estados => {
         this.estados = estados;
+        console.log(estados)
       },
       error => {
         this.errorMessage = error.error;
@@ -249,11 +250,26 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.equipoService.editarEquipo(equipo).subscribe(
       respuesta => {
         console.log(respuesta)
-        this.goListaDeTrabajosFinalizados()
+        this.cambioEstadoEquipo(respuesta);
       },
       error => {
         this.errorMessage = error.error;
         console.log(error.error + error.message);
+        this.error = true;
+      }
+    );
+  }
+
+  cambioEstadoEquipo(equipo: Equipo): void {
+    this.equipoService.cambioEstadoEquipo(equipo).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
+      respuesta => {
+        console.log(respuesta)
+        this.goListaDeTrabajosFinalizados();
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
         this.error = true;
       }
     );

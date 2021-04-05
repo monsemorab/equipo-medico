@@ -6,7 +6,6 @@ import {InformeContratosComponent} from "./informe-contratos/informe-contratos.c
 import {InformeEquiposComponent} from "./informe-equipos/informe-equipos.component";
 import {InformeRepuestosComponent} from "./informe-repuestos/informe-repuestos.component";
 import {InformesComponent} from "./informes.component";
-import {TableModule} from "primeng/table";
 
 
 
@@ -14,8 +13,7 @@ import {TableModule} from "primeng/table";
   imports: [
     CommonModule,
     CommonModuleImportsModule,
-    CalendarModule,
-    TableModule
+    CalendarModule
   ],
   exports: [InformesComponent],
   providers: [],

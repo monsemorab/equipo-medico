@@ -414,7 +414,23 @@ export class EditEquipoComponent implements OnInit {
   saveEquipo(equipo: Equipo): void {
     this.equipoService.editarEquipo(equipo).subscribe(
       respuesta => {
-        this.equipo = respuesta;
+        this.equipo = equipo;
+        this.cambioEstadoEquipo(this.equipo);
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  cambioEstadoEquipo(equipo: Equipo): void {
+    this.equipoService.cambioEstadoEquipo(equipo).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
+      equipo => {
+        this.equipo = equipo;
+        this.equipoService.emitExisteListaEquipos(true);
         this.goBack();
       },
       error => {

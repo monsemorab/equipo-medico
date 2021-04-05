@@ -70,6 +70,11 @@ export class EquipoService {
     return this.apiRequest.get(url);
   }
 
+  cambioEstadoEquipo(equipo: Equipo): Observable<Equipo> {
+    const url = this.urlEquipos+'cambio-estado?equipoId='+equipo.id+'&estado='+equipo.estado;
+    return this.apiRequest.post(url, equipo);
+  }
+
   /**
    * Se crea un nuevo equipo con los datos introducidos en el formulario.
    * @param {Equipo} equipo

@@ -92,27 +92,27 @@
 <!-- lista de quipos-->
 <h3 class="form-informe-sub-title">Lista de Equipos</h3>
 <br/>
-<p-table [value]="equipos">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Tipo</th>
-      <th>Marca</th>
-      <th>Modelo</th>
-      <th>Nro. de Serie</th>
-      <th>Nro. Patrimonial</th>
-      <th>Ubicación</th>
-      <th>Estado</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-equipo>
-    <tr>
-      <td>{{equipo?.tipoEquipo?.tipo}}</td>
-      <td>{{equipo?.modeloEquipo?.marca}}</td>
-      <td>{{equipo?.modeloEquipo?.modelo}}</td>
-      <td>{{equipo?.numeroSerie}}</td>
-      <td>{{equipo?.numeroPatrimonial}}</td>
-      <td>{{equipo?.ubicacion?.servicio}}</td>
-      <td>{{equipo?.estado}}</td>
-    </tr>
-  </ng-template>
-</p-table>
+<table class="table table-compact">
+  <thead>
+  <tr>
+    <th class="left">Tipo</th>
+    <th>Marca</th>
+    <th>Modelo</th>
+    <th>Nro. de Serie</th>
+    <th>Nro. Patrimonial</th>
+    <th>Ubicación</th>
+    <th class="left">Estado</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let equipo of equipos">
+    <td class="left">{{equipo?.tipoEquipo?.tipo}}</td>
+    <td>{{equipo?.modeloEquipo?.marca}}</td>
+    <td>{{equipo?.modeloEquipo?.modelo}}</td>
+    <td>{{equipo?.numeroSerie}}</td>
+    <td>{{equipo?.numeroPatrimonial}}</td>
+    <td>{{equipo?.ubicacion?.servicio}}</td>
+    <td class="left">{{equipo?.estado}}</td>
+  </tr>
+  </tbody>
+</table>
