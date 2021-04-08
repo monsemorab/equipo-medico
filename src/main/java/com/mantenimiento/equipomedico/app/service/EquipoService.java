@@ -1,10 +1,11 @@
 package com.mantenimiento.equipomedico.app.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.mantenimiento.equipomedico.app.entidad.Contrato;
 import com.mantenimiento.equipomedico.app.entidad.Equipo;
+import com.mantenimiento.equipomedico.app.entidad.MetricasDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -75,4 +76,6 @@ public interface EquipoService
 	 * @return
 	 */
 	Equipo cambioEstado(Long id, String estado);
+
+	MetricasDTO calculoMetricas(Long equipoId, Date fechaInicio, Date fechaFin);
 }

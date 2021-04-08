@@ -2,11 +2,14 @@ package com.mantenimiento.equipomedico.app.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import com.mantenimiento.equipomedico.app.entidad.Equipo;
+import com.mantenimiento.equipomedico.app.entidad.Mantenimiento;
+import com.mantenimiento.equipomedico.app.entidad.MetricasDTO;
 import com.mantenimiento.equipomedico.app.service.EquipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -187,5 +190,18 @@ public class EquipoController
 		Equipo result = equipoService.cambioEstado(equipoId, estado);
 		return ResponseEntity.created(new URI("/api/equipos/cambio-estado" + result.getId()))
 			.body(result);
+	}
+
+	/**
+	 * Calculas las metricas dado el id de un equipo, una fecha de inicio y una fecha de fin para la busqueda.
+	 * @param equipoId el id del equipo
+	 * @param fechaInicio la fecha de inicio de la busqueda
+	 * @param fechaFin la fecha de fin de la busqueda
+	 * @return
+	 */
+	@RequestMapping(value = "metricas-by-equipo-and-fecha", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public MetricasDTO getMetricasByEquipoAndFechas(@RequestParam Long equipoId,
+		@RequestParam Date fechaInicio, @RequestParam Date fechaFin) {
+		return equipoService.calculoMetricas(equipoId, fechaInicio, fechaFin);
 	}
 }
