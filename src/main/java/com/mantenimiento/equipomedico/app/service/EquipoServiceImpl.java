@@ -192,6 +192,7 @@ public class EquipoServiceImpl implements EquipoService
 	public MetricasDTO calculoMetricas(Long equipoId, Date fechaInicio, Date fechaFin){
 
 		List<RegistroEstadosEquipo> registroEstadosEquipoList = registroEstadosEquipoRepository.getAllByEquipoIdAAndFechaInicioBetween(equipoId,fechaInicio, fechaFin);
+		registroEstadosEquipoList.sort(Comparator.comparing(RegistroEstadosEquipo::getFechaInicio));
 
 		List<RegistroEstadosEquipo> registrosInoperativosList = registroEstadosEquipoList.stream().filter(f -> f.getEstado().equals("Inoperativo")).collect(
 			Collectors.toList());
@@ -201,26 +202,30 @@ public class EquipoServiceImpl implements EquipoService
 
 		int i = 0;
 		Long totalDays = Long.valueOf(0);
-		while(registrosInoperativosList.get(i).getFechaFin()!=null){
-			LocalDateTime dateBefore = registrosInoperativosList.get(i).getFechaInicio();
-			LocalDateTime dateAfter = registrosInoperativosList.get(i+1).getFechaInicio();
-			Long noOfDaysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
-			i++;
-			totalDays = totalDays + noOfDaysBetween;
+		Long mediaAverias = Long.valueOf(0);
+		if(!registrosInoperativosList.isEmpty()) {
+			while(i < registrosInoperativosList.size() - 1) {
+				LocalDateTime dateBefore = registrosInoperativosList.get(i).getFechaInicio();
+				LocalDateTime dateAfter = registrosInoperativosList.get(i + 1).getFechaInicio();
+				Long noOfDaysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
+				i++;
+				totalDays = totalDays + noOfDaysBetween;
+			}
+			mediaAverias = totalDays / i;
 		}
-
-		Long mediaAverias = totalDays/i;
 
 		//ponemos el ultimo elemento de la lista con fecha actual
 		registroEstadosEquipoList.get(registroEstadosEquipoList.size()-1).setFechaFin(LocalDateTime.now());
 
-		Long totalDaysInactive = Long.valueOf(0);;
-		for(int j=0; j< registroEstadosEquipoList.size(); i++){
-			if("Inoperativo".equals(registroEstadosEquipoList.get(j).getEstado())){
-				LocalDateTime dateBefore = registroEstadosEquipoList.get(j).getFechaInicio();
-				LocalDateTime dateAfter = registroEstadosEquipoList.get(j+1).getFechaInicio();
-				Long noOfDaysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
-				totalDaysInactive = totalDaysInactive +noOfDaysBetween;
+		Long totalDaysInactive = Long.valueOf(0);
+		if(!registrosInoperativosList.isEmpty()) {
+			for(int j = 0; j < registroEstadosEquipoList.size() - 1; j++) {
+				if("Inoperativo".equals(registroEstadosEquipoList.get(j).getEstado())) {
+					LocalDateTime dateBefore = registroEstadosEquipoList.get(j).getFechaInicio();
+					LocalDateTime dateAfter = registroEstadosEquipoList.get(j + 1).getFechaInicio();
+					Long noOfDaysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
+					totalDaysInactive = totalDaysInactive + noOfDaysBetween;
+				}
 			}
 		}
 
@@ -228,6 +233,8 @@ public class EquipoServiceImpl implements EquipoService
 		metricasDTO.setTotalAverias(totalAverias);
 		metricasDTO.setMediaAverias(mediaAverias);
 		metricasDTO.setTotalDaysInactive(totalDaysInactive);
+		metricasDTO.setTotalDaysInstalacion(ChronoUnit.DAYS.between
+			(registroEstadosEquipoList.get(0).getFechaInicio(), (LocalDateTime.now())));
 
 		return metricasDTO;
 	}

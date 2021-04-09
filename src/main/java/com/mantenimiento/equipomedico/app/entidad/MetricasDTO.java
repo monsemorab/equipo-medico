@@ -8,6 +8,7 @@ public class MetricasDTO implements Serializable
 	private Integer totalAverias;
 	private Long mediaAverias;
 	private Long totalDaysInactive;
+	private Long totalDaysInstalacion;
 
 	/**
 	 * Gets totalAverias
@@ -67,5 +68,25 @@ public class MetricasDTO implements Serializable
 	public void setTotalDaysInactive(Long totalDaysInactive)
 	{
 		this.totalDaysInactive = totalDaysInactive;
+	}
+
+	/**
+	 * Gets totalDaysInstalacion
+	 *
+	 * @return value of totalDaysInstalacion
+	 */
+	public Long getTotalDaysInstalacion()
+	{
+		return totalDaysInstalacion;
+	}
+
+	/**
+	 * Set totalDaysInstalacion
+	 *
+	 * @param totalDaysInstalacion
+	 */
+	public void setTotalDaysInstalacion(Long totalDaysInstalacion)
+	{
+		this.totalDaysInstalacion = totalDaysInstalacion;
 	}
 }
