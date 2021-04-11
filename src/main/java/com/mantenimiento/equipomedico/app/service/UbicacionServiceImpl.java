@@ -1,6 +1,5 @@
 package com.mantenimiento.equipomedico.app.service;
 
-import com.mantenimiento.equipomedico.app.entidad.ModeloEquipo;
 import com.mantenimiento.equipomedico.app.entidad.Ubicacion;
 import com.mantenimiento.equipomedico.app.repository.UbicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

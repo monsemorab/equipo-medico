@@ -29,10 +29,10 @@ public class EquipoRepositoryCustomImpl implements EquipoRepositoryCustom
 			predicates.add(cb.equal(equipoRoot.join("tipoEquipo").get("tipo"), tipo));
 		}
 		if(marca != null) {
-			predicates.add(cb.equal(equipoRoot.join("modeloEquipo").get("marca"), marca));
+			predicates.add(cb.equal(equipoRoot.join("marca").get("marca"), marca));
 		}
 		if(modelo != null) {
-			predicates.add(cb.equal(equipoRoot.join("modeloEquipo").get("modelo"), modelo));
+			predicates.add(cb.equal(equipoRoot.join("modelo").get("modelo"), modelo));
 		}
 		if(servicio != null) {
 			predicates.add(cb.equal(equipoRoot.join("ubicacion").get("servicio"), servicio));

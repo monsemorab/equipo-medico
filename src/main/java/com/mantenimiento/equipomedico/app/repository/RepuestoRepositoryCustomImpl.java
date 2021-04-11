@@ -29,10 +29,10 @@ public class RepuestoRepositoryCustomImpl implements RepuestoRepositoryCustom
 			predicates.add(cb.equal(repuestoRoot.join("tipoEquipo").get("tipo"), tipo));
 		}
 		if(marca != null) {
-			predicates.add(cb.equal(repuestoRoot.join("modeloEquipo").get("marca"), marca));
+			predicates.add(cb.equal(repuestoRoot.join("marca").get("marca"), marca));
 		}
 		if(modelo != null) {
-			predicates.add(cb.equal(repuestoRoot.join("modeloEquipo").get("modelo"), modelo));
+			predicates.add(cb.equal(repuestoRoot.join("modelo").get("modelo"), modelo));
 		}
 
 		if(predicates.isEmpty()) {

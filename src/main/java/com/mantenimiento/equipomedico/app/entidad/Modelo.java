@@ -10,8 +10,8 @@ import java.io.Serializable;
  *
  */
 @Entity
-@Table(name = "modelo_equipo")
-public class ModeloEquipo implements Serializable {
+@Table(name = "modelo")
+public class Modelo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,8 +23,9 @@ public class ModeloEquipo implements Serializable {
     @Column(name = "modelo")
     private String modelo;
 
-    @Column(name = "marca")
-    private String marca;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "marca_id")
+    private Marca marca;
 
     @Column(name = "imp")
     private String imp;
@@ -34,7 +35,8 @@ public class ModeloEquipo implements Serializable {
      *
      * @return value of id
      */
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
@@ -43,7 +45,8 @@ public class ModeloEquipo implements Serializable {
      *
      * @param id
      */
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
@@ -52,7 +55,8 @@ public class ModeloEquipo implements Serializable {
      *
      * @return value of modelo
      */
-    public String getModelo() {
+    public String getModelo()
+    {
         return modelo;
     }
 
@@ -61,7 +65,8 @@ public class ModeloEquipo implements Serializable {
      *
      * @param modelo
      */
-    public void setModelo(String modelo) {
+    public void setModelo(String modelo)
+    {
         this.modelo = modelo;
     }
 
@@ -70,7 +75,8 @@ public class ModeloEquipo implements Serializable {
      *
      * @return value of marca
      */
-    public String getMarca() {
+    public Marca getMarca()
+    {
         return marca;
     }
 
@@ -79,7 +85,8 @@ public class ModeloEquipo implements Serializable {
      *
      * @param marca
      */
-    public void setMarca(String marca) {
+    public void setMarca(Marca marca)
+    {
         this.marca = marca;
     }
 
@@ -88,7 +95,8 @@ public class ModeloEquipo implements Serializable {
      *
      * @return value of imp
      */
-    public String getImp() {
+    public String getImp()
+    {
         return imp;
     }
 
@@ -97,7 +105,8 @@ public class ModeloEquipo implements Serializable {
      *
      * @param imp
      */
-    public void setImp(String imp) {
+    public void setImp(String imp)
+    {
         this.imp = imp;
     }
 }

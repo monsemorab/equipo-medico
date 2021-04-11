@@ -52,8 +52,12 @@ public class Equipo implements Serializable {
     private TipoEquipo tipoEquipo;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "modelo_equipo_id")
-    private ModeloEquipo modeloEquipo;
+    @JoinColumn(name = "marca_id")
+    private Marca marca;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "modelo_id")
+    private Modelo modelo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ubicacion_id")
@@ -339,24 +343,6 @@ public class Equipo implements Serializable {
     }
 
     /**
-     * Gets modeloEquipo
-     *
-     * @return value of modeloEquipo
-     */
-    public ModeloEquipo getModeloEquipo() {
-        return modeloEquipo;
-    }
-
-    /**
-     * Set modeloEquipo
-     *
-     * @param modeloEquipo
-     */
-    public void setModeloEquipo(ModeloEquipo modeloEquipo) {
-        this.modeloEquipo = modeloEquipo;
-    }
-
-    /**
      * Gets ubicacion
      *
      * @return value of ubicacion
@@ -428,5 +414,46 @@ public class Equipo implements Serializable {
     public void setHorasUso(Integer horasUso)
     {
         this.horasUso = horasUso;
+    }
+
+
+    /**
+     * Gets marca
+     *
+     * @return value of marca
+     */
+    public Marca getMarca()
+    {
+        return marca;
+    }
+
+    /**
+     * Set marca
+     *
+     * @param marca
+     */
+    public void setMarca(Marca marca)
+    {
+        this.marca = marca;
+    }
+
+    /**
+     * Gets modelo
+     *
+     * @return value of modelo
+     */
+    public Modelo getModelo()
+    {
+        return modelo;
+    }
+
+    /**
+     * Set modelo
+     *
+     * @param modelo
+     */
+    public void setModelo(Modelo modelo)
+    {
+        this.modelo = modelo;
     }
 }

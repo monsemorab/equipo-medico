@@ -1,6 +1,6 @@
 package com.mantenimiento.equipomedico.app.controller;
 
-import com.mantenimiento.equipomedico.app.entidad.ModeloEquipo;
+import com.mantenimiento.equipomedico.app.entidad.Modelo;
 import com.mantenimiento.equipomedico.app.service.ModeloEquipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,8 +32,8 @@ public class ModeloEquipoController {
      * @throws URISyntaxException
      */
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ModeloEquipo> create(@RequestBody ModeloEquipo modeloEquipo) throws URISyntaxException {
-        ModeloEquipo result = modeloEquipoService.create(modeloEquipo);
+    public ResponseEntity<Modelo> create(@RequestBody Modelo modeloEquipo) throws URISyntaxException {
+        Modelo result = modeloEquipoService.create(modeloEquipo);
         return ResponseEntity.created(new URI("/api/modelos/" + result.getId()))
                 .body(result);
     }
@@ -46,8 +46,8 @@ public class ModeloEquipoController {
      * @throws URISyntaxException
      */
     @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ModeloEquipo> update(@RequestBody ModeloEquipo modeloEquipo) throws URISyntaxException {
-        ModeloEquipo result = modeloEquipoService.update(modeloEquipo);
+    public ResponseEntity<Modelo> update(@RequestBody Modelo modeloEquipo) throws URISyntaxException {
+        Modelo result = modeloEquipoService.update(modeloEquipo);
         return ResponseEntity.created(new URI("/api/modelos/" + result.getId()))
                 .body(result);
     }
@@ -58,7 +58,7 @@ public class ModeloEquipoController {
      * @return modeloEquipos lista de modeloEquipos.
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ModeloEquipo> getAll() {
+    public List<Modelo> getAll() {
         return modeloEquipoService.getAll ();
     }
 
@@ -69,8 +69,8 @@ public class ModeloEquipoController {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ModeloEquipo> get(@PathVariable Long id) {
-        ModeloEquipo modeloEquipo = modeloEquipoService.get(id);
+    public ResponseEntity<Modelo> get(@PathVariable Long id) {
+        Modelo modeloEquipo = modeloEquipoService.get(id);
         return Optional.ofNullable(modeloEquipo)
                 .map(result -> new ResponseEntity<>(
                         result,
@@ -78,5 +78,14 @@ public class ModeloEquipoController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * Obtiene la lista de modeloEquipos by marca
+     *
+     * @return modeloEquipos lista de modeloEquipos.
+     */
+    @RequestMapping(value = "/by-marca/{marcaId}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Modelo> getAll(@PathVariable Long marcaId) {
+        return modeloEquipoService.getAllModelosByMarca(marcaId);
+    }
 
 }

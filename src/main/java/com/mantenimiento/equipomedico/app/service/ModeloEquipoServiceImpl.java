@@ -1,8 +1,7 @@
 package com.mantenimiento.equipomedico.app.service;
 
-import com.mantenimiento.equipomedico.app.entidad.ModeloEquipo;
-import com.mantenimiento.equipomedico.app.entidad.Representante;
-import com.mantenimiento.equipomedico.app.repository.ModeloEquipoRepository;
+import com.mantenimiento.equipomedico.app.entidad.Modelo;
+import com.mantenimiento.equipomedico.app.repository.ModeloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ import java.util.Optional;
 public class ModeloEquipoServiceImpl implements ModeloEquipoService {
 
     @Autowired
-    private ModeloEquipoRepository modeloEquipoRepository;
+    private ModeloRepository modeloEquipoRepository;
 
     /**
      * Creación de un nuevo modeloEquipo.
@@ -23,7 +22,7 @@ public class ModeloEquipoServiceImpl implements ModeloEquipoService {
      * @return
      */
     @Override
-    public ModeloEquipo create(ModeloEquipo modeloEquipo) {
+    public Modelo create(Modelo modeloEquipo) {
         return modeloEquipoRepository.save(modeloEquipo);
     }
 
@@ -34,7 +33,7 @@ public class ModeloEquipoServiceImpl implements ModeloEquipoService {
      * @return
      */
     @Override
-    public ModeloEquipo update(ModeloEquipo modeloEquipo) {
+    public Modelo update(Modelo modeloEquipo) {
         return modeloEquipoRepository.save(modeloEquipo);
     }
 
@@ -45,8 +44,8 @@ public class ModeloEquipoServiceImpl implements ModeloEquipoService {
      * @return
      */
     @Override
-    public ModeloEquipo get(Long id) {
-        Optional<ModeloEquipo> entity = modeloEquipoRepository.findById(id);
+    public Modelo get(Long id) {
+        Optional<Modelo> entity = modeloEquipoRepository.findById(id);
         return entity.orElse(null);
     }
 
@@ -56,7 +55,18 @@ public class ModeloEquipoServiceImpl implements ModeloEquipoService {
      * @return
      */
     @Override
-    public List<ModeloEquipo> getAll() {
-        return (ArrayList<ModeloEquipo>)modeloEquipoRepository.findAll();
+    public List<Modelo> getAll() {
+        return (ArrayList<Modelo>)modeloEquipoRepository.findAll();
+    }
+
+    /**
+     * Trae todos los modelos de determinada marca
+     * @param marcaId
+     * @return
+     */
+    @Override
+    public List<Modelo> getAllModelosByMarca(Long marcaId)
+    {
+        return modeloEquipoRepository.getAllByMarca_Id(marcaId);
     }
 }

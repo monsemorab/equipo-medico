@@ -1,6 +1,6 @@
 package com.mantenimiento.equipomedico.app.service;
 
-import com.mantenimiento.equipomedico.app.entidad.ModeloEquipo;
+import com.mantenimiento.equipomedico.app.entidad.Modelo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,18 +11,18 @@ public interface ModeloEquipoService {
     /**
      * Creación de un nuevo modelo de equipo.
      *
-     * @param modeloEquipo
+     * @param modelo
      * @return
      */
-    ModeloEquipo create(ModeloEquipo modeloEquipo);
+    Modelo create(Modelo modelo);
 
     /**
      * Edición de un modelo de equipo existente.
      *
-     * @param modeloEquipo
+     * @param modelo
      * @return
      */
-    ModeloEquipo update(ModeloEquipo modeloEquipo);
+    Modelo update(Modelo modelo);
 
     /**
      * Obtiene el modelo de equipo mediante su id.
@@ -30,13 +30,19 @@ public interface ModeloEquipoService {
      * @param id
      * @return
      */
-    ModeloEquipo get(Long id);
+    Modelo get(Long id);
 
     /**
      * Obtiene todos los modelos de equipos.
      *
      * @return
      */
-    List<ModeloEquipo> getAll();
+    List<Modelo> getAll();
 
+    /**
+     * Obtiene todos los modelos de determinada marca
+     * @param marcaId
+     * @return
+     */
+    List<Modelo> getAllModelosByMarca(Long marcaId);
 }
