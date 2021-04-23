@@ -5,7 +5,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {ClarityModule, ClrFormsNextModule} from '@clr/angular';
+import {ClarityModule} from '@clr/angular';
 
 /**
  * This module is for importing all the modules that will be imported into several modules.
@@ -19,8 +19,7 @@ import {ClarityModule, ClrFormsNextModule} from '@clr/angular';
     HttpClientModule,
     FormsModule,
     RouterModule,
-    ClarityModule,
-    ClrFormsNextModule
+    ClarityModule
   ],
   exports: [
     CommonModule,
@@ -29,8 +28,7 @@ import {ClarityModule, ClrFormsNextModule} from '@clr/angular';
     HttpClientModule,
     FormsModule,
     RouterModule,
-    ClarityModule,
-    ClrFormsNextModule
+    ClarityModule
   ],
   declarations: []
 })

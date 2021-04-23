@@ -1,113 +1,92 @@
-<form class="clr-form clr-form-compact">
-  <h2 class="form-repuesto-title">Repuestos</h2>
-  <br>
-
-  <!-- errors -->
-  <div class="alert alert-danger alert-sm" *ngIf="error">
-    <div class="alert-items">
-      <div class="alert-item static">
-        <div class="alert-icon-wrapper">
-          <clr-icon class="alert-icon"
-                    shape="exclamation-circle">
-          </clr-icon>
-        </div>
-        <span class="alert-text">{{errorMessage}}</span>
+<h3 class="form-repuesto-title">Repuestos</h3>
+<!-- errors -->
+<div class="alert alert-danger alert-sm" *ngIf="error">
+  <div class="alert-items">
+    <div class="alert-item static">
+      <div class="alert-icon-wrapper">
+        <clr-icon class="alert-icon"
+                  shape="exclamation-circle">
+        </clr-icon>
       </div>
+      <span class="alert-text">{{errorMessage}}</span>
     </div>
-    <a type="button" class="close" aria-label="Close"
-       (click)="error = false">
-      <clr-icon aria-hidden="true" shape="close"></clr-icon>
-    </a>
   </div>
-  <br>
+  <a type="button" class="close" aria-label="Close"
+     (click)="error = false">
+    <clr-icon aria-hidden="true" shape="close"></clr-icon>
+  </a>
+</div>
 
-  <clr-datagrid [clrDgLoading]="loading">
+<form clrForm>
+  <clr-datagrid>
     <clr-dg-action-bar>
-      <div class="clr-row clr-justify-content-start clr-col-12">
-        <div class="clr-col-3">
-          <div class="form-group row flex-items-xs-left">
-            <div class="col-3">
-              <label class="form-filter-label">Tipo:</label>
-            </div>
-            <div class="col-4">
-              <div class="select form-control">
-                <select class="select-form-repuesto" id="selectTipo" #selectedTipo name="selectTipo"
-                        [(ngModel)]="tipoId" (change)="onSelectedTipo(selectedTipo.value)">
-                  <option>Filtrar por Tipo</option>
-                  <option *ngFor="let tipo of tipos"
-                          value={{tipo.id}}>{{tipo.tipo}}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
+      <!-- tipo/estado-->
+      <div>
+        <label class="clr-col-1 clr-align-self-end">Tipo:</label>
+        <div class="clr-select-wrapper">
+          <select class="clr-select" id="select-tipo" name="tipoId" [(ngModel)]="tipoId"
+                  (ngModelChange)="onSelectTipo()">
+            <option>Filtrar por Tipo</option>
+            <option *ngFor="let tipo of tipos"
+                    value={{tipo.id}}>{{tipo.tipo}}
+            </option>
+          </select>
         </div>
 
-        <div class="clr-col-6">
-          <div class="form-group row flex-items-xs-left">
-            <div class="col-3">
-              <label class="form-filter-label">Marca/Modelo:</label>
-            </div>
-            <div class="col-4">
-              <div class="select form-control">
-                <select class="select-form-repuesto" id="selectModelo" #selectedModelo
-                        name="selectModelo" [(ngModel)]="modeloId"
-                        (change)="onSelectedMarcaModelo(selectedModelo.value)">
-                  <option>Filtrar por Marca/Modelo</option>
-                  <option *ngFor="let modelo of modelos"
-                          value={{modelo.id}}>{{modelo.marca}}/{{modelo.modelo}}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="clr-col-2">
-              <a class="btn btn-sm btn-primary" (click)="filtrarRepuesto()">
-                <clr-icon shape="search"></clr-icon>
-              </a>
-            </div>
-          </div>
+        <label class="clr-col-1 clr-align-self-end">Estado Equipo:</label>
+        <div class="clr-select-wrapper">
+          <select class="clr-select" id="select-estado-equipo" name="estado" [(ngModel)]="estadoEquipo"
+                  (ngModelChange)="onSelectEstadoEquipo()">
+            <option>Filtrar por Estado Equipo</option>
+            <option value="Operativo">Operativo</option>
+            <option value="Inoperativo">Inoperativo</option>
+            <option value="Irreparable">Irreparable</option>
+          </select>
+        </div>
+      </div>
+      <br/>
+      <!--      marca/modelo-->
+      <div>
+        <label class="clr-col-1 clr-align-self-end">Marca:</label>
+        <div class="clr-select-wrapper">
+          <select class="clr-select" id="select-marca" name="marcaId" [(ngModel)]="marcaId"
+                  (ngModelChange)="onSelectMarca()">
+            <option>Filtrar por Marca</option>
+            <option *ngFor="let marca of marcas"
+                    value={{marca.id}}>{{marca.marca}}
+            </option>
+          </select>
         </div>
 
-        <div class="clr-row clr-col-12">
-          <div class="clr-col-4">
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-3">
-                <label class="form-filter-label">Estado Equipo:</label>
-              </div>
-              <div class="col-4">
-                <div class="select form-control">
-                  <select class="select-form-equipo" id="estadoEquipo" #selectedEstadoEquipo
-                          name="estadoEquipo" [(ngModel)]="estadoEquipo"
-                          (change)="onSelectedEstadoEquipo(selectedEstadoEquipo.value)">
-                    <option>Filtrar por Estado Equipo</option>
-                    <option>Operativo</option>
-                    <option>Inoperativo</option>
-                    <option>Irreparable</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="clr-col-4">
-          </div>
+        <label class="clr-col-1 clr-align-self-end">Modelo:</label>
+        <div class="clr-select-wrapper">
+          <select class="clr-select" id="select-modelo" name="modeloId" [(ngModel)]="modeloId"
+                  (ngModelChange)="onSelectModelo()">
+            <option>Filtrar por Modelo</option>
+            <option *ngFor="let modelo of modelos"
+                    value={{modelo.id}}>{{modelo.modelo}}
+            </option>
+          </select>
         </div>
-        <div class="clr-row clr-col-12">
-          <div class="clr-col-6">
-            <div class="clr-form-control clr-row">
-              <a class="btn btn-sm btn-success"
-                 (click)="goNewRepuestoForm()">
-                <clr-icon shape="plus"></clr-icon>
-                Crear
-              </a>
-              <a class="btn btn-sm btn-success"
-                 *ngIf="repuestoSeleccionado != null"
-                 (click)="editRepuesto()">
-                <clr-icon shape="pencil"></clr-icon>
-                Editar
-              </a>
-            </div>
-          </div>
-        </div>
+        <a class="btn btn-sm btn-primary filtro-btn " (click)="filtrarRepuesto()">
+          <clr-icon shape="search"></clr-icon>
+        </a>
+      </div>
+      <br/>
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-primary" (click)="goNewRepuestoForm()">
+          <clr-icon shape="plus"></clr-icon>
+          Crear
+        </button>
+        <button type="button" class="btn btn-sm btn-success" *ngIf="repuestoSeleccionado != null"
+                (click)="editRepuesto()">
+          <clr-icon shape="pencil"></clr-icon>
+          Editar
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary" *ngIf="repuestos.length > 0">
+          <clr-icon shape="pencil"></clr-icon>
+          Export
+        </button>
       </div>
     </clr-dg-action-bar>
     <clr-dg-column class="table-header">Código</clr-dg-column>
@@ -127,14 +106,15 @@
       <clr-dg-cell class="table-column">{{repuesto?.cantidadAdquirida}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{repuesto?.cantidadExistente}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{repuesto?.tipoEquipo?.tipo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{repuesto?.modeloEquipo?.marca}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{repuesto?.modeloEquipo?.modelo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto?.marca?.marca}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto?.modelo?.modelo}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{repuesto?.representante?.nombre}}</clr-dg-cell>
     </clr-dg-row>
-
     <clr-dg-footer>
-      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} de {{total}} Repuestos
-      <clr-dg-pagination #pagination [clrDgPageSize]="10" [clrDgTotalItems]="total"></clr-dg-pagination>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Repuestos por pag</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} de {{total}} Repuestos
+      </clr-dg-pagination>
     </clr-dg-footer>
   </clr-datagrid>
 </form>

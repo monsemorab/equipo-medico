@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {ApiRequestService} from './api-request.service';
 import {Observable} from 'rxjs';
-import {ModeloEquipo} from '../domain/modelo-equipo';
+import {Modelo} from '../domain/modelo';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ModeloEquipoService {
+export class ModeloService {
   private urlModeloEquipos = environment.service_uri + '/modelos';
 
   constructor(private apiRequest: ApiRequestService) {
@@ -15,20 +15,29 @@ export class ModeloEquipoService {
 
   /**
    * Se obtiene la lista de modelos para los equipos.
-   * @returns {Observable<ModeloEquipo[]>}
+   * @returns {Observable<Modelo[]>}
    */
-  getAllModelosEquipos(): Observable<ModeloEquipo[]> {
+  getAllModeloEquipo(): Observable<Modelo[]> {
     const url = this.urlModeloEquipos;
     return this.apiRequest.get(url);
   }
 
   /**
    * Se obtiene el modelo del equipo por su Id.
-   * @param {number} modeloEquipoId
-   * @returns {Observable<ModeloEquipo>}
+   * @param {number} modeloId
+   * @returns {Observable<Modelo>}
    */
-  getModeloEquipoById(modeloEquipoId: number): Observable<ModeloEquipo> {
-    const url = this.urlModeloEquipos + '/' + modeloEquipoId;
+  getModeloEquipoById(modeloId: number): Observable<Modelo> {
+    const url = this.urlModeloEquipos + '/' + modeloId;
+    return this.apiRequest.get(url);
+  }
+
+  /**
+   * Se obtienen los modelos que esten relacionados a una marca
+   * @param marcaId
+   */
+  getAllModeloByMarca(marcaId:number): Observable<Modelo[]> {
+    const url = this.urlModeloEquipos + '/by-marca/' + marcaId;
     return this.apiRequest.get(url);
   }
 
@@ -36,17 +45,17 @@ export class ModeloEquipoService {
    * Se crea un nuevo modelo de equipo
    * @param modeloCreado
    */
-  crearModeloEquipo(modeloCreado: ModeloEquipo): Observable<ModeloEquipo> {
+  crearModeloEquipo(modeloCreado: Modelo): Observable<Modelo> {
     const url = this.urlModeloEquipos;
     return this.apiRequest.post(url, modeloCreado);
   }
 
   /**
    * Se editan los datos de un modelo de equipo existente.
-   * @param modeloEquipo
+   * @param modelo
    */
-  editarModeloEquipo(modeloEquipo: ModeloEquipo): Observable<ModeloEquipo> {
+  editarModeloEquipo(modelo: Modelo): Observable<Modelo> {
     const url = this.urlModeloEquipos;
-    return this.apiRequest.put(url, modeloEquipo);
+    return this.apiRequest.put(url, modelo);
   }
 }

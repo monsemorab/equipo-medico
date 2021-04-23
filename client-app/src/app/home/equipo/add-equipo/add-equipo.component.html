@@ -1,268 +1,198 @@
 <h2 class="form-add-equipo-title">Crear Equipo</h2>
-<form class="clr-form clr-form-compact" #equipoForm="ngForm">
-  <section class="form-block">
-    <div class="form-group row flex-items-xs-left">
-      <!--columna izquierda-->
-      <div class="col-xs-6">
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-equipo">
-            <label class="form-add-equipo-label required" for="serie">Nro. Serie:</label>
-          </div>
-          <div class="col-xs-6">
-            <input class="form-control" id="serie" required tabindex="1"
-                   name="serie" [(ngModel)]="numeroSerie">
-          </div>
-        </div>
+<form clrForm #equipoForm="ngForm">
+  <div class="clr-row clr-justify-content-start">
+    <!--columna izquierda-->
+    <div class="clr-col-6">
+      <clr-input-container>
+        <label>Nro. Serie:</label>
+        <input clrInput type="text" [(ngModel)]="numeroSerie" name="serie" required/>
+        <clr-control-error>El campo es obligatorio</clr-control-error>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-equipo">
-            <label class="form-add-equipo-label" for="lote">Nro. Lote:</label>
-          </div>
-          <div class="col-xs-6">
-            <input class="form-control" id="lote" tabindex="3"
-                   name="lote" [(ngModel)]="numeroLote">
-          </div>
-        </div>
+      <clr-input-container>
+        <label>Nro. Lote:</label>
+        <input clrInput type="text" [(ngModel)]="numeroLote" name="lote"/>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-equipo">
-            <label class="form-add-equipo-label" for="costo">Costo:</label>
-          </div>
-          <div class="col-xs-6">
-            <input class="form-control" id="costo" tabindex="5"
-                   name="costo" [(ngModel)]="costo">
-          </div>
-        </div>
+      <clr-input-container>
+        <label>Costo:</label>
+        <input clrInput type="text" [(ngModel)]="costo" name="costo"/>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-equipo">
-            <label class="form-add-equipo-label" for="fab">Fabricación:</label>
-          </div>
-          <div class="col-xs-6">
-            <input class="form-control" placeholder="yyyy"
-                   id="fab" name="fab" tabindex="7"
-                   [(ngModel)]="fechaFabricacion">
-          </div>
-        </div>
+      <clr-input-container>
+        <label>Fabricación:</label>
+        <input clrInput type="text" [(ngModel)]="fechaFabricacion" name="fab"
+               placeholder="yyyy"/>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-equipo">
-            <label class="form-add-equipo-label" for="descripcion">Descripción:</label>
-          </div>
-          <div class="col-xs-7">
-            <textarea class="form-control" id="descripcion" rows="3" tabindex="9"
-                      name="descripcion" [(ngModel)]="descripcionEquipo">
-            </textarea>
-          </div>
-        </div>
-      </div>
+      <clr-textarea-container>
+        <label>Descripción:</label>
+        <textarea class="tamanho-total" clrTextarea [(ngModel)]="descripcionEquipo" name="description"></textarea>
+      </clr-textarea-container>
 
-      <!--columna derecha-->
-      <div class="col-xs-6">
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 col-label-equipo">
-            <label class="form-add-equipo-label" for="patrimonial">Nro. Patrimonial:</label>
-          </div>
-          <div class="col-xs-5">
-            <input class="form-control" id="patrimonial" tabindex="2"
-                   name="patrimonial" [(ngModel)]="numeroPatrimonial">
-          </div>
-        </div>
+      <clr-input-container>
+        <label>Ingrese Marca:</label>
+        <input class="tamanho-medio"  clrInput type="text" [(ngModel)]="marca" name="marca" [disabled]="marcaFueSeleccionada" required/>
+        <clr-control-error>El campo es obligatorio</clr-control-error>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 col-label-equipo">
-            <label class="form-add-equipo-label">Estado:</label>
-          </div>
-          <div class="col-xs-5">
-            <div class="select form-control">
-              <select class="select-form-add-equipo" id="estado" #selectedEstado
-                      name="estado" tabindex="4"
-                      [(ngModel)]="estado"
-                      (change)="onSelectedEstado(selectedEstado.value)">
-                <option>Operativo</option>
-                <option>Inoperativo</option>
-                <option>Irreparable</option>
-              </select>
-            </div>
-          </div>
-        </div>
+      <clr-select-container>
+        <label>Seleccione Marca</label>
+        <select clrSelect name="marcaId" [(ngModel)]="marcaId"
+                (ngModelChange)="onSelectMarca()" [disabled]="marca != ''" required>
+          <option>Seleccionar Marca</option>
+          <option *ngFor="let marca of marcas"
+                  value={{marca.id}}>{{marca.marca}}
+          </option>
+        </select>
+      </clr-select-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 col-label-equipo">
-            <label class="form-add-equipo-label"> Fecha Compra:</label>
-          </div>
-          <div class="col-xs-5">
-            <input type="date" name="fechaCompra" [(ngModel)]="fechaCompra"
-                   min="1990-01-01" max="2050-12-31" tabindex="6">
-          </div>
-        </div>
-
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 col-label-equipo">
-            <label class="form-add-equipo-label">Vto. Garantia:</label>
-          </div>
-          <div class="col-xs-5">
-            <input type="date" name="fechaCompra" [(ngModel)]="fechaVenGarantia"
-                   min="1990-01-01" max="2050-12-31" tabindex="8">
-          </div>
-        </div>
-
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 col-label-equipo">
-            <label class="form-add-equipo-label">Puesta en Marcha:</label>
-          </div>
-          <div class="col-xs-5">
-            <input type="date" name="fechaInstalacion" [(ngModel)]="fechaInstalacion"
-                   min="1990-01-01" max="2050-12-31" tabindex="10">
-          </div>
-        </div>
-
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-4 col-label-equipo">
-            <label class="form-add-equipo-label" for="version">Version Software:</label>
-          </div>
-          <div class="col-xs-5">
-            <input class="form-control" id="version" tabindex="11"
-                   name="version" [(ngModel)]="versionSw">
-          </div>
-        </div>
-      </div>
+      <clr-input-container>
+        <label>Ingrese Modelo:</label>
+        <input class="tamanho-medio" clrInput type="text" [(ngModel)]="modelo" name="modelo" [disabled]="modeloFueSeleccionado" required/>
+        <clr-control-error>El campo es obligatorio</clr-control-error>
+      </clr-input-container>
+      <clr-select-container>
+        <label>Modelo</label>
+        <select clrSelect name="modeloId" [(ngModel)]="modeloId"
+                (ngModelChange)="onSelectModelo()" [disabled]="modelo != ''" required>
+          <option>Seleccionar Modelo</option>
+          <option *ngFor="let modelo of modelos"
+                  value={{modelo.id}}>{{modelo.modelo}}
+          </option>
+        </select>
+      </clr-select-container>
     </div>
 
-    <br>
-    <div class="col-xs-8">
-      <div class="form-group row flex-items-xs-left">
-        <div class="col-xs-2 col-label-equipo">
-          <label class="form-add-equipo-label required">Tipo:</label>
-        </div>
+    <!--columna derecha-->
+    <div class="clr-col-6">
+      <clr-input-container>
+        <label>Nro. Patrimonial:</label>
+        <input clrInput type="text" [(ngModel)]="numeroPatrimonial" name="patrimonial"/>
+      </clr-input-container>
 
-        <div class="col-xs-6">
-          <div class="select form-control">
-            <select clrSelect name="tipo" [(ngModel)]="tipoId"
-                    (ngModelChange)="onSelectedTipo()" required>
-              <option>Agregar Tipo</option>
-              <option *ngFor="let tipo of tipos"
-                      value={{tipo.id}}>{{tipo.tipo}}
-              </option>
-            </select>
-          </div>
-        </div>
+      <clr-select-container>
+        <label>Estado</label>
+        <select clrSelect name="estado" [(ngModel)]="estado">
+          <option value="Operativo">Operativo</option>
+          <option value="Inoperativo">Inoperativo</option>
+          <option value="Irreparable">Irreparable</option>
+        </select>
+      </clr-select-container>
 
-        <div class="col-xs-1 col-btn-add-equipo" *ngIf="tipoId == 'Agregar Tipo'">
-          <a class=" btn btn-sm btn-success"
-             (click)="addNewTipoEquipo()">
-            <clr-icon shape="plus"></clr-icon>
-            Add
-          </a>
-        </div>
+      <clr-input-container>
+        <label>Fecha Compra:</label>
+        <input clrInput type="date" [(ngModel)]="fechaCompra" name="fechaCompra"
+               min="1990-01-01" max="2050-12-31" tabindex="6"/>
+      </clr-input-container>
 
-        <div class="col-xs-1 col-btn-add-equipo" *ngIf="tipoId != 'Agregar Tipo'">
-          <a class=" btn btn-sm btn-success"
-             (click)="editTipoEquipo()">
-            <clr-icon shape="pencil"></clr-icon>
-            Edit
-          </a>
-        </div>
-      </div>
+      <clr-input-container>
+        <label>Vto. Garantia:</label>
+        <input clrInput type="date" [(ngModel)]="fechaVenGarantia" name="fechaVenGarantia"
+               min="1990-01-01" max="2050-12-31" tabindex="6"/>
+      </clr-input-container>
 
-      <div class="form-group row flex-items-xs-left">
-        <div class="col-xs-2 col-label-equipo">
-          <label class="form-add-equipo-label required">Modelo:</label>
-        </div>
-        <div class="col-xs-6">
-          <div class="select form-control">
-            <select clrSelect name="modelo" [(ngModel)]="modeloId"
-                    (ngModelChange)="onSelectedModelo()" required>
-              <option>Agregar Modelo</option>
-              <option *ngFor="let modelo of modelos"
-                      value={{modelo.id}}>{{modelo.modelo}}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="col-xs-1 col-btn-add-equipo" *ngIf="modeloId == 'Agregar Modelo'">
-          <a class=" btn btn-sm btn-success"
-             (click)="addNewModeloEquipo()">
-            <clr-icon shape="plus"></clr-icon>
-            Add
-          </a>
-        </div>
+      <clr-input-container>
+        <label>Puesta en Marcha:</label>
+        <input clrInput type="date" [(ngModel)]="fechaInstalacion" name="fechaInstalacion"
+               min="1990-01-01" max="2050-12-31" tabindex="6"/>
+      </clr-input-container>
 
-        <div class="col-xs-1 col-btn-add-equipo" *ngIf="modeloId != 'Agregar Modelo'">
-          <a class=" btn btn-sm btn-success"
-             (click)="editModeloEquipo()">
-            <clr-icon shape="pencil"></clr-icon>
-            Edit
-          </a>
-        </div>
-      </div>
-
-      <div class="form-group row flex-items-xs-left">
-        <div class="col-xs-2 col-label-equipo">
-          <label class="form-add-equipo-label required">Representante:</label>
-        </div>
-
-        <div class="col-xs-6">
-          <div class="select form-control">
-            <select clrSelect name="representante" [(ngModel)]="repreId"
-                    (ngModelChange)="onSelectedRepresentante()" required>
-              <option>Agregar Representante</option>
-              <option *ngFor="let repre of representantes"
-                      value={{repre.id}}>{{repre.nombre}}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col-xs-1 col-btn-add-equipo" *ngIf="repreId == 'Agregar Representante'">
-          <a class="btn btn-sm btn-success"
-             (click)="addNewRepresentante()">
-            <clr-icon shape="user"></clr-icon>
-            Add
-          </a>
-        </div>
-        <div class="col-xs-1 col-btn-add-equipo" *ngIf="repreId != 'Agregar Representante'">
-          <a class="btn btn-sm btn-success"
-             (click)="editRepresentante()">
-            <clr-icon shape="user"></clr-icon>
-            Edit
-          </a>
-        </div>
-      </div>
-      <div class="form-group row flex-items-xs-left">
-        <div class="col-xs-2 col-label-equipo">
-          <label class="form-add-equipo-label">Ubicación:</label>
-        </div>
-        <div class="col-xs-6">
-          <div class="select form-control">
-            <select clrSelect name="ubicacion" [(ngModel)]="ubicacionId"
-                    (ngModelChange)="onSelectedUbicacion()">
-              <option>Agregar Ubicación</option>
-              <option *ngFor="let ubicacion of ubicaciones"
-                      value={{ubicacion.id}}>{{ubicacion.servicio}}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="col-xs-1 col-btn-add-equipo" *ngIf="ubicacionId == 'Agregar Ubicación'">
-          <a class=" btn btn-sm btn-success"
-             (click)="addNewUbicacionEquipo()">
-            <clr-icon shape="plus"></clr-icon>
-            Add
-          </a>
-        </div>
-
-        <div class="col-xs-1 col-btn-add-equipo" *ngIf="ubicacionId != 'Agregar Ubicación'">
-          <a class="btn btn-sm btn-success"
-             (click)="editUbicacionEquipo()">
-            <clr-icon shape="user"></clr-icon>
-            Edit
-          </a>
-        </div>
-      </div>
+      <clr-input-container>
+        <label>Version Software:</label>
+        <input clrInput type="text" [(ngModel)]="versionSw" name="versionSw"/>
+      </clr-input-container>
     </div>
-  </section>
-  <section class="form-block">
+  </div>
+  <br/>
+  <div class="clr-row clr-justify-content-start">
+    <label class="clr-col-1 clr-align-self-end form-add-equipo-label">Tipo:</label>
+    <div class="clr-col-3">
+      <select clrSelect name="tipoId" [(ngModel)]="tipoId"
+              (ngModelChange)="onSelectTipo()" required>
+        <option>Agregar Tipo</option>
+        <option *ngFor="let tipo of tipos"
+                value={{tipo.id}}>{{tipo.tipo}}
+        </option>
+      </select>
+    </div>
+
+    <div class="clr-col-1 clr-align-self-end" *ngIf="tipoId == 'Agregar Tipo'">
+      <a class=" btn btn-sm btn-success"
+         (click)="addNewTipoEquipo()">
+        <clr-icon shape="plus"></clr-icon>
+        Add
+      </a>
+    </div>
+
+    <div class="clr-col-1 clr-align-self-end" *ngIf="tipoId != 'Agregar Tipo'">
+      <a class=" btn btn-sm btn-success"
+         (click)="editTipoEquipo()">
+        <clr-icon shape="pencil"></clr-icon>
+        Edit
+      </a>
+    </div>
+  </div>
+
+  <div class="clr-row clr-justify-content-start">
+    <label class="clr-col-1 clr-align-self-end form-add-equipo-label">Representante:</label>
+    <div class="clr-col-3">
+      <select clrSelect name="repreId" [(ngModel)]="repreId"
+              (ngModelChange)="onSelectRepresentante()" required>
+        <option>Agregar Representante</option>
+        <option *ngFor="let repre of representantes"
+                value={{repre.id}}>{{repre.nombre}}
+        </option>
+      </select>
+    </div>
+
+    <div class="clr-col-1 clr-align-self-end" *ngIf="repreId == 'Agregar Representante'">
+      <a class=" btn btn-sm btn-success"
+         (click)="addNewRepresentante()">
+        <clr-icon shape="plus"></clr-icon>
+        Add
+      </a>
+    </div>
+
+    <div class="clr-col-1 clr-align-self-end" *ngIf="repreId != 'Agregar Representante'">
+      <a class=" btn btn-sm btn-success"
+         (click)="editRepresentante()">
+        <clr-icon shape="pencil"></clr-icon>
+        Edit
+      </a>
+    </div>
+  </div>
+
+  <div class="clr-row clr-justify-content-start">
+    <label class="clr-col-1 clr-align-self-end form-add-equipo-label">Ubicación:</label>
+    <div class="clr-col-3">
+      <select clrSelect name="ubicacionId" [(ngModel)]="ubicacionId"
+              (ngModelChange)="onSelectUbicacion()">
+        <option>Agregar Ubicación</option>
+        <option *ngFor="let ubicacion of ubicaciones"
+                value={{ubicacion.id}}>{{ubicacion.servicio}}
+        </option>
+      </select>
+    </div>
+
+    <div class="clr-col-1 clr-align-self-end" *ngIf="ubicacionId == 'Agregar Ubicación'">
+      <a class=" btn btn-sm btn-success"
+         (click)="addNewUbicacionEquipo()">
+        <clr-icon shape="plus"></clr-icon>
+        Add
+      </a>
+    </div>
+
+    <div class="clr-col-1 clr-align-self-end" *ngIf="ubicacionId != 'Agregar Ubicación'">
+      <a class=" btn btn-sm btn-success"
+         (click)="editUbicacionEquipo()">
+        <clr-icon shape="pencil"></clr-icon>
+        Edit
+      </a>
+    </div>
+  </div>
+  <br><br>
+  <div class="clr-row clr-justify-content-start">
     <button class="btn btn-sm btn-success"
             [disabled]="(equipoForm.form.invalid )"
             (click)="onSaveEquipo()">
@@ -275,7 +205,7 @@
       <clr-icon shape="window-close"></clr-icon>
       Cancelar
     </button>
-  </section>
+  </div>
 </form>
 
 <!--Modal para agregar o editar los datos de un representante-->
@@ -294,15 +224,6 @@
                  (tipoEquipoToUpdate)="closeTipoEquipoModal($event)"
                  (cancelAddEditTipo)="closeTipoEquipoModal($event)">
 </app-tipo-equipo>
-
-
-<!--Modal para agregar o editar los datos del modelo del equipo -->
-<app-modelo-equipo *ngIf="modalAddEditModeloOpen"
-                   [modeloEquipo]="modeloSeleccionado"
-                   [isEditModelo]="isEditRepre"
-                   (modeloEquipoToUpdate)="closeModeloEquipoModal($event)"
-                   (cancelAddEditModelo)="closeModeloEquipoModal($event)">
-</app-modelo-equipo>
 
 <!--Modal para agregar o editar los datos de la ubicación del equipo -->
 <app-ubicacion *ngIf="modalAddEditUbiOpen"

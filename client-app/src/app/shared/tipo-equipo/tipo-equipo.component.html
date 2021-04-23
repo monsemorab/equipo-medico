@@ -1,59 +1,33 @@
 <!--Modal para agregar o editar los datos del tipo del equipo -->
 <clr-modal [(clrModalOpen)]="modalTipoOpen" [clrModalClosable]="false">
-  <h2 class="modal-title form-tipo-equipo-title">{{modalTipoTitle}}</h2>
+  <h3 class="modal-title form-tipo-equipo-title">{{modalTipoTitle}}</h3>
   <div class="modal-body">
-    <form class="compact" #tipoEquipoForm="ngForm">
-      <section class="form-block">
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-10">
-            <label class="form-tipo-equipo-label required" for="tipo">Tipo:</label>
-          </div>
-          <div class="col-xs-10">
-            <input class="form-control" id="tipo" required
-                   name="tipo" [(ngModel)]="tipo">
-          </div>
-        </div>
+    <form clrForm #tipoEquipoForm="ngForm">
+      <clr-input-container>
+        <label class="clr-col-5">Tipo:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="tipo" name="tipo" required />
+        <clr-control-error>El campo es obligatorio</clr-control-error>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-10">
-            <label class="form-tipo-equipo-label" for="codigoECRI">Código de ECRI/UMDNS:</label>
-          </div>
-          <div class="col-xs-10">
-            <input class="form-control" id="codigoECRI"
-                   name="codigoECRI" [(ngModel)]="codigoECRIUMDNS">
-          </div>
-        </div>
+      <clr-input-container>
+        <label class="clr-col-5">Código de ECRI/UMDNS:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="codigoECRIUMDNS" name="codigoECRIUMDNS" />
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-10">
-            <label class="form-tipo-equipo-label" for="clase">Clase:</label>
-          </div>
-          <div class="col-xs-10">
-            <input class="form-control" id="clase"
-                   name="clase" [(ngModel)]="clase">
-          </div>
-        </div>
+      <clr-input-container>
+        <label class="clr-col-5">Clase:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="clase" name="clase" />
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-10">
-            <label class="form-tipo-equipo-label" for="mp_año">MP/año:</label>
-          </div>
-          <div class="col-xs-10">
-            <input class="form-control" id="mp_año"
-                   name="mp_año" [(ngModel)]="mpano">
-          </div>
-        </div>
+      <clr-input-container>
+        <label class="clr-col-5">MP/año:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="mpano" name="mpano" />
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-10">
-            <label class="form-tipo-equipo-label" for="clase">Seccion a Cargo:</label>
-          </div>
-          <div class="col-xs-10">
-            <input class="form-control" id="personal"
-                   name="personal" [(ngModel)]="personalACargo">
-          </div>
-        </div>
-      </section>
+      <clr-input-container>
+        <label class="clr-col-5">Seccion a Cargo:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="personalACargo" name="personalACargo" />
+      </clr-input-container>
     </form>
   </div>
   <div class="modal-footer">

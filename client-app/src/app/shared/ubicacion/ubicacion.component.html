@@ -1,50 +1,32 @@
 <!--Modal para agregar o editar los datos de la ubicación del equipo -->
 <clr-modal [(clrModalOpen)]="modalUbicacionOpen" [clrModalClosable]="false">
-  <h2 class="modal-title form-ubicacion-equipo-title">{{modalUbicacionTitle}}</h2>
+  <h3 class="modal-title form-ubicacion-equipo-title">{{modalUbicacionTitle}}</h3>
   <div class="modal-body">
-    <form class="compact" #ubicacionForm="ngForm">
-      <section class="form-block">
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-2">
-            <label class="form-ubicacion-equipo-label" for="servicio">Servicio:</label>
-          </div>
-          <div class="col-xs-8">
-            <input class="form-control" id="servicio"
-                   name="servicio" [(ngModel)]="servicio">
-          </div>
-        </div>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-2">
-            <label class="form-ubicacion-equipo-label required" for="bloque">Bloque:</label>
-          </div>
-          <div class="col-xs-4">
-            <input class="form-control" id="bloque" required
-                   name="bloque" [(ngModel)]="bloque">
-          </div>
+    <form clrForm #ubicacionForm="ngForm">
+      <clr-input-container>
+        <label class="clr-col-5">Servicio:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="servicio" name="servicio"/>
+      </clr-input-container>
 
-          <div class="col-xs-2">
-            <label class="form-ubicacion-equipo-label required" for="nivel">Nivel:</label>
-          </div>
-          <div class="col-xs-4">
-            <input class="form-control " id="nivel" required
-                   name="nivel" [(ngModel)]="nivel">
-          </div>
-        </div>
+      <clr-input-container>
+        <label class="clr-col-5">Bloque:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="bloque" name="bloque" required/>
+        <clr-control-error>El campo es obligatorio</clr-control-error>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-2">
-            <label class="form-ubicacion-equipo-label required" for="nro_sala">Nro.Sala:</label>
-          </div>
-          <div class="col-xs-4">
-            <input class="form-control" id="nro_sala" required
-                   name="nro_sala" [(ngModel)]="numeroSala">
-          </div>
-        </div>
-      </section>
+      <clr-input-container>
+        <label class="clr-col-5">Nivel:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="nivel" name="nivel" required/>
+        <clr-control-error>El campo es obligatorio</clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label class="clr-col-5">Nro.Sala:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="numeroSala" name="numeroSala"/>
+      </clr-input-container>
     </form>
   </div>
-  <
   <div class="modal-footer">
     <button class="btn btn-outline btn-sm" type="button"
             (click)="onCancelAddEditUbicacion()">

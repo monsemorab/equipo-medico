@@ -1,6 +1,7 @@
 import {TipoEquipo} from './tipo-equipo';
-import {ModeloEquipo} from './modelo-equipo';
+import {Modelo} from './modelo';
 import {Representante} from "./representante";
+import {Marca} from "./marca";
 
 export class Repuesto {
 
@@ -11,7 +12,8 @@ export class Repuesto {
               public cantidadAdquirida: number,
               public cantidadExistente: number,
               public tipoEquipo: TipoEquipo,
-              public modeloEquipo: ModeloEquipo,
+              public modelo: Modelo,
+              public marca: Marca,
               public representante: Representante,
               public fechaActualizacion?: any) {
   }

@@ -2,14 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {EquipoService} from '../../../service/equipo.service';
 import {Equipo} from '../../../domain/equipo';
 import {Router} from '@angular/router';
-import {ModeloEquipoService} from '../../../service/modelo-equipo.service';
 import {TipoEquipoService} from '../../../service/tipo-equipo.service';
 import {TipoEquipo} from '../../../domain/tipo-equipo';
-import {ModeloEquipo} from '../../../domain/modelo-equipo';
 import {Ubicacion} from '../../../domain/ubicacion';
 import {UbicacionEquipoService} from '../../../service/ubicacion-equipo.service';
 import {ContratoService} from '../../../service/contrato.service';
 import {EstadoContrato} from '../../../domain/contrato';
+import {ModeloService} from "../../../service/modelo.service";
+import {MarcaService} from "../../../service/marca.service";
+import {Modelo} from "../../../domain/modelo";
+import {Marca} from "../../../domain/marca";
 
 @Component({
   selector: 'app-lista-equipo',
@@ -36,23 +38,27 @@ export class ListaEquipoComponent implements OnInit {
 
   // filtro
   tipos = new Array<TipoEquipo>();
-  modelos = new Array<ModeloEquipo>();
   ubicaciones = new Array<Ubicacion>();
   estadosContrato: EstadoContrato[];
+  modelos = new Array<Modelo>();
+  marcas = new Array<Marca>();
   tipoId: any;
+  marcaId: any;
   modeloId: any;
   ubicacionId: any;
   estadoEquipo: string;
   estadoContrato: string;
   selectedTipo: string;
-  selectedModeloMarca: string;
+  selectedMarca: string;
+  selectedModelo: string;
   selectedUbi: string;
   selectedEstadoEquipo: string;
   selectedEstadoContrato: string;
 
   constructor(private router: Router,
               private equipoService: EquipoService,
-              private modeloEquipoService: ModeloEquipoService,
+              private modeloService: ModeloService,
+              private marcaService: MarcaService,
               private tipoEquipoService: TipoEquipoService,
               private ubicacionEquipoService: UbicacionEquipoService,
               private contratoService: ContratoService) {
@@ -65,17 +71,20 @@ export class ListaEquipoComponent implements OnInit {
     this.numeroSerie = '';
     this.numeroPatrimonial = '';
     this.selectedTipo = '';
-    this.selectedModeloMarca = '';
+    this.selectedMarca = '';
+    this.selectedModelo = '';
     this.selectedUbi = '';
     this.selectedEstadoEquipo = '';
     this.selectedEstadoContrato = '';
     this.getAllEquipos();
     this.getAllTipos();
     this.getAllModelos();
+    this.getAllMarcas();
     this.getAllUbicaciones();
     this.getEstadoContratos();
     this.tipoId = 'Filtrar por Tipo';
-    this.modeloId = 'Filtrar por Marca/Modelo';
+    this.modeloId = 'Filtrar por Modelo';
+    this.marcaId = 'Filtrar por Marca';
     this.ubicacionId = 'Filtrar por Ubicacion';
     this.estadoEquipo = 'Filtrar por Estado Equipo';
     this.estadoContrato = 'Filtrar por Estado Contrato';
@@ -88,22 +97,6 @@ export class ListaEquipoComponent implements OnInit {
     this.tipoEquipoService.getAllTipoEquipos().subscribe(
       tipos => {
         this.tipos = tipos;
-      },
-      error => {
-        this.errorMessage = error.error;
-        console.log(this.errorMessage);
-        // this.error = true;
-      }
-    );
-  }
-
-  /**
-   * Se obtiene la lista de modelos para los equipos.
-   */
-  getAllModelos(): void {
-    this.modeloEquipoService.getAllModelosEquipos().subscribe(
-      modelos => {
-        this.modelos = modelos;
       },
       error => {
         this.errorMessage = error.error;
@@ -163,8 +156,7 @@ export class ListaEquipoComponent implements OnInit {
       }
     );
   }
-  onSelectedTipo(value: string): void {
-    this.tipoId = value;
+  onSelectTipo(): void {
     this.selectedTipo = '';
     for (let i = 0; i < this.tipos.length; i++) {
       if (this.tipos[i].id == this.tipoId) {
@@ -174,20 +166,92 @@ export class ListaEquipoComponent implements OnInit {
     }
   }
 
-  onSelectedMarcaModelo(value: string): void {
-    this.modeloId = value;
-    this.selectedModeloMarca = '';
-    for (let i = 0; i < this.modelos.length; i++) {
-      if (this.modelos[i].id == this.modeloId) {
-        this.selectedModeloMarca = 'marca=' + this.modelos[i].marca;
-        this.selectedModeloMarca = this.selectedModeloMarca + '&modelo=' + this.modelos[i].modelo;
-        break;
+
+  /**
+   * Al seleccionar una marca de la lista
+   */
+  onSelectMarca() {
+    this.marcaService.getMarcaEquipoById(this.marcaId).subscribe(
+      marca => {
+        this.selectedMarca = 'marca=' + marca.marca;
+        this.getAllModelosByMarca(marca.id);
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
       }
-    }
+    );
   }
 
-  onSelectedUbicacion(value: string): void {
-    this.ubicacionId = value;
+  /**
+   * Al seleccionar un modelo de la lista
+   */
+  onSelectModelo() {
+    this.modeloService.getModeloEquipoById(this.modeloId).subscribe(
+      modelo => {
+        this.selectedModelo = this.selectedModelo + '&modelo=' + modelo.modelo;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+
+  /**
+   * Se obtiene la lista de modelos existentes para los equipos.
+   */
+  getAllModelos(): void {
+    this.modeloService.getAllModeloEquipo().subscribe(
+      modelos => {
+        this.modelos= modelos;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Se obtiene la lista de los modelos filtrados por la marca seleccionada.
+   * @param marcaId
+   */
+  getAllModelosByMarca(marcaId): void {
+    this.modeloService.getAllModeloByMarca(marcaId).subscribe(
+      modelos => {
+        this.modelos= modelos;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+
+  /**
+   * Se obtiene la lista de marcas existentes para los equipos.
+   */
+  getAllMarcas(): void {
+    this.marcaService.getAllMarcaEquipo().subscribe(
+      marcas => {
+        this.marcas = marcas;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  onSelectUbicacion(): void {
     this.selectedUbi = '';
     for (let i = 0; i < this.ubicaciones.length; i++) {
       if (this.ubicaciones[i].id == this.ubicacionId) {
@@ -202,20 +266,18 @@ export class ListaEquipoComponent implements OnInit {
    * Se selecciona un estado de la lista
    * @param value
    */
-  onSelectedEstado(value: string): void {
-    this.estadoEquipo = value;
+  onSelectEstado(): void {
     this.selectedEstadoEquipo = '';
-    this.selectedEstadoEquipo = 'estadoEquipo=' + value;
+    this.selectedEstadoEquipo = 'estadoEquipo=' + this.estadoEquipo;
   }
 
   /**
    * Se selecciona un estado para el contrato.
    * @param value
    */
-  onSelectedEstadoContrado(value: string): void {
-    this.estadoContrato = value;
+  onSelectEstadoContrado(): void {
     this.selectedEstadoContrato = '';
-    this.selectedEstadoContrato = 'estadoContrato=' + value;
+    this.selectedEstadoContrato = 'estadoContrato=' + this.estadoContrato;
   }
 
   /**
@@ -244,11 +306,19 @@ export class ListaEquipoComponent implements OnInit {
           filtros = filtros  + '&' + this.selectedTipo;
         }
       }
-      if (this.selectedModeloMarca !== '') {
+      if (this.selectedMarca !== '') {
         if (filtros == '') {
-          filtros = this.selectedModeloMarca;
+          filtros = this.selectedMarca;
         } else {
-          filtros = filtros  + '&' + this.selectedModeloMarca;
+          filtros = filtros  + '&' + this.selectedMarca;
+        }
+      }
+
+      if (this.selectedModelo !== '') {
+        if (filtros == '') {
+          filtros = this.selectedModelo;
+        } else {
+          filtros = filtros  + '&' + this.selectedModelo;
         }
       }
       if (this.selectedUbi !== '' ) {

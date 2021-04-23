@@ -2,16 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {Equipo} from '../../../domain/equipo';
 import {Representante} from '../../../domain/representante';
 import {TipoEquipo} from '../../../domain/tipo-equipo';
-import {ModeloEquipo} from '../../../domain/modelo-equipo';
 import {Ubicacion} from '../../../domain/ubicacion';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {EquipoService} from '../../../service/equipo.service';
 import {RepresentanteService} from '../../../service/representante.service';
 import {switchMap} from 'rxjs/operators';
-import {ModeloEquipoService} from '../../../service/modelo-equipo.service';
 import {TipoEquipoService} from '../../../service/tipo-equipo.service';
 import {UbicacionEquipoService} from '../../../service/ubicacion-equipo.service';
 import {DatePipe} from "@angular/common";
+import {Modelo} from "../../../domain/modelo";
+import {ModeloService} from "../../../service/modelo.service";
+import {Marca} from "../../../domain/marca";
+import {MarcaService} from "../../../service/marca.service";
 
 @Component({
   selector: 'app-edit-equipo',
@@ -51,13 +53,6 @@ export class EditEquipoComponent implements OnInit {
   isEditTipo: boolean;
   tipos = new Array<TipoEquipo>();
 
-  // modal para agregar/editar modelo
-  modalAddEditModeloOpen = false;
-  modeloId: any;
-  modeloSeleccionado: ModeloEquipo;
-  isEditModelo: boolean;
-  modelos = new Array<ModeloEquipo>();
-
   // modal para agregar/editar ubicaciones
   modalAddEditUbiOpen = false;
   ubicacionSeleccionada: Ubicacion;
@@ -65,13 +60,27 @@ export class EditEquipoComponent implements OnInit {
   isEditUbicacion: boolean;
   ubicaciones = new Array<Ubicacion>();
 
+  // Datos Modelo Equipo
+  modelos = new Array<Modelo>();
+  modeloSeleccionado: Modelo;
+  modeloId: any;
+  modelo: string;
+  // Datos Marca Equipo
+  marcas = new Array<Marca>();
+  marcaSeleccionada: Marca;
+  marcaId: any;
+  marca: string;
+  marcaFueSeleccionada = false;
+  modeloFueSeleccionado = false;
+
   // error
   errorMessage: string;
   error: boolean;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private modeloEquipoService: ModeloEquipoService,
+              private modeloService: ModeloService,
+              private marcaService: MarcaService,
               private tipoEquipoService: TipoEquipoService,
               private ubicacionEquipoService: UbicacionEquipoService,
               private equipoService: EquipoService,
@@ -80,19 +89,25 @@ export class EditEquipoComponent implements OnInit {
 
   ngOnInit() {
     this.isEditUbicacion = false;
-
+    this.tipoId = 'Agregar Tipo';
+    this.modeloId = 'Seleccionar Modelo';
+    this.marcaId = 'Seleccionar Marca';
+    this.repreId = 'Agregar Representante';
+    this.ubicacionId = 'Agregar Ubicación';
+    this.modelo = "";
+    this.marca = "";
+    this.getAllRepresentantes();
     this.getAllTipos();
     this.getAllModelos();
-    this.getAllRepresentantes();
+    this.getAllMarcas();
     this.getAllUbicaciones();
-
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => this.equipoService.getEquipoById(+params.get('id')))
       ).subscribe(equipo => {
         this.equipo = new Equipo(equipo.id, equipo.numeroSerie, equipo.numeroPatrimonial, equipo.numeroLote,
           equipo.estado, equipo.versionSw, equipo.descripcionEquipo, equipo.costo, equipo.representante,
-          equipo.tipoEquipo, equipo.modeloEquipo, equipo.ubicacion, equipo.contrato, equipo.licitacionCompra,
+          equipo.tipoEquipo, equipo.modelo, equipo.marca, equipo.ubicacion, equipo.contrato, equipo.licitacionCompra,
           equipo.fechaFabricacion, equipo.fechaVenGarantia, equipo.fechaInstalacion, equipo.fechaCompra);
         this.camposAEditar(this.equipo);
       },
@@ -119,13 +134,48 @@ export class EditEquipoComponent implements OnInit {
     );
   }
 
+
   /**
-   * Se obtiene la lista de modelos para los equipos.
+   * Se obtiene la lista de modelos existentes para los equipos.
    */
   getAllModelos(): void {
-    this.modeloEquipoService.getAllModelosEquipos().subscribe(
+    this.modeloService.getAllModeloEquipo().subscribe(
       modelos => {
-        this.modelos = modelos;
+        this.modelos= modelos;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Se obtiene la lista de los modelos filtrados por la marca seleccionada.
+   * @param marcaId
+   */
+  getAllModelosByMarca(marcaId): void {
+    this.modeloService.getAllModeloByMarca(marcaId).subscribe(
+      modelos => {
+        this.modelos= modelos;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+
+  /**
+   * Se obtiene la lista de marcas existentes para los equipos.
+   */
+  getAllMarcas(): void {
+    this.marcaService.getAllMarcaEquipo().subscribe(
+      marcas => {
+        this.marcas = marcas;
       },
       error => {
         this.errorMessage = error.error;
@@ -187,8 +237,16 @@ export class EditEquipoComponent implements OnInit {
     this.fechaCompra  = datepipe.transform(equipo.fechaCompra, 'yyyy-MM-dd');
     this.tipoSeleccionado = equipo.tipoEquipo;
     this.tipoId = equipo.tipoEquipo.id;
-    this.modeloSeleccionado = equipo.modeloEquipo;
-    this.modeloId = equipo.modeloEquipo.id;
+
+    this.modeloFueSeleccionado = true;
+    this.marcaFueSeleccionada = true;
+    this.modeloSeleccionado = equipo.modelo;
+    this.modeloId = this.modeloSeleccionado.id;
+    this.modelo = this.modeloSeleccionado.modelo;
+    this.marcaSeleccionada = equipo.marca;
+    this.marcaId = this.marcaSeleccionada.id;
+    this.marca = this.marcaSeleccionada.marca;
+
     this.repreSeleccionado = equipo.representante;
     this.repreId = equipo.representante.id;
     if (equipo.ubicacion != null) {
@@ -223,34 +281,6 @@ export class EditEquipoComponent implements OnInit {
       this.getAllTipos();
     }
     this.modalAddEditTipoOpen = false;
-  }
-
-  /**
-   * Cuando se presiona el botón para crear un nuevo modelo de equipo.
-   */
-  addNewModeloEquipo(): void {
-    this.modeloSeleccionado = null;
-    this.modalAddEditModeloOpen = true;
-  }
-
-  /**
-   * Cuando se selecciona un modelo para editar sus datos.
-   */
-  editModeloEquipo(): void {
-    this.isEditModelo = true;
-    this.modalAddEditModeloOpen = true;
-  }
-
-  /**
-   * Cuando el control es devuelto a la pantalla principal.
-   */
-  closeModeloEquipoModal(value: ModeloEquipo) {
-    if(value != null) {
-      this.modeloId = value.id;
-      this.modeloSeleccionado = value;
-      this.getAllModelos();
-    }
-    this.modalAddEditModeloOpen = false;
   }
 
   /**
@@ -313,14 +343,14 @@ export class EditEquipoComponent implements OnInit {
    * Se selecciona un estado de la lista
    * @param value
    */
-  onSelectedEstado(value: string): void {
+  onSelectEstado(value: string): void {
     this.equipo.estado = value;
   }
 
   /**
    * Al seleccionar un tipo de la lista
    */
-  onSelectedTipo() {
+  onSelectTipo() {
     this.tipoEquipoService.getTipoEquipoById(this.tipoId).subscribe(
       tipo => {
         this.tipoSeleccionado = tipo;
@@ -334,15 +364,36 @@ export class EditEquipoComponent implements OnInit {
   }
 
   /**
-   * Al seleccionar un modelo d ela lista
+   * Al seleccionar un modelo de la lista
    */
-  onSelectedModelo() {
-    this.modeloEquipoService.getModeloEquipoById(this.modeloId).subscribe(
+  onSelectModelo() {
+    this.modeloService.getModeloEquipoById(this.modeloId).subscribe(
       modelo => {
+        this.marcaFueSeleccionada = true;
         this.modeloSeleccionado = modelo;
       },
       error => {
         this.errorMessage = error.error;
+        this.marcaFueSeleccionada = false;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Al seleccionar una marca de la lista
+   */
+  onSelectMarca() {
+    this.marcaService.getMarcaEquipoById(this.marcaId).subscribe(
+      marca => {
+        this.marcaSeleccionada = marca;
+        this.modeloFueSeleccionado = true;
+        this.getAllModelosByMarca(this.marcaSeleccionada.id);
+      },
+      error => {
+        this.errorMessage = error.error;
+        this.modeloFueSeleccionado = false;
         console.log(this.errorMessage)
         this.error = true;
       }
@@ -352,7 +403,7 @@ export class EditEquipoComponent implements OnInit {
   /**
    * Al seleccionar un representante de la lista
    */
-  onSelectedRepresentante() {
+  onSelectRepresentante() {
     this.representanteService.getRepresentanteById(this.repreId).subscribe(
       representante => {
         this.repreSeleccionado = representante;
@@ -368,7 +419,7 @@ export class EditEquipoComponent implements OnInit {
   /**
    * Al seleccionar una ubicacion existente de la lista
    */
-  onSelectedUbicacion() {
+  onSelectUbicacion() {
     this.ubicacionEquipoService.getUbicacionById(this.ubicacionId).subscribe(
       ubicacion => {
         this.ubicacionSeleccionada = ubicacion;
@@ -400,11 +451,54 @@ export class EditEquipoComponent implements OnInit {
       this.fechaCompra = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
+    // se verifica si la marca ingresada ya existe, si no, se crea una nueva entrada en la BD
+    if(this.marca !== "") {
+      this.marcaSeleccionada = this.getMarcaByName(this.marca);
+    }
+
+    // se verifica si el modelo ingresado ya existe, si no, se crea una nueva entrada en la BD
+    if(this.modelo !== "") {
+      this.modeloSeleccionado = this.getModeloByName(this.modelo, this.marcaSeleccionada);
+    }else {
+      // si el modelo fue seleccionado pero la marca fue ingresada, se verifica que el modelo este relacionado con la marca,
+      // si no es el caso, se crea una nueva entrada en la BD con ambos datos
+      if(this.modeloSeleccionado.marca.id !== this.marcaSeleccionada.id) {
+        this.modeloSeleccionado = new Modelo(null, this.modeloSeleccionado.modelo, this.marcaSeleccionada);
+      }
+    }
+
     this.equipo = new Equipo(this.equipoId, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
       this.versionSw, this.descripcionEquipo, this.costo, this.repreSeleccionado, this.tipoSeleccionado,
-      this.modeloSeleccionado, this.ubicacionSeleccionada, null, this.licitacionCompra, this.fechaFabricacion,
-      this.fechaVenGarantia, this.fechaInstalacion, this.fechaCompra);
+      this.modeloSeleccionado, this.marcaSeleccionada, this.ubicacionSeleccionada, null, this.licitacionCompra,
+      this.fechaFabricacion, this.fechaVenGarantia, this.fechaInstalacion, this.fechaCompra);
     this.saveEquipo(this.equipo);
+  }
+
+  /**
+   * Verificamos si la marca ingresada existe en la BD, si no es el caso, se devuelve una nueva instancia
+   * @param marcaIngresada
+   */
+  getMarcaByName(marcaIngresada: string): Marca{
+    for (let i = 0; i < this.marcas.length; i++) {
+      if (marcaIngresada === this.marcas[i].marca) {
+        return this.marcas[i];
+      }
+    }
+    return new Marca(null, this.marca);
+  }
+
+  /**
+   * Verificamos si el modelo ingresado existe en la BD, si no es el caso, se devuelve una nueva instancia
+   * @param modeloIngresado
+   * @param marca
+   */
+  getModeloByName(modeloIngresado: string, marca: Marca): Modelo{
+    for (let i = 0; i < this.modelos.length; i++) {
+      if (modeloIngresado === this.modelos[i].modelo) {
+        return this.modelos[i];
+      }
+    }
+    return new Modelo(null, this.modelo, marca);
   }
 
   /**

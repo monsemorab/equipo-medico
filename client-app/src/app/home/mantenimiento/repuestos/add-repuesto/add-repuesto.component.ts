@@ -1,14 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {Repuesto} from "../../../../domain/repuesto";
 import {TipoEquipo} from "../../../../domain/tipo-equipo";
-import {ModeloEquipo} from "../../../../domain/modelo-equipo";
 import {Representante} from "../../../../domain/representante";
 import {EquipoService} from "../../../../service/equipo.service";
-import {ModeloEquipoService} from "../../../../service/modelo-equipo.service";
 import {TipoEquipoService} from "../../../../service/tipo-equipo.service";
 import {RepuestoService} from "../../../../service/repuesto.service";
 import {RepresentanteService} from "../../../../service/representante.service";
 import {Router} from "@angular/router";
+import {Modelo} from "../../../../domain/modelo";
+import {ModeloService} from "../../../../service/modelo.service";
+import {Marca} from "../../../../domain/marca";
+import {MarcaService} from "../../../../service/marca.service";
 
 @Component({
   selector: 'app-add-repuesto',
@@ -23,19 +25,25 @@ export class AddRepuestoComponent implements OnInit {
   cantAdquirida: number;
   cantExistente: number;
   tipoEquipo: TipoEquipo;
-  modeloEquipo: ModeloEquipo;
   representante: Representante;
   fechaActualizacion: any;
   readonlyField: boolean;
   repuesto: Repuesto;
 
   tipos = new Array<TipoEquipo>();
-  modelos = new Array<ModeloEquipo>();
   representantes = new Array<Representante>();
   tipoId: any;
-  modeloId: any;
   repreId: any;
   addBtnHabilitado = false;
+
+  // Datos Modelo Equipo
+  modelos = new Array<Modelo>();
+  modeloSeleccionado: Modelo;
+  modeloId: any;
+  // Datos Marca Equipo
+  marcas = new Array<Marca>();
+  marcaSeleccionada: Marca;
+  marcaId: any;
 
   // error
   errorMessage: string;
@@ -44,7 +52,8 @@ export class AddRepuestoComponent implements OnInit {
 
   constructor(private router: Router,
               private equipoService: EquipoService,
-              private modeloEquipoService: ModeloEquipoService,
+              private modeloService: ModeloService,
+              private marcaService: MarcaService,
               private tipoEquipoService: TipoEquipoService,
               private repuestoService: RepuestoService,
               private representanteService: RepresentanteService) {
@@ -52,11 +61,13 @@ export class AddRepuestoComponent implements OnInit {
 
   ngOnInit() {
     this.tipoId = 'Seleccionar Tipo';
+    this.marcaId = 'Seleccionar Marca';
     this.modeloId = 'Seleccionar Modelo';
     this.repreId = 'Seleccionar Representante';
     this.clearRepuestoField();
     this.getAllTipos();
     this.getAllModelos();
+    this.getAllMarcas();
     this.getAllRepresentantes();
     this.readonlyField = true;
     this.fechaActualizacion = new Date();
@@ -79,17 +90,51 @@ export class AddRepuestoComponent implements OnInit {
   }
 
   /**
-   * Se obtiene la lista de modelos para los equipos.
+   * Se obtiene la lista de modelos existentes para los equipos.
    */
   getAllModelos(): void {
-    this.modeloEquipoService.getAllModelosEquipos().subscribe(
+    this.modeloService.getAllModeloEquipo().subscribe(
       modelos => {
-        this.modelos = modelos;
+        this.modelos= modelos;
       },
       error => {
         this.errorMessage = error.error;
         console.log(this.errorMessage)
-        // this.error = true;
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Se obtiene la lista de los modelos filtrados por la marca seleccionada.
+   * @param marcaId
+   */
+  getAllModelosByMarca(marcaId): void {
+    this.modeloService.getAllModeloByMarca(marcaId).subscribe(
+      modelos => {
+        this.modelos= modelos;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+
+  /**
+   * Se obtiene la lista de marcas existentes para los equipos.
+   */
+  getAllMarcas(): void {
+    this.marcaService.getAllMarcaEquipo().subscribe(
+      marcas => {
+        this.marcas = marcas;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
       }
     );
   }
@@ -114,8 +159,8 @@ export class AddRepuestoComponent implements OnInit {
    * Se selecciona un tipo de equipo.
    * @param {number} value
    */
-  onSelectedTipoEquipo(value): void {
-    this.getTipoEquipoById(value);
+  onSelectTipoEquipo(): void {
+    this.getTipoEquipoById(this.tipoId);
   }
 
   /**
@@ -136,26 +181,34 @@ export class AddRepuestoComponent implements OnInit {
   }
 
   /**
-   * Se selecciona un modelo.
-   * @param {number} value
+   * Al seleccionar un modelo de la lista
    */
-  onSelectedModeloEquipo(value): void {
-    this.getModeloEquipoById(value);
-  }
-
-  /**
-   * Se obtiene el modelo seleccionado.
-   * @param {number} id
-   */
-  getModeloEquipoById(id: number): void {
-    this.modeloEquipoService.getModeloEquipoById(id).subscribe(
+  onSelectModelo() {
+    this.modeloService.getModeloEquipoById(this.modeloId).subscribe(
       modelo => {
-        this.modeloEquipo = modelo;
+        this.modeloSeleccionado = modelo;
       },
       error => {
         this.errorMessage = error.error;
         console.log(this.errorMessage)
-        // this.error = true;
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Al seleccionar una marca de la lista
+   */
+  onSelectMarca() {
+    this.marcaService.getMarcaEquipoById(this.marcaId).subscribe(
+      marca => {
+        this.marcaSeleccionada = marca;
+        this.getAllModelosByMarca(this.marcaSeleccionada.id);
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
       }
     );
   }
@@ -164,8 +217,8 @@ export class AddRepuestoComponent implements OnInit {
    * Se selecciona un representante
    * @param value
    */
-  onSelectedRepresentante(value): void {
-    this.getRepresentanteById(value);
+  onSelectRepresentante(): void {
+    this.getRepresentanteById(this.repreId);
   }
 
   /**
@@ -185,13 +238,24 @@ export class AddRepuestoComponent implements OnInit {
     );
   }
 
+
   /**
-   * Al presionar el boton veririfcar, se realiza la busqueda del repuesto por el campo código.
+   * Al presionar la tecla enter, se realiza la busqueda del repuesto por el campo código.
+   * @param value
    */
-  verificarCodigoRepuesto() {
-    if (this.codigo !== '' && this.codigo != null) {
+  onEnterCodigoRepuesto(value: string) {
+    if (value !== '' && value != null) {
+      this.codigo = value;
       this.buscarRepuestoByCodigo(this.codigo);
     }
+  }
+
+  /**
+   * Se obtiene el valor introducido en el campo código repuesto.
+   * @param value
+   */
+  onKeyCodigoRepuesto(value: string) {
+    this.codigo = value;
   }
 
 
@@ -231,7 +295,8 @@ export class AddRepuestoComponent implements OnInit {
       this.fechaActualizacion =  new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
     this.repuesto = new Repuesto(null, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
-      this.cantExistente, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);
+      this.cantExistente, this.tipoEquipo, this.modeloSeleccionado, this.marcaSeleccionada, this.representante,
+      this.fechaActualizacion);
     this.crearRepuesto(this.repuesto);
 
   }
@@ -269,7 +334,8 @@ export class AddRepuestoComponent implements OnInit {
     this.cantAdquirida = null;
     this.cantExistente = null;
     this.tipoEquipo = null;
-    this.modeloEquipo = null;
+    this.modeloSeleccionado = null;
+    this.marcaSeleccionada = null;
     this.representante = null;
     this.fechaActualizacion = '';
     this.readonlyField = false;

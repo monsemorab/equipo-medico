@@ -1,15 +1,17 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Repuesto} from "../../../domain/repuesto";
 import {TipoEquipo} from "../../../domain/tipo-equipo";
-import {ModeloEquipo} from "../../../domain/modelo-equipo";
 import {Representante} from "../../../domain/representante";
 import {EquipoService} from "../../../service/equipo.service";
-import {ModeloEquipoService} from "../../../service/modelo-equipo.service";
 import {TipoEquipoService} from "../../../service/tipo-equipo.service";
 import {RepuestoService} from "../../../service/repuesto.service";
 import {RepresentanteService} from "../../../service/representante.service";
 import {DatePipe} from "@angular/common";
 import {SolicitudRepuestoDetalle} from "../../../domain/solicitud-repuesto-detalle";
+import {Modelo} from "../../../domain/modelo";
+import {ModeloService} from "../../../service/modelo.service";
+import {Marca} from "../../../domain/marca";
+import {MarcaService} from "../../../service/marca.service";
 
 @Component({
   selector: 'app-solicitud-repuesto-detalle',
@@ -40,7 +42,6 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   cantAdquirida: number;  // solo lectura
   cantExistente: number;  // solo lectura
   tipoEquipo: TipoEquipo;
-  modeloEquipo: ModeloEquipo;
   representante: Representante;
   fechaActualizacion: any;
   readonlyField: boolean;
@@ -52,11 +53,18 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   cantidadUsada: number
 
   tipos = new Array<TipoEquipo>();
-  modelos = new Array<ModeloEquipo>();
   representantes = new Array<Representante>();
   tipoId: any;
-  modeloId: any;
   repreId: any;
+
+  // Datos Modelo Equipo
+  modelos = new Array<Modelo>();
+  modeloSeleccionado: Modelo;
+  modeloId: any;
+  // Datos Marca Equipo
+  marcas = new Array<Marca>();
+  marcaSeleccionada: Marca;
+  marcaId: any;
 
   // error
   errorMessage: string;
@@ -65,7 +73,8 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
 
 
   constructor(private equipoService: EquipoService,
-              private modeloEquipoService: ModeloEquipoService,
+              private modeloService: ModeloService,
+              private marcaService: MarcaService,
               private tipoEquipoService: TipoEquipoService,
               private repuestoService: RepuestoService,
               private representanteService: RepresentanteService) {
@@ -73,11 +82,13 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
 
   ngOnInit() {
     this.tipoId = 'Seleccionar Tipo';
+    this.marcaId = 'Seleccionar Marca';
     this.modeloId = 'Seleccionar Modelo';
     this.repreId = 'Seleccionar Representante';
     this.clearRepuestoField();
     this.getAllTipos();
     this.getAllModelos();
+    this.getAllMarcas();
     this.getAllRepresentantes();
 
     if (this.solicitudRepuestoDetalle == null) {
@@ -109,17 +120,51 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   }
 
   /**
-   * Se obtiene la lista de modelos para los equipos.
+   * Se obtiene la lista de modelos existentes para los equipos.
    */
   getAllModelos(): void {
-    this.modeloEquipoService.getAllModelosEquipos().subscribe(
+    this.modeloService.getAllModeloEquipo().subscribe(
       modelos => {
-        this.modelos = modelos;
+        this.modelos= modelos;
       },
       error => {
         this.errorMessage = error.error;
         console.log(this.errorMessage)
-        // this.error = true;
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Se obtiene la lista de los modelos filtrados por la marca seleccionada.
+   * @param marcaId
+   */
+  getAllModelosByMarca(marcaId): void {
+    this.modeloService.getAllModeloByMarca(marcaId).subscribe(
+      modelos => {
+        this.modelos= modelos;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+
+  /**
+   * Se obtiene la lista de marcas existentes para los equipos.
+   */
+  getAllMarcas(): void {
+    this.marcaService.getAllMarcaEquipo().subscribe(
+      marcas => {
+        this.marcas = marcas;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
       }
     );
   }
@@ -164,10 +209,17 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     if(repuesto.tipoEquipo != null) {
       this.tipoId = repuesto.tipoEquipo.id;
     }
-    this.modeloEquipo = repuesto.modeloEquipo;
-    if(repuesto.modeloEquipo != null) {
-      this.modeloId = repuesto.modeloEquipo.id;
+
+    if(repuesto.marca != null) {
+      this.marcaSeleccionada = repuesto.marca;
+      this.marcaId = this.marcaSeleccionada.id;
     }
+
+    if(repuesto.modelo != null) {
+      this.modeloSeleccionado = repuesto.modelo;
+      this.modeloId = this.modeloSeleccionado.id;
+    }
+
     this.representante = repuesto.representante;
     if(repuesto.representante != null) {
       this.repreId = repuesto.representante.id;
@@ -181,8 +233,8 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
    * Se selecciona un tipo de equipo.
    * @param {number} value
    */
-  onSelectedTipoEquipo(value): void {
-    this.getTipoEquipoById(value);
+  onSelectTipoEquipo(): void {
+    this.getTipoEquipoById(this.tipoId);
   }
 
   /**
@@ -203,26 +255,34 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   }
 
   /**
-   * Se selecciona un modelo.
-   * @param {number} value
+   * Al seleccionar un modelo de la lista
    */
-  onSelectedModeloEquipo(value): void {
-    this.getModeloEquipoById(value);
-  }
-
-  /**
-   * Se obtiene el modelo seleccionado.
-   * @param {number} id
-   */
-  getModeloEquipoById(id: number): void {
-    this.modeloEquipoService.getModeloEquipoById(id).subscribe(
+  onSelectModelo() {
+    this.modeloService.getModeloEquipoById(this.modeloId).subscribe(
       modelo => {
-        this.modeloEquipo = modelo;
+        this.modeloSeleccionado = modelo;
       },
       error => {
         this.errorMessage = error.error;
         console.log(this.errorMessage)
-        // this.error = true;
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Al seleccionar una marca de la lista
+   */
+  onSelectMarca() {
+    this.marcaService.getMarcaEquipoById(this.marcaId).subscribe(
+      marca => {
+        this.marcaSeleccionada = marca;
+        this.getAllModelosByMarca(this.marcaSeleccionada.id);
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
       }
     );
   }
@@ -231,8 +291,8 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
    * Se selecciona un representante
    * @param value
    */
-  onSelectedRepresentante(value): void {
-    this.getRepresentanteById(value);
+  onSelectRepresentante(): void {
+    this.getRepresentanteById(this.repreId);
   }
 
   /**
@@ -305,8 +365,10 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
       let parts = this.fechaActualizacion.split('/');
       this.fechaActualizacion =  new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
+
     this.repuesto = new Repuesto(this.repuestoId, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
-      this.cantExistente, this.tipoEquipo, this.modeloEquipo, this.representante, this.fechaActualizacion);
+      this.cantExistente, this.tipoEquipo, this.modeloSeleccionado, this.marcaSeleccionada, this.representante,
+      this.fechaActualizacion);
 
     if (this.isEditRepuesto) {
       this.editarRepuestoExistente(this.repuesto);
@@ -377,7 +439,8 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     this.cantAdquirida = null;
     this.cantExistente = null;
     this.tipoEquipo = null;
-    this.modeloEquipo = null;
+    this.modeloSeleccionado = null;
+    this.marcaSeleccionada = null;
     this.representante = null;
     this.fechaActualizacion = '';
     this.readonlyField = false;

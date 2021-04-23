@@ -1,183 +1,147 @@
 <!--Modal para agregar o editar los datos de un repuesto-->
 <clr-modal [(clrModalOpen)]="modalRepuestoOpen" [clrModalClosable]="false"
            [clrModalSize]="'lg'">
-  <h2 class="modal-title form-repuesto-title">{{modalRepuestoTitle}}</h2>
+  <h3 class="modal-title form-repuesto-title">{{modalRepuestoTitle}}</h3>
   <div class="modal-body">
-    <form class="compact" #repuestoForm="ngForm">
-
-      <!-- info -->
-      <div class="alert alert-info" *ngIf="info">
-        <div class="alert-items">
-          <div class="alert-item static">
-            <div class="alert-icon-wrapper">
-              <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-            </div>
-            <span class="alert-text">{{errorMessage}}</span>
+    <!-- info -->
+    <div class="alert alert-info" *ngIf="info">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
           </div>
+          <span class="alert-text">{{errorMessage}}</span>
         </div>
-        <button type="button" class="close" aria-label="Close" (click)="info = false">
-          <clr-icon aria-hidden="true" shape="close"></clr-icon>
-        </button>
       </div>
+      <button type="button" class="close" aria-label="Close" (click)="info = false">
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
 
-      <!-- errors -->
-      <div class="alert alert-danger" *ngIf="error">
-        <div class="alert-items">
-          <div class="alert-item static">
-            <div class="alert-icon-wrapper">
-              <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-            </div>
-            <span class="alert-text">{{errorMessage}}</span>
+    <!-- errors -->
+    <div class="alert alert-danger" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
           </div>
+          <span class="alert-text">{{errorMessage}}</span>
         </div>
-        <button type="button" class="close" aria-label="Close" (click)="error = false">
-          <clr-icon aria-hidden="true" shape="close"></clr-icon>
-        </button>
       </div>
+      <button type="button" class="close" aria-label="Close" (click)="error = false">
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
 
-      <section class="form-block">
-        <div class="form-group row flex-items-xs-left">
-          <!--columna izquierda-->
-          <div class="col-xs-6">
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label required">Código:</label>
-              </div>
-              <div class="col-xs-5" *ngIf="!isEditRepuesto">
-                <input class="form-control" id="codRepuesto"
-                       name="codRepuesto" #codRep tabindex="1"
-                       (keyup.enter)="onEnterCodigoRepuesto(codRep.value)"
-                       (keyup)="onKeyCodigoRepuesto(codRep.value)"
-                       [(ngModel)]="codigo" required>
-              </div>
-              <div class="col-xs-5" *ngIf="isEditRepuesto">
-                <input class="form-control" id="codigo" tabindex="1"
-                       name="codigo" [(ngModel)]="codigo">
-              </div>
-            </div>
+    <form clrForm >
+      <div class="clr-row clr-justify-content-start">
+        <!--columna izquierda-->
+        <div class="clr-col-6">
+          <clr-input-container *ngIf="!isEditRepuesto">
+            <label class="clr-col-5">Código:</label>
+            <input class="tamanho-total clr-col-8" clrInput id="codRepuesto"
+                   name="codRepuesto" #codRep tabindex="1"
+                   (keyup.enter)="onEnterCodigoRepuesto(codRep.value)"
+                   (keyup)="onKeyCodigoRepuesto(codRep.value)"
+                   [(ngModel)]="codigo" required />
+            <clr-control-helper>Ingrese un codigo y presione enter para verificar existencia</clr-control-helper>
+            <clr-control-error>El campo es obligatorio</clr-control-error>
+          </clr-input-container>
 
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label" for="precio">Precio:</label>
-              </div>
-              <div class="col-xs-5">
-                <input class="form-control" id="precio" [disabled]="readonlyField"
-                       name="precio" [(ngModel)]="precio" tabindex="3">
-              </div>
-            </div>
+          <clr-input-container *ngIf="isEditRepuesto">
+            <label class="clr-col-5">Código:</label>
+            <input class="tamanho-total clr-col-8" clrInput type="text" id="codigo"
+                   name="codigo" [(ngModel)]="codigo" required />
+            <clr-control-error>El campo es obligatorio</clr-control-error>
+          </clr-input-container>
 
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label" for="cantidadSolicitada">Cant. Solicitada:</label>
-              </div>
-              <div class="col-xs-5">
-                <input class="form-control" id="cantidadSolicitada" [disabled]="readonlyField"
-                       name="cantidadSolicitada" [(ngModel)]="cantidadSolicitada" tabindex="4">
-              </div>
-            </div>
+          <clr-input-container>
+            <label class="clr-col-5">Precio:</label>
+            <input class="tamanho-total clr-col-8" clrInput type="text" [(ngModel)]="precio"
+                   name="precio" [disabled]="readonlyField"/>
+          </clr-input-container>
 
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label" for="cantidadAd">Cant. Adquirida:</label>
-              </div>
-              <div class="col-xs-5">
-                <input class="form-control" id="cantidadAd" type="text"
-                       name="cantidadAd" [(ngModel)]="cantAdquirida">
-              </div>
-            </div>
+          <clr-input-container>
+            <label class="clr-col-5">Cant. Solicitada:</label>
+            <input class="tamanho-total clr-col-8" clrInput type="text" [(ngModel)]="cantidadSolicitada"
+                   name="cantidadSolicitada" [disabled]="readonlyField"/>
+          </clr-input-container>
 
+          <clr-input-container>
+            <label class="clr-col-5">Cant. Adquirida:</label>
+            <input class="tamanho-total clr-col-8" clrInput type="text"
+                   [(ngModel)]="cantAdquirida" name="cantAdquirida" [disabled]="readonlyField"/>
+          </clr-input-container>
 
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label">Tipo:</label>
-              </div>
-              <div class="col-xs-7">
-                <div class="select form-control">
-                  <select class="select-form-repuesto" id="selectTipo" #selectedTipo name="selectTipo"
-                          [(ngModel)]="tipoId" [disabled]="readonlyField" tabindex="6"
-                          (change)="onSelectedTipoEquipo(selectedTipo.value)">
-                    <option disabled>Seleccionar Tipo</option>
-                    <option *ngFor="let tipo of tipos"
-                            value={{tipo.id}}>{{tipo.tipo}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
+          <clr-select-container>
+            <label class="clr-col-5">Tipo</label>
+            <select clrSelect name="tipoId" [(ngModel)]="tipoId"
+                    (ngModelChange)="onSelectTipoEquipo()">
+              <option disabled>Seleccionar Tipo</option>
+              <option *ngFor="let tipo of tipos"
+                      value={{tipo.id}}>{{tipo.tipo}}
+              </option>
+            </select>
+          </clr-select-container>
 
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label">Representante:</label>
-              </div>
-              <div class="col-xs-7">
-                <div class="select form-control">
-                  <select class="select-form-repuesto" id="selectRepre" #selectedRepre name="selectRepre"
-                          [(ngModel)]="repreId" [disabled]="readonlyField" tabindex="8"
-                          (change)="onSelectedRepresentante(selectedRepre.value)">
-                    <option disabled>Seleccionar Representante</option>
-                    <option *ngFor="let repre of representantes"
-                            value={{repre.id}}>{{repre.nombre}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
+          <clr-select-container>
+            <label class="clr-col-5">Representante:</label>
+            <select clrSelect name="repreId" [(ngModel)]="repreId" [disabled]="readonlyField"
+                    (ngModelChange)="onSelectRepresentante()">
+              <option disabled>Seleccionar Representante</option>
+              <option *ngFor="let repre of representantes"
+                      value={{repre.id}}>{{repre.nombre}}
+              </option>
+            </select>
+          </clr-select-container>
+        </div>
 
-          <!--columna derecha-->
-          <div class="col-xs-6">
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label required" for="descripcion">Descripción:</label>
-              </div>
-              <div class="col-xs-8">
-            <textarea class="form-control" id="descripcion" rows="2" tabindex="2"
-                      name="descripcion" [(ngModel)]="descripcion"
-                      [disabled]="readonlyField" required>
+        <!--columna derecha-->
+        <div class="clr-col-6">
+          <clr-textarea-container>
+            <label class="clr-col-5">Descripción:</label>
+            <textarea class="tamanho-total" clrTextarea [(ngModel)]="descripcion"
+                      name="description" required [disabled]="readonlyField">
             </textarea>
-              </div>
-            </div>
+            <clr-control-error>El campo es obligatorio</clr-control-error>
+          </clr-textarea-container>
 
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label" for="cantidadUsada">Cant. Usada:</label>
-              </div>
-              <div class="col-xs-5">
-                <input class="form-control" id="cantidadUsada" [disabled]="!isAtenderOT"
-                       name="cantidadUsada" [(ngModel)]="cantidadUsada" tabindex="5">
-              </div>
-            </div>
+          <clr-input-container>
+            <label class="clr-col-5">Cant. Usada:</label>
+            <input class="tamanho-total clr-col-8" clrInput type="text"
+                   [(ngModel)]="cantidadUsada" name="cantidadUsada" [disabled]="!isAtenderOT"/>
+          </clr-input-container>
 
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label" for="cantidadRes">Cant. Existente:</label>
-              </div>
-              <div class="col-xs-5">
-                <input class="form-control" id="cantidadRes" disabled type="text"
-                       name="cantidadRes" [(ngModel)]="cantExistente">
-              </div>
-            </div>
+          <clr-input-container>
+            <label class="clr-col-5">Cant. Existente:</label>
+            <input class="tamanho-total clr-col-8" clrInput type="text"
+                   [(ngModel)]="cantExistente" name="cantExistente" [disabled]="readonlyField"/>
+          </clr-input-container>
 
-            <div class="form-group row flex-items-xs-left">
-              <div class="col-xs-4 col-label-repuesto">
-                <label class="form-repuesto-label">Modelo:</label>
-              </div>
-              <div class="col-xs-7">
-                <div class="select form-control">
-                  <select class="select-form-repuesto" id="selectModelo" #selectedModelo name="selectModelo"
-                          [(ngModel)]="modeloId" [disabled]="readonlyField" tabindex="7"
-                          (change)="onSelectedModeloEquipo(selectedModelo.value)">
-                    <option disabled>Seleccionar Modelo</option>
-                    <option *ngFor="let modelo of modelos"
-                            value={{modelo.id}}>{{modelo.modelo}}, {{modelo.marca}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
+          <clr-select-container>
+            <label class="clr-col-5">Seleccione Marca</label>
+            <select clrSelect name="marcaId" [(ngModel)]="marcaId" [disabled]="readonlyField"
+                    (ngModelChange)="onSelectMarca()">
+              <option>Seleccionar Marca</option>
+              <option *ngFor="let marca of marcas"
+                      value={{marca.id}}>{{marca.marca}}
+              </option>
+            </select>
+          </clr-select-container>
+
+          <clr-select-container>
+            <label class="clr-col-5">Modelo:</label>
+            <select clrSelect name="tipoId" [(ngModel)]="modeloId" [disabled]="readonlyField"
+                    (ngModelChange)="onSelectModelo()">
+              <option disabled>Seleccionar Representante</option>
+              <option disabled>Seleccionar Modelo</option>
+              <option *ngFor="let modelo of modelos"
+                      value={{modelo.id}}>{{modelo.modelo}}
+              </option>
+            </select>
+          </clr-select-container>
         </div>
-      </section>
+      </div>
     </form>
   </div>
   <div class="modal-footer">

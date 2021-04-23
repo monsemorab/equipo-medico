@@ -6,3 +6,7 @@
 .form-ubicacion-equipo-label {
     font-weight: bold !important;
 }
+
+.tamanho-total {
+  width: 100% !important;
+}

@@ -1,72 +1,42 @@
 <!--Modal para agregar o editar los datos de un representante-->
 <clr-modal [(clrModalOpen)]="modalRepreOpen" [clrModalClosable]="false">
-  <h2 class="modal-title form-representante-title">{{modalRepreTitle}}</h2>
+  <h3 class="modal-title form-representante-title">{{modalRepreTitle}}</h3>
   <div class="modal-body">
-    <form class="compact" #repreForm="ngForm">
-      <section class="form-block">
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-representante">
-            <label class="form-representante-label required" for="empresa">Nombre/Empresa:</label>
-          </div>
-          <div class="col-xs-9">
-            <input class="form-control" id="empresa"
-                   name="empresa" [(ngModel)]="nombre"
-                   required>
-          </div>
-        </div>
+    <form clrForm #repreForm="ngForm">
+      <clr-input-container>
+        <label class="clr-col-5">Nombre/Empresa:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="nombre" name="empresa" required/>
+        <clr-control-error>El campo es obligatorio</clr-control-error>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-representante">
-            <label class="form-representante-label" for="direccion">Dirección:</label>
-          </div>
-          <div class="col-xs-9">
-            <input class="form-control" id="direccion"
-                   name="direccion"
-                   [(ngModel)]="direccion">
-          </div>
-        </div>
+      <clr-input-container>
+        <label class="clr-col-5">Dirección:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="direccion" name="direccion"/>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-representante">
-            <label class="form-representante-label" for="email">Email:</label>
-          </div>
-          <div class="col-xs-9">
-            <input class="form-control" id="email"
-                   name="email" [(ngModel)]="email">
-          </div>
-        </div>
+      <clr-input-container>
+        <label class="clr-col-5">Email:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="email" name="email"/>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-representante">
-            <label class="form-representante-label required" for="telefono">Telefono:</label>
-          </div>
-          <div class="col-xs-5">
-            <input class="form-control" id="telefono" required
-                   name="telefono" [(ngModel)]="telefono">
-          </div>
-        </div>
-        <div class="form-group row flex-items-xs-left">
+      <clr-input-container>
+        <label class="clr-col-5">Telefono:</label>
+        <input class="tamanho-medio clr-col-10" clrInput type="text" [(ngModel)]="telefono" name="telefono" required/>
+        <clr-control-error>El campo es obligatorio</clr-control-error>
+      </clr-input-container>
 
-          <div class="col-xs-3 col-label-representante">
-            <label class="form-representante-label required" for="contacto">Contacto:</label>
-          </div>
-          <div class="col-xs-5">
-            <input class="form-control" id="contacto" required
-                   name="contacto" [(ngModel)]="nombreContacto">
-          </div>
-        </div>
+      <clr-input-container>
+        <label class="clr-col-5">Contacto:</label>
+        <input class="tamanho-total clr-col-10" clrInput type="text" [(ngModel)]="nombreContacto" name="nombreContacto"
+               required/>
+        <clr-control-error>El campo es obligatorio</clr-control-error>
+      </clr-input-container>
 
-        <div class="form-group row flex-items-xs-left">
-          <div class="col-xs-3 col-label-representante">
-            <label class="form-representante-label required" for="telefono">Cel.:</label>
-          </div>
-          <div class="col-xs-4">
-            <input class="form-control" id="cel" required
-                   name="cel" [(ngModel)]="celular">
-          </div>
-        </div>
-
-      </section>
+      <clr-input-container>
+        <label class="clr-col-5">Cel.:</label>
+        <input class="tamanho-medio clr-col-10" clrInput type="text" [(ngModel)]="celular" name="celular" required/>
+        <clr-control-error>El campo es obligatorio</clr-control-error>
+      </clr-input-container>
     </form>
   </div>
 

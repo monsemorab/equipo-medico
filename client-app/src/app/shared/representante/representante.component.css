@@ -12,3 +12,11 @@
 .col-label-representante {
   text-align: right !important;
 }
+
+.tamanho-total {
+  width: 100% !important;
+}
+
+.tamanho-medio{
+  width: 50% !important;
+}
