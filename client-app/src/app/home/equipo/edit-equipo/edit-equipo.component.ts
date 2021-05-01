@@ -98,7 +98,6 @@ export class EditEquipoComponent implements OnInit {
     this.marca = "";
     this.getAllRepresentantes();
     this.getAllTipos();
-    this.getAllModelos();
     this.getAllMarcas();
     this.getAllUbicaciones();
     this.route.paramMap
@@ -340,14 +339,6 @@ export class EditEquipoComponent implements OnInit {
   }
 
   /**
-   * Se selecciona un estado de la lista
-   * @param value
-   */
-  onSelectEstado(value: string): void {
-    this.equipo.estado = value;
-  }
-
-  /**
    * Al seleccionar un tipo de la lista
    */
   onSelectTipo() {
@@ -385,19 +376,24 @@ export class EditEquipoComponent implements OnInit {
    * Al seleccionar una marca de la lista
    */
   onSelectMarca() {
-    this.marcaService.getMarcaEquipoById(this.marcaId).subscribe(
-      marca => {
-        this.marcaSeleccionada = marca;
-        this.modeloFueSeleccionado = true;
-        this.getAllModelosByMarca(this.marcaSeleccionada.id);
-      },
-      error => {
-        this.errorMessage = error.error;
-        this.modeloFueSeleccionado = false;
-        console.log(this.errorMessage)
-        this.error = true;
-      }
-    );
+    if (this.marcaId === 'Seleccionar Marca') {
+      this.modelos = [];
+      this.modeloId = 'Seleccionar Modelo';
+    } else {
+      this.marcaService.getMarcaEquipoById(this.marcaId).subscribe(
+        marca => {
+          this.marcaSeleccionada = marca;
+          this.marcaFueSeleccionada = true;
+          this.getAllModelosByMarca(this.marcaSeleccionada.id);
+        },
+        error => {
+          this.errorMessage = error.error;
+          this.marcaFueSeleccionada = false;
+          console.log(this.errorMessage)
+          this.error = true;
+        }
+      );
+    }
   }
 
   /**
@@ -456,18 +452,29 @@ export class EditEquipoComponent implements OnInit {
       this.marcaSeleccionada = this.getMarcaByName(this.marca);
     }
 
-    // se verifica si el modelo ingresado ya existe, si no, se crea una nueva entrada en la BD
-    if(this.modelo !== "") {
-      this.modeloSeleccionado = this.getModeloByName(this.modelo, this.marcaSeleccionada);
-    }else {
-      // si el modelo fue seleccionado pero la marca fue ingresada, se verifica que el modelo este relacionado con la marca,
-      // si no es el caso, se crea una nueva entrada en la BD con ambos datos
-      if(this.modeloSeleccionado.marca.id !== this.marcaSeleccionada.id) {
-        this.modeloSeleccionado = new Modelo(null, this.modeloSeleccionado.modelo, this.marcaSeleccionada);
-      }
+    // se verifica si la marca ingresada ya existe, si no, se crea una nueva entrada en la BD
+    if (this.marca !== "") {
+      this.marcaSeleccionada = this.getMarcaByName(this.marca);
     }
 
-    this.equipo = new Equipo(this.equipoId, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
+    if (this.marcaSeleccionada.id == null) {
+      this.crearMarca();
+    } else {
+      // se verifica si el modelo ingresado ya existe, si no, se crea una nueva entrada en la BD
+      if (this.modelo !== "") {
+        this.modeloSeleccionado = this.getModeloByName(this.modelo, this.marcaSeleccionada);
+        this.crearModelo();
+      } else {
+        this.crearYGuardarDatosEquipo();
+      }
+    }
+  }
+
+  /**
+   * Se crean el equipo con los datos creados e ingresados
+   */
+  crearYGuardarDatosEquipo() {
+    this.equipo = new Equipo(null, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
       this.versionSw, this.descripcionEquipo, this.costo, this.repreSeleccionado, this.tipoSeleccionado,
       this.modeloSeleccionado, this.marcaSeleccionada, this.ubicacionSeleccionada, null, this.licitacionCompra,
       this.fechaFabricacion, this.fechaVenGarantia, this.fechaInstalacion, this.fechaCompra);
@@ -475,10 +482,44 @@ export class EditEquipoComponent implements OnInit {
   }
 
   /**
+   * Se crea una nueva marca con los datos ingresados
+   */
+  crearMarca(): void {
+    this.marcaService.crearMarcaEquipo(this.marcaSeleccionada).subscribe(
+      marca => {
+        this.marcaSeleccionada = marca;
+        // se crea una nueva entrada en la BD
+        this.modeloSeleccionado = new Modelo(null, this.modelo, this.marcaSeleccionada);
+        this.crearModelo();
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+      }
+    );
+  }
+
+  /**
+   * Se crea un nuevo modelo para el equipo creado
+   */
+  crearModelo(): void {
+    this.modeloService.crearModeloEquipo(this.modeloSeleccionado).subscribe(
+      modelo => {
+        this.modeloSeleccionado = modelo;
+        this.crearYGuardarDatosEquipo();
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+      }
+    );
+  }
+
+  /**
    * Verificamos si la marca ingresada existe en la BD, si no es el caso, se devuelve una nueva instancia
    * @param marcaIngresada
    */
-  getMarcaByName(marcaIngresada: string): Marca{
+  getMarcaByName(marcaIngresada: string): Marca {
     for (let i = 0; i < this.marcas.length; i++) {
       if (marcaIngresada === this.marcas[i].marca) {
         return this.marcas[i];

@@ -21,7 +21,6 @@ export class AddContratoComponent implements OnInit {
   numeroProcedimiento: string;
   estadoContrato: string;
   convocante: string;
-  pdf: string;
   fechaInicio: any;
   fechaFin: any;
 
@@ -32,7 +31,7 @@ export class AddContratoComponent implements OnInit {
   equipos: Equipo[];
   selectedEquipos = new Array<Equipo>();
   selectedEquipo: Equipo;
-  equipoId: number;
+  equipoId: any;
   isSelectedEquipo: boolean;
 
   // error
@@ -48,6 +47,7 @@ export class AddContratoComponent implements OnInit {
   ngOnInit() {
     this.isSelectedEquipo = false;
     this.estadoContrato = 'Vigente';
+    this.equipoId = 'Seleccionar Equipo';
     this.getEquipos();
     this.getEstadoContratos();
   }
@@ -87,19 +87,10 @@ export class AddContratoComponent implements OnInit {
 
 
   /**
-   * Se selecciona un estado para el contrato.
-   * @param value
-   */
-  onSelectedEstadoContrado(value: string): void {
-    this.estadoContrato = value;
-  }
-
-  /**
    * Se selecciona un equipo para el contrato.
-   * @param {number} value
    */
-  onSelectedEquipo(value: string): void {
-    this.getEquipoById(+value);
+  onSelectedEquipo(): void {
+    this.getEquipoById(+this.equipoId);
   }
 
   /**
@@ -110,7 +101,6 @@ export class AddContratoComponent implements OnInit {
     this.equipoService.getEquipoById(id).subscribe(
       equipo => {
         this.selectedEquipo = equipo;
-        this.equipoId = equipo.id;
       },
       error => {
         this.errorMessage = error.error;
@@ -174,7 +164,7 @@ export class AddContratoComponent implements OnInit {
     }
 
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion,
-      this.tipoProcedimiento, this.numeroProcedimiento, this.estadoContrato, this.convocante, this.pdf,
+      this.tipoProcedimiento, this.numeroProcedimiento, this.estadoContrato, this.convocante,
       this.selectedEquipos, this.fechaInicio, this.fechaFin);
     this.saveContrato(this.contrato);
 

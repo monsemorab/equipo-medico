@@ -6,12 +6,12 @@ import {TipoEquipoService} from '../../../service/tipo-equipo.service';
 import {TipoEquipo} from '../../../domain/tipo-equipo';
 import {Ubicacion} from '../../../domain/ubicacion';
 import {UbicacionEquipoService} from '../../../service/ubicacion-equipo.service';
-import {ContratoService} from '../../../service/contrato.service';
 import {EstadoContrato} from '../../../domain/contrato';
 import {ModeloService} from "../../../service/modelo.service";
 import {MarcaService} from "../../../service/marca.service";
 import {Modelo} from "../../../domain/modelo";
 import {Marca} from "../../../domain/marca";
+import {ContratoService} from "../../../service/contrato.service";
 
 @Component({
   selector: 'app-lista-equipo',
@@ -34,7 +34,10 @@ export class ListaEquipoComponent implements OnInit {
   // datagrid
   loading = true;
   total: number;
-  equipos: Equipo[];
+  first = 0;
+  rows = 2;
+  equipos = new Array<Equipo>();
+  selected = new Array<Equipo>();
 
   // filtro
   tipos = new Array<TipoEquipo>();
@@ -364,6 +367,26 @@ export class ListaEquipoComponent implements OnInit {
     );
   }
 
+  next() {
+    this.first = this.first + this.rows;
+  }
+
+  prev() {
+    this.first = this.first - this.rows;
+  }
+
+  reset() {
+    this.first = 0;
+  }
+
+  isLastPage(): boolean {
+    return this.equipos ? this.first === (this.equipos.length - this.rows): true;
+  }
+
+  isFirstPage(): boolean {
+    return this.equipos ? this.first === 0 : true;
+  }
+
   /**
    * Cuando se presiona el botón Add.
    */
@@ -389,6 +412,44 @@ export class ListaEquipoComponent implements OnInit {
   editEquipo() {
     this.router.navigate(['home/equipos/editar-equipo/' + this.selectedEquipo.id]);
 
+  }
+
+  exportToExcel() {
+    let j = -1;
+    this.selected = [];
+    if (this.first == this.rows || this.equipos.length == 1) {
+      j++;
+      this.selected[j] = this.equipos[this.first];
+    } else {
+      for (let i = this.first; i < this.rows; i++) {
+        j++;
+        this.selected[j] = this.equipos[i];
+      }
+    }
+
+    this.exportExcel();
+  }
+
+  exportExcel() {
+    // @ts-ignore
+    import("xlsx").then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(this.selected);
+      const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
+      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
+      this.saveAsExcelFile(excelBuffer, "equipos");
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    // @ts-ignore
+    import("file-saver").then(FileSaver => {
+      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      let EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    });
   }
 
 }

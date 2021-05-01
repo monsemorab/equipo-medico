@@ -16,6 +16,10 @@
   text-align: right !important;
 }
 
+.filtro-btn {
+  margin-left: 2% !important;
+}
+
 pre {
   border: 0px solid #ccc !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
@@ -27,13 +31,13 @@ pre {
 }
 
 .table-header {
-  font-size: 13px !important;
+  font-size: 16px !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
   text-align: center !important;
 }
 
 .table-column {
-  font-size: 12px !important;
+  font-size: 15px !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
 }
 
@@ -47,4 +51,14 @@ pre {
 
 .margin-col-btn {
   margin-top: -1% !important;
+}
+
+>>> .p-component {
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 0.9rem !important;
+}
+
+>>> .p-inputtext {
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 0.9rem !important;
 }

@@ -1,9 +1,8 @@
 <h3 class="form-equipo-title">Equipos</h3>
 <form clrForm>
-  <clr-datagrid>
-    <clr-dg-action-bar>
-<!--      tipo/ubicacion-->
-      <div>
+  <div class="card">
+    <!--      tipo/ubicacion-->
+    <div>
       <label class="clr-col-1 clr-align-self-end">Tipo:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-tipo" name="tipoId" [(ngModel)]="tipoId"
@@ -26,99 +25,108 @@
           </option>
         </select>
       </div>
+    </div>
+    <br/>
+    <!--      marca/modelo-->
+    <div>
+      <label class="clr-col-1 clr-align-self-end">Marca:</label>
+      <div class="clr-select-wrapper">
+        <select class="clr-select" id="select-marca" name="marcaId" [(ngModel)]="marcaId"
+                (ngModelChange)="onSelectMarca()">
+          <option>Filtrar por Marca</option>
+          <option *ngFor="let marca of marcas"
+                  value={{marca.id}}>{{marca.marca}}
+          </option>
+        </select>
       </div>
-      <br/>
-<!--      marca/modelo-->
-      <div>
-        <label class="clr-col-1 clr-align-self-end">Marca:</label>
-        <div class="clr-select-wrapper">
-          <select class="clr-select" id="select-marca" name="marcaId" [(ngModel)]="marcaId"
-                  (ngModelChange)="onSelectMarca()">
-            <option>Filtrar por Marca</option>
-            <option *ngFor="let marca of marcas"
-                    value={{marca.id}}>{{marca.marca}}
-            </option>
-          </select>
-        </div>
 
-        <label class="clr-col-1 clr-align-self-end">Modelo:</label>
-        <div class="clr-select-wrapper">
-          <select class="clr-select" id="select-modelo" name="modeloId" [(ngModel)]="modeloId"
-                  (ngModelChange)="onSelectModelo()">
-            <option>Filtrar por Modelo</option>
-            <option *ngFor="let modelo of modelos"
-                    value={{modelo.id}}>{{modelo.modelo}}
-            </option>
-          </select>
-        </div>
+      <label class="clr-col-1 clr-align-self-end">Modelo:</label>
+      <div class="clr-select-wrapper">
+        <select class="clr-select" id="select-modelo" name="modeloId" [(ngModel)]="modeloId"
+                (ngModelChange)="onSelectModelo()">
+          <option>Filtrar por Modelo</option>
+          <option *ngFor="let modelo of modelos"
+                  value={{modelo.id}}>{{modelo.modelo}}
+          </option>
+        </select>
       </div>
-      <br/>
-<!--      estados-->
-      <div>
-        <label class="clr-col-1 clr-align-self-end">Estado Equipo:</label>
-        <div class="clr-select-wrapper">
-          <select class="clr-select" id="select-estado-equipo" name="estado" [(ngModel)]="estadoEquipo"
-                  (ngModelChange)="onSelectEstado()">>
-            <option>Filtrar por Estado Equipo</option>
-            <option value="Operativo">Operativo</option>
-            <option value="Inoperativo">Inoperativo</option>
-            <option value="Irreparable">Irreparable</option>
-          </select>
-        </div>
+    </div>
+    <br/>
+    <!--      estados-->
+    <div>
+      <label class="clr-col-1 clr-align-self-end">Estado Equipo:</label>
+      <div class="clr-select-wrapper">
+        <select class="clr-select" id="select-estado-equipo" name="estado" [(ngModel)]="estadoEquipo"
+                (ngModelChange)="onSelectEstado()">
+          <option>Filtrar por Estado Equipo</option>
+          <option value="Operativo">Operativo</option>
+          <option value="Inoperativo">Inoperativo</option>
+          <option value="Irreparable">Irreparable</option>
+        </select>
+      </div>
 
-        <label class="clr-col-1 clr-align-self-end">Estado Contrato:</label>
-        <div class="clr-select-wrapper">
-          <select class="clr-select" id="select-estado-contrato" name="estadoContrato"
-                  [(ngModel)]="estadoContrato"
-                  (change)="onSelectEstadoContrado()">
-            <option>Filtrar por Estado Contrato</option>
-            <option *ngFor="let estado of estadosContrato"
-                    value={{estado.nombre}}>{{estado.nombre}}
-            </option>
-          </select>
-        </div>
-        <a class="btn btn-sm btn-primary filtro-btn " (click)="filtrarEquipo()">
-          <clr-icon shape="search"></clr-icon>
-        </a>
+      <label class="clr-col-1 clr-align-self-end">Estado Contrato:</label>
+      <div class="clr-select-wrapper">
+        <select class="clr-select" id="select-estado-contrato" name="estadoContrato"
+                [(ngModel)]="estadoContrato"
+                (change)="onSelectEstadoContrado()">
+          <option>Filtrar por Estado Contrato</option>
+          <option *ngFor="let estado of estadosContrato"
+                  value={{estado.nombre}}>{{estado.nombre}}
+          </option>
+        </select>
       </div>
-      <br/>
-      <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-primary" (click)="addEquipo()">
-          <clr-icon shape="plus"></clr-icon> Crear
-        </button>
-        <button type="button" class="btn btn-sm btn-success" *ngIf="selectedEquipo != null"
-                (click)="editEquipo()">
-          <clr-icon shape="pencil"></clr-icon> Editar</button>
-        <button type="button" class="btn btn-sm btn-secondary" *ngIf="equipos.length > 0">
-          <clr-icon shape="pencil"></clr-icon> Export</button>
-      </div>
-    </clr-dg-action-bar>
-    <clr-dg-column class="table-header">Tipo</clr-dg-column>
-    <clr-dg-column class="table-header">Marca</clr-dg-column>
-    <clr-dg-column class="table-header">Modelo</clr-dg-column>
-    <clr-dg-column class="table-header">Nro. Serie</clr-dg-column>
-    <clr-dg-column class="table-header">Nro. Patrimonial</clr-dg-column>
-    <clr-dg-column class="table-header">Ubicación</clr-dg-column>
-    <clr-dg-column class="table-header">Estado del Equipo</clr-dg-column>
-    <clr-dg-column class="table-header">Estado del Contrato</clr-dg-column>
-
-    <clr-dg-row *ngFor="let equipo of equipos" (click)="selectEquipo(equipo)"
-                [class.selectEquipo]="equipo === selectedEquipo">
-      <clr-dg-cell class="table-column">{{equipo.tipoEquipo?.tipo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{equipo.marca?.marca}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{equipo.modelo?.modelo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{equipo.numeroSerie}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{equipo.numeroPatrimonial}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{equipo.ubicacion?.bloque}},
-        {{equipo.ubicacion?.numeroSala}}, {{equipo.ubicacion?.nivel}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{equipo.estado}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{equipo.contrato?.estadoContrato}}</clr-dg-cell>
-    </clr-dg-row>
-    <clr-dg-footer>
-      <clr-dg-pagination #pagination [clrDgPageSize]="10">
-        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Equipos por pag</clr-dg-page-size>
-        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} de {{total}} Equipos
-      </clr-dg-pagination>
-    </clr-dg-footer>
-  </clr-datagrid>
+      <a class="btn btn-sm btn-primary filtro-btn " (click)="filtrarEquipo()">
+        <clr-icon shape="search"></clr-icon>
+      </a>
+    </div>
+    <br/>
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-primary" (click)="addEquipo()">
+        <clr-icon shape="plus"></clr-icon>
+        Crear
+      </button>
+      <button type="button" class="btn btn-sm btn-success" *ngIf="selectedEquipo != null"
+              (click)="editEquipo()">
+        <clr-icon shape="pencil"></clr-icon>
+        Editar
+      </button>
+      <button type="button" class="btn btn-sm btn-secondary" *ngIf="equipos.length > 0"
+              (click)="exportToExcel()">
+        <clr-icon shape="pencil"></clr-icon>
+        Export
+      </button>
+    </div>
+    <p-table [value]="equipos" selectionMode="single" [(selection)]="selectedEquipo" dataKey="numeroSerie"
+             [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
+             currentPageReportTemplate="{first} - {last} de {totalRecords} equipos"
+             [rowsPerPageOptions]="[2,10,25,50]">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 1rem"></th>
+          <th class="table-header">Tipo</th>
+          <th class="table-header">Marca</th>
+          <th class="table-header">Modelo</th>
+          <th class="table-header">Nro. Serie</th>
+          <th class="table-header">Nro. Patrimonial</th>
+          <th class="table-header">Ubicación</th>
+          <th class="table-header">Estado del Equipo</th>
+          <th class="table-header">Estado del Contrato</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-equipo>
+        <tr [pSelectableRow]="equipo">
+          <td class="table-column text-center">{{equipo.tipoEquipo?.tipo}}</td>
+          <td class="table-column text-center">{{equipo.marca?.marca}}</td>
+          <td class="table-column text-left">{{equipo.modelo?.modelo}}</td>
+          <td class="table-column text-center">{{equipo.numeroSerie}}</td>
+          <td class="table-column text-center">{{equipo.numeroPatrimonial}}</td>
+          <td class="table-column text-center">{{equipo.ubicacion?.bloque}},
+            {{equipo.ubicacion?.numeroSala}}, {{equipo.ubicacion?.nivel}}</td>
+          <td class="table-column text-center">{{equipo.fechaFin}}</td>
+          <td class="table-column text-center">{{equipo.contrato?.estadoContrato}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </form>

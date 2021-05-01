@@ -7,11 +7,15 @@ import {AddContratoComponent} from './add-contrato/add-contrato.component';
 import {ListaContratoComponent} from './lista-contrato/lista-contrato.component';
 import {SharedModule} from '../../shared/shared.module';
 import {EditContratoComponent} from './edit-contrato/edit-contrato.component';
+import {TableModule} from "primeng/table";
+import {ButtonModule} from "primeng/button";
 
 @NgModule({
   imports: [
     CommonModuleImportsModule,
-    SharedModule
+    SharedModule,
+    TableModule,
+    ButtonModule
   ],
   exports: [ContratoComponent],
   providers: [ContratoService],

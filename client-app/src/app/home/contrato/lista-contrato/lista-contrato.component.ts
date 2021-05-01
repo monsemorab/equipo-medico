@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Contrato, EstadoContrato} from '../../../domain/contrato';
 import {Router} from '@angular/router';
 import {ContratoService} from '../../../service/contrato.service';
 import {DatePipe} from '@angular/common';
+
 
 @Component({
   selector: 'app-lista-contrato',
@@ -24,6 +25,8 @@ export class ListaContratoComponent implements OnInit {
   // datagrid
   loading = true;
   total: number;
+  first = 0;
+  rows = 2;
   contratos: Contrato[];
 
   // filtro
@@ -31,6 +34,10 @@ export class ListaContratoComponent implements OnInit {
   estadoContrato: string;
   selectedEstado: string;
   tipoProcedimiento: string;
+
+  selected = new Array<Contrato>();
+  @ViewChild("exportData") downloadLink: ElementRef;
+
 
   constructor(private router: Router,
               private contratoService: ContratoService) {
@@ -57,7 +64,6 @@ export class ListaContratoComponent implements OnInit {
       error => {
         this.errorMessage = error.error;
         console.log(this.errorMessage);
-        this.contratos = [];
         this.loading = false;
       }
     );
@@ -79,14 +85,32 @@ export class ListaContratoComponent implements OnInit {
     );
   }
 
+  next() {
+    this.first = this.first + this.rows;
+  }
+
+  prev() {
+    this.first = this.first - this.rows;
+  }
+
+  reset() {
+    this.first = 0;
+  }
+
+  isLastPage(): boolean {
+    return this.contratos ? this.first === (this.contratos.length - this.rows): true;
+  }
+
+  isFirstPage(): boolean {
+    return this.contratos ? this.first === 0 : true;
+  }
+
   /**
    * Se selecciona un estado para el contrato.
-   * @param value
    */
-  onSelectedEstadoContrado(value: string): void {
-    this.estadoContrato = value;
+  onSelectEstadoContrado(): void {
     this.selectedEstado = '';
-    this.selectedEstado = 'estadoContrato=' + value;
+    this.selectedEstado = 'estadoContrato=' + this.estadoContrato;
   }
 
   filtrarContrato(): void {
@@ -160,23 +184,51 @@ export class ListaContratoComponent implements OnInit {
     this.router.navigate(['home/contratos/crear-contrato']);
   }
 
-  /**
-   * Cuando se selecciona un Contrato de la lista.
-   * @param {Contrato} contrato
-   */
-  selectContrato(contrato: Contrato): void {
-    if (this.selectedContrato != null && this.selectedContrato.id == contrato.id) {
-      this.selectedContrato = null;
-    } else {
-      this.selectedContrato = contrato;
-    }
-  }
 
   /**
    * Cuando se presiona el botón Edit.
    */
   editContrato() {
     this.router.navigate(['home/contratos/editar-contrato/' + this.selectedContrato.id]);
+  }
+
+
+  exportToExcel() {
+    let j = -1;
+    this.selected = [];
+    if (this.first == this.rows || this.contratos.length == 1) {
+      j++;
+      this.selected[j] = this.contratos[this.first];
+    } else {
+      for (let i = this.first; i < this.rows; i++) {
+        j++;
+        this.selected[j] = this.contratos[i];
+      }
+    }
+
+    this.exportExcel();
+  }
+
+  exportExcel() {
+    // @ts-ignore
+    import("xlsx").then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(this.selected);
+      const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
+      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
+      this.saveAsExcelFile(excelBuffer, "contratos");
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    // @ts-ignore
+    import("file-saver").then(FileSaver => {
+      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      let EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    });
   }
 
 }

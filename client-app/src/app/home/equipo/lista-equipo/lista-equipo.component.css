@@ -27,3 +27,13 @@ pre {
   font-size: 12px !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
 }
+
+>>> .p-component {
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 0.9rem !important;
+}
+
+>>> .p-inputtext {
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 0.9rem !important;
+}

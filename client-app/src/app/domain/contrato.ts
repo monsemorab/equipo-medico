@@ -9,7 +9,6 @@ export class Contrato {
               public numeroProcedimiento: string,
               public estadoContrato: string,
               public convocante: string,
-              public pdf: string,
               public equipos: Equipo[],
               public fechaInicio?: any,
               public fechaFin?: any) {

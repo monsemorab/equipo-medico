@@ -24,7 +24,6 @@ export class EditContratoComponent implements OnInit {
   numeroProcedimiento: string;
   estadoContrato: string;
   convocante: string;
-  pdf: string;
   fechaInicio: any;
   fechaFin: any;
 
@@ -35,7 +34,7 @@ export class EditContratoComponent implements OnInit {
   equipos: Equipo[];
   selectedEquipos = new Array<Equipo>();
   selectedEquipo: Equipo;
-  equipoId: number;
+  equipoId: any;
   isSelectedEquipo: boolean;
 
 
@@ -51,6 +50,7 @@ export class EditContratoComponent implements OnInit {
 
   ngOnInit() {
     this.isSelectedEquipo = false;
+    this.equipoId = 'Seleccionar Equipo';
     this.getEquipos();
     this.getEstadoContratos();
 
@@ -60,7 +60,7 @@ export class EditContratoComponent implements OnInit {
       ).subscribe(contrato => {
         this.contrato = new Contrato(contrato.id, contrato.numeroContrato, contrato.nombreLicitacion,
           contrato.tipoProcedimiento, contrato.numeroProcedimiento, contrato.estadoContrato, contrato.convocante,
-          contrato.pdf, contrato.equipos, contrato.fechaInicio, contrato.fechaFin);
+          contrato.equipos, contrato.fechaInicio, contrato.fechaFin);
         this.camposAEditar(this.contrato);
       },
       error => {
@@ -116,7 +116,6 @@ export class EditContratoComponent implements OnInit {
     this.numeroProcedimiento = contrato.numeroProcedimiento;
     this.estadoContrato = contrato.estadoContrato;
     this.convocante = contrato.convocante;
-    this.pdf = contrato.pdf;
     this.fechaInicio = datepipe.transform(contrato.fechaInicio, 'yyyy-MM-dd');
     this.fechaFin = datepipe.transform(contrato.fechaFin, 'yyyy-MM-dd');
     this.selectedEquipos = contrato.equipos;
@@ -132,10 +131,9 @@ export class EditContratoComponent implements OnInit {
 
   /**
    * Se selecciona un equipo para el contrato.
-   * @param {number} value
    */
-  onSelectedEquipo(value: string): void {
-    this.getEquipoById(+value);
+  onSelectedEquipo(): void {
+    this.getEquipoById(+this.equipoId);
   }
 
   /**
@@ -209,7 +207,7 @@ export class EditContratoComponent implements OnInit {
       this.fechaFin = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion, this.tipoProcedimiento,
-      this.numeroProcedimiento, this.estadoContrato, this.convocante, this.pdf, this.selectedEquipos, this.fechaInicio,
+      this.numeroProcedimiento, this.estadoContrato, this.convocante, this.selectedEquipos, this.fechaInicio,
       this.fechaFin);
     this.saveContrato(this.contrato);
 
