@@ -8,6 +8,7 @@ import {ModeloService} from "../../../../service/modelo.service";
 import {MarcaService} from "../../../../service/marca.service";
 import {Modelo} from "../../../../domain/modelo";
 import {Marca} from "../../../../domain/marca";
+import {Equipo} from "../../../../domain/equipo";
 
 @Component({
   selector: 'app-lista-repuestos',
@@ -17,7 +18,7 @@ import {Marca} from "../../../../domain/marca";
 export class ListaRepuestosComponent implements OnInit {
 
   // repuesto
-  repuestoSeleccionado: Repuesto;
+  selectedRepuesto: Repuesto;
 
   // Errors
   errorMessage: string;
@@ -28,7 +29,10 @@ export class ListaRepuestosComponent implements OnInit {
   // datagrid
   loading = true;
   total: number;
+  first = 0;
+  rows = 2;
   repuestos = new Array<Repuesto>();
+  selected = new Array<Repuesto>();
 
   // filtro
   tipos = new Array<TipoEquipo>();
@@ -52,7 +56,7 @@ export class ListaRepuestosComponent implements OnInit {
 
   ngOnInit() {
     this.error = false;
-    this.repuestoSeleccionado = null;
+    this.selectedRepuesto = null;
     this.selectedTipo = '';
     this.selectedMarca = '';
     this.selectedModelo = '';
@@ -162,7 +166,6 @@ export class ListaRepuestosComponent implements OnInit {
 
   /**
    * Se selecciona un estado de la lista
-   * @param value
    */
   onSelectEstadoEquipo(): void {
     this.selectedEstadoEquipo = '';
@@ -272,6 +275,26 @@ export class ListaRepuestosComponent implements OnInit {
     );
   }
 
+  next() {
+    this.first = this.first + this.rows;
+  }
+
+  prev() {
+    this.first = this.first - this.rows;
+  }
+
+  reset() {
+    this.first = 0;
+  }
+
+  isLastPage(): boolean {
+    return this.repuestos ? this.first === (this.repuestos.length - this.rows): true;
+  }
+
+  isFirstPage(): boolean {
+    return this.repuestos ? this.first === 0 : true;
+  }
+
   /**
    * Cuando se presiona el botón Add.
    */
@@ -280,22 +303,48 @@ export class ListaRepuestosComponent implements OnInit {
   }
 
   /**
-   * Cuando se selecciona un repeusto de la lista.
-   * @param repuesto
-   */
-  selectRepuesto(repuesto: Repuesto): void {
-    if (this.repuestoSeleccionado != null && this.repuestoSeleccionado.id == repuesto.id) {
-      this.repuestoSeleccionado = null;
-    } else {
-      this.repuestoSeleccionado = repuesto;
-    }
-  }
-
-  /**
    * Cuando se presiona el botón Edit.
    */
   editRepuesto() {
-    this.router.navigate(['home/mantenimiento/repuestos/editar-repuesto/' + this.repuestoSeleccionado.id]);
+    this.router.navigate(['home/mantenimiento/repuestos/editar-repuesto/' + this.selectedRepuesto.id]);
+  }
+
+  exportToExcel() {
+    let j = -1;
+    this.selected = [];
+    if (this.first == this.rows || this.repuestos.length == 1) {
+      j++;
+      this.selected[j] = this.repuestos[this.first];
+    } else {
+      for (let i = this.first; i < this.rows; i++) {
+        j++;
+        this.selected[j] = this.repuestos[i];
+      }
+    }
+
+    this.exportExcel();
+  }
+
+  exportExcel() {
+    // @ts-ignore
+    import("xlsx").then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(this.selected);
+      const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
+      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
+      this.saveAsExcelFile(excelBuffer, "repuestos");
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    // @ts-ignore
+    import("file-saver").then(FileSaver => {
+      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      let EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    });
   }
 
 }

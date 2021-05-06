@@ -395,18 +395,6 @@ export class ListaEquipoComponent implements OnInit {
   }
 
   /**
-   * Cuando se selecciona un Equipo de la lista.
-   * @param {Equipo} equipo
-   */
-  selectEquipo(equipo: Equipo): void {
-    if (this.selectedEquipo != null && this.selectedEquipo.id == equipo.id) {
-      this.selectedEquipo = null;
-    } else {
-      this.selectedEquipo = equipo;
-    }
-  }
-
-  /**
    * Cuando se presiona el botón Edit.
    */
   editEquipo() {

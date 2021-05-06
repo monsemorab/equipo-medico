@@ -6,12 +6,14 @@ import {RepuestosComponent} from "./repuestos.component";
 import {ListaRepuestosComponent} from "./lista-repuestos/lista-repuestos.component";
 import {AddRepuestoComponent} from "./add-repuesto/add-repuesto.component";
 import {EditRepuestoComponent} from "./edit-repuesto/edit-repuesto.component";
+import {TableModule} from "primeng/table";
 
 @NgModule({
-  imports: [
-    CommonModuleImportsModule,
-    SharedModule
-  ],
+    imports: [
+        CommonModuleImportsModule,
+        SharedModule,
+        TableModule
+    ],
   declarations: [
     RepuestosComponent,
     ListaRepuestosComponent,

@@ -160,12 +160,20 @@ export class EditContratoComponent implements OnInit {
   addEquipo(): void {
     this.selectedEquipos.push(this.selectedEquipo);
     for (let i = 0; i < this.equipos.length; i++) {
-      if (this.selectedEquipo === this.equipos[i]) {
+      if (this.selectedEquipo.id === this.equipos[i].id) {
         this.equipos.splice(i, 1);
       }
     }
+    this.formateoFechas();
     this.equipoId = null;
     this.selectedEquipo = null;
+  }
+
+  formateoFechas() {
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    for (let i = 0; i < this.selectedEquipos.length; i++) {
+      this.selectedEquipos[i].fechaCompra = datepipe.transform(this.selectedEquipos[i].fechaCompra, 'dd-MM-yyyy');
+    }
   }
 
   /**
@@ -206,6 +214,16 @@ export class EditContratoComponent implements OnInit {
       const parts = this.fechaFin.split('-');
       this.fechaFin = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
+
+    if(this.selectedEquipos != null){
+      for (let i = 0; i < this.selectedEquipos.length; i++) {
+        if (typeof this.selectedEquipos[i].fechaCompra == 'string' || this.selectedEquipos[i].fechaCompra instanceof String) {
+          const parts = this.selectedEquipos[i].fechaCompra.split('-');
+          this.selectedEquipos[i].fechaCompra = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+        }
+      }
+    }
+
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion, this.tipoProcedimiento,
       this.numeroProcedimiento, this.estadoContrato, this.convocante, this.selectedEquipos, this.fechaInicio,
       this.fechaFin);

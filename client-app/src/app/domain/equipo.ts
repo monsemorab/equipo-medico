@@ -20,11 +20,10 @@ export class Equipo {
               public modelo: Modelo,
               public marca: Marca,
               public ubicacion: Ubicacion,
-              public contrato: Contrato,
               public licitacionCompra: string,
-              public fechaFabricacion: Date,
-              public fechaVenGarantia: Date,
-              public fechaInstalacion: Date,
-              public fechaCompra: Date) {
+              public fechaFabricacion?: any,
+              public fechaVenGarantia?: any,
+              public fechaInstalacion?: any,
+              public fechaCompra?: any) {
   }
 }

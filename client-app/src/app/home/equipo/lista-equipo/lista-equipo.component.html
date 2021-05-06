@@ -1,6 +1,7 @@
 <h3 class="form-equipo-title">Equipos</h3>
 <form clrForm>
   <div class="card">
+    <br/>
     <!--      tipo/ubicacion-->
     <div>
       <label class="clr-col-1 clr-align-self-end">Tipo:</label>
@@ -23,6 +24,18 @@
           <option *ngFor="let ubicacion of ubicaciones"
                   value={{ubicacion.id}}>{{ubicacion.servicio}}
           </option>
+        </select>
+      </div>
+
+      <!-- estado equipo-->
+      <label class="clr-col-1 clr-align-self-end">Estado Equipo:</label>
+      <div class="clr-select-wrapper">
+        <select class="clr-select" id="select-estado-equipo" name="estado" [(ngModel)]="estadoEquipo"
+                (ngModelChange)="onSelectEstado()">
+          <option>Filtrar por Estado Equipo</option>
+          <option value="Operativo">Operativo</option>
+          <option value="Inoperativo">Inoperativo</option>
+          <option value="Irreparable">Irreparable</option>
         </select>
       </div>
     </div>
@@ -50,21 +63,8 @@
           </option>
         </select>
       </div>
-    </div>
-    <br/>
-    <!--      estados-->
-    <div>
-      <label class="clr-col-1 clr-align-self-end">Estado Equipo:</label>
-      <div class="clr-select-wrapper">
-        <select class="clr-select" id="select-estado-equipo" name="estado" [(ngModel)]="estadoEquipo"
-                (ngModelChange)="onSelectEstado()">
-          <option>Filtrar por Estado Equipo</option>
-          <option value="Operativo">Operativo</option>
-          <option value="Inoperativo">Inoperativo</option>
-          <option value="Irreparable">Irreparable</option>
-        </select>
-      </div>
 
+      <!-- estado contrato-->
       <label class="clr-col-1 clr-align-self-end">Estado Contrato:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-estado-contrato" name="estadoContrato"
@@ -76,10 +76,12 @@
           </option>
         </select>
       </div>
+
       <a class="btn btn-sm btn-primary filtro-btn " (click)="filtrarEquipo()">
         <clr-icon shape="search"></clr-icon>
       </a>
     </div>
+    <br/>
     <br/>
     <div class="btn-group">
       <button type="button" class="btn btn-sm btn-primary" (click)="addEquipo()">
@@ -103,7 +105,6 @@
              [rowsPerPageOptions]="[2,10,25,50]">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 1rem"></th>
           <th class="table-header">Tipo</th>
           <th class="table-header">Marca</th>
           <th class="table-header">Modelo</th>
@@ -116,15 +117,16 @@
       </ng-template>
       <ng-template pTemplate="body" let-equipo>
         <tr [pSelectableRow]="equipo">
-          <td class="table-column text-center">{{equipo.tipoEquipo?.tipo}}</td>
-          <td class="table-column text-center">{{equipo.marca?.marca}}</td>
+          <td class="table-column text-left">{{equipo.tipoEquipo?.tipo}}</td>
+          <td class="table-column text-left">{{equipo.marca?.marca}}</td>
           <td class="table-column text-left">{{equipo.modelo?.modelo}}</td>
           <td class="table-column text-center">{{equipo.numeroSerie}}</td>
           <td class="table-column text-center">{{equipo.numeroPatrimonial}}</td>
-          <td class="table-column text-center">{{equipo.ubicacion?.bloque}},
-            {{equipo.ubicacion?.numeroSala}}, {{equipo.ubicacion?.nivel}}</td>
-          <td class="table-column text-center">{{equipo.fechaFin}}</td>
-          <td class="table-column text-center">{{equipo.contrato?.estadoContrato}}</td>
+          <td class="table-column text-center">{{equipo.ubicacion? 'bloque:' + equipo.ubicacion.bloque : ""}}
+           {{equipo.ubicacion? ' sala:' + equipo.ubicacion.numeroSala  : ""}}
+            {{equipo.ubicacion? ' nivel:' + equipo.ubicacion.nivel: ""}}</td>
+          <td class="table-column text-center">{{equipo.estado}}</td>
+          <td class="table-column text-center">{{equipo.contrato? equipo.contrato.estadoContrato: 'Sin contrato'}}</td>
         </tr>
       </ng-template>
     </p-table>

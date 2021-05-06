@@ -30,10 +30,15 @@ pre {
 
 >>> .p-component {
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
-  font-size: 0.9rem !important;
+  font-size: 0.7rem !important;
 }
 
 >>> .p-inputtext {
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
-  font-size: 0.9rem !important;
+  font-size: 0.7rem !important;
+}
+
+>>> .p-link {
+  font-size: 0.7rem !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
 }

@@ -14,6 +14,7 @@ import {Modelo} from "../../../domain/modelo";
 import {ModeloService} from "../../../service/modelo.service";
 import {Marca} from "../../../domain/marca";
 import {MarcaService} from "../../../service/marca.service";
+import {Contrato} from "../../../domain/contrato";
 
 @Component({
   selector: 'app-edit-equipo',
@@ -37,6 +38,7 @@ export class EditEquipoComponent implements OnInit {
   fechaVenGarantia: any;
   fechaInstalacion: any;
   fechaCompra: any;
+  contrato = Contrato;
 
 
   // modal para agregar/editar representante
@@ -106,7 +108,7 @@ export class EditEquipoComponent implements OnInit {
       ).subscribe(equipo => {
         this.equipo = new Equipo(equipo.id, equipo.numeroSerie, equipo.numeroPatrimonial, equipo.numeroLote,
           equipo.estado, equipo.versionSw, equipo.descripcionEquipo, equipo.costo, equipo.representante,
-          equipo.tipoEquipo, equipo.modelo, equipo.marca, equipo.ubicacion, equipo.contrato, equipo.licitacionCompra,
+          equipo.tipoEquipo, equipo.modelo, equipo.marca, equipo.ubicacion, equipo.licitacionCompra,
           equipo.fechaFabricacion, equipo.fechaVenGarantia, equipo.fechaInstalacion, equipo.fechaCompra);
         this.camposAEditar(this.equipo);
       },
@@ -237,14 +239,13 @@ export class EditEquipoComponent implements OnInit {
     this.tipoSeleccionado = equipo.tipoEquipo;
     this.tipoId = equipo.tipoEquipo.id;
 
-    this.modeloFueSeleccionado = true;
-    this.marcaFueSeleccionada = true;
-    this.modeloSeleccionado = equipo.modelo;
-    this.modeloId = this.modeloSeleccionado.id;
-    this.modelo = this.modeloSeleccionado.modelo;
     this.marcaSeleccionada = equipo.marca;
     this.marcaId = this.marcaSeleccionada.id;
-    this.marca = this.marcaSeleccionada.marca;
+    this.marcaFueSeleccionada = true;
+    this.getAllModelosByMarca(this.marcaSeleccionada.id);
+    this.modeloSeleccionado = equipo.modelo;
+    this.modeloId = this.modeloSeleccionado.id;
+    this.modeloFueSeleccionado = true;
 
     this.repreSeleccionado = equipo.representante;
     this.repreId = equipo.representante.id;
@@ -252,6 +253,13 @@ export class EditEquipoComponent implements OnInit {
       this.ubicacionSeleccionada = equipo.ubicacion;
       this.ubicacionId = equipo.ubicacion.id;
     }
+    // if (equipo.contrato != null) {
+    //   // @ts-ignore
+    //   this.contrato = new Contrato(equipo.contrato.id, equipo.contrato.numeroContrato, equipo.contrato.nombreLicitacion,
+    //     equipo.contrato.tipoProcedimiento, equipo.contrato.numeroProcedimiento, equipo.contrato.estadoContrato,
+    //     equipo.contrato.convocante, equipo.contrato.equipos, equipo.contrato.fechaInicio, equipo.contrato.fechaFin);
+    // }
+
   }
 
   /**
@@ -360,12 +368,12 @@ export class EditEquipoComponent implements OnInit {
   onSelectModelo() {
     this.modeloService.getModeloEquipoById(this.modeloId).subscribe(
       modelo => {
-        this.marcaFueSeleccionada = true;
+        this.modeloFueSeleccionado = true;
         this.modeloSeleccionado = modelo;
       },
       error => {
         this.errorMessage = error.error;
-        this.marcaFueSeleccionada = false;
+        this.modeloFueSeleccionado = false;
         console.log(this.errorMessage)
         this.error = true;
       }
@@ -379,6 +387,8 @@ export class EditEquipoComponent implements OnInit {
     if (this.marcaId === 'Seleccionar Marca') {
       this.modelos = [];
       this.modeloId = 'Seleccionar Modelo';
+      this.marcaFueSeleccionada = false;
+      this.modeloFueSeleccionado = false;
     } else {
       this.marcaService.getMarcaEquipoById(this.marcaId).subscribe(
         marca => {
@@ -452,11 +462,6 @@ export class EditEquipoComponent implements OnInit {
       this.marcaSeleccionada = this.getMarcaByName(this.marca);
     }
 
-    // se verifica si la marca ingresada ya existe, si no, se crea una nueva entrada en la BD
-    if (this.marca !== "") {
-      this.marcaSeleccionada = this.getMarcaByName(this.marca);
-    }
-
     if (this.marcaSeleccionada.id == null) {
       this.crearMarca();
     } else {
@@ -474,9 +479,9 @@ export class EditEquipoComponent implements OnInit {
    * Se crean el equipo con los datos creados e ingresados
    */
   crearYGuardarDatosEquipo() {
-    this.equipo = new Equipo(null, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
+    this.equipo = new Equipo(this.equipoId, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
       this.versionSw, this.descripcionEquipo, this.costo, this.repreSeleccionado, this.tipoSeleccionado,
-      this.modeloSeleccionado, this.marcaSeleccionada, this.ubicacionSeleccionada, null, this.licitacionCompra,
+      this.modeloSeleccionado, this.marcaSeleccionada, this.ubicacionSeleccionada, this.licitacionCompra,
       this.fechaFabricacion, this.fechaVenGarantia, this.fechaInstalacion, this.fechaCompra);
     this.saveEquipo(this.equipo);
   }
