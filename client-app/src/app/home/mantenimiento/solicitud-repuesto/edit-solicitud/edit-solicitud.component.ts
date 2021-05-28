@@ -5,7 +5,6 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 import {DatePipe} from "@angular/common";
 import {SolicitudRepuestoDetalle} from "../../../../domain/solicitud-repuesto-detalle";
-import {EstadoContrato} from "../../../../domain/contrato";
 
 @Component({
   selector: 'app-edit-solicitud',
@@ -89,7 +88,7 @@ export class EditSolicitudComponent implements OnInit {
     this.id = solicitud.id;
     this.estado = solicitud.estado;
     this.solicitudRepuestoDetalles = solicitud.solicitudRepuestoDetalles;
-    this.fechaSolicitud = datepipe.transform(solicitud.fechaSolicitud, 'MM/dd/yyyy');
+    this.fechaSolicitud = datepipe.transform(solicitud.fechaSolicitud, 'yyyy-MM-dd');
   }
 
   /**
@@ -140,9 +139,10 @@ export class EditSolicitudComponent implements OnInit {
    */
   onSaveSolicitudRepuesto(): void {
     if (typeof this.fechaSolicitud === 'string' || this.fechaSolicitud instanceof String) {
-      let parts = this.fechaSolicitud.split('/');
-      this.fechaSolicitud = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      const parts = this.fechaSolicitud.split('-');
+      this.fechaSolicitud = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
+
     this.solicitudRepuesto = new SolicitudRepuesto(this.id, this.estado, this.solicitudRepuestoDetalles, this.fechaSolicitud);
     this.saveSolicitudRepuesto(this.solicitudRepuesto);
   }

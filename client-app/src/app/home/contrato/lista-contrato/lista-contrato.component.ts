@@ -26,7 +26,7 @@ export class ListaContratoComponent implements OnInit {
   loading = true;
   total: number;
   first = 0;
-  rows = 2;
+  rows = 10;
   contratos: Contrato[];
 
   // filtro
@@ -192,27 +192,10 @@ export class ListaContratoComponent implements OnInit {
     this.router.navigate(['home/contratos/editar-contrato/' + this.selectedContrato.id]);
   }
 
-
   exportToExcel() {
-    let j = -1;
-    this.selected = [];
-    if (this.first == this.rows || this.contratos.length == 1) {
-      j++;
-      this.selected[j] = this.contratos[this.first];
-    } else {
-      for (let i = this.first; i < this.rows; i++) {
-        j++;
-        this.selected[j] = this.contratos[i];
-      }
-    }
-
-    this.exportExcel();
-  }
-
-  exportExcel() {
     // @ts-ignore
     import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(this.selected);
+      const worksheet = xlsx.utils.json_to_sheet(this.contratos);
       const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
       const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
       this.saveAsExcelFile(excelBuffer, "contratos");

@@ -21,6 +21,8 @@ export class ListarSolicitudComponent implements OnInit {
   // datagrid
   loading = true;
   total: number;
+  first = 0;
+  rows = 10;
   solicitudRepuestos: SolicitudRepuesto[];
 
 
@@ -71,18 +73,52 @@ export class ListarSolicitudComponent implements OnInit {
   }
 
   /**
-   * Cuando se selecciona una solicitud de repuesto de la lista.
-   * @param repuesto
-   */
-  selectSolicitudRepuesto(repuesto: SolicitudRepuesto): void {
-    this.selectedRepuesto = repuesto;
-  }
-
-  /**
    * Cuando se presiona el botón Edit.
    */
   editSolicitudRepuesto() {
     this.router.navigate(['home/mantenimiento/solicitud/editar-solicitud-repuesto/' + this.selectedRepuesto.id]);
+  }
+
+  next() {
+    this.first = this.first + this.rows;
+  }
+
+  prev() {
+    this.first = this.first - this.rows;
+  }
+
+  reset() {
+    this.first = 0;
+  }
+
+  isLastPage(): boolean {
+    return this.solicitudRepuestos ? this.first === (this.solicitudRepuestos.length - this.rows): true;
+  }
+
+  isFirstPage(): boolean {
+    return this.solicitudRepuestos ? this.first === 0 : true;
+  }
+
+  exportToExcel() {
+    // @ts-ignore
+    import("xlsx").then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(this.solicitudRepuestos);
+      const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
+      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
+      this.saveAsExcelFile(excelBuffer, "solicitudRepuestos");
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    // @ts-ignore
+    import("file-saver").then(FileSaver => {
+      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      let EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    });
   }
 
 }

@@ -86,9 +86,10 @@ export class AddSolicitudComponent implements OnInit {
    */
   onSaveSolicitudRepuesto(): void {
     if (typeof this.fechaSolicitud === 'string' || this.fechaSolicitud instanceof String) {
-      let parts = this.fechaSolicitud.split('/');
-      this.fechaSolicitud = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      const parts = this.fechaSolicitud.split('-');
+      this.fechaSolicitud = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
+
     this.solicitudRepuesto = new SolicitudRepuesto(null, this.estado, this.solicitudRepuestoDetalles, this.fechaSolicitud);
     this.saveSolicitudRepuesto(this.solicitudRepuesto);
   }

@@ -1,77 +1,66 @@
-<h2 class="form-add-edit-sol-repuesto-title">Editar Solicitud de Repuestos</h2>
-<form class="compact" #repuestoForm="ngForm">
-  <div class="form-group row flex-items-xs-left">
-    <div class="col-xs-1">
-      <label class="form-add-edit-repuesto-label" for="estado">Estado:</label>
-    </div>
-    <div class="col-xs-3">
-      <div class="select form-control">
-        <select class="select-form-form-edit-repuesto" id="estado"
-                name="estado" [(ngModel)]="estado" #selectEstado
-                (change)="onSelectedEstadoSolicitud(selectEstado.value)">
-          <option *ngFor="let estado of estados"
-                  value={{estado.nombre}}>{{estado.nombre}}
-        </select>
-      </div>
-    </div>
-    <div class="col-xs-1"></div>
-    <div class="col-xs-1">
-      <label class="form-add-edit-repuesto-label">Fecha:</label>
-    </div>
-    <div class="col-xs-2">
-      <clr-date-container>
-        <input type="date" clrDate name="fechaFin" [(ngModel)]="fechaSolicitud"
-               min="2000-01-01" max="2030-12-31">
-      </clr-date-container>
-    </div>
+<form clrForm #repuestoForm="ngForm">
+  <div class="clr-col-6">
+    <clr-select-container>
+      <label>Estado:</label>
+      <select clrSelect name="estado" [(ngModel)]="estado" required #selectEstado
+              (change)="onSelectedEstadoSolicitud(selectEstado.value)">
+        <option *ngFor="let estado of estados"
+                value={{estado.nombre}}>{{estado.nombre}}
+        </option>
+      </select>
+    </clr-select-container>
+
+    <clr-input-container>
+      <label>Fecha:</label>
+      <input clrInput type="date" [(ngModel)]="fechaSolicitud" name="fechaSolicitud"
+             min="1990-01-01" max="2050-12-31"/>
+    </clr-input-container>
   </div>
+  <br/>
+  <h5 class="form-add-edit-repuesto-sub-title">Repuestos</h5>
+  <clr-datagrid class="datagrid-compact">
+    <clr-dg-action-bar>
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-secondary"
+                (click)="addNewRepuesto()">
+          <clr-icon shape="plus"></clr-icon>
+          Agregar
+        </button>
+      </div>
+    </clr-dg-action-bar>
+    <clr-dg-column class="table-header">Código</clr-dg-column>
+    <clr-dg-column class="table-header">Descripción</clr-dg-column>
+    <clr-dg-column class="table-header">Tipo</clr-dg-column>
+    <clr-dg-column class="table-header">Marca</clr-dg-column>
+    <clr-dg-column class="table-header">Modelo</clr-dg-column>
+    <clr-dg-column class="table-header">Representante</clr-dg-column>
+    <clr-dg-column class="table-header">Precio</clr-dg-column>
+    <clr-dg-column class="table-header cod-cant-field">Cantidad Solicitada</clr-dg-column>
+    <clr-dg-column class="table-header cod-cant-field"></clr-dg-column>
+    <clr-dg-row *ngFor="let detalle of solicitudRepuestoDetalles">
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.codigo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.descripcionArticulo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.tipoEquipo?.tipo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.marca.marca}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.modelo.modelo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.representante?.nombre}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{detalle.repuesto?.precio}}</clr-dg-cell>
+      <clr-dg-cell class="table-column cod-cant-field">{{detalle.cantidadSolicitada}}</clr-dg-cell>
+      <clr-dg-cell class="table-header cod-cant-field">
+        <a class="btn btn-sm btn-warning"
+           (click)="eliminarDetalleRepuesto(detalle)">
+          <clr-icon shape="trash"></clr-icon>
+        </a>
+        <a type="button" class="btn btn-sm btn-secondary"
+           (click)="editRepuesto(detalle)">
+          <clr-icon shape="pencil"></clr-icon>
+        </a>
+      </clr-dg-cell>
+    </clr-dg-row>
+  </clr-datagrid>
 
-  <h6 class="form-add-edit-sol-repuesto-title">Repuestos</h6>
-  <section>
-    <clr-datagrid>
-      <clr-dg-action-bar>
-        <div class="btn-group">
-          <button type="button" class="btn btn-sm btn-secondary"
-                  (click)="addNewRepuesto()">
-            <clr-icon shape="plus"></clr-icon>
-            Agregar
-          </button>
-        </div>
-      </clr-dg-action-bar>
-      <clr-dg-column class="table-header cod-cant-field">Código</clr-dg-column>
-      <clr-dg-column class="table-header">Descripción</clr-dg-column>
-      <clr-dg-column class="table-header">Tipo</clr-dg-column>
-      <clr-dg-column class="table-header">Marca</clr-dg-column>
-      <clr-dg-column class="table-header">Modelo</clr-dg-column>
-      <clr-dg-column class="table-header">Representante</clr-dg-column>
-      <clr-dg-column class="table-header">Precio</clr-dg-column>
-      <clr-dg-column class="table-header cod-cant-field">Cantidad Solicitada</clr-dg-column>
-      <clr-dg-column class="table-header cod-cant-field"></clr-dg-column>
-      <clr-dg-row *ngFor="let detalle of solicitudRepuestoDetalles">
-        <clr-dg-cell class="table-column cod-cant-field">{{detalle.repuesto?.codigo}}</clr-dg-cell>
-        <clr-dg-cell class="table-column">{{detalle.repuesto?.descripcionArticulo}}</clr-dg-cell>
-        <clr-dg-cell class="table-column">{{detalle.repuesto?.tipoEquipo?.tipo}}</clr-dg-cell>
-        <clr-dg-cell class="table-column">{{detalle.repuesto?.modeloEquipo?.marca}}</clr-dg-cell>
-        <clr-dg-cell class="table-column">{{detalle.repuesto?.modeloEquipo?.modelo}}</clr-dg-cell>
-        <clr-dg-cell class="table-column">{{detalle.repuesto?.representante?.nombre}}</clr-dg-cell>
-        <clr-dg-cell class="table-column">{{detalle.repuesto?.precio}}</clr-dg-cell>
-        <clr-dg-cell class="table-column cod-cant-field">>{{detalle.cantidadSolicitada}}</clr-dg-cell>
-        <clr-dg-cell class="table-header cod-cant-field">
-          <a class="btn btn-sm btn-warning"
-             (click)="eliminarDetalleRepuesto(detalle)">
-            <clr-icon shape="trash"></clr-icon>
-          </a>
-          <a type="button" class="btn btn-sm btn-secondary"
-             (click)="editRepuesto(detalle)">
-            <clr-icon shape="plus"></clr-icon>
-            <clr-icon shape="pencil"></clr-icon>
-          </a>
-        </clr-dg-cell>
-      </clr-dg-row>
-    </clr-datagrid>
-  </section>
-
-  <section class="form-block">
+  <br/><br/>
+  <div class="clr-row clr-justify-content-start">
     <button class="btn btn-sm btn-success"
             [disabled]="(repuestoForm.form.invalid )"
             (click)="onSaveSolicitudRepuesto()">
@@ -84,7 +73,7 @@
       <clr-icon shape="window-close"></clr-icon>
       Cancel
     </button>
-  </section>
+  </div>
 </form>
 
 <!--Modal para agregar o editar los datos de un repuesto-->

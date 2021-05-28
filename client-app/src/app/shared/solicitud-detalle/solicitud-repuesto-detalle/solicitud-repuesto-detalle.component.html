@@ -75,7 +75,7 @@
 
           <clr-select-container>
             <label class="clr-col-5">Tipo</label>
-            <select clrSelect name="tipoId" [(ngModel)]="tipoId"
+            <select clrSelect name="tipoEqId" [(ngModel)]="tipoEqId"
                     (ngModelChange)="onSelectTipoEquipo()">
               <option disabled>Seleccionar Tipo</option>
               <option *ngFor="let tipo of tipos"

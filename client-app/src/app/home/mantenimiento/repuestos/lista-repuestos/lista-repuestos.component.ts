@@ -30,7 +30,7 @@ export class ListaRepuestosComponent implements OnInit {
   loading = true;
   total: number;
   first = 0;
-  rows = 2;
+  rows = 10;
   repuestos = new Array<Repuesto>();
   selected = new Array<Repuesto>();
 
@@ -310,25 +310,9 @@ export class ListaRepuestosComponent implements OnInit {
   }
 
   exportToExcel() {
-    let j = -1;
-    this.selected = [];
-    if (this.first == this.rows || this.repuestos.length == 1) {
-      j++;
-      this.selected[j] = this.repuestos[this.first];
-    } else {
-      for (let i = this.first; i < this.rows; i++) {
-        j++;
-        this.selected[j] = this.repuestos[i];
-      }
-    }
-
-    this.exportExcel();
-  }
-
-  exportExcel() {
     // @ts-ignore
     import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(this.selected);
+      const worksheet = xlsx.utils.json_to_sheet(this.repuestos);
       const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
       const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
       this.saveAsExcelFile(excelBuffer, "repuestos");

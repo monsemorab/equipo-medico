@@ -6,11 +6,15 @@ import {EditSolicitudComponent} from './edit-solicitud/edit-solicitud.component'
 import {SolicitudRepuestoService} from '../../../service/solicitud-repuesto.service';
 import {CommonModuleImportsModule} from '../../../shared/common-module-imports.module';
 import {SharedModule} from '../../../shared/shared.module';
+import {TableModule} from "primeng/table";
+import {ButtonModule} from "primeng/button";
 
 @NgModule({
   imports: [
     CommonModuleImportsModule,
-    SharedModule
+    SharedModule,
+    TableModule,
+    ButtonModule
   ],
   declarations: [
     SolicitudRepuestoComponent,

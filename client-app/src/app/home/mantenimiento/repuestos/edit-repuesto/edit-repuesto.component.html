@@ -36,25 +36,25 @@
     <!--columna izquierda-->
     <div class="clr-col-6">
       <clr-input-container>
-        <label class="clr-col-5">Código:</label>
-        <input class="tamanho-total clr-col-8" clrInput id="codigo"
+        <label class="clr-col-8">Código:</label>
+        <input class="tamanho-total clr-col-6" clrInput id="codigo"
                name="codigo" [(ngModel)]="codigo" disabled/>
       </clr-input-container>
 
       <clr-input-container>
-        <label class="clr-col-5">Precio:</label>
-        <input class="tamanho-total clr-col-8" clrInput type="text" [(ngModel)]="precio" name="precio"/>
+        <label class="clr-col-8">Precio:</label>
+        <input class="tamanho-total clr-col-6" clrInput type="text" [(ngModel)]="precio" name="precio"/>
       </clr-input-container>
 
       <clr-input-container>
-        <label class="clr-col-5">Cant. Adquirida:</label>
-        <input class="tamanho-total clr-col-8" clrInput type="text"
+        <label class="clr-col-8">Cant. Adquirida:</label>
+        <input class="tamanho-total clr-col-6" clrInput type="text"
                [(ngModel)]="cantAdquirida" name="cantAdquirida"/>
       </clr-input-container>
 
       <clr-select-container>
-        <label class="clr-col-5">Tipo</label>
-        <select clrSelect name="tipoId" [(ngModel)]="tipoId"
+        <label class="clr-col-8">Tipo</label>
+        <select clrSelect name="tipoEqId" [(ngModel)]="tipoEqId"
                 (ngModelChange)="onSelectTipoEquipo()">
           <option disabled>Seleccionar Tipo</option>
           <option *ngFor="let tipo of tipos"
@@ -64,7 +64,7 @@
       </clr-select-container>
 
       <clr-select-container>
-        <label class="clr-col-5">Representante:</label>
+        <label class="clr-col-8">Representante:</label>
         <select clrSelect name="repreId" [(ngModel)]="repreId"
                 (ngModelChange)="onSelectRepresentante()">
           <option disabled>Seleccionar Representante</option>
@@ -84,8 +84,8 @@
       </clr-textarea-container>
 
       <clr-input-container>
-        <label class="clr-col-5">Cant. Existente:</label>
-        <input class="tamanho-total clr-col-8" clrInput type="text" [(ngModel)]="cantExistente" name="cantExistente"/>
+        <label class="clr-col-8">Cant. Existente:</label>
+        <input class="tamanho-total clr-col-6" clrInput type="text" [(ngModel)]="cantExistente" name="cantExistente"/>
       </clr-input-container>
 
       <clr-select-container>
@@ -103,7 +103,6 @@
         <label class="clr-col-5">Modelo:</label>
         <select clrSelect name="tipoId" [(ngModel)]="modeloId"
                 (ngModelChange)="onSelectModelo()">
-          <option disabled>Seleccionar Representante</option>
           <option disabled>Seleccionar Modelo</option>
           <option *ngFor="let modelo of modelos"
                   value={{modelo.id}}>{{modelo.modelo}}

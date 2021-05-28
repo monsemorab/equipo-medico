@@ -54,7 +54,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
 
   tipos = new Array<TipoEquipo>();
   representantes = new Array<Representante>();
-  tipoId: any;
+  tipoEqId: any;
   repreId: any;
 
   // Datos Modelo Equipo
@@ -81,7 +81,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tipoId = 'Seleccionar Tipo';
+    this.tipoEqId = 'Seleccionar Tipo';
     this.marcaId = 'Seleccionar Marca';
     this.modeloId = 'Seleccionar Modelo';
     this.repreId = 'Seleccionar Representante';
@@ -207,7 +207,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     this.fechaActualizacion = datepipe.transform(repuesto.fechaActualizacion, 'MM/dd/yyyy');
     this.tipoEquipo = repuesto.tipoEquipo;
     if(repuesto.tipoEquipo != null) {
-      this.tipoId = repuesto.tipoEquipo.id;
+      this.tipoEqId = repuesto.tipoEquipo.id;
     }
 
     if(repuesto.marca != null) {
@@ -229,20 +229,12 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     this.addBtnHabilitado = true;
   }
 
-  /**
-   * Se selecciona un tipo de equipo.
-   * @param {number} value
-   */
-  onSelectTipoEquipo(): void {
-    this.getTipoEquipoById(this.tipoId);
-  }
 
   /**
    * Se obtiene el tipo de equipo seleccionado.
-   * @param {number} id
    */
-  getTipoEquipoById(id: number): void {
-    this.tipoEquipoService.getTipoEquipoById(id).subscribe(
+  onSelectTipoEquipo(): void {
+    this.tipoEquipoService.getTipoEquipoById(this.tipoEqId).subscribe(
       tipo => {
         this.tipoEquipo = tipo;
       },

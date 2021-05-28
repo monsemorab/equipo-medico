@@ -1,64 +1,99 @@
-<form class=" compact">
-  <h2 class="form-repuesto-title">Solicitud de Repuestos</h2>
-  <section>
-    <div class="form-group row flex-items-xs-left">
-      <button class="btn btn-sm btn-success"
-              (click)="addSolicitudRepuesto()">
+<h3 class="form-repuesto-title">Solicitud de Repuestos</h3>
+<!-- errors -->
+<div class="alert alert-danger alert-sm" *ngIf="error">
+  <div class="alert-items">
+    <div class="alert-item static">
+      <div class="alert-icon-wrapper">
+        <clr-icon class="alert-icon"
+                  shape="exclamation-circle">
+        </clr-icon>
+      </div>
+      <span class="alert-text">{{errorMessage}}</span>
+    </div>
+  </div>
+  <a type="button" class="close" aria-label="Close"
+     (click)="error = false">
+    <clr-icon aria-hidden="true" shape="close"></clr-icon>
+  </a>
+</div>
+
+<form clrForm>
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-primary" (click)="addSolicitudRepuesto()">
         <clr-icon shape="plus"></clr-icon>
         Crear
       </button>
-      <button class="btn btn-sm btn-success"
-              *ngIf="selectedRepuesto"
+      <button type="button" class="btn btn-sm btn-success" *ngIf="selectedRepuesto != null"
               (click)="editSolicitudRepuesto()">
         <clr-icon shape="pencil"></clr-icon>
         Editar
       </button>
-    </div>
-
-    <!-- errors -->
-    <div class="alert alert-danger alert-sm" *ngIf="error">
-      <div class="alert-items">
-        <div class="alert-item static">
-          <div class="alert-icon-wrapper">
-            <clr-icon class="alert-icon"
-                      shape="exclamation-circle">
-            </clr-icon>
-          </div>
-          <span class="alert-text">{{errorMessage}}</span>
-        </div>
-      </div>
-      <button type="button" class="close" aria-label="Close"
-              (click)="error = false">
-        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      <button type="button" class="btn btn-sm btn-secondary" *ngIf="solicitudRepuestos.length > 0"
+              (click)="exportToExcel()">
+        <clr-icon shape="pencil"></clr-icon>
+        Export
       </button>
     </div>
+    <p-table [value]="solicitudRepuestos" selectionMode="single" [(selection)]="selectedRepuesto" dataKey="id"
+             [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
+             currentPageReportTemplate="{first} - {last} de {totalRecords} Solicitudes"
+             [rowsPerPageOptions]="[10,25,50]">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 1rem"></th>
+          <th class="table-header cod-cant-field">ID</th>
+          <th class="table-header">Estado</th>
+          <th class="table-header">Fecha</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-solicitud let-expanded="expanded">
+        <tr [pSelectableRow]="solicitud">
+          <td>
+            <button type="button" pButton pRipple [pRowToggler]="solicitud"
+                    class="p-button-text p-button-rounded p-button-plain table-column"
+                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'">
+            </button>
+          </td>
+          <td class="table-column text-center cod-cant-field">{{solicitud.id}}</td>
+          <td class="table-column text-center">{{solicitud.estado}}</td>
+          <td class="table-column text-center">{{solicitud.fechaSolicitud}}</td>
+        </tr>
+      </ng-template>
 
-    <clr-datagrid>
-      <clr-dg-column class="table-header cod-cant-field">ID</clr-dg-column>
-      <clr-dg-column class="table-header">Estado</clr-dg-column>
-      <clr-dg-column class="table-header" >Repuestos</clr-dg-column>
-      <clr-dg-column class="table-header">Fecha</clr-dg-column>
-
-      <clr-dg-row *ngFor="let solicitud of solicitudRepuestos"
-                  (click)="selectSolicitudRepuesto(solicitud)"
-                  [class.selectRepuesto]="solicitud === selectedRepuesto">
-        <clr-dg-cell class="table-column cod-cant-field">{{solicitud.id}}</clr-dg-cell>
-        <clr-dg-cell class="table-column">{{solicitud.estado}}</clr-dg-cell>
-        <clr-dg-cell class="table-column">
-          <ul class="list-unstyled" *ngFor="let detalle of solicitud.solicitudRepuestoDetalles">
-            <li>{{detalle.repuesto.codigo}} {{detalle.repuesto.descripcionArticulo}}
-              {{detalle.repuesto.tipoEquipo?.tipo}} {{detalle.repuesto.modeloEquipo?.modelo}}
-              {{detalle.repuesto.modeloEquipo?.marca}}</li>
-          </ul>
-        </clr-dg-cell>
-        <clr-dg-cell class="table-column">{{solicitud.fechaSolicitud}}</clr-dg-cell>
-      </clr-dg-row>
-
-      <clr-dg-footer>
-        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-        of {{total}} Solicitudes
-        <clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>
-      </clr-dg-footer>
-    </clr-datagrid>
-  </section>
+      <ng-template pTemplate="rowexpansion" let-solicitud>
+        <tr>
+          <td colspan="7">
+            <div class="p-p-3">
+              <p-table [value]="solicitud.solicitudRepuestoDetalles">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="table-column">Código</th>
+                    <th class="table-column">Descripción</th>
+                    <th class="table-column">Tipo</th>
+                    <th class="table-column">Marca</th>
+                    <th class="table-column">Modelo</th>
+                    <th class="table-column">Cant. Solicitada</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-detalle>
+                  <tr>
+                    <td class="table-column">{{detalle.repuesto.codigo}}</td>
+                    <td class="table-column"> {{detalle.repuesto.descripcionArticulo}}</td>
+                    <td class="table-column">{{detalle.repuesto.tipoEquipo?.tipo}}</td>
+                    <td class="table-column">{{detalle.repuesto.marca?.marca}}</td>
+                    <td class="table-column">{{detalle.repuesto.modelo?.modelo}}</td>
+                    <td class="table-column">{{detalle.cantidadSolicitada}}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="6">No Existen Detalles asociados a la solicitud.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+         </td>
+        </tr>
+      </ng-template>
+    </p-table>
 </form>

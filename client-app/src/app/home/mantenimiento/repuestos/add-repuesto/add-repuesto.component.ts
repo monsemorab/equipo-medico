@@ -32,7 +32,7 @@ export class AddRepuestoComponent implements OnInit {
 
   tipos = new Array<TipoEquipo>();
   representantes = new Array<Representante>();
-  tipoId: any;
+  tipoEqId: any;
   repreId: any;
   addBtnHabilitado = false;
 
@@ -60,17 +60,20 @@ export class AddRepuestoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tipoId = 'Seleccionar Tipo';
+    this.clearRepuestoField();
+    this.readonlyField = true;
+    this.fechaActualizacion = new Date();
+
     this.marcaId = 'Seleccionar Marca';
     this.modeloId = 'Seleccionar Modelo';
     this.repreId = 'Seleccionar Representante';
-    this.clearRepuestoField();
+    this.tipoEqId = 'Seleccionar Tipo';
+
     this.getAllTipos();
     this.getAllModelos();
     this.getAllMarcas();
     this.getAllRepresentantes();
-    this.readonlyField = true;
-    this.fechaActualizacion = new Date();
+
   }
 
   /**
@@ -155,20 +158,12 @@ export class AddRepuestoComponent implements OnInit {
     );
   }
 
-  /**
-   * Se selecciona un tipo de equipo.
-   * @param {number} value
-   */
-  onSelectTipoEquipo(): void {
-    this.getTipoEquipoById(this.tipoId);
-  }
 
   /**
    * Se obtiene el tipo de equipo seleccionado.
-   * @param {number} id
    */
-  getTipoEquipoById(id: number): void {
-    this.tipoEquipoService.getTipoEquipoById(id).subscribe(
+  onSelectTipoEquipo(): void {
+    this.tipoEquipoService.getTipoEquipoById(this.tipoEqId).subscribe(
       tipo => {
         this.tipoEquipo = tipo;
       },
