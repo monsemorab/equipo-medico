@@ -73,36 +73,44 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscriptionListaEquipos = this.equipoService.emittedSiExisteListaEquipos.subscribe(
       existeListaEquipos => {
         this.existenEquiposCreados = existeListaEquipos;
+        this.getAllEquipos();
       }
     );
 
     this.subscriptionListaContratos = this.contratoService.emittedSiExisteListaContratos.subscribe(
       existeListaContratos => {
         this.existenContratosCreados = existeListaContratos;
+        this.getAllContratos();
       }
     );
 
     this.subscriptionListaRepuestos = this.repuestoService.emittedSiExisteRepuesto.subscribe(
       existeListaRepuesto => {
         this.existenRepuestosCreados = existeListaRepuesto;
+        this.getAllRepuestos();
       }
     );
 
     this.subscriptionListaOrdenTrabajo = this.ordenTrabajoService.emittedSiExisteListaOrdenTrabajo.subscribe(
       existeOrdenTrabajoPendiente => {
         this.existenOTPendientes = existeOrdenTrabajoPendiente;
+        this.getAllOrdenTrabajoPendientes();
+        this.getAllOrdenTrabajoAtendidas();
       }
     );
 
     this.subscriptionListaMantenimiento = this.mantenimientoService.emittedSiExisteOrdenTrabajoAtendida.subscribe(
       existeOrdenTrabajoAtendida => {
         this.existenOTAtendidas = existeOrdenTrabajoAtendida;
+        this.getAllOrdenTrabajoPendientes();
+        this.getAllOrdenTrabajoAtendidas();
       }
     );
 
     this.subscriptionListaSolicitudeRep = this.solicitudRepuestoService.emittedSiExisteSolicitudRepuesto.subscribe(
       existeSolicitudRepuesto => {
         this.existenSolicitudesCreadas = existeSolicitudRepuesto;
+        this.getSolicitudRepuestos();
       }
     );
 
@@ -204,6 +212,23 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getAllOrdenTrabajoAtendidas(): void {
     this.ordenTrabajoService.getAllByEstado("Finalizada").subscribe(
+      list => {
+        this.ordenTrabajoAtendidas = list;
+        if (this.ordenTrabajoAtendidas.length > 0) {
+          this.existenOTAtendidas = true;
+        } else {
+          this.getAllOrdenTrabajoAtendidasEnProceso();
+        }
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+      }
+    );
+  }
+
+  getAllOrdenTrabajoAtendidasEnProceso(): void {
+    this.ordenTrabajoService.getAllByEstado("En Proceso").subscribe(
       list => {
         this.ordenTrabajoAtendidas = list;
         if (this.ordenTrabajoAtendidas.length > 0) {

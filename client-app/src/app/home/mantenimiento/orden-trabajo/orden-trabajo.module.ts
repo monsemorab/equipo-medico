@@ -9,11 +9,17 @@ import {EditOrdenTrabajoComponent} from './edit-orden-trabajo/edit-orden-trabajo
 import {AtenderOrdenTrabajoComponent} from './atender-orden-trabajo/atender-orden-trabajo.component';
 import { ListaOrdenTrabajoAtendidasComponent } from './lista-orden-trabajo-atendidas/lista-orden-trabajo-atendidas.component';
 import { EditMantenimientoComponent } from './edit-mantenimiento/edit-mantenimiento.component';
+import {TableModule} from "primeng/table";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
 
 @NgModule({
   imports: [
     CommonModuleImportsModule,
-    SharedModule
+    SharedModule,
+    TableModule,
+    ButtonModule,
+    RippleModule
   ],
   exports: [
     OrdenTrabajoComponent,

@@ -148,7 +148,7 @@ export class EditSolicitudComponent implements OnInit {
   }
 
   /**
-   * Se crea una nueva solicitud de repuestos.
+   * Se editan los datos de la solicitud de repuestos seleccionada.
    * @param solicitud
    */
   saveSolicitudRepuesto(solicitud: SolicitudRepuesto): void {

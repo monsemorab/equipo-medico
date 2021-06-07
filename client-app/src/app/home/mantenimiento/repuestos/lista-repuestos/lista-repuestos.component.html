@@ -83,7 +83,7 @@
         <clr-icon shape="pencil"></clr-icon>
         Editar
       </button>
-      <button type="button" class="btn btn-sm btn-secondary" *ngIf="repuestos.length > 0"
+      <button type="button" class="btn btn-sm btn-secondary" *ngIf="this.total > 0"
       (click)="exportToExcel()">
         <clr-icon shape="pencil"></clr-icon>
         Export

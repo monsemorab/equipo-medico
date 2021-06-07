@@ -32,3 +32,23 @@ pre {
   min-width: 5% !important;
   width: 5% !important;
 }
+
+.label-input {
+  font-weight: bold !important;
+  color: #454545 !important;
+}
+
+>>> .p-component {
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 0.7rem !important;
+}
+
+>>> .p-inputtext {
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 0.7rem !important;
+}
+
+>>> .p-link {
+  font-size: 0.7rem !important;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}

@@ -25,4 +25,22 @@ export class SolicitudRepuestoDetalleService {
     return this.apiRequest.get(url);
   }
 
+  /**
+   * Se crea un nuevo detalle de una solicitud de repuesto.
+   * @param detalle
+   */
+  crearSolicitudRepuestoDetalle(detalle: SolicitudRepuestoDetalle): Observable<SolicitudRepuestoDetalle> {
+    const url = this.urlRepuestosDet;
+    return this.apiRequest.post(url, detalle);
+  }
+
+  /**
+   * Se actualizan los datos de un detalle de una una solicitud de repuesto existente.
+   * @param detalle
+   */
+  editarSolicitudRepuestoDetalle(detalle: SolicitudRepuestoDetalle): Observable<SolicitudRepuestoDetalle> {
+    const url = this.urlRepuestosDet;
+    return this.apiRequest.put(url, detalle);
+  }
+
 }

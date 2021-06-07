@@ -74,7 +74,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
     this.esNuevaSolicitudRepuesto = false;
     this.fueActualizada = false;
     this.equipoSuccess = false;
-    this.solicitudRepId = "Seleccionar Solicitud";
+    this.solicitudRepId = "Seleccionar Solicitud ID";
     this.estado = EstadoOrdenTrabajo.PENDIENTE;
     this.getTipoServicios();
     this.getAllSolicitudRepuestosPendientes();
@@ -176,6 +176,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
    * @param nroPatrimonial
    */
   buscarEquipo(nroSerie: string, nroPatrimonial: string): void {
+    this.error = false;
     this.requestEquipo = new ParamsBusquedaEquipo(nroSerie, nroPatrimonial);
     this.equipoService.getEquipoByParams(this.requestEquipo).subscribe(
       equipo => {
@@ -210,7 +211,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
    * Automaticamente se realiza la busqueda de esa solicitud de repuestos para obtner la información relacionada a la misma.
    */
   onSelectedSolicitudRepuesto(): void {
-    if (this.solicitudRepId != "Seleccionar Solicitud") {
+    if (this.solicitudRepId != "Seleccionar Solicitud ID") {
       this.buscarSolicitudRepuestoById(+this.solicitudRepId);
     } else {
       this.solicitudRepuesto = null;
@@ -310,40 +311,44 @@ export class AddOrdenTrabajoComponent implements OnInit {
    * Cuando se guarda la información introducida.
    */
   onSaveAddOrdenTrabajo() {
-    if (this.solicitudRepuestoDetalles != null && this.solicitudRepuestoDetalles.length > 0) {
-      // Si la solicitud de repuesto se crea a partir de la orden de trabajo
-      if (this.solicitudRepuesto == null) {
-        this.esNuevaSolicitudRepuesto = true;
-        this.solicitudRepuesto = new SolicitudRepuesto(null, EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO,
-          this.solicitudRepuestoDetalles, new Date());
+    if(this.selectedEquipo) {
+      if (this.solicitudRepuestoDetalles != null && this.solicitudRepuestoDetalles.length > 0) {
+        // Si la solicitud de repuesto se crea a partir de la orden de trabajo
+        if (this.solicitudRepuesto == null) {
+          this.esNuevaSolicitudRepuesto = true;
+          this.solicitudRepuesto = new SolicitudRepuesto(null, EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO,
+            this.solicitudRepuestoDetalles, new Date());
+        } else {
+          // si se obtuvo una solicitud de repuesto buscando por su Id
+          this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO;
+          this.solicitudRepuesto.solicitudRepuestoDetalles = this.solicitudRepuestoDetalles;
+        }
       } else {
-        // si se obtuvo una solicitud de repuesto buscando por su Id
-        this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO;
-        this.solicitudRepuesto.solicitudRepuestoDetalles = this.solicitudRepuestoDetalles;
+        if (this.solicitudRepuesto != null) {
+          this.solicitudRepuesto = null;
+        }
+      }
+
+      if (this.fechaRealizacion != null && (typeof this.fechaRealizacion === 'string' || this.fechaRealizacion instanceof String)) {
+        let parts = this.fechaRealizacion.split('/');
+        this.fechaRealizacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      }
+
+      this.ordenTrabajo = new OrdenTrabajo(null, this.estado, this.tipoServicio, this.diagnostico, this.responsable,
+        this.equipoSeleccionado, null, null, this.fechaRealizacion);
+
+      if (this.esNuevaSolicitudRepuesto) {
+        this.saveSolicitudRepuesto(this.solicitudRepuesto);
+      } else if (this.fueActualizada) {
+        this.updateSolicitudRepuesto(this.solicitudRepuesto);
+      } else {
+        this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
+        this.saveOrdenTrabajo(this.ordenTrabajo);
       }
     } else {
-      if (this.solicitudRepuesto != null) {
-        this.solicitudRepuesto = null;
-      }
+      this.errorMessage = "Debe agregar un equipo a la orden";
+      this.error = true;
     }
-
-    if (this.fechaRealizacion != null && (typeof this.fechaRealizacion === 'string' || this.fechaRealizacion instanceof String)) {
-      let parts = this.fechaRealizacion.split('/');
-      this.fechaRealizacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
-    }
-
-    this.ordenTrabajo = new OrdenTrabajo(null, this.estado, this.tipoServicio, this.diagnostico, this.responsable,
-      this.equipoSeleccionado, null, null, this.fechaRealizacion);
-
-    if (this.esNuevaSolicitudRepuesto) {
-      this.saveSolicitudRepuesto(this.solicitudRepuesto);
-    } else if (this.fueActualizada) {
-      this.updateSolicitudRepuesto(this.solicitudRepuesto);
-    } else {
-      this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
-      this.saveOrdenTrabajo(this.ordenTrabajo);
-    }
-
   }
 
   /**

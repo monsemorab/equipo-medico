@@ -51,7 +51,7 @@
           <clr-input-container *ngIf="isEditRepuesto">
             <label class="clr-col-5">Código:</label>
             <input class="tamanho-total clr-col-8" clrInput type="text" id="codigo"
-                   name="codigo" [(ngModel)]="codigo" required />
+                   name="codigo" [(ngModel)]="codigo" required [disabled]="isAtenderOT"/>
             <clr-control-error>El campo es obligatorio</clr-control-error>
           </clr-input-container>
 
@@ -70,13 +70,13 @@
           <clr-input-container>
             <label class="clr-col-5">Cant. Adquirida:</label>
             <input class="tamanho-total clr-col-8" clrInput type="text"
-                   [(ngModel)]="cantAdquirida" name="cantAdquirida" [disabled]="readonlyField"/>
+                   [(ngModel)]="cantAdquirida" name="cantAdquirida" [disabled]="!isAtenderOT"/>
           </clr-input-container>
 
           <clr-select-container>
             <label class="clr-col-5">Tipo</label>
             <select clrSelect name="tipoEqId" [(ngModel)]="tipoEqId"
-                    (ngModelChange)="onSelectTipoEquipo()">
+                    (ngModelChange)="onSelectTipoEquipo()" [disabled]="readonlyField">
               <option disabled>Seleccionar Tipo</option>
               <option *ngFor="let tipo of tipos"
                       value={{tipo.id}}>{{tipo.tipo}}

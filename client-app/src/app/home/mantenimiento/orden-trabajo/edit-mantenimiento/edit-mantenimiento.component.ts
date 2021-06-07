@@ -13,6 +13,7 @@ import {EquipoService} from "../../../../service/equipo.service";
 import {EstadoOrdenTrabajo} from "../../../../utils/estado-orden";
 import {EstadoSolicitudRepuesto} from "../../../../utils/estado-solicitud-repuesto";
 import {EstadoEquipo} from "../../../../utils/estado-equipo";
+import {SolicitudRepuestoService} from "../../../../service/solicitud-repuesto.service";
 
 @Component({
   selector: 'app-edit-mantenimiento',
@@ -24,7 +25,7 @@ export class EditMantenimientoComponent implements OnInit {
   // orden trabajo
   ordenTrabajo: OrdenTrabajo;
   id: number;
-  estado: string;
+  estadoOT: string;
   tipoServicio: string;
   diagnostico: string;
   responsable: string;
@@ -55,7 +56,8 @@ export class EditMantenimientoComponent implements OnInit {
               private router: Router,
               private equipoService: EquipoService,
               private ordenTrabajoService: OrdenTrabajoService,
-              private manteniminetoService: ManteniminetoService) {
+              private manteniminetoService: ManteniminetoService,
+              private solicitudRepuestoService: SolicitudRepuestoService) {
   }
 
   ngOnInit() {
@@ -97,7 +99,7 @@ export class EditMantenimientoComponent implements OnInit {
    * @param {string} value
    */
   onSelectedEstado(value: string): void {
-    this.estado = value;
+    this.estadoOT = value;
   }
 
   /**
@@ -107,7 +109,7 @@ export class EditMantenimientoComponent implements OnInit {
   camposAEditar(orden: OrdenTrabajo) {
     const datepipe: DatePipe = new DatePipe('en-ES');
     this.id = orden.id;
-    this.estado = orden.estado;
+    this.estadoOT = orden.estado;
     this.tipoServicio = orden.tipoServicio;
     this.diagnostico = orden.diagnostico;
     this.responsable = orden.responsable;
@@ -125,7 +127,7 @@ export class EditMantenimientoComponent implements OnInit {
     this.informeNro = this.servicioRealizado.informeNumero;
     this.nombreTecnico = this.servicioRealizado.nombreTecnico;
 
-    if(this.estado === EstadoOrdenTrabajo.FINALIZADO) {
+    if(this.estadoOT === EstadoOrdenTrabajo.FINALIZADO) {
       this.readOnlyField = true;
     }
   }
@@ -159,6 +161,7 @@ export class EditMantenimientoComponent implements OnInit {
     this.solicitudRepuestoDetalles.push(value);
     this.detalleSeleccionado = null;
     this.modalAddEditDetalleOpen = false;
+    this.verificarSolicitudRepuesto();
   }
 
   /**
@@ -175,10 +178,56 @@ export class EditMantenimientoComponent implements OnInit {
   }
 
   /**
+   * Se verifica que todos los repuestos dentro de la solicitud de repuestos se hayan completado la cantidad adquirida
+   * y la cantidad usada en la orden de trabajo.
+   * Si estos campos estan vacios o son cero, se toma como que el repuesto no ha sido adquirido.
+   */
+  verificarSolicitudRepuesto() {
+    let repuestoAdquirido = 0;
+    for (let i = 0; i < this.solicitudRepuestoDetalles.length; i++) {
+      if ((this.solicitudRepuestoDetalles[i].cantidadUsada !== null && this.solicitudRepuestoDetalles[i].cantidadUsada > 0) &&
+        (this.solicitudRepuestoDetalles[i].repuesto.cantidadAdquirida !== undefined &&
+          this.solicitudRepuestoDetalles[i].repuesto.cantidadAdquirida > 0)) {
+        repuestoAdquirido++;
+      }
+    }
+
+    /**
+     * toda la lista de repuesto deben tener los campos cantidadUsada y cantidadAdquirida completados con valores mayores
+     * a cero para que el estado de la solicitud sea Finalizado. */
+    if(repuestoAdquirido === this.solicitudRepuestoDetalles.length) {
+      this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.FINALIZADO;
+    } else {
+      this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO ;
+    }
+
+    this.uodateSolicitudRepuesto(this.solicitudRepuesto);
+  }
+
+  /**
+   * Se editan los datos de la solicitud de repuestos seleccionada.
+   * @param solicitud
+   */
+  uodateSolicitudRepuesto(solicitud: SolicitudRepuesto): void {
+    this.solicitudRepuestoService.editarSolicitudRepuesto(solicitud).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
+      solicitud => {
+        this.solicitudRepuesto = solicitud;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(error.error + error.message)
+        this.error = true;
+      }
+    );
+  }
+
+  /**
    * Cuando se guarda la información introducida.
    */
   onSaveMantenimiento() {
-    if(this.ordenTrabajo.estado === EstadoOrdenTrabajo.FINALIZADO) {
+    if(this.estadoOT === EstadoOrdenTrabajo.FINALIZADO) {
+      this.ordenTrabajo.estado = this.estadoOT;
       if(this.solicitudRepuesto.estado !== EstadoSolicitudRepuesto.FINALIZADO) {
         this.errorMessage = "La Orden de Trabajo no puede ser Finalizada. La Solicitud de Repuesto aún no fue finalizada.";
         this.error = true;

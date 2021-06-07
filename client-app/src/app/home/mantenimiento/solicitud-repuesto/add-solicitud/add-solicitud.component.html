@@ -16,46 +16,47 @@
   </div>
   <br/>
   <h5 class="form-add-edit-sol-repuesto-sub-title">Repuestos</h5>
-  <clr-datagrid>
-    <clr-dg-action-bar>
-      <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-secondary"
-                (click)="addNewRepuesto()">
-          <clr-icon shape="plus"></clr-icon>
-          Agregar
-        </button>
-      </div>
-    </clr-dg-action-bar>
-    <clr-dg-column class="table-header">Código</clr-dg-column>
-    <clr-dg-column class="table-header">Descripción</clr-dg-column>
-    <clr-dg-column class="table-header">Tipo</clr-dg-column>
-    <clr-dg-column class="table-header">Marca</clr-dg-column>
-    <clr-dg-column class="table-header">Modelo</clr-dg-column>
-    <clr-dg-column class="table-header">Representante</clr-dg-column>
-    <clr-dg-column class="table-header">Precio</clr-dg-column>
-    <clr-dg-column class="table-header cod-cant-field">Cantidad Solicitada</clr-dg-column>
-    <clr-dg-column class="table-header cod-cant-field"></clr-dg-column>
-    <clr-dg-row *ngFor="let detalle of solicitudRepuestoDetalles">
-      <clr-dg-cell class="table-column">{{detalle.repuesto?.codigo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto?.descripcionArticulo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto?.tipoEquipo?.tipo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto?.marca.marca}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto?.modelo.modelo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto?.representante?.nombre}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto?.precio}}</clr-dg-cell>
-      <clr-dg-cell class="table-column cod-cant-field">{{detalle.cantidadSolicitada}}</clr-dg-cell>
-      <clr-dg-cell class="table-header cod-cant-field">
-        <a class="btn btn-sm btn-warning"
-           (click)="eliminarDetalleRepuesto(detalle)">
-          <clr-icon shape="trash"></clr-icon>
-        </a>
-        <a type="button" class="btn btn-sm btn-secondary"
-           (click)="editRepuesto(detalle)">
-          <clr-icon shape="pencil"></clr-icon>
-        </a>
-      </clr-dg-cell>
-    </clr-dg-row>
-  </clr-datagrid>
+  <div class="card">
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-secondary"
+              (click)="addNewRepuesto()">
+        <clr-icon shape="plus"></clr-icon>
+        Agregar
+      </button>
+    </div>
+
+    <p-table [value]="solicitudRepuestoDetalles">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="table-header">Código</th>
+          <th class="table-header">Descripción</th>
+          <th class="table-header">Tipo</th>
+          <th class="table-header">Marca</th>
+          <th class="table-header">Modelo</th>
+          <th class="table-header">Representante</th>
+          <th class="table-header">Precio</th>
+          <th class="table-header">Cantidad Solicitada</th>
+          <th style="width:4rem"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-detalle>
+        <tr>
+          <td class="table-column" style="text-align: center">{{detalle.repuesto?.codigo}}</td>
+          <td class="table-column">{{detalle.repuesto?.descripcionArticulo}}</td>
+          <td class="table-column">{{detalle.repuesto?.tipoEquipo?.tipo}}</td>
+          <td class="table-column">{{detalle.repuesto?.marca.marca}}</td>
+          <td class="table-column">{{detalle.repuesto?.modelo.modelo}}</td>
+          <td class="table-column">{{detalle.repuesto?.representante?.nombre}}</td>
+          <td class="table-column " style="text-align: right">{{detalle.repuesto?.precio}}</td>
+          <td class="table-column" style="text-align: center">{{detalle.cantidadSolicitad}}</td>
+          <td>
+            <button type="button" pButton pRipple icon="pi pi-pencil" class="p-button-success" (click)="editRepuesto(detalle)"></button>
+            <button type="button" pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="eliminarDetalleRepuesto(detalle)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 
   <br/><br/>
   <div class="clr-row clr-justify-content-start">

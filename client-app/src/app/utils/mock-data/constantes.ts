@@ -25,5 +25,5 @@ export const ESTADO_EDIT_SOLICITUD: EstadoSolicitud[] = [
 
 export const ESTADO_ORDEN_ATENDIDA: EstadoOrdenTrabajoLista[] = [
   new EstadoOrdenTrabajoLista('En Proceso'),
-  new EstadoOrdenTrabajoLista('Finalizado')
+  new EstadoOrdenTrabajoLista('Finalizada')
 ];

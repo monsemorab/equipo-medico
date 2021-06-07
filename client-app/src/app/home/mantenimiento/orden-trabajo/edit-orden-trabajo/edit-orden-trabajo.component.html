@@ -1,6 +1,6 @@
 <h2 class="form-orden-trabajo-title">Editar Orden de Trabajo</h2>
-<section class="form-block">
-  <!-- errors -->
+<!-- errors -->
+<div class="clr-col-8">
   <div class="alert alert-danger" *ngIf="error">
     <div class="alert-items">
       <div class="alert-item static">
@@ -14,69 +14,50 @@
       <clr-icon aria-hidden="true" shape="close"></clr-icon>
     </button>
   </div>
-</section>
-<form class="compact" #ordenTrabajoForm="ngForm">
-  <section class="form-block">
-    <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-1">
-        <label class="form-orden-trabajo-label" for="estado">Estado:</label>
-      </div>
-      <div class="col-xs-2">
-        <input class="form-control" id="estado"
-               name="estado" [(ngModel)]="estado">
-      </div>
+</div>
 
-      <div class="col-xs-3"></div>
-      <div class="col-xs-2">
-        <label class="form-orden-trabajo-label" for="tipoServicio">Tipo Mantenimiento:</label>
-      </div>
-      <div class="col-xs-3">
-        <div class="select form-control">
-          <select class="select-form-orden-trab" id="tipoServicio" #selectServicio name="tipoServicio"
-                  [(ngModel)]="tipoServicio"
-                  (change)="onSelectedTipoMantinieminto(selectServicio.value)">
-            <option *ngFor="let servicio of tipoServicios"
-                    value={{servicio.nombre}}>{{servicio.nombre}}
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="form-group row flex-items-xs-left" *ngIf="tipoServicio == 'PREVENTIVO'">
-      <div class="col-xs-1">
-        <label class="form-orden-trabajo-label">Fecha:</label>
-      </div>
-      <clr-date-container>
-        <input type="date" clrDate name="fechaInstalacion" [(ngModel)]="fechaRealizacion"
-               min="2000-01-01" max="2030-12-31" tabindex="10">
-      </clr-date-container>
-    </div>
-    <br>
-    <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-6">
-        <label class="form-orden-trabajo-label">Personal que reporta el problema:</label>
-      </div>
-      <div class="col-xs-6">
-        <label class="form-orden-trabajo-label" for="responsable">Descripción del Problema:</label>
-      </div>
-      <div class="col-xs-4">
-        <input class="form-control" id="responsable"
-               name="responsable" [(ngModel)]="responsable">
-      </div>
-      <div class="col-xs-2"></div>
+<form clrForm>
+  <div class="clr-col-8">
+    <clr-input-container>
+      <label>Estado:</label>
+      <input clrInput type="text" [(ngModel)]="estado" name="estado" required/>
+      <clr-control-error>El campo es obligatorio</clr-control-error>
+    </clr-input-container>
 
-      <div class="col-xs-6">
-                <textarea class="form-control" id="diagnostico" rows="5"
-                          name="diagnostico" [(ngModel)]="diagnostico">
-            </textarea>
-      </div>
-    </div>
-  </section>
+    <clr-select-container>
+      <label>Tipo Mantenimiento:</label>
+      <select clrSelect name="tipoServicio" [(ngModel)]="tipoServicio" #selectServicio
+              (change)="onSelectedTipoMantinieminto(selectServicio.value)">
+        <option *ngFor="let servicio of tipoServicios"
+                value={{servicio.nombre}}>{{servicio.nombre}}
+        </option>
+      </select>
+    </clr-select-container>
+
+    <clr-input-container *ngIf="tipoServicio == 'PREVENTIVO'">
+      <label>Fecha:</label>
+      <input clrInput type="date" [(ngModel)]="fechaRealizacion" name="fechaInstalacion"
+             min="1990-01-01" max="2050-12-31"/>
+    </clr-input-container>
+    <br/>
+  </div>
+  <div class="clr-col-8">
+    <clr-input-container>
+      <label class="clr-col-8">Personal que reporta el problema:</label>
+      <input class="tamanho-medio" clrInput type="text" [(ngModel)]="responsable" name="responsable"/>
+    </clr-input-container>
+
+    <clr-textarea-container>
+      <label class="clr-col-8">Descripción del Problema:</label>
+      <textarea class="tamanho-total clr-col-6" clrTextarea [(ngModel)]="diagnostico" name="diagnostico"></textarea>
+    </clr-textarea-container>
+  </div>
+  <br/>
   <hr>
   <!-- información del equipo-->
   <h4 class="form-orden-trabajo-sub-title">Información del Equipo</h4>
-  <section class="form-block">
-    <!-- errors -->
+  <!-- errors -->
+  <div class="clr-row">
     <div class="alert alert-warning" *ngIf="equipoWarning">
       <div class="alert-items">
         <div class="alert-item static">
@@ -90,85 +71,87 @@
         <clr-icon aria-hidden="true" shape="close"></clr-icon>
       </button>
     </div>
-  </section>
-  <section class="form-block">
-    <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-1 col-label-equipo">
-        <label class="form-orden-trabajo-label" for="nroSerie">N. Serie:</label>
-      </div>
-      <div class="col-xs-2">
-        <input class="form-control" id="nroSerie"
-               name="nroSerie" #nroSerie
-               (keyup.enter)="onEnterNroSerie(nroSerie.value)"
-               (keyup)="onKeyNroSerie(nroSerie.value)"
-               [(ngModel)]="numeroSerie">
-      </div>
-      <div class="col-xs-1" *ngIf="equipoSuccess">
-        <clr-icon shape="check-circle alert-icon alert-success"></clr-icon>
-      </div>
-      <div class="col-xs-1" *ngIf="equipoWarning">
-        <clr-icon shape="warning-standard alert-icon alert-warning"></clr-icon>
-      </div>
-      <div class="col-xs-1"></div>
-      <div class="col-xs-2 col-label-equipo">
-        <label class="form-orden-trabajo-label" for="numeroPatrimonial">N. Patrimonial:</label>
-      </div>
-      <div class="col-xs-2">
-        <input class="form-control" id="numeroPatrimonial"
-               name="numeroPatrimonial" #nroPatrimonial
-               (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"
-               (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"
-               [(ngModel)]="numeroPatrimonial">
-      </div>
-      <div class="col-xs-1" *ngIf="equipoSuccess">
-        <clr-icon shape="check-circle alert-icon alert-success"></clr-icon>
-      </div>
-      <div class="col-xs-1" *ngIf="equipoWarning">
-        <clr-icon shape="warning-standard alert-icon alert-warning"></clr-icon>
-      </div>
-      <div class="col-xs-1" *ngIf="selectedEquipo">
-        <a type="button" class="btn btn-sm btn-warning"
-           (click)="deleteEquipo()">
-          <clr-icon shape="trash"></clr-icon>
-        </a>
+  </div>
+  <div class="clr-row">
+    <!--    numero de serie-->
+    <div class="clr-col-3">
+      <div class="clr-form-control">
+        <label class="tamanho-total clr-col-5 label-input">N. Serie:</label>
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <input type="text" class="clr-input" id="nroSerie" name="nroSerie" #nroSerie
+                   (keyup.enter)="onEnterNroSerie(nroSerie.value)"
+                   (keyup)="onKeyNroSerie(nroSerie.value)"
+                   [(ngModel)]="numeroSerie"/>
+            <clr-icon class="alert-icon equipo-success-icon" shape="check-circle alert-icon alert-success"
+                      *ngIf="numeroSerie != '' && equipoSuccess"></clr-icon>
+            <clr-icon class="alert-icon equipo-warning-icon" shape="warning-standard alert-icon alert-warning"
+                      *ngIf="numeroSerie != '' && equipoWarning"></clr-icon>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-1 col-label-equipo">
-        <label class="form-orden-trabajo-label">Tipo:</label>
-      </div>
-      <div class="col-xs-4">
-        <label class="form-control">
-          {{equipoSeleccionado?.tipoEquipo?.tipo}}
-        </label>
-      </div>
-
-      <div class="col-xs-2 col-label-equipo">
-        <label class="form-orden-trabajo-label">Modelo:</label>
-      </div>
-      <div class="col-xs-4">
-        <label class="form-control">
-          {{equipoSeleccionado?.modeloEquipo?.modelo}}
-        </label>
+    <!--número patrimonial-->
+    <div class="clr-col-4">
+      <div class="clr-form-control">
+        <label class="tamanho-total clr-col-5 label-input">N. Patrimonial</label>
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <input type="text" class="clr-input" id="numeroPatrimonial" name="numeroPatrimonial" #nroPatrimonial
+                   (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"
+                   (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"
+                   [(ngModel)]="numeroPatrimonial"/>
+            <clr-icon class="alert-icon equipo-success-icon" shape="check-circle alert-icon alert-success"
+                      *ngIf="numeroPatrimonial != '' && equipoSuccess"></clr-icon>
+            <clr-icon class="alert-icon equipo-warning-icon" shape="warning-standard alert-icon alert-warning"
+                      *ngIf="numeroPatrimonial != '' && equipoWarning"></clr-icon>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-1 col-label-equipo">
-        <label class="form-orden-trabajo-label">Ubicación:</label>
-      </div>
-      <div class="col-xs-4">
-        <label class="form-control">
-          {{equipoSeleccionado?.ubicacion?.bloque}} - {{equipoSeleccionado?.ubicacion?.numeroSala}}
-        </label>
-      </div>
+    <!--    botón eliminar-->
+    <div class="clr-col-1 clr-align-self-end" *ngIf="selectedEquipo">
+      <a type="button" class="btn btn-sm btn-danger-outline"
+         (click)="clearDatosEquipos()">
+        <clr-icon shape="trash"></clr-icon>
+      </a>
     </div>
-  </section>
+  </div>
+  <br/>
+  <table class="table table-compact" *ngIf="selectedEquipo">
+    <thead>
+    <tr>
+      <th class=" table-header left">Tipo</th>
+      <th class=" table-header">Marca</th>
+      <th class=" table-header">Modelo</th>
+      <th class=" table-header">Descripción</th>
+      <th class=" table-header">Ubicación</th>
+      <th class=" table-header">Representante</th>
+      <th class=" table-header">Fecha Garantia</th>
+      <th class=" table-header left">Contrato</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="table-column left">{{equipoSeleccionado?.tipoEquipo?.tipo}}</td>
+      <td class="table-column">{{equipoSeleccionado?.marca?.marca}}</td>
+      <td class="table-column">{{equipoSeleccionado?.modelo?.modelo}}</td>
+      <td class="table-column">{{equipoSeleccionado?.descripcionEquipo}}</td>
+      <td
+        class="table-column">{{ equipoSeleccionado?.ubicacion?.bloque ? equipoSeleccionado?.ubicacion?.bloque + ' ' : ''  }}
+        {{equipoSeleccionado?.ubicacion?.nivel ? equipoSeleccionado?.ubicacion?.nivel + ' ' : '' }}
+        {{equipoSeleccionado?.ubicacion?.numeroSala ? equipoSeleccionado?.ubicacion?.numeroSala + ' ' : '' }}</td>
+      <td class="table-column">{{equipoSeleccionado?.representante.nombre}}</td>
+      <td class="table-column">{{equipoSeleccionado?.fechaVenGarantia}}</td>
+      <td class=" table-columnleft">{{equipoSeleccionado?.contrato.numeroContrato}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <br/>
   <hr>
   <h4 class="form-orden-trabajo-sub-title">Repuestos Solicitados</h4>
-  <section class="form-block">
-    <!-- errors -->
+  <div class="clr-row">
     <div class="alert alert-danger" *ngIf="repError">
       <div class="alert-items">
         <div class="alert-item static">
@@ -182,72 +165,66 @@
         <clr-icon aria-hidden="true" shape="close"></clr-icon>
       </button>
     </div>
-  </section>
-
-  <section>
-    <div class="form-group row flex-items-xs-left">
-      <div class="col-xs-2">
-        <label class="form-orden-trabajo-label">Solicitud Repuesto:</label>
-      </div>
-      <div class="col-xs-3">
-        <div class="select form-control">
-          <select clrSelect name="representante" [(ngModel)]="solicitudRepId"
-                  (ngModelChange)="onSelectedSolicitudRepuesto()">
-            <option>Seleccionar Solicitud</option>
-            <option *ngFor="let solicitud of solicitudRepuestoPendientes"
-                    value={{solicitud.id}}>{{solicitud.id}}
-            </option>
-          </select>
-        </div>
-      </div>
+  </div>
+  <div class="clr-col-8">
+    <clr-select-container>
+      <label>Solicitud Repuesto:</label>
+      <select clrSelect name="solicitudRepId" [(ngModel)]="solicitudRepId"
+              (ngModelChange)="onSelectedSolicitudRepuesto()">
+        <option>Seleccionar Solicitud ID</option>
+        <option *ngFor="let solicitud of solicitudRepuestoPendientes"
+                value={{solicitud.id}}>{{solicitud.id}}
+        </option>
+      </select>
+    </clr-select-container>
+  </div>
+  <br/>
+  <div class="card">
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-secondary"
+              (click)="agregarRepuesto()">
+        <clr-icon shape="plus"></clr-icon>
+        Agregar Repuesto
+      </button>
     </div>
-  </section>
 
-  <clr-datagrid>
-    <clr-dg-action-bar>
-      <div class="btn-group">
-        <a type="button" class="btn btn-sm btn-secondary"
-           (click)="agregarRepuesto()">
-          <clr-icon shape="plus"></clr-icon>
-          Agregar Repuesto
-        </a>
+    <p-table [value]="solicitudRepuestoDetalles">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="table-header">Código</th>
+          <th class="table-header">Descripción</th>
+          <th class="table-header">Tipo</th>
+          <th class="table-header">Marca</th>
+          <th class="table-header">Modelo</th>
+          <th class="table-header">Representante</th>
+          <th class="table-header">Precio</th>
+          <th class="table-header">Cantidad Solicitada</th>
+          <th style="width:6rem"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-detalle>
+        <tr>
+          <td class="table-column" style="text-align: center">{{detalle.repuesto?.codigo}}</td>
+          <td class="table-column">{{detalle.repuesto?.descripcionArticulo}}</td>
+          <td class="table-column">{{detalle.repuesto?.tipoEquipo?.tipo}}</td>
+          <td class="table-column">{{detalle.repuesto?.marca.marca}}</td>
+          <td class="table-column">{{detalle.repuesto?.modelo.modelo}}</td>
+          <td class="table-column">{{detalle.repuesto?.representante?.nombre}}</td>
+          <td class="table-column" style="text-align: right">{{detalle.repuesto?.precio}}</td>
+          <td class="table-column" style="text-align: center">{{detalle.cantidadSolicitad}}</td>
+          <td>
+            <button type="button" pButton pRipple icon="pi pi-pencil" class="p-button-success"
+                    (click)="editarRepuesto(detalle)"></button>
+            <button type="button" pButton pRipple icon="pi pi-trash" class="p-button-danger"
+                    (click)="eliminarDetalleRepuesto(detalle, true)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 
-      </div>
-    </clr-dg-action-bar>
-    <clr-dg-column class="table-header cod-cant-field">Código</clr-dg-column>
-    <clr-dg-column class="table-header">Descripción</clr-dg-column>
-    <clr-dg-column class="table-header">Tipo</clr-dg-column>
-    <clr-dg-column class="table-header">Marca</clr-dg-column>
-    <clr-dg-column class="table-header">Modelo</clr-dg-column>
-    <clr-dg-column class="table-header">Representante</clr-dg-column>
-    <clr-dg-column class="table-header">Precio</clr-dg-column>
-    <clr-dg-column class="table-header cod-cant-field">Cantidad Solicitada</clr-dg-column>
-    <clr-dg-column class="table-header cod-cant-field"></clr-dg-column>
-    <clr-dg-row *ngFor="let detalle of solicitudRepuestoDetalles">
-      <clr-dg-cell class="table-column cod-cant-field">{{detalle.repuesto.codigo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto.descripcionArticulo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto.tipoEquipo?.tipo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto.modeloEquipo?.marca}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto.modeloEquipo?.modelo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto.representante?.nombre}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.repuesto.precio}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{detalle.cantidadSolicitada}}</clr-dg-cell>
-      <clr-dg-cell class="table-column cod-cant-field">
-        <a class="btn btn-sm btn-warning"
-           (click)="eliminarDetalleRepuesto(detalle, true)">
-          Eliminar
-        </a>
-        <a type="button" class="btn btn-sm btn-secondary"
-           (click)="editarRepuesto(detalle)">
-          <clr-icon shape="plus"></clr-icon>
-          Editar
-        </a>
-      </clr-dg-cell>
-    </clr-dg-row>
-  </clr-datagrid>
-
-
-  <section class="form-block">
+  <br/><br/>
+  <div class="clr-row clr-justify-content-start">
     <a class="btn btn-sm btn-success"
        (click)="onSaveAddOrdenTrabajo()">
       <clr-icon shape="floppy"></clr-icon>
@@ -259,7 +236,7 @@
       <clr-icon shape="window-close"></clr-icon>
       Cancel
     </a>
-  </section>
+  </div>
 </form>
 
 <!--Modal para agregar o editar los datos de un repuesto-->

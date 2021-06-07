@@ -12,6 +12,7 @@ import {Modelo} from "../../../domain/modelo";
 import {ModeloService} from "../../../service/modelo.service";
 import {Marca} from "../../../domain/marca";
 import {MarcaService} from "../../../service/marca.service";
+import {SolicitudRepuestoDetalleService} from "../../../service/solicitud-repuesto-detalle.service";
 
 @Component({
   selector: 'app-solicitud-repuesto-detalle',
@@ -77,7 +78,8 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
               private marcaService: MarcaService,
               private tipoEquipoService: TipoEquipoService,
               private repuestoService: RepuestoService,
-              private representanteService: RepresentanteService) {
+              private representanteService: RepresentanteService,
+              private solicitudRepuestoDetalleService: SolicitudRepuestoDetalleService) {
   }
 
   ngOnInit() {
@@ -125,7 +127,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   getAllModelos(): void {
     this.modeloService.getAllModeloEquipo().subscribe(
       modelos => {
-        this.modelos= modelos;
+        this.modelos = modelos;
       },
       error => {
         this.errorMessage = error.error;
@@ -142,7 +144,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   getAllModelosByMarca(marcaId): void {
     this.modeloService.getAllModeloByMarca(marcaId).subscribe(
       modelos => {
-        this.modelos= modelos;
+        this.modelos = modelos;
       },
       error => {
         this.errorMessage = error.error;
@@ -206,22 +208,22 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     this.cantExistente = repuesto.cantidadExistente;
     this.fechaActualizacion = datepipe.transform(repuesto.fechaActualizacion, 'MM/dd/yyyy');
     this.tipoEquipo = repuesto.tipoEquipo;
-    if(repuesto.tipoEquipo != null) {
+    if (repuesto.tipoEquipo != null) {
       this.tipoEqId = repuesto.tipoEquipo.id;
     }
 
-    if(repuesto.marca != null) {
+    if (repuesto.marca != null) {
       this.marcaSeleccionada = repuesto.marca;
       this.marcaId = this.marcaSeleccionada.id;
     }
 
-    if(repuesto.modelo != null) {
+    if (repuesto.modelo != null) {
       this.modeloSeleccionado = repuesto.modelo;
       this.modeloId = this.modeloSeleccionado.id;
     }
 
     this.representante = repuesto.representante;
-    if(repuesto.representante != null) {
+    if (repuesto.representante != null) {
       this.repreId = repuesto.representante.id;
     }
     this.readonlyField = this.isAtenderOT;
@@ -281,7 +283,6 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
 
   /**
    * Se selecciona un representante
-   * @param value
    */
   onSelectRepresentante(): void {
     this.getRepresentanteById(this.repreId);
@@ -309,6 +310,8 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
    * @param value
    */
   onEnterCodigoRepuesto(value: string) {
+    this.info = false;
+    this.error = false;
     if (value !== '' && value != null) {
       this.codigo = value;
       this.buscarRepuestoByCodigo(this.codigo);
@@ -320,6 +323,8 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
    * @param value
    */
   onKeyCodigoRepuesto(value: string) {
+    this.info = false;
+    this.error = false;
     this.codigo = value;
   }
 
@@ -355,7 +360,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
   addRepuesto() {
     if (typeof this.fechaActualizacion === 'string' || this.fechaActualizacion instanceof String) {
       let parts = this.fechaActualizacion.split('/');
-      this.fechaActualizacion =  new Date(+parts[2], +parts[0] - 1, +parts[1]);
+      this.fechaActualizacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
 
     this.repuesto = new Repuesto(this.repuestoId, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
@@ -377,6 +382,25 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     this.repuestoService.crearRepuesto(repuesto).subscribe(
       repuesto => {
         this.repuesto = repuesto;
+        this.solicitudRepuestoDetalle = new SolicitudRepuestoDetalle(null, null, repuesto, this.cantidadSolicitada, this.cantidadUsada);
+        this.crearSolicutudDetalle(this.repuesto);
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Se crea un nuveo repuesto.
+   * @param repuesto
+   */
+  crearSolicutudDetalle(repuesto: Repuesto): void {
+    this.solicitudRepuestoDetalleService.crearSolicitudRepuestoDetalle(this.solicitudRepuestoDetalle).subscribe(
+      detalle => {
+        this.solicitudRepuestoDetalle = detalle;
         this.repuestoService.emitExisteRepuesto(true);
         this.emitSolicitudRepuestoDetalle();
       },
@@ -397,6 +421,27 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     this.repuestoService.editarRepuesto(repuesto).subscribe(
       repuesto => {
         this.repuesto = repuesto;
+        this.solicitudRepuestoDetalle.repuesto = this.repuesto;
+        this.solicitudRepuestoDetalle.cantidadSolicitada = this.cantidadSolicitada;
+        this.solicitudRepuestoDetalle.cantidadUsada = this.cantidadUsada;
+        this.editarSolicutudDetalle(this.repuesto);
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
+  /**
+   * Se actualizan los datos del detalle seleccionado.
+   * @param repuesto
+   */
+  editarSolicutudDetalle(repuesto: Repuesto): void {
+    this.solicitudRepuestoDetalleService.editarSolicitudRepuestoDetalle(this.solicitudRepuestoDetalle).subscribe(
+      detalle => {
+        this.solicitudRepuestoDetalle = detalle;
         this.emitSolicitudRepuestoDetalle();
       },
       error => {

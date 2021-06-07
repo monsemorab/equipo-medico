@@ -31,3 +31,21 @@
   min-width: 5% !important;
   width: 5% !important;
 }
+
+.info-table-header {
+  min-width: 15% !important;
+  width: 15% !important;
+}
+
+.label-input {
+  font-weight: bold !important;
+  color: #454545 !important;
+}
+
+.tamanho-total {
+  width: 100% !important;
+}
+
+.tamanho-medio{
+  width: 50% !important;
+}

@@ -1,85 +1,92 @@
-<form class="clr-form clr-form-compact">
-  <h2 class="form-orden-trabajo-title">Orden de Trabajo Atendida</h2>
-  <br>
-  <!--info action-->
-  <div class="alert alert-info alert-sm" *ngIf="info">
-    <div class="alert-items">
-      <div class="alert-item static">
-        <div class="alert-icon-wrapper">
-          <clr-icon class="alert-icon"
-                    shape="check-circle">
-          </clr-icon>
-        </div>
-        <span class="alert-text">
+<h2 class="form-orden-trabajo-title">Orden de Trabajo Atendida</h2>
+<!--info action-->
+<div class="alert alert-info alert-sm" *ngIf="info">
+  <div class="alert-items">
+    <div class="alert-item static">
+      <div class="alert-icon-wrapper">
+        <clr-icon class="alert-icon"
+                  shape="check-circle">
+        </clr-icon>
+      </div>
+      <span class="alert-text">
             {{ infoMessage }}
           </span>
-      </div>
     </div>
   </div>
+</div>
 
-  <!-- errors -->
-  <div class="alert alert-danger alert-sm" *ngIf="error">
-    <div class="alert-items">
-      <div class="alert-item static">
-        <div class="alert-icon-wrapper">
-          <clr-icon class="alert-icon"
-                    shape="exclamation-circle">
-          </clr-icon>
-        </div>
-        <span class="alert-text">{{errorMessage}}</span>
+<!-- errors -->
+<div class="alert alert-danger alert-sm" *ngIf="error">
+  <div class="alert-items">
+    <div class="alert-item static">
+      <div class="alert-icon-wrapper">
+        <clr-icon class="alert-icon"
+                  shape="exclamation-circle">
+        </clr-icon>
+      </div>
+      <span class="alert-text">{{errorMessage}}</span>
+    </div>
+  </div>
+  <a type="button" class="close" aria-label="Close"
+     (click)="error = false">
+    <clr-icon aria-hidden="true" shape="close"></clr-icon>
+  </a>
+</div>
+
+<form clrForm>
+  <div class="card">
+    <br/>
+    <!--      tipo de mantenimiento de la orden de trabajo-->
+    <div>
+      <label class="clr-col-1 clr-align-self-end label-input">Tipo de Mantenimineto:</label>
+      <div class="clr-select-wrapper">
+        <select class="clr-select" id="tipo-servicio" name="tipoServicio" [(ngModel)]="tipoSeleccionado"
+                (ngModelChange)="onSelectedTipoMantinieminto()">
+          <option>Seleccione una opción</option>
+          <option *ngFor="let tipo of tipoServicios"
+                  value={{tipo.nombre}}>{{tipo.nombre}}
+        </select>
       </div>
     </div>
-    <a type="button" class="close" aria-label="Close"
-       (click)="error = false">
-      <clr-icon aria-hidden="true" shape="close"></clr-icon>
-    </a>
+    <br/>
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-success" *ngIf="selectedOrdenTrabajo"
+              (click)="editarMantenimineto()">
+        <clr-icon shape="pencil"></clr-icon>
+        Editar
+      </button>
+      <button type="button" class="btn btn-sm btn-secondary" *ngIf="total> 0"
+              (click)="exportToExcel()">
+        <clr-icon shape="pencil"></clr-icon>
+        Export
+      </button>
+    </div>
+
+    <p-table [value]="ordenTrabajoList" selectionMode="single" [(selection)]="selectedOrdenTrabajo" dataKey="id"
+             [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
+             currentPageReportTemplate="{first} - {last} de {totalRecords}  orden-trabajos"
+             [rowsPerPageOptions]="[10,25,50]">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="table-header">ID</th>
+          <th class="table-header">Fecha a realizarse el trabajo</th>
+          <th class="table-header">Estado</th>
+          <th class="table-header">Tipo de Mantenimiento</th>
+          <th class="table-header">Diagnostico</th>
+          <th class="table-header">Equipo</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ordenTrabajo>
+        <tr [pSelectableRow]="ordenTrabajo">
+          <td class="table-column text-center">{{ordenTrabajo.id}}</td>
+          <td class="table-column text-center">{{ordenTrabajo.fechaSolicitud}}</td>
+          <td class="table-column text-center">{{ordenTrabajo.estado}}</td>
+          <td class="table-column text-left">{{ordenTrabajo.tipoServicio}}</td>
+          <td class="table-column text-left">{{ordenTrabajo.diagnostico}}</td>
+          <td class="table-column text-center">{{ordenTrabajo.equipo?.numeroSerie}}  {{ordenTrabajo.equipo?.descripcionEquipo}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-
-  <!--lista de orden-trabajo-->
-  <clr-datagrid [clrDgLoading]="loading">
-    <clr-dg-action-bar>
-      <div class="clr-form-control clr-row">
-        <label class="clr-control-label clr-col-auto">Tipo de Mantenimineto:</label>
-        <div class="clr-control-container clr-col-auto">
-          <select clrSelect name="tipoServicio" [(ngModel)]="tipoSeleccionado"
-                  (ngModelChange)="onSelectedTipoMantinieminto()">
-            <option>Seleccione una opción</option>
-            <option *ngFor="let tipo of tipoServicios"
-                    value={{tipo.nombre}}>{{tipo.nombre}}
-          </select>
-        </div>
-      </div>
-    </clr-dg-action-bar>
-    <clr-dg-column class="table-header" [clrDgSortBy]="'fecha'">Fecha a realizarse el trabajo</clr-dg-column>
-    <clr-dg-column class="table-header">Estado</clr-dg-column>
-    <clr-dg-column class="table-header">Tipo de Mantenimiento</clr-dg-column>
-    <clr-dg-column class="table-header">Diagnostico</clr-dg-column>
-    <clr-dg-column class="table-header">Equipo</clr-dg-column>
-    <clr-dg-column class="table-header cod-cant-field">Acción</clr-dg-column>
-    <clr-dg-placeholder>
-      <div *ngIf="ordenTrabajoList && ordenTrabajoList.length === 0">
-        No existen datos para la orden de trabajo
-      </div>
-    </clr-dg-placeholder>
-    <clr-dg-row *ngFor="let ordenTrabajo of ordenTrabajoList">
-      <clr-dg-cell class="table-column">{{ordenTrabajo.fechaSolicitud}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{ordenTrabajo.estado}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{ordenTrabajo.tipoServicio}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{ordenTrabajo.diagnostico}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{ordenTrabajo.equipo?.numeroSerie}} - {{ordenTrabajo.equipo?.descripcionEquipo}}</clr-dg-cell>
-      <clr-dg-cell class="table-column cod-cant-field">
-        <a class="btn btn-sm btn-warning"
-           (click)="editarMantenimineto(ordenTrabajo.id)">
-          Editar
-        </a>
-      </clr-dg-cell>
-    </clr-dg-row>
-
-    <clr-dg-footer>
-      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-      of {{total}} orden-trabajos
-      <clr-dg-pagination #pagination [clrDgPageSize]="5" [clrDgTotalItems]="total"></clr-dg-pagination>
-    </clr-dg-footer>
-  </clr-datagrid>
 </form>
 

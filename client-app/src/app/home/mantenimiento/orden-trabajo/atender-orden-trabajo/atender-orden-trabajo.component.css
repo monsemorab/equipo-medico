@@ -16,21 +16,6 @@
   text-align: right !important;
 }
 
-.select .select-form-orden-trabajo{
-  border: 1px solid rgba(34, 36, 38, 0.50) !important;
-  border-radius: 0 !important;
-  border-image: initial !important;
-  -webkit-appearance: menulist !important;
-  align-items: center !important;
-  background-color: white !important;
-  cursor: default;
-  background: linear-gradient(to bottom, transparent 95%, #0094d2 95%) no-repeat;
-  height: 30px !important;
-  margin-left: 1% !important;
-  width: 100% !important;
-  display: block;
-}
-
 .table-header {
   font-size: 13px !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
@@ -42,7 +27,25 @@
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
 }
 
+.info-table-header {
+  min-width: 15% !important;
+  width: 15% !important;
+}
+
 .cod-cant-field {
   min-width: 5% !important;
   width: 5% !important;
+}
+
+.label-input {
+  font-weight: bold !important;
+  color: #454545 !important;
+}
+
+.tamanho-total {
+  width: 100% !important;
+}
+
+.tamanho-medio{
+  width: 50% !important;
 }

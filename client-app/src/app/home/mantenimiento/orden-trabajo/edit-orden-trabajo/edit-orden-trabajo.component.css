@@ -16,24 +16,18 @@
   text-align: right !important;
 }
 
-.select .select-form-orden-trab {
-  border: 1px solid rgba(34, 36, 38, 0.50) !important;
-  border-radius: 0 !important;
-  border-image: initial !important;
-  -webkit-appearance: menulist !important;
-  align-items: center !important;
-  background-color: white !important;
-  cursor: default;
-  background: linear-gradient(to bottom, transparent 95%, #0094d2 95%) no-repeat;
-  height: 30px !important;
-  margin-left: 1% !important;
+.tamanho-total {
   width: 100% !important;
-  display: block;
+}
+
+.tamanho-medio{
+  width: 50% !important;
 }
 
 
-.col-btn-buscar-solicitud {
-  margin-top: -6px !important;
+.label-input {
+  font-weight: bold !important;
+  color: #454545 !important;
 }
 
 .table-header {
@@ -52,15 +46,11 @@
   width: 5% !important;
 }
 
-@media only screen and (max-width: 1250px) {
-  .col-tooltip {
-    margin-left: 0 !important;
-  }
+.equipo-warning-icon {
+  color:red !important;
 }
 
-@media only screen and (min-width: 1600px) {
-  .col-tooltip {
-    margin-left: -3% !important;
-  }
+.equipo-success-icon {
+  color:green !important;
 }
 

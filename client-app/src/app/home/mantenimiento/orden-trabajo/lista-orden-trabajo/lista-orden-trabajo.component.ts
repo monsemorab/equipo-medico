@@ -26,6 +26,8 @@ export class ListaOrdenTrabajoComponent implements OnInit {
   // datagrid
   loading = true;
   total: number;
+  first = 0;
+  rows = 10;
   ordenTrabajoList: OrdenTrabajo[];
 
   constructor(private router: Router,
@@ -151,6 +153,48 @@ export class ListaOrdenTrabajoComponent implements OnInit {
   atenderOrdenTrabajo(): void {
     this.router.navigate(['home/mantenimiento/orden-trabajo/atender-orden-trabajo/' +
     this.selectedOrdenTrabajo.id]);
+  }
+
+  next() {
+    this.first = this.first + this.rows;
+  }
+
+  prev() {
+    this.first = this.first - this.rows;
+  }
+
+  reset() {
+    this.first = 0;
+  }
+
+  isLastPage(): boolean {
+    return this.ordenTrabajoList ? this.first === (this.ordenTrabajoList.length - this.rows): true;
+  }
+
+  isFirstPage(): boolean {
+    return this.ordenTrabajoList ? this.first === 0 : true;
+  }
+
+  exportToExcel() {
+    // @ts-ignore
+    import("xlsx").then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(this.ordenTrabajoList);
+      const workbook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
+      const excelBuffer: any = xlsx.write(workbook, {bookType: 'xlsx', type: 'array'});
+      this.saveAsExcelFile(excelBuffer, "ordenTrabajoPendientes");
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    // @ts-ignore
+    import("file-saver").then(FileSaver => {
+      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      let EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    });
   }
 
 }

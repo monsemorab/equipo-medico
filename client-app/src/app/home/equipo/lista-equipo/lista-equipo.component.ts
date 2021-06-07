@@ -267,7 +267,6 @@ export class ListaEquipoComponent implements OnInit {
 
   /**
    * Se selecciona un estado de la lista
-   * @param value
    */
   onSelectEstado(): void {
     this.selectedEstadoEquipo = '';
@@ -276,7 +275,6 @@ export class ListaEquipoComponent implements OnInit {
 
   /**
    * Se selecciona un estado para el contrato.
-   * @param value
    */
   onSelectEstadoContrado(): void {
     this.selectedEstadoContrato = '';

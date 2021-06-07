@@ -8,14 +8,16 @@ import {CommonModuleImportsModule} from '../../../shared/common-module-imports.m
 import {SharedModule} from '../../../shared/shared.module';
 import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
 
 @NgModule({
-  imports: [
-    CommonModuleImportsModule,
-    SharedModule,
-    TableModule,
-    ButtonModule
-  ],
+    imports: [
+        CommonModuleImportsModule,
+        SharedModule,
+        TableModule,
+        ButtonModule,
+        RippleModule
+    ],
   declarations: [
     SolicitudRepuestoComponent,
     ListarSolicitudComponent,
