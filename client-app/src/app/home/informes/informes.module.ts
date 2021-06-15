@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import {CommonModuleImportsModule} from "../../shared/common-module-imports.module";
 import {InformeContratosComponent} from "./informe-contratos/informe-contratos.component";
 import {InformeEquiposComponent} from "./informe-equipos/informe-equipos.component";
-import {InformeRepuestosComponent} from "./informe-repuestos/informe-repuestos.component";
 import {InformesComponent} from "./informes.component";
 
 
@@ -18,8 +17,7 @@ import {InformesComponent} from "./informes.component";
   declarations: [
     InformesComponent,
     InformeContratosComponent,
-    InformeEquiposComponent,
-    InformeRepuestosComponent
+    InformeEquiposComponent
   ]
 })
 export class InformesModule { }

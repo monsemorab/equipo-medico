@@ -42,7 +42,6 @@ export class ListaOrdenTrabajoAtendidasComponent implements OnInit {
     this.tipoSeleccionado = 'Seleccione una opción';
     this.getTipoServicios();
     this.getAllOrdenTrabajo();
-    this.getAllOrdenTrabajoAtendidasEnProceso();
   }
 
   /**

@@ -1,0 +1,21 @@
+.form-informe-label {
+  font-weight: bold !important;
+}
+
+.form-informe-title{
+  text-align: center;
+  font-weight: bold !important;
+}
+
+.tamanho-total {
+  width: 100% !important;
+}
+
+.tamanho-medio{
+  width: 50% !important;
+}
+
+.label-input {
+  font-weight: bold !important;
+  color: #454545 !important;
+}

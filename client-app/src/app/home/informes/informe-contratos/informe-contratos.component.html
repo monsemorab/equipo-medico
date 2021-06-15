@@ -33,86 +33,94 @@
 </div>
 <br/>
 
-<div class="clr-row">
-  <label class="clr-col-2 form-informe-label">Nro de Contrato:</label>
-  <input clrControl class="clr-col-2" id="nroContrato"
-         name="nroContrato" #nroContrato
-         (keyup.enter)="onEnterContrato(nroContrato.value)"
-         (keyup)="onKeyNroContrato(nroContrato.value)"
-         [(ngModel)]="numeroContrato"/>
-</div>
-<div class="clr-row">
-  <div class="clr-col-6">
-    <table class="table table-vertical">
-      <tbody>
-      <tr>
-        <th class="column-width">ID:</th>
-        <td>{{contrato?.id}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Nro. Contrato:</th>
-        <td>{{contrato?.numeroContrato}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Nombre de la Licitación:</th>
-        <td>{{contrato?.nombreLicitacion}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Inicio:</th>
-        <td>{{fechaInicio}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Representante:</th>
-        <td>{{contrato?.convocante}}</td>
-      </tr>
-      </tbody>
-    </table>
+<form clrForm>
+  <div class="clr-row">
+    <div class="clr-form-control">
+      <label class="tamanho-total clr-col-5 label-input">Nro de Contrato:</label>
+      <div class="clr-control-container">
+        <div class="clr-input-wrapper">
+          <input type="text" class="clr-input" id="nroContrato"
+                 name="nroContrato" #nroContrato
+                 (keyup.enter)="onEnterContrato(nroContrato.value)"
+                 (keyup)="onKeyNroContrato(nroContrato.value)"
+                 [(ngModel)]="numeroContrato"/>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="clr-col-6">
-    <table class="table table-vertical">
-      <tbody>
-      <tr>
-        <th class="column-width">Estado del Contrato:</th>
-        <td>{{contrato?.estadoContrato}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Tipo Procedimiento:</th>
-        <td>{{contrato?.tipoProcedimiento}}</td>
-      </tr>
-      <tr></tr>
-      <tr>
-        <th class="column-width">Fin:</th>
-        <td>{{fechaFin}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
 
-<!-- lista de quipos-->
-<h3 class="form-informe-sub-title">Lista de Equipos</h3>
-<br/>
-<table class="table table-compact">
-  <thead>
-  <tr>
-    <th class="left">Tipo</th>
-    <th>Marca</th>
-    <th>Modelo</th>
-    <th>Nro. de Serie</th>
-    <th>Nro. Patrimonial</th>
-    <th>Ubicación</th>
-    <th class="left">Estado</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let equipo of equipos">
-    <td class="left">{{equipo?.tipoEquipo?.tipo}}</td>
-    <td>{{equipo?.modeloEquipo?.marca}}</td>
-    <td>{{equipo?.modeloEquipo?.modelo}}</td>
-    <td>{{equipo?.numeroSerie}}</td>
-    <td>{{equipo?.numeroPatrimonial}}</td>
-    <td>{{equipo?.ubicacion?.servicio}}</td>
-    <td class="left">{{equipo?.estado}}</td>
-  </tr>
-  </tbody>
-</table>
+  <div class="clr-row">
+    <div class="clr-col-6">
+      <table class="table table-vertical">
+        <tbody>
+        <tr>
+          <th class="column-width">ID:</th>
+          <td>{{contrato?.id}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Nro. Contrato:</th>
+          <td>{{contrato?.numeroContrato}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Nombre de la Licitación:</th>
+          <td>{{contrato?.nombreLicitacion}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Inicio:</th>
+          <td>{{fechaInicio}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Representante:</th>
+          <td>{{contrato?.convocante}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="clr-col-6">
+      <table class="table table-vertical">
+        <tbody>
+        <tr>
+          <th class="column-width">Estado del Contrato:</th>
+          <td>{{contrato?.estadoContrato}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Tipo Procedimiento:</th>
+          <td>{{contrato?.tipoProcedimiento}}</td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <th class="column-width">Fin:</th>
+          <td>{{fechaFin}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- lista de quipos-->
+  <h3 class="form-informe-sub-title">Lista de Equipos</h3>
+  <table class="table table-compact">
+    <thead>
+    <tr>
+      <th class="left">Tipo</th>
+      <th>Marca</th>
+      <th>Modelo</th>
+      <th>Nro. de Serie</th>
+      <th>Nro. Patrimonial</th>
+      <th>Ubicación</th>
+      <th class="left">Estado</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let equipo of equipos">
+      <td class="left">{{equipo?.tipoEquipo?.tipo}}</td>
+      <td>{{equipo?.marca?.marca}}</td>
+      <td>{{equipo?.modelo?.modelo}}</td>
+      <td>{{equipo?.numeroSerie}}</td>
+      <td>{{equipo?.numeroPatrimonial}}</td>
+      <td>{{equipo?.ubicacion?.servicio}}</td>
+      <td class="left">{{equipo?.estado}}</td>
+    </tr>
+    </tbody>
+  </table>
+</form>

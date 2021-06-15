@@ -4,6 +4,7 @@ import {Equipo} from '../domain/equipo';
 import {environment} from '../../environments/environment';
 import {ApiRequestService} from './api-request.service';
 import {ParamsBusquedaEquipo} from '../domain/ParamsBusquedaEquipo';
+import {MetricasDTO} from "../domain/metricas-dto";
 
 @Injectable()
 export class EquipoService {
@@ -104,4 +105,9 @@ export class EquipoService {
     this.emitSiExisteListaEquipos.next(change);
   }
 
+
+  getMetricasByEquipoAndFechas(equipoId: number, fechaIni: string, fechaFin: string): Observable<MetricasDTO> {
+    const url = this.urlEquipos + 'metricas-by-equipo-and-fecha?equipoId=' + equipoId + '&fechaInicio=' + fechaIni + '&fechaFin=' + fechaFin;
+    return this.apiRequest.get(url);
+  }
 }

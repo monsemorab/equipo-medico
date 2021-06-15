@@ -7,6 +7,7 @@ import {Mantenimiento} from "../../../domain/mantenimiento";
 import {ManteniminetoService} from "../../../service/mantenimineto.service";
 import {SolicitudRepuestoDetalle} from "../../../domain/solicitud-repuesto-detalle";
 import {SolicitudRepuestoDetalleService} from "../../../service/solicitud-repuesto-detalle.service";
+import {MetricasDTO} from "../../../domain/metricas-dto";
 
 @Component({
   selector: 'app-informe-equipos',
@@ -25,6 +26,12 @@ export class InformeEquiposComponent implements OnInit {
   fechaInstalacion: any;
   fechaCompra: any;
 
+  // desempeño
+  metricasDTO: MetricasDTO;
+  fechaIniMetrica: any;
+  fechaFinMetrica: any;
+  habilitarBtnMetricaFilter = false;
+
   // mantenimiento
   mantenimientos: Mantenimiento[];
   fehcaIniServicio: any;
@@ -41,9 +48,11 @@ export class InformeEquiposComponent implements OnInit {
   errorMessage: string;
   errorServiciosMessage: string;
   errorRepuestosMessage: string;
+  errorMetricasMessage: string;
   error: boolean;
   errorServicios: boolean;
   errorRepuestos: boolean;
+  errorMetricas: boolean;
   info: boolean;
 
   constructor(private equipoService: EquipoService,
@@ -129,6 +138,36 @@ export class InformeEquiposComponent implements OnInit {
           console.log(this.errorMessage)
           this.error = true;
         }
+      }
+    );
+  }
+
+
+  filtrarMetricas(): void {
+    this.errorMetricas = false;
+    if (this.fechaIniMetrica != '' && this.fechaFinMetrica != '') {
+      const partfechaIniMetrica = this.fechaIniMetrica.split('-');
+      const partfechaFinMetrica = this.fechaFinMetrica.split('-');
+      this.fechaIniMetrica = partfechaIniMetrica[0] + '/' + partfechaIniMetrica[1] + '/' + partfechaIniMetrica[2];
+      this.fechaFinMetrica = partfechaFinMetrica[0] + '/' + partfechaFinMetrica[1] + '/' + partfechaFinMetrica[2];
+      if (new Date(+partfechaIniMetrica[0], +partfechaIniMetrica[1] - 1, +partfechaIniMetrica[2]) > new Date(+partfechaFinMetrica[0], +partfechaFinMetrica[1] - 1, +partfechaFinMetrica[2])) {
+        this.errorMetricasMessage = "La fecha final no puede ser mayor a la fecha inicial.";
+        this.errorMetricas = true;
+      } else {
+        this.buscarMetricasByEquipoAndFechas();
+      }
+    }
+  }
+
+  buscarMetricasByEquipoAndFechas(){
+    this.equipoService.getMetricasByEquipoAndFechas(this.equipoSeleccionado.id, this.fechaIniMetrica, this.fechaFinMetrica).subscribe(
+      result => {
+        this.metricasDTO = result;
+        console.log(this.metricasDTO)
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
       }
     );
   }
@@ -246,7 +285,7 @@ export class InformeEquiposComponent implements OnInit {
     this.errorRepuestos = false;
     if (this.fehcaIniRepuesto != '' && this.fechaFinRepuesto != '') {
       const partfehcaIniRep = this.fehcaIniRepuesto.split('-');
-      const partfechaFinRep = this.fehcaIniRepuesto.split('-');
+      const partfechaFinRep = this.fechaFinRepuesto.split('-');
       this.fehcaIniRepuesto = partfehcaIniRep[0] + '/' + partfehcaIniRep[1] + '/' + partfehcaIniRep[2];
       this.fechaFinRepuesto = partfechaFinRep[0] + '/' + partfechaFinRep[1] + '/' + partfechaFinRep[2];
       if (new Date(+partfehcaIniRep[0], +partfehcaIniRep[1] - 1, +partfehcaIniRep[2]) > new Date(+partfechaFinRep[0], +partfechaFinRep[1] - 1, +partfechaFinRep[2])) {

@@ -33,238 +33,320 @@
   </div>
 </div>
 <br/>
-<div class="clr-row">
-  <label class="clr-col-2 form-informe-label">Nro Serie:</label>
-  <input clrControl class="clr-col-2" id="nroSerie"
-         name="nroSerie" #nroSerie
-         (keyup.enter)="onEnterNroSerie(nroSerie.value)"
-         (keyup)="onKeyNroSerie(nroSerie.value)"
-         [(ngModel)]="numeroSerie"/>
-  <label class="clr-col-2 form-informe-label">Nro Patrimonial:</label>
-  <input clrControl class="clr-col-2" id="numeroPatrimonial"
-         name="numeroPatrimonial" #nroPatrimonial
-         (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"
-         (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"
-         [(ngModel)]="numeroPatrimonial"/>
-</div>
-
-<!-- información del equipo-->
-<h3 class="form-informe-sub-title">Datos del Equipo</h3>
-<div class="clr-row">
-  <div class="clr-col-6">
-    <table class="table table-vertical">
-      <tbody>
-      <tr>
-        <th class="column-width">Tipo:</th>
-        <td>{{equipoSeleccionado?.tipoEquipo?.tipo}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Marca:</th>
-        <td>{{equipoSeleccionado?.modeloEquipo?.marca}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Modelo:</th>
-        <td>{{equipoSeleccionado?.modeloEquipo?.modelo}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Nro. Serie:</th>
-        <td>{{equipoSeleccionado?.numeroSerie}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Estado Contrato:</th>
-        <td>{{equipoSeleccionado?.contrato?.estadoContrato}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="clr-col-6">
-    <table class="table table-vertical">
-      <tbody>
-      <tr>
-        <th class="column-width">Nro. Patrimonial:</th>
-        <td>{{equipoSeleccionado?.numeroPatrimonial}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Ubicacion:</th>
-        <td>{{equipoSeleccionado?.ubicacion?.servicio}} {{equipoSeleccionado?.ubicacion?.bloque}}
-          {{equipoSeleccionado?.ubicacion?.numeroSala}} {{equipoSeleccionado?.ubicacion?.nivel}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Instalacion:</th>
-        <td>{{fechaInstalacion}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Estado del Equipo:</th>
-        <td>{{equipoSeleccionado?.estado}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- descripción del equipo-->
-<h3 class="form-informe-sub-title">Descripción del Equipo</h3>
-<div class="clr-row">
-  <div class="clr-col-6">
-    <table class="table table-vertical">
-      <tbody>
-      <tr>
-        <th class="column-width">Descripción:</th>
-        <td>{{equipoSeleccionado?.descripcionEquipo}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Costo:</th>
-        <td>{{equipoSeleccionado?.costo}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Fecha de Compra:</th>
-        <td>{{fechaCompra}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="clr-col-6">
-    <table class="table table-vertical">
-      <tbody>
-      <tr>
-        <th class="column-width">Fabricación:</th>
-        <td>{{fechaFabricacion}}</td>
-      </tr>
-      <tr>
-        <th class="column-width">Garantia:</th>
-        <td>{{fechaVenGarantia}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- medición de desempeño-->
-<h3 class="form-informe-sub-title">Medición de desempeño</h3>
-<div class="clr-row">
-  <div class="clr-col-6">
-    <table class="table table-vertical">
-      <tbody>
-      <tr>
-        <th class="column-width">El tiempo de inactividad:</th>
-        <td></td>
-      </tr>
-      <tr>
-        <th class="column-width">La medida de tiempo entre averias:</th>
-        <td></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="clr-col-6">
-    <table class="table table-vertical">
-      <tbody>
-      <tr>
-        <th class="column-width">La repetición de averias:</th>
-        <td></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- registro de servicios-->
-<h3 class="form-informe-sub-title">Registro de Servicios</h3>
-<br/>
-<!-- errors -->
-<div class="alert alert-danger" role="alert" *ngIf="errorServicios">
-  <div class="alert-items">
-    <div class="alert-item static">
-      <div class="alert-icon-wrapper">
-        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+<form clrForm>
+  <div class="clr-col-8">
+    <div class="clr-row">
+      <!--    numero de serie-->
+      <div class="clr-col-3">
+        <div class="clr-form-control">
+          <label class="tamanho-total clr-col-5 label-input">N. Serie:</label>
+          <div class="clr-control-container">
+            <div class="clr-input-wrapper">
+              <input type="text" class="clr-input" id="nroSerie" name="nroSerie" #nroSerie
+                     (keyup.enter)="onEnterNroSerie(nroSerie.value)"
+                     (keyup)="onKeyNroSerie(nroSerie.value)"
+                     [(ngModel)]="numeroSerie"/>
+            </div>
+          </div>
+        </div>
       </div>
-      <span class="alert-text">{{errorServiciosMessage}}</span>
+      <!--número patrimonial-->
+      <div class="clr-col-4">
+        <div class="clr-form-control">
+          <label class="tamanho-total clr-col-5 label-input">N. Patrimonial</label>
+          <div class="clr-control-container">
+            <div class="clr-input-wrapper">
+              <input type="text" class="clr-input" id="numeroPatrimonial" name="numeroPatrimonial" #nroPatrimonial
+                     (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"
+                     (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"
+                     [(ngModel)]="numeroPatrimonial"/>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <button type="button" class="close" aria-label="Close" (click)="errorServicios = false">
-    <clr-icon aria-hidden="true" shape="close"></clr-icon>
-  </button>
+
+  <!-- información del equipo-->
+  <h3 class="form-informe-sub-title">Datos del Equipo</h3>
+  <div class="clr-row">
+    <div class="clr-col-6">
+      <table class="table table-vertical">
+        <tbody>
+        <tr>
+          <th class="column-width">Tipo:</th>
+          <td>{{equipoSeleccionado?.tipoEquipo?.tipo}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Marca:</th>
+          <td>{{equipoSeleccionado?.marca?.marca}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Modelo:</th>
+          <td>{{equipoSeleccionado?.modelo?.modelo}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Nro. Serie:</th>
+          <td>{{equipoSeleccionado?.numeroSerie}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Estado Contrato:</th>
+          <td>{{equipoSeleccionado?.contrato?.estadoContrato}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="clr-col-6">
+      <table class="table table-vertical">
+        <tbody>
+        <tr>
+          <th class="column-width">Nro. Patrimonial:</th>
+          <td>{{equipoSeleccionado?.numeroPatrimonial}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Ubicacion:</th>
+          <td>{{equipoSeleccionado?.ubicacion?.servicio}} {{equipoSeleccionado?.ubicacion?.bloque}}
+            {{equipoSeleccionado?.ubicacion?.numeroSala}} {{equipoSeleccionado?.ubicacion?.nivel}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Instalacion:</th>
+          <td>{{fechaInstalacion}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Estado del Equipo:</th>
+          <td>{{equipoSeleccionado?.estado}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- descripción del equipo-->
+  <h3 class="form-informe-sub-title">Descripción del Equipo</h3>
+  <div class="clr-row">
+    <div class="clr-col-6">
+      <table class="table table-vertical">
+        <tbody>
+        <tr>
+          <th class="column-width">Descripción:</th>
+          <td>{{equipoSeleccionado?.descripcionEquipo}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Costo:</th>
+          <td>{{equipoSeleccionado?.costo}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Fecha de Compra:</th>
+          <td>{{fechaCompra}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="clr-col-6">
+      <table class="table table-vertical">
+        <tbody>
+        <tr>
+          <th class="column-width">Fabricación:</th>
+          <td>{{fechaFabricacion}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">Garantia:</th>
+          <td>{{fechaVenGarantia}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- medición de desempeño-->
+  <h3 class="form-informe-sub-title">Medición de desempeño</h3>
+  <!-- errors -->
+  <div class="alert alert-danger" role="alert" *ngIf="errorRepuestos">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{errorRepuestosMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="errorRepuestos = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+    <br/>
+  </div>
+
+  <div class="clr-row">
+    <clr-input-container>
+      <label>Fecha Inicio:</label>
+      <input clrInput type="date" [(ngModel)]="fechaIniMetrica" name="fechaIniMetrica"
+             min="1990-01-01" max="2050-12-31"/>
+    </clr-input-container>
+
+    <clr-input-container>
+      <label>Fecha Fin:</label>
+      <input clrInput type="date" [(ngModel)]="fechaFinMetrica" name="fechaFinMetrica"
+             min="1990-01-01" max="2050-12-31"/>
+    </clr-input-container>
+
+    <div class="clr-col-1 clr-align-self-end" *ngIf="equipoSeleccionado">
+      <button type="button" class="btn btn-sm btn-success"
+      (click)="buscarMetricasByEquipoAndFechas()">
+        <clr-icon shape="search"></clr-icon>
+      </button>
+    </div>
+  </div>
+  <div class="clr-row">
+    <div class="clr-col-6">
+      <table class="table table-vertical">
+        <tbody>
+        <tr>
+          <th class="column-width">El tiempo de inactividad:</th>
+          <td>{{metricasDTO?.totalDaysInactive}}</td>
+        </tr>
+        <tr>
+          <th class="column-width">La medida de tiempo entre averias:</th>
+          <td>{{metricasDTO?.mediaAverias}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="clr-col-6">
+      <table class="table table-vertical">
+        <tbody>
+        <tr>
+          <th class="column-width">La repetición de averias:</th>
+          <td>{{metricasDTO?.totalAverias}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- registro de servicios-->
+  <h3 class="form-informe-sub-title">Registro de Servicios</h3>
   <br/>
-</div>
-
-<div class="clr-row">
-  <label class="clr-col-2 form-informe-label">Fecha Inicio:</label>
-  <input type="date" name="fehcaIniServicio" [(ngModel)]="fehcaIniServicio"
-         min="1990-01-01" max="2050-12-31" tabindex="6">
-  <label class="clr-col-2 form-informe-label">Fecha fin:</label>
-  <input type="date" name="fechaFinServicio" [(ngModel)]="fechaFinServicio"
-         min="1990-01-01" max="2050-12-31" tabindex="6">
-  <div class="clr-col-2">
-    <a class="btn btn-sm btn-success"
-       (click)="filtrarManteniiento()">
-      <clr-icon shape="plus"></clr-icon>
-      Filtrar
-    </a>
+  <!-- errors -->
+  <div class="alert alert-danger" role="alert" *ngIf="errorServicios">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{errorServiciosMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="errorServicios = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+    <br/>
   </div>
-</div>
-<table class="table table-compact">
-  <thead>
-  <tr>
-    <th class="left">Fecha</th>
-    <th>Horas de uso del Equipo</th>
-    <th>Trabajo Realizado</th>
-    <th>Estado del Equipo</th>
-    <th>Informe Nro</th>
-    <th class="left">Tipo de Mantenimiento</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let mantenimiento of mantenimientos">
-    <td class="left">{{mantenimiento.fechaMantenimiento}}</td>
-    <td></td>
-    <td>{{mantenimiento.tareaRealizada}}</td>
-    <td></td>
-    <td>{{mantenimiento.informeNumero}}</td>
-    <td class="left"></td>
-  </tr>
-  </tbody>
-</table>
 
+  <div class="clr-row">
+    <clr-input-container>
+      <label>Fecha Inicio:</label>
+      <input clrInput type="date" name="fehcaIniServicio" [(ngModel)]="fehcaIniServicio"
+             min="1990-01-01" max="2050-12-31"/>
+    </clr-input-container>
 
-<!-- registro de repuestos-->
-<h3 class="form-informe-sub-title">Registro de Repuestos</h3>
-<br/>
-<!-- errors -->
-<div class="clr-row">
-  <label class="clr-col-2 form-informe-label">Fecha Inicio:</label>
-  <input type="date" name="fehcaIniRepuesto" [(ngModel)]="fehcaIniRepuesto"
-         min="1990-01-01" max="2050-12-31" tabindex="6">
-  <label class="clr-col-2 form-informe-label">Fecha fin:</label>
-  <input type="date" name="fechaFinRepuesto" [(ngModel)]="fechaFinRepuesto"
-         min="1990-01-01" max="2050-12-31" tabindex="6">
-  <div class="clr-col-2">
-    <a class="btn btn-sm btn-success"
-       (click)="filtrarRepuestos()">
-      <clr-icon shape="plus"></clr-icon>
-      Filtrar
-    </a>
+    <clr-input-container>
+      <label>Fecha Fin:</label>
+      <input clrInput type="date" name="fechaFinServicio" [(ngModel)]="fechaFinServicio"
+             min="1990-01-01" max="2050-12-31"/>
+    </clr-input-container>
+
+    <div class="clr-col-1 clr-align-self-end" *ngIf="equipoSeleccionado">
+      <button type="button" class="btn btn-sm btn-success"
+              (click)="filtrarManteniiento()">
+        <clr-icon shape="search"></clr-icon>
+      </button>
+    </div>
   </div>
-</div>
+  <table class="table table-compact">
+    <thead>
+    <tr>
+      <th class="left">Fecha</th>
+      <th>Horas de uso del Equipo</th>
+      <th>Trabajo Realizado</th>
+      <th>Estado del Equipo</th>
+      <th>Informe Nro</th>
+      <th class="left">Tipo de Mantenimiento</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let mantenimiento of mantenimientos">
+      <td class="left">{{mantenimiento.fechaMantenimiento}}</td>
+      <td></td>
+      <td>{{mantenimiento.tareaRealizada}}</td>
+      <td></td>
+      <td>{{mantenimiento.informeNumero}}</td>
+      <td class="left"></td>
+    </tr>
+    </tbody>
+  </table>
 
-<table class="table table-compact">
-  <thead>
-  <tr>
-    <th class="left">Fecha</th>
-    <th>Código</th>
-    <th>Descripción</th>
-    <th>Cantidad Solicitada</th>
-    <th>Precio Unitario</th>
-    <th class="left">Estado del Repuesto</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let detalle of solRepuestosDet">
-    <td class="left">{{detalle?.solicitud?.fechaSolicitud}}</td>
-    <td>{{detalle?.repuesto?.codigo}}</td>
-    <td>{{detalle?.repuesto?.descripcionArticulo}}</td>
-    <td>{{detalle?.cantidadSolicitada}}</td>
-    <td>{{detalle?.repuesto?.precio}}</td>
-    <td class="left">{{detalle?.solicitud?.estado}}</td>
-  </tr>
-  </tbody>
-</table>
+
+  <!-- registro de repuestos-->
+  <h3 class="form-informe-sub-title">Registro de Repuestos</h3>
+  <br/>
+  <!-- errors -->
+  <div class="alert alert-danger" role="alert" *ngIf="errorRepuestos">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{errorRepuestosMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="errorRepuestos = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+    <br/>
+  </div>
+
+  <div class="clr-row">
+    <clr-input-container>
+      <label>Fecha Inicio:</label>
+      <input clrInput type="date" name="fehcaIniRepuesto" [(ngModel)]="fehcaIniRepuesto"
+             min="1990-01-01" max="2050-12-31"/>
+    </clr-input-container>
+
+    <clr-input-container>
+      <label>Fecha Fin:</label>
+      <input clrInput type="date" name="fechaFinRepuesto" [(ngModel)]="fechaFinRepuesto"
+             min="1990-01-01" max="2050-12-31"/>
+    </clr-input-container>
+
+    <div class="clr-col-1 clr-align-self-end" *ngIf="equipoSeleccionado">
+      <button type="button" class="btn btn-sm btn-success"
+              (click)="filtrarRepuestos()">
+        <clr-icon shape="search"></clr-icon>
+      </button>
+    </div>
+  </div>
+
+  <table class="table table-compact">
+    <thead>
+    <tr>
+      <th class="left">Fecha</th>
+      <th>Código</th>
+      <th>Descripción</th>
+      <th>Cantidad Solicitada</th>
+      <th>Precio Unitario</th>
+      <th class="left">Estado del Repuesto</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let detalle of solRepuestosDet">
+      <td class="left">{{detalle?.solicitud?.fechaSolicitud}}</td>
+      <td>{{detalle?.repuesto?.codigo}}</td>
+      <td>{{detalle?.repuesto?.descripcionArticulo}}</td>
+      <td>{{detalle?.cantidadSolicitada}}</td>
+      <td>{{detalle?.repuesto?.precio}}</td>
+      <td class="left">{{detalle?.solicitud?.estado}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</form>

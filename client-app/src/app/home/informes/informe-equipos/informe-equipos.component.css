@@ -4,6 +4,7 @@
 
 .form-informe-title{
   text-align: center;
+  font-weight: bold !important;
 }
 
 .form-informe-sub-title{
@@ -13,4 +14,17 @@
 
 .column-width{
   width: 26% !important
+}
+
+.tamanho-total {
+  width: 100% !important;
+}
+
+.tamanho-medio{
+  width: 50% !important;
+}
+
+.label-input {
+  font-weight: bold !important;
+  color: #454545 !important;
 }
