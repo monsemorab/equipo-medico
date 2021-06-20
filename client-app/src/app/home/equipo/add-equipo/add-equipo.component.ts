@@ -418,7 +418,7 @@ export class AddEquipoComponent implements OnInit {
   crearYGuardarDatosEquipo() {
     this.equipo = new Equipo(null, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
       this.versionSw, this.descripcionEquipo, this.costo, this.repreSeleccionado, this.tipoSeleccionado,
-      this.modeloSeleccionado, this.marcaSeleccionada, this.ubicacionSeleccionada, this.licitacionCompra,
+      this.modeloSeleccionado, this.marcaSeleccionada, this.ubicacionSeleccionada, this.licitacionCompra, null,
       this.fechaFabricacion, this.fechaVenGarantia, this.fechaInstalacion, this.fechaCompra);
     this.saveEquipo(this.equipo);
   }

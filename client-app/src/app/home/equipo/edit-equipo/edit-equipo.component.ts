@@ -38,7 +38,7 @@ export class EditEquipoComponent implements OnInit {
   fechaVenGarantia: any;
   fechaInstalacion: any;
   fechaCompra: any;
-  contrato = Contrato;
+  contrato :Contrato;
 
 
   // modal para agregar/editar representante
@@ -108,7 +108,7 @@ export class EditEquipoComponent implements OnInit {
       ).subscribe(equipo => {
         this.equipo = new Equipo(equipo.id, equipo.numeroSerie, equipo.numeroPatrimonial, equipo.numeroLote,
           equipo.estado, equipo.versionSw, equipo.descripcionEquipo, equipo.costo, equipo.representante,
-          equipo.tipoEquipo, equipo.modelo, equipo.marca, equipo.ubicacion, equipo.licitacionCompra,
+          equipo.tipoEquipo, equipo.modelo, equipo.marca, equipo.ubicacion, equipo.licitacionCompra, equipo.contrato,
           equipo.fechaFabricacion, equipo.fechaVenGarantia, equipo.fechaInstalacion, equipo.fechaCompra);
         this.camposAEditar(this.equipo);
       },
@@ -253,12 +253,13 @@ export class EditEquipoComponent implements OnInit {
       this.ubicacionSeleccionada = equipo.ubicacion;
       this.ubicacionId = equipo.ubicacion.id;
     }
-    // if (equipo.contrato != null) {
-    //   // @ts-ignore
-    //   this.contrato = new Contrato(equipo.contrato.id, equipo.contrato.numeroContrato, equipo.contrato.nombreLicitacion,
-    //     equipo.contrato.tipoProcedimiento, equipo.contrato.numeroProcedimiento, equipo.contrato.estadoContrato,
-    //     equipo.contrato.convocante, equipo.contrato.equipos, equipo.contrato.fechaInicio, equipo.contrato.fechaFin);
-    // }
+    if (equipo.contrato != null) {
+      this.contrato = new Contrato(equipo.contrato.id, equipo.contrato.numeroContrato, equipo.contrato.nombreLicitacion,
+        equipo.contrato.tipoProcedimiento, equipo.contrato.numeroProcedimiento, equipo.contrato.estadoContrato,
+        equipo.contrato.convocante, equipo.contrato.equipos, equipo.contrato.fechaInicio, equipo.contrato.fechaFin);
+    } else {
+      this.contrato = null;
+    }
 
   }
 
@@ -479,9 +480,10 @@ export class EditEquipoComponent implements OnInit {
    * Se crean el equipo con los datos creados e ingresados
    */
   crearYGuardarDatosEquipo() {
-    this.equipo = new Equipo(this.equipoId, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
+
+    this.equipo = new Equipo( this.equipoId, this.numeroSerie, this.numeroPatrimonial, this.numeroLote, this.estado,
       this.versionSw, this.descripcionEquipo, this.costo, this.repreSeleccionado, this.tipoSeleccionado,
-      this.modeloSeleccionado, this.marcaSeleccionada, this.ubicacionSeleccionada, this.licitacionCompra,
+      this.modeloSeleccionado, this.marcaSeleccionada, this.ubicacionSeleccionada, this.licitacionCompra, this.contrato,
       this.fechaFabricacion, this.fechaVenGarantia, this.fechaInstalacion, this.fechaCompra);
     this.saveEquipo(this.equipo);
   }
