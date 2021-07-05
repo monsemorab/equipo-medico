@@ -203,7 +203,7 @@ public class EquipoServiceImpl implements EquipoService
 		int i = 0;
 		Long totalDays = Long.valueOf(0);
 		Long mediaAverias = Long.valueOf(0);
-		if(!registrosInoperativosList.isEmpty()) {
+		if(!registrosInoperativosList.isEmpty() && registrosInoperativosList.size()>1) {
 			while(i < registrosInoperativosList.size() - 1) {
 				LocalDateTime dateBefore = registrosInoperativosList.get(i).getFechaInicio();
 				LocalDateTime dateAfter = registrosInoperativosList.get(i + 1).getFechaInicio();
