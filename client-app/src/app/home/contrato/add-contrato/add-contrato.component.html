@@ -126,7 +126,6 @@
     <clr-dg-column class="table-header">Nro. Patrimonial</clr-dg-column>
     <clr-dg-column class="table-header">Ubicación</clr-dg-column>
     <clr-dg-column class="table-header">Estado del Equipo</clr-dg-column>
-    <clr-dg-column class="table-header">Estado del Contrato</clr-dg-column>
 
     <clr-dg-row *ngFor="let equipo of selectedEquipos"
                 (click)="onSelectEquipo(equipo)"
@@ -136,8 +135,11 @@
       <clr-dg-cell class="table-column">{{equipo.modelo?.modelo}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{equipo.numeroSerie}}</clr-dg-cell>
       <clr-dg-cell class="table-column">{{equipo.numeroPatrimonial}}</clr-dg-cell>
-      <clr-dg-cell class="table-column">{{equipo.ubicacion?.bloque}},
-        {{equipo.ubicacion?.numeroSala}}, {{equipo.ubicacion?.nivel}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">
+        {{equipo.ubicacion? 'bloque:' + equipo.ubicacion.bloque : ""}}
+        {{equipo.ubicacion? ' sala:' + equipo.ubicacion.numeroSala  : ""}}
+        {{equipo.ubicacion? ' nivel:' + equipo.ubicacion.nivel: ""}}
+      </clr-dg-cell>
       <clr-dg-cell class="table-column">{{equipo.estado}}</clr-dg-cell>
     </clr-dg-row>
   </clr-datagrid>

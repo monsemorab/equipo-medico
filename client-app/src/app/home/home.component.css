@@ -3,3 +3,9 @@
   margin-top: 14px !important;
   margin-left: 2% !important;
 }
+
+@media print {
+  .content-no-print {
+    display: none;
+  }
+}

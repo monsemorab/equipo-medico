@@ -119,6 +119,7 @@ export class EditContratoComponent implements OnInit {
     this.fechaInicio = datepipe.transform(contrato.fechaInicio, 'yyyy-MM-dd');
     this.fechaFin = datepipe.transform(contrato.fechaFin, 'yyyy-MM-dd');
     this.selectedEquipos = contrato.equipos;
+    this.formateoFechas();
   }
 
   /**

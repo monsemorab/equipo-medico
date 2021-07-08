@@ -16,6 +16,10 @@
     </button>
   </div>
 
+  <button class="btn btn-outline content-no-print"
+          onclick="window.print()">
+    Imprimir
+  </button>
 
   <!-- info -->
   <div class="alert alert-info" *ngIf="info">
@@ -34,7 +38,7 @@
 </div>
 <br/>
 <form clrForm>
-  <div class="clr-col-8">
+  <div class="clr-col-8 content-no-print">
     <div class="clr-row">
       <!--    numero de serie-->
       <div class="clr-col-3">
@@ -191,7 +195,7 @@
 
     <div class="clr-col-1 clr-align-self-end" *ngIf="equipoSeleccionado">
       <button type="button" class="btn btn-sm btn-success"
-      (click)="buscarMetricasByEquipoAndFechas()">
+      (click)="filtrarMetricas()">
         <clr-icon shape="search"></clr-icon>
       </button>
     </div>

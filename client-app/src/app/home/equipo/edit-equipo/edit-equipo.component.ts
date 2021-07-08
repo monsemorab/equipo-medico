@@ -98,10 +98,10 @@ export class EditEquipoComponent implements OnInit {
     this.ubicacionId = 'Agregar Ubicación';
     this.modelo = "";
     this.marca = "";
-    this.getAllRepresentantes();
-    this.getAllTipos();
     this.getAllMarcas();
-    this.getAllUbicaciones();
+    this.getAllTipos(null);
+    this.getAllRepresentantes(null);
+    this.getAllUbicaciones(null);
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => this.equipoService.getEquipoById(+params.get('id')))
@@ -122,27 +122,14 @@ export class EditEquipoComponent implements OnInit {
   /**
    * Se obtiene la lista de tipos de equipos.
    */
-  getAllTipos(): void {
+  getAllTipos(tipo: TipoEquipo): void {
     this.tipoEquipoService.getAllTipoEquipos().subscribe(
       tipos => {
         this.tipos = tipos;
-      },
-      error => {
-        this.errorMessage = error.error;
-        console.log(this.errorMessage)
-        this.error = true;
-      }
-    );
-  }
-
-
-  /**
-   * Se obtiene la lista de modelos existentes para los equipos.
-   */
-  getAllModelos(): void {
-    this.modeloService.getAllModeloEquipo().subscribe(
-      modelos => {
-        this.modelos= modelos;
+        if (tipo != null) {
+          this.tipoId = tipo.id;
+          this.tipoSeleccionado = tipo;
+        }
       },
       error => {
         this.errorMessage = error.error;
@@ -189,10 +176,14 @@ export class EditEquipoComponent implements OnInit {
   /**
    * Se obtiene la lista de representantes.
    */
-  getAllRepresentantes(): void {
+  getAllRepresentantes(repre: Representante): void {
     this.representanteService.getAllRepresentantes().subscribe(
       representantes => {
         this.representantes = representantes;
+        if (repre != null) {
+          this.repreId = repre.id;
+          this.repreSeleccionado = repre;
+        }
       },
       error => {
         this.errorMessage = error.error;
@@ -205,10 +196,14 @@ export class EditEquipoComponent implements OnInit {
   /**
    * Se obtiene la lista de ubicaciones de los equipos.
    */
-  getAllUbicaciones(): void {
+  getAllUbicaciones(ubicacion: Ubicacion): void {
     this.ubicacionEquipoService.getAllUbicaciones().subscribe(
       ubicaciones => {
         this.ubicaciones = ubicaciones;
+        if (ubicacion != null) {
+          this.ubicacionId = ubicacion.id;
+          this.ubicacionSeleccionada = ubicacion;
+        }
       },
       error => {
         this.errorMessage = error.error;
@@ -283,11 +278,7 @@ export class EditEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeTipoEquipoModal(value: TipoEquipo) {
-    if(value != null) {
-      this.tipoId = value.id;
-      this.tipoSeleccionado = value;
-      this.getAllTipos();
-    }
+    this.getAllTipos(value);
     this.modalAddEditTipoOpen = false;
   }
 
@@ -311,11 +302,7 @@ export class EditEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeRepresentanteModal(value: Representante) {
-    if(value != null) {
-      this.repreId = value.id;
-      this.repreSeleccionado = value;
-      this.getAllRepresentantes();
-    }
+    this.getAllRepresentantes(value);
     this.modalAddEditRepreOpen = false;
   }
 
@@ -339,11 +326,7 @@ export class EditEquipoComponent implements OnInit {
    * Cuando el control es devuelto a la pantalla principal.
    */
   closeUbicaionModal(value: Ubicacion) {
-    if(value != null) {
-      this.ubicacionId = value.id;
-      this.ubicacionSeleccionada = value;
-      this.getAllUbicaciones();
-    }
+    this.getAllUbicaciones(value);
     this.modalAddEditUbiOpen = false;
   }
 

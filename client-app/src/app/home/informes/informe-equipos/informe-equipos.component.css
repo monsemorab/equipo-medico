@@ -28,3 +28,9 @@
   font-weight: bold !important;
   color: #454545 !important;
 }
+
+@media print {
+  .content-no-print {
+    display: none;
+  }
+}
