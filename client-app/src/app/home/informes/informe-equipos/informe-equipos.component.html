@@ -16,11 +16,6 @@
     </button>
   </div>
 
-  <button class="btn btn-outline content-no-print"
-          onclick="window.print()">
-    Imprimir
-  </button>
-
   <!-- info -->
   <div class="alert alert-info" *ngIf="info">
     <div class="alert-items">
@@ -68,6 +63,11 @@
           </div>
         </div>
       </div>
+
+      <a class="btn btn-outline content-no-print btn-print"
+              onclick="window.print()">
+        Imprimir
+      </a>
     </div>
   </div>
 
@@ -181,19 +181,19 @@
   </div>
 
   <div class="clr-row">
-    <clr-input-container>
+    <clr-input-container class="content-no-print">
       <label>Fecha Inicio:</label>
       <input clrInput type="date" [(ngModel)]="fechaIniMetrica" name="fechaIniMetrica"
              min="1990-01-01" max="2050-12-31"/>
     </clr-input-container>
 
-    <clr-input-container>
+    <clr-input-container class="content-no-print">
       <label>Fecha Fin:</label>
       <input clrInput type="date" [(ngModel)]="fechaFinMetrica" name="fechaFinMetrica"
              min="1990-01-01" max="2050-12-31"/>
     </clr-input-container>
 
-    <div class="clr-col-1 clr-align-self-end" *ngIf="equipoSeleccionado">
+    <div class="clr-col-1 clr-align-self-end content-no-print" *ngIf="equipoSeleccionado">
       <button type="button" class="btn btn-sm btn-success"
       (click)="filtrarMetricas()">
         <clr-icon shape="search"></clr-icon>
@@ -204,6 +204,10 @@
     <div class="clr-col-6">
       <table class="table table-vertical">
         <tbody>
+        <tr class=" column-width content-print">
+          <th class="column-width">Fecha: </th>
+          <td>{{fechaIniMetrica }} al {{fechaFinMetrica}}</td>
+        </tr>
         <tr>
           <th class="column-width">El tiempo de inactividad:</th>
           <td>{{metricasDTO?.totalDaysInactive}}</td>
@@ -230,6 +234,21 @@
   <!-- registro de servicios-->
   <h3 class="form-informe-sub-title">Registro de Servicios</h3>
   <br/>
+  <!-- info -->
+  <div class="alert alert-info" role="alert" *ngIf="infoServicios">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="info-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{infoServiciosMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="infoServicios = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+  </div>
+
   <!-- errors -->
   <div class="alert alert-danger" role="alert" *ngIf="errorServicios">
     <div class="alert-items">
@@ -247,19 +266,19 @@
   </div>
 
   <div class="clr-row">
-    <clr-input-container>
+    <clr-input-container class="content-no-print">
       <label>Fecha Inicio:</label>
       <input clrInput type="date" name="fehcaIniServicio" [(ngModel)]="fehcaIniServicio"
              min="1990-01-01" max="2050-12-31"/>
     </clr-input-container>
 
-    <clr-input-container>
+    <clr-input-container class="content-no-print">
       <label>Fecha Fin:</label>
       <input clrInput type="date" name="fechaFinServicio" [(ngModel)]="fechaFinServicio"
              min="1990-01-01" max="2050-12-31"/>
     </clr-input-container>
 
-    <div class="clr-col-1 clr-align-self-end" *ngIf="equipoSeleccionado">
+    <div class="clr-col-1 clr-align-self-end content-no-print" *ngIf="equipoSeleccionado">
       <button type="button" class="btn btn-sm btn-success"
               (click)="filtrarManteniiento()">
         <clr-icon shape="search"></clr-icon>
@@ -293,6 +312,22 @@
   <!-- registro de repuestos-->
   <h3 class="form-informe-sub-title">Registro de Repuestos</h3>
   <br/>
+  <!-- info -->
+  <div class="alert alert-info" role="alert" *ngIf="infoRepuestos">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="info-circle"></clr-icon>
+        </div>
+        <span class="alert-text">{{infoRepuestosMessage}}</span>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="infoRepuestos = false">
+      <clr-icon aria-hidden="true" shape="close"></clr-icon>
+    </button>
+  </div>
+
+
   <!-- errors -->
   <div class="alert alert-danger" role="alert" *ngIf="errorRepuestos">
     <div class="alert-items">
@@ -310,19 +345,19 @@
   </div>
 
   <div class="clr-row">
-    <clr-input-container>
+    <clr-input-container class="content-no-print">
       <label>Fecha Inicio:</label>
       <input clrInput type="date" name="fehcaIniRepuesto" [(ngModel)]="fehcaIniRepuesto"
              min="1990-01-01" max="2050-12-31"/>
     </clr-input-container>
 
-    <clr-input-container>
+    <clr-input-container class="content-no-print">
       <label>Fecha Fin:</label>
       <input clrInput type="date" name="fechaFinRepuesto" [(ngModel)]="fechaFinRepuesto"
              min="1990-01-01" max="2050-12-31"/>
     </clr-input-container>
 
-    <div class="clr-col-1 clr-align-self-end" *ngIf="equipoSeleccionado">
+    <div class="clr-col-1 clr-align-self-end content-no-print" *ngIf="equipoSeleccionado">
       <button type="button" class="btn btn-sm btn-success"
               (click)="filtrarRepuestos()">
         <clr-icon shape="search"></clr-icon>

@@ -54,6 +54,10 @@ export class InformeEquiposComponent implements OnInit {
   errorRepuestos: boolean;
   errorMetricas: boolean;
   info: boolean;
+  infoServicios: boolean;
+  infoServiciosMessage: string;
+  infoRepuestos: boolean;
+  infoRepuestosMessage: string;
 
   constructor(private equipoService: EquipoService,
               private mantenimientoService: ManteniminetoService,
@@ -205,10 +209,13 @@ export class InformeEquiposComponent implements OnInit {
         if (mantenimientos.length > 0) {
           this.formateoFechasServicios();
           this.habilitarBtnManFilter = true;
+        } else {
+          this.infoServiciosMessage = "El equipo no cuenta con mantenimientos realidos dentro del rango de fechas ingresado.";
+          this.infoServicios = true;
         }
       },
       error => {
-        this.errorMessage = error.error;
+        this.errorServiciosMessage = error.error;
         console.log(this.errorMessage);
       }
     );
@@ -222,13 +229,13 @@ export class InformeEquiposComponent implements OnInit {
     if (this.fehcaIniServicio != '' && this.fechaFinServicio != '') {
       const partfehcaIni = this.fehcaIniServicio.split('-');
       const partfechaFin = this.fechaFinServicio.split('-');
-      this.fehcaIniServicio = partfehcaIni[0] + '/' + partfehcaIni[1] + '/' + partfehcaIni[2];
-      this.fechaFinServicio = partfechaFin[0] + '/' + partfechaFin[1] + '/' + partfechaFin[2];
+      const fehcaIni = partfehcaIni[0] + '/' + partfehcaIni[1] + '/' + partfehcaIni[2];
+      const fechaFin = partfechaFin[0] + '/' + partfechaFin[1] + '/' + partfechaFin[2];
       if (new Date(+partfehcaIni[0], +partfehcaIni[1] - 1, +partfehcaIni[2]) > new Date(+partfechaFin[0], +partfechaFin[1] - 1, +partfechaFin[2])) {
         this.errorServiciosMessage = "La fecha final no puede ser mayor a la fecha inicial.";
         this.errorServicios = true;
       } else {
-        this.buscarMantenimientoByEquipoAndRangoFechas(this.equipoSeleccionado.id, this.fehcaIniServicio, this.fechaFinServicio);
+        this.buscarMantenimientoByEquipoAndRangoFechas(this.equipoSeleccionado.id, fehcaIni, fechaFin);
       }
     } else {
       this.buscarMantenimientoByEquipo(this.equipoSeleccionado.id);
@@ -250,7 +257,8 @@ export class InformeEquiposComponent implements OnInit {
         }
       },
       error => {
-        this.errorMessage = error.error;
+        this.errorRepuestosMessage = error.error;
+        this.errorRepuestos = true;
         console.log(this.errorMessage);
       }
     );
@@ -269,10 +277,13 @@ export class InformeEquiposComponent implements OnInit {
         if (detalles.length > 0) {
           this.formateoFechasRepuestosDet();
           this.habilitarBtnRepFilter = true;
+        } else {
+          this.infoRepuestosMessage = "El equipo no cuenta con solicitudes de repuestos dentro del rango de fechas ingresado.";
+          this.infoRepuestos = true;
         }
       },
       error => {
-        this.errorMessage = error.error;
+        this.errorRepuestosMessage = error.error;
         console.log(this.errorMessage);
       }
     );
@@ -286,13 +297,13 @@ export class InformeEquiposComponent implements OnInit {
     if (this.fehcaIniRepuesto != '' && this.fechaFinRepuesto != '') {
       const partfehcaIniRep = this.fehcaIniRepuesto.split('-');
       const partfechaFinRep = this.fechaFinRepuesto.split('-');
-      this.fehcaIniRepuesto = partfehcaIniRep[0] + '/' + partfehcaIniRep[1] + '/' + partfehcaIniRep[2];
-      this.fechaFinRepuesto = partfechaFinRep[0] + '/' + partfechaFinRep[1] + '/' + partfechaFinRep[2];
+      const fehcaIniRe = partfehcaIniRep[0] + '/' + partfehcaIniRep[1] + '/' + partfehcaIniRep[2];
+      const fechaFinRe = partfechaFinRep[0] + '/' + partfechaFinRep[1] + '/' + partfechaFinRep[2];
       if (new Date(+partfehcaIniRep[0], +partfehcaIniRep[1] - 1, +partfehcaIniRep[2]) > new Date(+partfechaFinRep[0], +partfechaFinRep[1] - 1, +partfechaFinRep[2])) {
         this.errorRepuestosMessage = "La fecha final no puede ser mayor a la fecha inicial.";
         this.errorRepuestos = true;
       } else {
-        this.buscarSolicitudRepuestosByEquipoAndRangoFechas(this.equipoSeleccionado.id, this.fehcaIniRepuesto, this.fechaFinRepuesto);
+        this.buscarSolicitudRepuestosByEquipoAndRangoFechas(this.equipoSeleccionado.id, fehcaIniRe, fechaFinRe);
       }
     } else {
       this.buscarSolicitudRepuestosByEquipo(this.equipoSeleccionado.id);

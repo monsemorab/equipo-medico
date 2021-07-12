@@ -19,3 +19,17 @@
   font-weight: bold !important;
   color: #454545 !important;
 }
+
+.column-width{
+  width: 26% !important
+}
+
+.btn-print {
+  margin-top: 1% !important;
+}
+
+@media print {
+  .content-no-print {
+    display: none;
+  }
+}

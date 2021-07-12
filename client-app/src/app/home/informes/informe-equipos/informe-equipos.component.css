@@ -13,7 +13,7 @@
 }
 
 .column-width{
-  width: 26% !important
+  width: 36% !important
 }
 
 .tamanho-total {
@@ -29,8 +29,20 @@
   color: #454545 !important;
 }
 
+.btn-print {
+  margin-top: 1% !important;
+}
+
+.content-print {
+  display: none;
+}
+
 @media print {
   .content-no-print {
     display: none;
+  }
+
+  .content-print {
+    display: block;
   }
 }

@@ -8,4 +8,7 @@
   .content-no-print {
     display: none;
   }
+  .host {
+    display: none;
+  }
 }
