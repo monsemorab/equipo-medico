@@ -133,7 +133,6 @@
             <label class="clr-col-5">Modelo:</label>
             <select clrSelect name="tipoId" [(ngModel)]="modeloId" [disabled]="readonlyField"
                     (ngModelChange)="onSelectModelo()">
-              <option disabled>Seleccionar Representante</option>
               <option disabled>Seleccionar Modelo</option>
               <option *ngFor="let modelo of modelos"
                       value={{modelo.id}}>{{modelo.modelo}}

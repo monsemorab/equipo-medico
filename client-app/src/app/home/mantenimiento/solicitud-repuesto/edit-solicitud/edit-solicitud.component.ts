@@ -5,6 +5,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 import {DatePipe} from "@angular/common";
 import {SolicitudRepuestoDetalle} from "../../../../domain/solicitud-repuesto-detalle";
+import {Repuesto} from "../../../../domain/repuesto";
 
 @Component({
   selector: 'app-edit-solicitud',

@@ -58,6 +58,7 @@ export class InformeEquiposComponent implements OnInit {
   infoServiciosMessage: string;
   infoRepuestos: boolean;
   infoRepuestosMessage: string;
+  showData = true;
 
   constructor(private equipoService: EquipoService,
               private mantenimientoService: ManteniminetoService,
@@ -136,8 +137,10 @@ export class InformeEquiposComponent implements OnInit {
         this.errorMessage = error.error;
         console.log(this.errorMessage);
         if (this.errorMessage == null && error.status == '404') {
-          this.errorMessage = 'No existe el equipo buscado ';
+          let message = 'No existe el equipo buscado ';
+          this.errorMessage = this.numeroSerie != ''? message + this.numeroSerie: message + this.numeroPatrimonial ;
           this.info = true;
+          this.limpiarCamposInfo();
         } else {
           console.log(this.errorMessage)
           this.error = true;
@@ -330,6 +333,35 @@ export class InformeEquiposComponent implements OnInit {
     this.fechaVenGarantia = datepipe.transform(equipo.fechaVenGarantia, 'yyyy-MM-dd');
     this.fechaInstalacion = datepipe.transform(equipo.fechaInstalacion, 'yyyy-MM-dd');
     this.fechaCompra = datepipe.transform(equipo.fechaCompra, 'yyyy-MM-dd');
+  }
+
+  limpiarCamposInfo() {
+    this.equipoSeleccionado = null;
+    this.numeroSerie = "";
+    this.numeroPatrimonial = "";
+    this.requestEquipo = null;
+    this.fechaFabricacion = "";
+    this.fechaVenGarantia = "";
+    this.fechaInstalacion = "";
+    this.fechaCompra = "";
+
+    // desempeño
+    this.metricasDTO = null;
+    this.fechaIniMetrica = "";
+    this.fechaFinMetrica = "";
+    this.habilitarBtnMetricaFilter = false;
+
+    // mantenimiento
+    this.mantenimientos = [];
+    this.fehcaIniServicio = "";
+    this.fechaFinServicio = "";
+    this.habilitarBtnManFilter = false;
+
+    // repuesto
+    this.solRepuestosDet = [];
+    this.fehcaIniRepuesto = "";
+    this.fechaFinRepuesto = "";
+    this.habilitarBtnRepFilter = false;
   }
 
 }

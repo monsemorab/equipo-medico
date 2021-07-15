@@ -3,6 +3,7 @@ import {Equipo} from "../../../domain/equipo";
 import {Contrato} from "../../../domain/contrato";
 import {ContratoService} from "../../../service/contrato.service";
 import {DatePipe} from "@angular/common";
+import {MetricasDTO} from "../../../domain/metricas-dto";
 
 @Component({
   selector: 'app-informe-contratos',
@@ -67,12 +68,21 @@ export class InformeContratosComponent implements OnInit {
         if (this.errorMessage == null && error.status == '404') {
           this.errorMessage = 'No existe el contrato buscado ';
           this.info = true;
+          this.limpiarCamposInfo();
         } else {
           console.log(this.errorMessage)
           this.error = true;
         }
       }
     );
+  }
+
+  limpiarCamposInfo() {
+    this.contrato = null;
+    this.numeroContrato = "";
+    this.fechaInicio = "";
+    this.fechaFin = "";
+    this.equipos = [];
   }
 
 }

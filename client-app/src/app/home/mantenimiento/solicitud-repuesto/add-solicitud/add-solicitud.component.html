@@ -48,7 +48,7 @@
           <td class="table-column">{{detalle.repuesto?.modelo.modelo}}</td>
           <td class="table-column">{{detalle.repuesto?.representante?.nombre}}</td>
           <td class="table-column " style="text-align: right">{{detalle.repuesto?.precio}}</td>
-          <td class="table-column" style="text-align: center">{{detalle.cantidadSolicitad}}</td>
+          <td class="table-column" style="text-align: center">{{detalle.cantidadSolicitada}}</td>
           <td>
             <button type="button" pButton pRipple icon="pi pi-pencil" class="p-button-success" (click)="editRepuesto(detalle)"></button>
             <button type="button" pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="eliminarDetalleRepuesto(detalle)"></button>
@@ -77,6 +77,7 @@
 
 <!--Modal para agregar o editar los datos de un repuesto-->
 <app-solicitud-repuesto-detalle *ngIf="modalAddEditDetalleOpen"
+                                [solicitudRepuesto]="solicitudRepuesto"
                                 [solicitudRepuestoDetalle]="detalleSeleccionado"
                                 [isEditRepuesto]="isEditDetalle"
                                 [isAtenderOT]="false"
