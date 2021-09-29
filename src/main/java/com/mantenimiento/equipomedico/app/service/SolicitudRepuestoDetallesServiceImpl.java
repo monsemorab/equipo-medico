@@ -90,4 +90,10 @@ public class SolicitudRepuestoDetallesServiceImpl implements SolicitudRepuestoDe
 		return solicitudRepuestoDetallesRepository.getAllByEquipoId(id);
 	}
 
+	@Override
+	public void removeById(long id)
+	{
+		solicitudRepuestoDetallesRepository.deleteById(id);
+	}
+
 }

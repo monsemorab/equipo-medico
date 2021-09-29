@@ -13,7 +13,7 @@ public interface MantenimientoRepository extends CrudRepository<Mantenimiento, L
 
 	@Query(value = "SELECT * FROM mantenimiento m JOIN " +
 		"orden_trabajo ot ON m.id = ot.mantenimiento_id " +
-		"WHERE ot.equipo_id = ?1 AND m.fecha_manteniminento " +
+		"WHERE ot.equipo_id = ?1 AND cast(m.fecha_manteniminento as date) "+
 		"BETWEEN ?2 AND ?3", nativeQuery = true)
 	List<Mantenimiento> getAllByEquipoIdAAndFechaMantenimiento(Long equipoId, Date fechaInicio, Date fechaFin);
 

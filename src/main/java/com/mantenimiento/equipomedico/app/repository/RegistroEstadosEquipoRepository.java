@@ -15,7 +15,7 @@ public interface RegistroEstadosEquipoRepository extends CrudRepository<Registro
 	RegistroEstadosEquipo getRegistroEstadosEquipoByEquipoIdAndFechaFinIsNull(Long equipoId);
 
 	@Query(value = "SELECT * FROM registro_estados_equipo ree " +
-		"WHERE ree.equipo_id = ?1 AND ree.fecha_inicio " +
+		"WHERE ree.equipo_id = ?1 AND cast(ree.fecha_inicio as date) "+
 		"BETWEEN ?2 AND ?3", nativeQuery = true)
 	List<RegistroEstadosEquipo> getAllByEquipoIdAAndFechaInicioBetween(Long equipoId, Date fechaInicio, Date fechaFin);
 

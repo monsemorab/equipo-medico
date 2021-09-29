@@ -1,10 +1,8 @@
 package com.mantenimiento.equipomedico.app.service;
 
-import com.mantenimiento.equipomedico.app.entidad.Mantenimiento;
 import com.mantenimiento.equipomedico.app.entidad.Repuesto;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

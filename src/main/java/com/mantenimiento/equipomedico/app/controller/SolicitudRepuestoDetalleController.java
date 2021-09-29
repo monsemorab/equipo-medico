@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,6 +113,19 @@ public class SolicitudRepuestoDetalleController
 	@RequestMapping(value = "by-equipo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<SolicitudRepuestoDetalles> getAllByEquipoId(@RequestParam Long id) {
 		return solicitudRepuestoDetalleService.getAllByEquipoId(id);
+	}
+
+	/**
+	 * Elimina un detalle de solicitud de repuesto.
+	 *
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping("/{id}")
+	public ResponseEntity<SolicitudRepuestoDetalles> removeSolicitudRepuestoDetalleById(@PathVariable("id") Long id)
+	{
+		solicitudRepuestoDetalleService.removeById(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }

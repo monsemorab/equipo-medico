@@ -54,4 +54,6 @@ public interface SolicitudRepuestoDetalleService
 
     List<SolicitudRepuestoDetalles> getAllByEquipoId(Long id);
 
+    void removeById(long id);
+
 }

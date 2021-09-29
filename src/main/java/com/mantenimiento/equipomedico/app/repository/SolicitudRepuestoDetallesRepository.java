@@ -18,7 +18,7 @@ public interface SolicitudRepuestoDetallesRepository extends CrudRepository<Soli
 		"JOIN repuesto r ON r.id = srd.repuesto_id\n" +
 		"JOIN solicitud_repuesto sr ON srd.solicitud_id = sr.id\n" +
 		"JOIN orden_trabajo ot ON sr.id = ot.solicitud_repuesto_id\n" +
-		"WHERE ot.equipo_id = ?1 AND ot.fecha_solicitud " +
+		"WHERE ot.equipo_id = ?1 AND cast(ot.fecha_solicitud as date) " +
 		"BETWEEN ?2 AND ?3", nativeQuery = true)
 	List<SolicitudRepuestoDetalles> getAllByEquipoIdAndFecha(Long equipoId, Date fechaInicio, Date fechaFin);
 
