@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "heroku-postbuild": "ng build --prod && npm install -g http-server-spa",
     "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",

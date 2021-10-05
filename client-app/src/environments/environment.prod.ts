@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  service_uri: 'https://equipo-medico.herokuapp.com/api'
 };
