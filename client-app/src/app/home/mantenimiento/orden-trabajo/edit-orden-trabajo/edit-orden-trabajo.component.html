@@ -177,6 +177,10 @@
         </option>
       </select>
     </clr-select-container>
+    <div *ngIf="solicitudRepuesto != null">
+      <p class="label-input ">Solicitud Repuesto ID: {{solicitudRepuesto?.id}}</p>
+    </div>
+
   </div>
   <br/>
   <div class="card">
