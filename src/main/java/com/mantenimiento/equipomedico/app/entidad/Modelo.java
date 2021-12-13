@@ -20,7 +20,7 @@ public class Modelo implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "modelo")
+    @Column(name = "modelo", unique = true)
     private String modelo;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegistroEstadosEquipoRepository extends CrudRepository<RegistroEstadosEquipo, Long>{
 
+	@Query(value = "SELECT * FROM registro_estados_equipo ree " +
+		"WHERE ree.equipo_id = ?1 AND ree.fecha_fin is NULL ORDER BY ree.id DESC LIMIT 1", nativeQuery = true)
 	RegistroEstadosEquipo getRegistroEstadosEquipoByEquipoIdAndFechaFinIsNull(Long equipoId);
 
 	@Query(value = "SELECT * FROM registro_estados_equipo ree " +

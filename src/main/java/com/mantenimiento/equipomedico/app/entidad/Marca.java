@@ -24,7 +24,7 @@ public class Marca implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "marca")
+    @Column(name = "marca", unique = true)
     private String marca;
 
     /**
