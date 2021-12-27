@@ -10,8 +10,8 @@ import {Router} from '@angular/router';
 import {ModeloService} from '../../../service/modelo.service';
 import {TipoEquipoService} from '../../../service/tipo-equipo.service';
 import {UbicacionEquipoService} from '../../../service/ubicacion-equipo.service';
-import {Marca} from "../../../domain/marca";
-import {MarcaService} from "../../../service/marca.service";
+import {Marca} from '../../../domain/marca';
+import {MarcaService} from '../../../service/marca.service';
 
 @Component({
   selector: 'app-add-equipo',
@@ -92,13 +92,13 @@ export class AddEquipoComponent implements OnInit {
     this.marcaId = 'Seleccionar Marca';
     this.repreId = 'Agregar Representante';
     this.ubicacionId = 'Agregar Ubicación';
-    this.modelo = "";
-    this.marca = "";
+    this.modelo = '';
+    this.marca = '';
     this.getAllMarcas();
     this.getAllRepresentantes(null);
     this.getAllTipos(null);
     this.getAllUbicaciones(null);
-    this.estado = "Operativo";
+    this.estado = 'Operativo';
   }
 
   /**
@@ -115,7 +115,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -132,7 +132,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -149,7 +149,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -170,7 +170,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -190,7 +190,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -279,7 +279,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -290,7 +290,7 @@ export class AddEquipoComponent implements OnInit {
    */
   onSelectModelo() {
     if (this.modeloId === 'Seleccionar Modelo') {
-      this.modeloFueSeleccionado = false
+      this.modeloFueSeleccionado = false;
     } else {
       this.modeloService.getModeloEquipoById(this.modeloId).subscribe(
         modelo => {
@@ -300,7 +300,7 @@ export class AddEquipoComponent implements OnInit {
         error => {
           this.errorMessage = error.error;
           this.modeloFueSeleccionado = false;
-          console.log(this.errorMessage)
+          console.log(this.errorMessage);
           this.error = true;
         }
       );
@@ -315,7 +315,7 @@ export class AddEquipoComponent implements OnInit {
       this.modelos = [];
       this.modeloId = 'Seleccionar Modelo';
       this.marcaFueSeleccionada = false;
-      this.modeloFueSeleccionado = false
+      this.modeloFueSeleccionado = false;
     } else {
       this.marcaService.getMarcaEquipoById(this.marcaId).subscribe(
         marca => {
@@ -326,7 +326,7 @@ export class AddEquipoComponent implements OnInit {
         error => {
           this.errorMessage = error.error;
           this.marcaFueSeleccionada = false;
-          console.log(this.errorMessage)
+          console.log(this.errorMessage);
           this.error = true;
         }
       );
@@ -343,7 +343,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -359,7 +359,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -370,33 +370,31 @@ export class AddEquipoComponent implements OnInit {
    */
   onSaveEquipo(): void {
     if (typeof this.fechaVenGarantia === 'string' || this.fechaVenGarantia instanceof String) {
-      let parts = this.fechaVenGarantia.split('-');
+      const parts = this.fechaVenGarantia.split('-');
       this.fechaVenGarantia = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     if (typeof this.fechaInstalacion === 'string' || this.fechaInstalacion instanceof String) {
-      let parts = this.fechaInstalacion.split('-');
+      const parts = this.fechaInstalacion.split('-');
       this.fechaInstalacion = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     if (typeof this.fechaCompra === 'string' || this.fechaCompra instanceof String) {
-      let parts = this.fechaCompra.split('-');
+      const parts = this.fechaCompra.split('-');
       this.fechaCompra = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     // se verifica si la marca ingresada ya existe, si no, se crea una nueva entrada en la BD
-    if (this.marca !== "") {
+    if (this.marca !== '') {
       this.marcaSeleccionada = this.getMarcaByName(this.marca);
     }
 
     if (this.marcaSeleccionada.id == null) {
       this.crearMarca();
     } else {
-      // se verifica si el modelo ingresado ya existe, si no, se crea una nueva entrada en la BD
-      if (this.modelo !== "") {
-        this.modeloSeleccionado = this.getModeloByName(this.modelo, this.marcaSeleccionada);
+      if (this.modelo !== ' ') {
         this.crearModelo();
-       } else {
+      } else {
         this.crearYGuardarDatosEquipo();
       }
     }
@@ -426,7 +424,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
       }
     );
   }
@@ -442,7 +440,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
       }
     );
   }
@@ -454,24 +452,11 @@ export class AddEquipoComponent implements OnInit {
   getMarcaByName(marcaIngresada: string): Marca {
     for (let i = 0; i < this.marcas.length; i++) {
       if (marcaIngresada === this.marcas[i].marca) {
+        this.getAllModelosByMarca(this.marcas[i].id);
         return this.marcas[i];
       }
     }
     return new Marca(null, this.marca);
-  }
-
-  /**
-   * Verificamos si el modelo ingresado existe en la BD, si no es el caso, se devuelve una nueva instancia
-   * @param modeloIngresado
-   * @param marca
-   */
-  getModeloByName(modeloIngresado: string, marca: Marca): Modelo{
-    for (let i = 0; i < this.modelos.length; i++) {
-      if (modeloIngresado === this.modelos[i].modelo) {
-        return this.modelos[i];
-      }
-    }
-    return new Modelo(null, this.modelo, marca);
   }
 
   /**
@@ -487,7 +472,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -503,7 +488,7 @@ export class AddEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );

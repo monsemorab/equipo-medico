@@ -9,12 +9,12 @@ import {RepresentanteService} from '../../../service/representante.service';
 import {switchMap} from 'rxjs/operators';
 import {TipoEquipoService} from '../../../service/tipo-equipo.service';
 import {UbicacionEquipoService} from '../../../service/ubicacion-equipo.service';
-import {DatePipe} from "@angular/common";
-import {Modelo} from "../../../domain/modelo";
-import {ModeloService} from "../../../service/modelo.service";
-import {Marca} from "../../../domain/marca";
-import {MarcaService} from "../../../service/marca.service";
-import {Contrato} from "../../../domain/contrato";
+import {DatePipe} from '@angular/common';
+import {Modelo} from '../../../domain/modelo';
+import {ModeloService} from '../../../service/modelo.service';
+import {Marca} from '../../../domain/marca';
+import {MarcaService} from '../../../service/marca.service';
+import {Contrato} from '../../../domain/contrato';
 
 @Component({
   selector: 'app-edit-equipo',
@@ -38,7 +38,7 @@ export class EditEquipoComponent implements OnInit {
   fechaVenGarantia: any;
   fechaInstalacion: any;
   fechaCompra: any;
-  contrato :Contrato;
+  contrato: Contrato;
 
 
   // modal para agregar/editar representante
@@ -96,8 +96,8 @@ export class EditEquipoComponent implements OnInit {
     this.marcaId = 'Seleccionar Marca';
     this.repreId = 'Agregar Representante';
     this.ubicacionId = 'Agregar Ubicación';
-    this.modelo = "";
-    this.marca = "";
+    this.modelo = '';
+    this.marca = '';
     this.getAllMarcas();
     this.getAllTipos(null);
     this.getAllRepresentantes(null);
@@ -114,7 +114,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       });
   }
@@ -133,7 +133,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -146,11 +146,11 @@ export class EditEquipoComponent implements OnInit {
   getAllModelosByMarca(marcaId): void {
     this.modeloService.getAllModeloByMarca(marcaId).subscribe(
       modelos => {
-        this.modelos= modelos;
+        this.modelos = modelos;
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -167,7 +167,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -187,7 +187,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -207,7 +207,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -232,8 +232,9 @@ export class EditEquipoComponent implements OnInit {
     this.fechaInstalacion = datepipe.transform(equipo.fechaInstalacion, 'yyyy-MM-dd');
     this.fechaCompra  = datepipe.transform(equipo.fechaCompra, 'yyyy-MM-dd');
     this.tipoSeleccionado = equipo.tipoEquipo;
-    this.tipoId = equipo.tipoEquipo.id;
-
+    if (equipo.tipoEquipo != null) {
+      this.tipoId = equipo.tipoEquipo.id;
+    }
     this.marcaSeleccionada = equipo.marca;
     this.marcaId = this.marcaSeleccionada.id;
     this.marcaFueSeleccionada = true;
@@ -340,7 +341,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -358,7 +359,7 @@ export class EditEquipoComponent implements OnInit {
       error => {
         this.errorMessage = error.error;
         this.modeloFueSeleccionado = false;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -383,7 +384,7 @@ export class EditEquipoComponent implements OnInit {
         error => {
           this.errorMessage = error.error;
           this.marcaFueSeleccionada = false;
-          console.log(this.errorMessage)
+          console.log(this.errorMessage);
           this.error = true;
         }
       );
@@ -400,7 +401,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -416,7 +417,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -427,22 +428,22 @@ export class EditEquipoComponent implements OnInit {
    */
   onSaveEquipo(): void {
     if (typeof this.fechaVenGarantia === 'string' || this.fechaVenGarantia instanceof String) {
-      let parts = this.fechaVenGarantia.split('-');
+      const parts = this.fechaVenGarantia.split('-');
       this.fechaVenGarantia = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     if (typeof this.fechaInstalacion === 'string' || this.fechaInstalacion instanceof String) {
-      let parts = this.fechaInstalacion.split('-');
+      const parts = this.fechaInstalacion.split('-');
       this.fechaInstalacion = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     if (typeof this.fechaCompra === 'string' || this.fechaCompra instanceof String) {
-      let parts = this.fechaCompra.split('-');
+      const parts = this.fechaCompra.split('-');
       this.fechaCompra = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
     // se verifica si la marca ingresada ya existe, si no, se crea una nueva entrada en la BD
-    if(this.marca !== "") {
+    if (this.marca !== '') {
       this.marcaSeleccionada = this.getMarcaByName(this.marca);
     }
 
@@ -450,8 +451,7 @@ export class EditEquipoComponent implements OnInit {
       this.crearMarca();
     } else {
       // se verifica si el modelo ingresado ya existe, si no, se crea una nueva entrada en la BD
-      if (this.modelo !== "") {
-        this.modeloSeleccionado = this.getModeloByName(this.modelo, this.marcaSeleccionada);
+      if (this.modelo !== ' ') {
         this.crearModelo();
       } else {
         this.crearYGuardarDatosEquipo();
@@ -484,7 +484,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
       }
     );
   }
@@ -500,7 +500,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
       }
     );
   }
@@ -519,20 +519,6 @@ export class EditEquipoComponent implements OnInit {
   }
 
   /**
-   * Verificamos si el modelo ingresado existe en la BD, si no es el caso, se devuelve una nueva instancia
-   * @param modeloIngresado
-   * @param marca
-   */
-  getModeloByName(modeloIngresado: string, marca: Marca): Modelo{
-    for (let i = 0; i < this.modelos.length; i++) {
-      if (modeloIngresado === this.modelos[i].modelo) {
-        return this.modelos[i];
-      }
-    }
-    return new Modelo(null, this.modelo, marca);
-  }
-
-  /**
    * Se actualiza el equipo seleccionado.
    * @param equipo
    */
@@ -544,7 +530,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
@@ -560,7 +546,7 @@ export class EditEquipoComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error;
-        console.log(this.errorMessage)
+        console.log(this.errorMessage);
         this.error = true;
       }
     );
