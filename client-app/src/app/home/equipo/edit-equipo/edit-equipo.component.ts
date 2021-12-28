@@ -450,8 +450,8 @@ export class EditEquipoComponent implements OnInit {
     if (this.marcaSeleccionada.id == null) {
       this.crearMarca();
     } else {
-      // se verifica si el modelo ingresado ya existe, si no, se crea una nueva entrada en la BD
       if (this.modelo !== ' ') {
+        this.modeloSeleccionado = new Modelo(null, this.modelo, this.marcaSeleccionada);
         this.crearModelo();
       } else {
         this.crearYGuardarDatosEquipo();

@@ -393,6 +393,7 @@ export class AddEquipoComponent implements OnInit {
       this.crearMarca();
     } else {
       if (this.modelo !== ' ') {
+        this.modeloSeleccionado = new Modelo(null, this.modelo, this.marcaSeleccionada);
         this.crearModelo();
       } else {
         this.crearYGuardarDatosEquipo();
