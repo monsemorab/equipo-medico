@@ -9,7 +9,7 @@ import {EstadoSolicitud} from "../../domain/solicitud-repuesto";
 
 export const SERVICIO: TipoServicio [] = [
   new TipoServicio('PREVENTIVO'),
-  new TipoServicio('OPERATIVO')
+  new TipoServicio('CORRECTIVO')
 ];
 
 export const ESTADO_CONTRATO: EstadoContrato[] = [

@@ -78,14 +78,14 @@ public class ContratoServiceImpl implements ContratoService {
     public List<Contrato> getContratosByFilter(
         Map<String, String> customQuery)
     {
-        String numeroContrato = null;
+        String id = null;
         String tipoProcedimiento = null;
         String estadoContrato = null;
         if(customQuery.containsKey("tipo")) {
             customQuery.get("tipo");
         }
-        if(customQuery.containsKey("numeroContrato")) {
-            numeroContrato = customQuery.get("numeroContrato");
+        if(customQuery.containsKey("id")) {
+            id = customQuery.get("id");
         }
         if(customQuery.containsKey("tipoProcedimiento")) {
             tipoProcedimiento = customQuery.get("tipoProcedimiento");
@@ -93,6 +93,6 @@ public class ContratoServiceImpl implements ContratoService {
         if(customQuery.containsKey("estadoContrato")) {
             estadoContrato = customQuery.get("estadoContrato");
         }
-        return contratoRepository.getContratoByFilter(numeroContrato, tipoProcedimiento,estadoContrato);
+        return contratoRepository.getContratoByFilter(id, tipoProcedimiento,estadoContrato);
     }
 }

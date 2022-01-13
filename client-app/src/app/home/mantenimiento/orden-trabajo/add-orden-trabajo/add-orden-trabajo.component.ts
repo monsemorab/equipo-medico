@@ -70,7 +70,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
   ngOnInit() {
     this.limpiarCampos();
     this.selectedEquipo = false;
-    this.tipoServicio = 'OPERATIVO';
+    this.tipoServicio = 'CORRECTIVO';
     this.esNuevaSolicitudRepuesto = false;
     this.fueActualizada = false;
     this.equipoSuccess = false;
