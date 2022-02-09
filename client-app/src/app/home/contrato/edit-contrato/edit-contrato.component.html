@@ -92,8 +92,8 @@
               (ngModelChange)="onSelectedEquipo()">
         <option>Seleccionar Equipo</option>
         <option *ngFor="let equipo of equipos"
-                value={{equipo.id}}>{{equipo.numeroSerie}}- {{equipo.descripcionEquipo}} - {{equipo.tipoEquipo.tipo}}
-          -{{equipo.marca.marca}}-{{equipo.modelo.modelo}}
+                value={{equipo.id}}>{{equipo.numeroSerie}}- {{equipo.descripcionEquipo}} - {{equipo.tipoEquipo?.tipo}}
+          -{{equipo.marca?.marca}}-{{equipo.modelo?.modelo}}
         </option>
       </select>
     </div>

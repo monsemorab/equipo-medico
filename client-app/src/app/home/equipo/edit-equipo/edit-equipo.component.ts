@@ -450,7 +450,7 @@ export class EditEquipoComponent implements OnInit {
     if (this.marcaSeleccionada.id == null) {
       this.crearMarca();
     } else {
-      if (this.modelo !== ' ') {
+      if (this.modelo !== '') {
         this.modeloSeleccionado = new Modelo(null, this.modelo, this.marcaSeleccionada);
         this.crearModelo();
       } else {

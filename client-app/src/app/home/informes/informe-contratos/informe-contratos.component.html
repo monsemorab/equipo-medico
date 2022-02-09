@@ -36,17 +36,18 @@
 <form clrForm>
   <div class="clr-row">
     <div class="clr-form-control">
-      <label class="tamanho-total clr-col-5 label-input">Nro de Contrato:</label>
+      <label class="tamanho-total clr-col-5 label-input">ID Licitación:</label>
       <div class="clr-control-container">
         <div class="clr-input-wrapper">
           <input type="text" class="clr-input" id="nroContrato"
-                 name="nroContrato" #nroContrato
-                 (keyup.enter)="onEnterContrato(nroContrato.value)"
-                 (keyup)="onKeyNroContrato(nroContrato.value)"
-                 [(ngModel)]="numeroContrato"/>
+                 name="idContrato" #idLicitacion
+                 (keyup.enter)="onEnterContrato(idLicitacion.value)"
+                 (keyup)="onKeyNroContrato(idLicitacion.value)"
+                 [(ngModel)]="idContrato"/>
         </div>
       </div>
     </div>
+    <div class="clr-col-4">
     <a class="btn btn-outline content-no-print btn-print"
             (click)="limpiarCamposInfo()">
       Limpiar Campos
@@ -55,6 +56,7 @@
        onclick="window.print()">
       Imprimir
     </a>
+    </div>
   </div>
 
   <div class="clr-row">
