@@ -54,7 +54,9 @@
           <td class="table-column" style="text-align: center">{{detalle.cantidadSolicitada}}</td>
           <td>
             <button type="button" pButton pRipple icon="pi pi-pencil" class="p-button-success" (click)="editRepuesto(detalle)"></button>
-            <button type="button" pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="eliminarDetalleRepuesto(detalle)"></button>
+            <button type="button" pButton pRipple icon="pi pi-trash" class="p-button-danger"
+                    (click)="eliminarDetalleRepuesto(detalle, true)">
+            </button>
           </td>
         </tr>
       </ng-template>
