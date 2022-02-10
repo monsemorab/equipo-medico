@@ -79,20 +79,13 @@ public class ContratoServiceImpl implements ContratoService {
         Map<String, String> customQuery)
     {
         String id = null;
-        String tipoProcedimiento = null;
         String estadoContrato = null;
-        if(customQuery.containsKey("tipo")) {
-            customQuery.get("tipo");
-        }
         if(customQuery.containsKey("id")) {
             id = customQuery.get("id");
-        }
-        if(customQuery.containsKey("tipoProcedimiento")) {
-            tipoProcedimiento = customQuery.get("tipoProcedimiento");
         }
         if(customQuery.containsKey("estadoContrato")) {
             estadoContrato = customQuery.get("estadoContrato");
         }
-        return contratoRepository.getContratoByFilter(id, tipoProcedimiento,estadoContrato);
+        return contratoRepository.getContratoByFilter(id,estadoContrato);
     }
 }

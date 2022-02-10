@@ -18,7 +18,7 @@ public class ContratoRepositoryCustomImpl implements ContratoRepositoryCustom
 
 	@Override
 	public List<Contrato> getContratoByFilter(
-		String id, String tipoProcedimiento, String estadoContrato)
+		String id, String estadoContrato)
 	{
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Contrato> query = cb.createQuery(Contrato.class);
@@ -31,9 +31,6 @@ public class ContratoRepositoryCustomImpl implements ContratoRepositoryCustom
 		}
 		if(estadoContrato != null) {
 			predicates.add(cb.equal(contratoRoot.get("estadoContrato"), estadoContrato));
-		}
-		if(tipoProcedimiento != null) {
-			predicates.add(cb.equal(contratoRoot.get("tipoProcedimiento"), tipoProcedimiento));
 		}
 
 		if(predicates.isEmpty()) {

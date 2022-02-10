@@ -22,7 +22,7 @@ public class Repuesto implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "codigo")
+    @Column(name = "codigo", unique = true)
     private String codigo;
 
     @Column(name = "descripcion_articulo")
