@@ -3,7 +3,6 @@ import {Equipo} from "../../../domain/equipo";
 import {Contrato} from "../../../domain/contrato";
 import {ContratoService} from "../../../service/contrato.service";
 import {DatePipe} from "@angular/common";
-import {MetricasDTO} from "../../../domain/metricas-dto";
 
 @Component({
   selector: 'app-informe-contratos',
@@ -49,8 +48,8 @@ export class InformeContratosComponent implements OnInit {
    * Se obtiene el valor introducido en el campo nro. contrato.
    * @param value
    */
-  onKeyNroContrato(value: number) {
-    this.idContrato = value;
+  onKeyNroContrato(value: string) {
+    this.idContrato = +value;
   }
 
   buscarContrato(idContrato: number) {

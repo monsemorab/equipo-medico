@@ -84,7 +84,9 @@
       <clr-textarea-container>
         <label class="clr-col-5">Descripción:</label>
         <textarea class="tamanho-total" clrTextarea [(ngModel)]="descripcion"
-                  name="description" required [disabled]="readonlyField" tabindex="6">
+                  name="description" required [disabled]="readonlyField" tabindex="6"
+                  #despRep
+                  (keyup)="onKeyDescripcionRepuesto(despRep.value)">
             </textarea>
         <clr-control-error>El campo es obligatorio</clr-control-error>
       </clr-textarea-container>

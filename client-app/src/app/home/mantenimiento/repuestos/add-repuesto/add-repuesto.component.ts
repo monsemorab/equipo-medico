@@ -253,6 +253,14 @@ export class AddRepuestoComponent implements OnInit {
     this.codigo = value;
   }
 
+  onKeyDescripcionRepuesto(value: string) {
+    if(value != "") {
+      this.addBtnHabilitado = true;
+    } else {
+      this.addBtnHabilitado = false;
+    }
+  }
+
 
   /**
    * Se busca el repuesto por el código introducido. Si existe, se notifica al usuario que ya existe ese repuesto,
@@ -272,7 +280,6 @@ export class AddRepuestoComponent implements OnInit {
           this.errorMessage = 'No existe repuesto con código ' + codigo + " ingrese los datos requeridos para crearlo";
           this.info = true;
           this.readonlyField = false;
-          this.addBtnHabilitado = true;
         } else {
           console.log(this.errorMessage)
           this.error = true;

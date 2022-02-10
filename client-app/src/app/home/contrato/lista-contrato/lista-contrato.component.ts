@@ -14,7 +14,7 @@ export class ListaContratoComponent implements OnInit {
 
   // contrato
   selectedContrato: Contrato;
-  numeroContrato: string;
+  idContrato: number;
 
   // Errors
   errorMessage: string;
@@ -33,7 +33,6 @@ export class ListaContratoComponent implements OnInit {
   estadosContrato: EstadoContrato[];
   estadoContrato: string;
   selectedEstado: string;
-  tipoProcedimiento: string;
 
   selected = new Array<Contrato>();
   @ViewChild("exportData") downloadLink: ElementRef;
@@ -47,8 +46,7 @@ export class ListaContratoComponent implements OnInit {
     this.info = false;
     this.error = false;
     this.selectedContrato = null;
-    this.numeroContrato = '';
-    this.tipoProcedimiento = '';
+    this.idContrato = null;
     this.estadoContrato = 'Filtrar por Estado Contrato';
     this.getAllContratos();
     this.getEstadoContratos();
@@ -116,7 +114,7 @@ export class ListaContratoComponent implements OnInit {
   filtrarContrato(): void {
     this.info = false;
     this.infoMessage = '';
-    if (this.estadoContrato === 'Filtrar por Estado Contrato' && this.tipoProcedimiento === '' && this.numeroContrato === '') {
+    if (this.estadoContrato === 'Filtrar por Estado Contrato' &&  (this.idContrato === null || this.idContrato.toString() === '')) {
       this.getAllContratos();
     } else {
       let filtros = '';
@@ -127,18 +125,11 @@ export class ListaContratoComponent implements OnInit {
           filtros = filtros  + '&' + this.selectedEstado;
         }
       }
-      if (this.numeroContrato !== '' ) {
+      if (this.idContrato !== null ) {
         if (filtros === '' ) {
-          filtros = 'numeroContrato=' + this.numeroContrato;
+          filtros = 'id=' + this.idContrato;
         } else {
-          filtros = filtros  + '&numeroContrato=' + this.numeroContrato;
-        }
-      }
-      if (this.tipoProcedimiento !== '') {
-        if (filtros === '') {
-          filtros = 'tipoProcedimiento=' + this.tipoProcedimiento;
-        } else {
-          filtros = filtros  + '&tipoProcedimiento=' + this.tipoProcedimiento;
+          filtros = filtros  + '&id=' + this.idContrato;
         }
       }
       this.getAllContratosFiltrados(filtros);

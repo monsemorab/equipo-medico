@@ -243,7 +243,9 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     }
     this.readonlyField = this.isAtenderOT;
     this.isEditRepuesto = true;
-    this.addBtnHabilitado = true;
+    if(this.codigo != null && this.descripcion != "") {
+      this.addBtnHabilitado = true;
+    }
   }
 
 
