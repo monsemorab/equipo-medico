@@ -251,8 +251,9 @@ export class EditEquipoComponent implements OnInit {
     }
     if (equipo.contrato != null) {
       this.contrato = new Contrato(equipo.contrato.id, equipo.contrato.numeroContrato, equipo.contrato.nombreLicitacion,
-        equipo.contrato.tipoProcedimiento, equipo.contrato.numeroProcedimiento, equipo.contrato.estadoContrato,
-        equipo.contrato.convocante, equipo.contrato.equipos, equipo.contrato.fechaInicio, equipo.contrato.fechaFin);
+        equipo.contrato.tipoContrato, equipo.contrato.tipoProcedimiento, equipo.contrato.numeroProcedimiento,
+        equipo.contrato.estadoContrato, equipo.contrato.convocante, equipo.contrato.equipos, equipo.contrato.fechaInicio,
+        equipo.contrato.fechaFin);
     } else {
       this.contrato = null;
     }

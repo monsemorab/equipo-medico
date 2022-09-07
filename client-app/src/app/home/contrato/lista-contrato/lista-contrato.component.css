@@ -53,6 +53,10 @@ pre {
   margin-top: -1% !important;
 }
 
+.id-lic-filter {
+  margin-left: 0% !important;
+}
+
 >>> .p-component {
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
   font-size: 0.7rem !important;

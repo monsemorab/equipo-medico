@@ -159,6 +159,7 @@ export class ListaEquipoComponent implements OnInit {
       }
     );
   }
+
   onSelectTipo(): void {
     this.selectedTipo = '';
     for (let i = 0; i < this.tipos.length; i++) {
@@ -210,7 +211,7 @@ export class ListaEquipoComponent implements OnInit {
   getAllModelos(): void {
     this.modeloService.getAllModeloEquipo().subscribe(
       modelos => {
-        this.modelos= modelos;
+        this.modelos = modelos;
       },
       error => {
         this.errorMessage = error.error;
@@ -227,7 +228,7 @@ export class ListaEquipoComponent implements OnInit {
   getAllModelosByMarca(marcaId): void {
     this.modeloService.getAllModeloByMarca(marcaId).subscribe(
       modelos => {
-        this.modelos= modelos;
+        this.modelos = modelos;
       },
       error => {
         this.errorMessage = error.error;
@@ -281,6 +282,19 @@ export class ListaEquipoComponent implements OnInit {
     this.selectedEstadoContrato = 'estadoContrato=' + this.estadoContrato;
   }
 
+
+  /**
+   * Se borran las selecciones hechas en los filtros
+   */
+  limpiarFiltros(): void {
+    this.tipoId = 'Filtrar por Tipo';
+    this.modeloId = 'Filtrar por Modelo';
+    this.marcaId = 'Filtrar por Marca';
+    this.ubicacionId = 'Filtrar por Ubicacion';
+    this.estadoEquipo = 'Filtrar por Estado Equipo';
+    this.estadoContrato = 'Filtrar por Estado Contrato';
+  }
+
   /**
    * se filtra la lista de equipos por los datos seleccionados
    */
@@ -293,25 +307,25 @@ export class ListaEquipoComponent implements OnInit {
       this.getAllEquipos();
     } else {
       let filtros = '';
-      if (this.selectedEstadoEquipo !== '' ) {
-        if (filtros == '' ) {
+      if (this.selectedEstadoEquipo !== '') {
+        if (filtros == '') {
           filtros = this.selectedEstadoEquipo;
         } else {
-          filtros = filtros  + '&' + this.selectedEstadoEquipo;
+          filtros = filtros + '&' + this.selectedEstadoEquipo;
         }
       }
-      if (this.selectedTipo !== '' ) {
-        if (filtros == '' ) {
+      if (this.selectedTipo !== '') {
+        if (filtros == '') {
           filtros = this.selectedTipo;
         } else {
-          filtros = filtros  + '&' + this.selectedTipo;
+          filtros = filtros + '&' + this.selectedTipo;
         }
       }
       if (this.selectedMarca !== '') {
         if (filtros == '') {
           filtros = this.selectedMarca;
         } else {
-          filtros = filtros  + '&' + this.selectedMarca;
+          filtros = filtros + '&' + this.selectedMarca;
         }
       }
 
@@ -319,22 +333,22 @@ export class ListaEquipoComponent implements OnInit {
         if (filtros == '') {
           filtros = this.selectedModelo;
         } else {
-          filtros = filtros  + '&' + this.selectedModelo;
+          filtros = filtros + '&' + this.selectedModelo;
         }
       }
-      if (this.selectedUbi !== '' ) {
-        if (filtros == '' ) {
+      if (this.selectedUbi !== '') {
+        if (filtros == '') {
           filtros = this.selectedUbi;
         } else {
-          filtros = filtros  + '&' + this.selectedUbi;
+          filtros = filtros + '&' + this.selectedUbi;
         }
       }
 
-      if (this.selectedEstadoContrato !==  '' ) {
+      if (this.selectedEstadoContrato !== '') {
         if (filtros == '') {
           filtros = this.selectedEstadoContrato;
         } else {
-          filtros = filtros  + '&' + this.selectedEstadoContrato;
+          filtros = filtros + '&' + this.selectedEstadoContrato;
         }
       }
       this.getAllEquiposFiltrados(filtros);
@@ -378,7 +392,7 @@ export class ListaEquipoComponent implements OnInit {
   }
 
   isLastPage(): boolean {
-    return this.equipos ? this.first === (this.equipos.length - this.rows): true;
+    return this.equipos ? this.first === (this.equipos.length - this.rows) : true;
   }
 
   isFirstPage(): boolean {

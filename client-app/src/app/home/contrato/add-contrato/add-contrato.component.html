@@ -28,6 +28,16 @@
         <clr-control-error>El campo es obligatorio</clr-control-error>
       </clr-input-container>
 
+      <clr-select-container>
+        <label>Tipo de Contrato:</label>
+        <select clrSelect name="tipo" [(ngModel)]="tipoContrato"
+                (ngModelChange)="onSelectTipoContrato()" required>
+          <option *ngFor="let tipo of tiposContrato"
+                  value={{tipo.nombre}}>{{tipo.nombre}}
+          </option>
+        </select>
+      </clr-select-container>
+
       <clr-input-container>
         <label>Tipo Procedimiento:</label>
         <input class="tamanho-total clr-col-6" clrInput type="text" [(ngModel)]="tipoProcedimiento"

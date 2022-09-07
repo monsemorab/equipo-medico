@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 
-import {ESTADO_CONTRATO} from '../utils/mock-data/constantes';
-import {Contrato, EstadoContrato} from '../domain/contrato';
+import {ESTADO_CONTRATO, TIPO_CONTRATO} from '../utils/mock-data/constantes';
+import {Contrato, EstadoContrato, TipoContrato} from '../domain/contrato';
 import {ApiRequestService} from './api-request.service';
 import {environment} from '../../environments/environment';
 
@@ -10,6 +10,7 @@ import {environment} from '../../environments/environment';
 export class ContratoService {
 
   private estadosContrato = ESTADO_CONTRATO;
+  private tiposContrato = TIPO_CONTRATO;
   private urlContratos = environment.service_uri + '/contratos';
 
 
@@ -58,6 +59,15 @@ export class ContratoService {
    */
   getEstadosContrato(): Observable<EstadoContrato[]> {
     return of(this.estadosContrato);
+  }
+
+  /**
+   * Se obtiene la lista de los tipos para un contrato.
+   * Esta lista no se obtiene de la BD, son datos predefinidos.
+   * @returns {Observable<TipoContrato[]>}
+   */
+  getTiposContratos(): Observable<TipoContrato[]> {
+    return of(this.tiposContrato);
   }
 
   /**

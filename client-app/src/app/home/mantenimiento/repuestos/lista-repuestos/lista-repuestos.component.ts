@@ -45,7 +45,7 @@ export class ListaRepuestosComponent implements OnInit {
   selectedTipo: string;
   selectedMarca: string;
   selectedModelo: string;
-  selectedEstadoEquipo: string;
+  descripcion: string;
 
   constructor(private router: Router,
               private repuestoService: RepuestoService,
@@ -60,7 +60,7 @@ export class ListaRepuestosComponent implements OnInit {
     this.selectedTipo = '';
     this.selectedMarca = '';
     this.selectedModelo = '';
-    this.selectedEstadoEquipo = '';
+    this.descripcion = '';
     this.tipoId = 'Filtrar por Tipo';
     this.marcaId = 'Filtrar por Marca';
     this.modeloId = 'Filtrar por Modelo';
@@ -165,14 +165,6 @@ export class ListaRepuestosComponent implements OnInit {
   }
 
   /**
-   * Se selecciona un estado de la lista
-   */
-  onSelectEstadoEquipo(): void {
-    this.selectedEstadoEquipo = '';
-    this.selectedEstadoEquipo = 'estadoEquipo=' + this.estadoEquipo;
-  }
-
-  /**
    * Al seleccionar una marca de la lista
    */
   onSelectMarca() {
@@ -212,8 +204,8 @@ export class ListaRepuestosComponent implements OnInit {
   filtrarRepuesto(): void {
     this.info = false;
     this.infoMessage = '';
-    if (this.tipoId == 'Filtrar por Tipo' && this.modeloId == 'Filtrar por Marca/Modelo' &&
-     this.estadoEquipo == 'Filtrar por Estado Equipo' ) {
+    if (this.tipoId == 'Filtrar por Tipo' && this.modeloId == 'Filtrar por Marca/Modelo'
+      && (this.descripcion === null || this.descripcion.toString() === '')) {
       this.getAllRepuestos();
     } else {
       let filtros = '';
@@ -240,11 +232,11 @@ export class ListaRepuestosComponent implements OnInit {
         }
       }
 
-      if (this.selectedEstadoEquipo !== '' ) {
+      if (this.descripcion !== '' ) {
         if (filtros == '' ) {
-          filtros = this.selectedEstadoEquipo;
+          filtros = 'descripcion=' + this.descripcion;
         } else {
-          filtros = filtros  + '&' + this.selectedEstadoEquipo;
+          filtros = filtros  + '&descripcion=' + this.descripcion;
         }
       }
       this.getAllRepuestosFiltrados(filtros);

@@ -144,6 +144,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
       this.fechaRealizacion = datepipe.transform(orden.fechaSolicitud, 'MM/dd/yyyy');
     }
     this.equipoSeleccionado = orden.equipo;
+    this.equipoSeleccionado.fechaVenGarantia = datepipe.transform(this.equipoSeleccionado.fechaVenGarantia, 'dd-MM-yyyy');
     this.numeroPatrimonial = this.equipoSeleccionado.numeroPatrimonial;
     this.numeroSerie = this.equipoSeleccionado.numeroPatrimonial;
     this.selectedEquipo = true;

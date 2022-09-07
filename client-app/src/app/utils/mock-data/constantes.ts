@@ -1,6 +1,6 @@
 /** Mock data*/
 
-import {EstadoContrato} from '../../domain/contrato';
+import {EstadoContrato, TipoContrato} from '../../domain/contrato';
 import {EstadoOrdenTrabajoLista, TipoServicio} from '../../domain/orden-trabajo';
 import {EstadoSolicitud} from "../../domain/solicitud-repuesto";
 
@@ -16,6 +16,11 @@ export const ESTADO_CONTRATO: EstadoContrato[] = [
   new EstadoContrato('Vigente'),
   new EstadoContrato('Finalizado'),
   new EstadoContrato('Cancelado')
+];
+
+export const TIPO_CONTRATO: TipoContrato[] = [
+  new TipoContrato('De Adquisicion'),
+  new TipoContrato('Mantenimiento')
 ];
 
 export const ESTADO_EDIT_SOLICITUD: EstadoSolicitud[] = [

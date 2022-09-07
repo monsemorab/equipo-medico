@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Contrato, EstadoContrato} from '../../../domain/contrato';
+import {Contrato, EstadoContrato, TipoContrato} from '../../../domain/contrato';
 import {Equipo} from '../../../domain/equipo';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {ContratoService} from '../../../service/contrato.service';
@@ -19,6 +19,7 @@ export class EditContratoComponent implements OnInit {
   contrato: Contrato;
   contratoId: number;
   numeroContrato: number;
+  tipoContrato: string;
   nombreLicitacion: string;
   tipoProcedimiento: string;
   numeroProcedimiento: string;
@@ -29,6 +30,10 @@ export class EditContratoComponent implements OnInit {
 
   // estado contrato
   estadosContrato: EstadoContrato[];
+
+  // tipos contrato
+  tiposContrato: TipoContrato[];
+  isTipoMantenimiento: boolean;
 
   // equipo
   equipos: Equipo[];
@@ -53,13 +58,14 @@ export class EditContratoComponent implements OnInit {
     this.equipoId = 'Seleccionar Equipo';
     this.getEquipos();
     this.getEstadoContratos();
+    this.getTiposContratos();
 
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => this.contratoService.getContratoById(+params.get('id')))
       ).subscribe(contrato => {
         this.contrato = new Contrato(contrato.id, contrato.numeroContrato, contrato.nombreLicitacion,
-          contrato.tipoProcedimiento, contrato.numeroProcedimiento, contrato.estadoContrato, contrato.convocante,
+          contrato.tipoContrato, contrato.tipoProcedimiento, contrato.numeroProcedimiento, contrato.estadoContrato, contrato.convocante,
           contrato.equipos, contrato.fechaInicio, contrato.fechaFin);
         this.camposAEditar(this.contrato);
       },
@@ -104,6 +110,31 @@ export class EditContratoComponent implements OnInit {
 
 
   /**
+   * Se obtiene la lista de los tipos para un contrato.
+   */
+  getTiposContratos(): void {
+    this.contratoService.getTiposContratos().subscribe(
+      tipos => {
+        this.tiposContrato = tipos;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
+        this.tiposContrato = [];
+      }
+    );
+  }
+
+  onSelectTipoContrato(): void {
+    if (this.tipoContrato === 'Mantenimientoa') {
+      this.isTipoMantenimiento = true;
+    } else {
+      this.isTipoMantenimiento = false;
+    }
+  }
+
+
+  /**
    * Se establecen los campos a ser editados del contrato seleccionado.
    * @param contrato
    */
@@ -119,6 +150,8 @@ export class EditContratoComponent implements OnInit {
     this.fechaInicio = datepipe.transform(contrato.fechaInicio, 'yyyy-MM-dd');
     this.fechaFin = datepipe.transform(contrato.fechaFin, 'yyyy-MM-dd');
     this.selectedEquipos = contrato.equipos;
+    this.tipoContrato = contrato.tipoContrato;
+    this.isTipoMantenimiento = this.tipoContrato === 'Mantenimientoa';
     this.formateoFechas();
   }
 
@@ -205,7 +238,7 @@ export class EditContratoComponent implements OnInit {
    * Se guarda la información del contrato creado o editado.
    */
   onSaveContrato(): void {
-
+    let today = new Date();
     if (typeof this.fechaInicio === 'string' || this.fechaInicio instanceof String) {
       const parts = this.fechaInicio.split('-');
       this.fechaInicio = new Date(+parts[0], +parts[1] - 1, +parts[2]);
@@ -214,6 +247,11 @@ export class EditContratoComponent implements OnInit {
     if (typeof this.fechaFin === 'string' || this.fechaFin instanceof String) {
       const parts = this.fechaFin.split('-');
       this.fechaFin = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+
+      // Al agregar la fecha de finalización se debe cambiar el estado a Finalizado si la fecha ya pasó.
+      if (today > this.fechaFin) {
+        this.estadoContrato = 'Finalizado';
+      }
     }
 
     if(this.selectedEquipos != null){
@@ -226,8 +264,8 @@ export class EditContratoComponent implements OnInit {
     }
 
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion, this.tipoProcedimiento,
-      this.numeroProcedimiento, this.estadoContrato, this.convocante, this.selectedEquipos, this.fechaInicio,
-      this.fechaFin);
+      this.tipoContrato, this.numeroProcedimiento, this.estadoContrato, this.convocante, this.selectedEquipos,
+      this.fechaInicio, this.fechaFin);
     this.saveContrato(this.contrato);
 
   }

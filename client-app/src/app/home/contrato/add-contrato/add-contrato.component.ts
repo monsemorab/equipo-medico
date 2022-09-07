@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Contrato, EstadoContrato} from '../../../domain/contrato';
+import {Contrato, EstadoContrato, TipoContrato} from '../../../domain/contrato';
 import {Equipo} from '../../../domain/equipo';
 import {EquipoService} from '../../../service/equipo.service';
 import {ContratoService} from '../../../service/contrato.service';
@@ -17,6 +17,7 @@ export class AddContratoComponent implements OnInit {
   contrato: Contrato;
   contratoId: number;
   numeroContrato: number;
+  tipoContrato: string;
   nombreLicitacion: string;
   tipoProcedimiento: string;
   numeroProcedimiento: string;
@@ -27,6 +28,10 @@ export class AddContratoComponent implements OnInit {
 
   // estado contrato
   estadosContrato: EstadoContrato[];
+
+  // tipos contrato
+  tiposContrato: TipoContrato[];
+  isTipoMantenimiento: boolean;
 
   // equipo
   equipos: Equipo[];
@@ -48,9 +53,12 @@ export class AddContratoComponent implements OnInit {
   ngOnInit() {
     this.isSelectedEquipo = false;
     this.estadoContrato = 'Vigente';
+    this.tipoContrato = 'De Adquisicion';
+    this.isTipoMantenimiento = false;
     this.equipoId = 'Seleccionar Equipo';
     this.getEquipos();
     this.getEstadoContratos();
+    this.getTiposContratos();
   }
 
 
@@ -84,6 +92,30 @@ export class AddContratoComponent implements OnInit {
         this.estadosContrato = [];
       }
     );
+  }
+
+  /**
+   * Se obtiene la lista de los tipos para un contrato.
+   */
+  getTiposContratos(): void {
+    this.contratoService.getTiposContratos().subscribe(
+      tipos => {
+        this.tiposContrato = tipos;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
+        this.tiposContrato = [];
+      }
+    );
+  }
+
+  onSelectTipoContrato(): void {
+    if (this.tipoContrato === 'Mantenimientoa') {
+      this.isTipoMantenimiento = true;
+    } else {
+      this.isTipoMantenimiento = false;
+    }
   }
 
 
@@ -162,6 +194,7 @@ export class AddContratoComponent implements OnInit {
    * Se guarda la información del contrato creado o editado.
    */
   onSaveContrato(): void {
+    let today = new Date();
     if (typeof this.fechaInicio === 'string' || this.fechaInicio instanceof String) {
       const parts = this.fechaInicio.split('-');
       this.fechaInicio = new Date(+parts[0], +parts[1] - 1, +parts[2]);
@@ -170,6 +203,11 @@ export class AddContratoComponent implements OnInit {
     if (typeof this.fechaFin === 'string' || this.fechaFin instanceof String) {
       const parts = this.fechaFin.split('-');
       this.fechaFin = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+
+      // Al agregar la fecha de finalización se debe cambiar el estado a Finalizado si la fecha ya pasó.
+      if (today > this.fechaFin) {
+        this.estadoContrato = 'Finalizado';
+      }
     }
 
     if(this.selectedEquipos != null){
@@ -182,7 +220,7 @@ export class AddContratoComponent implements OnInit {
     }
 
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion,
-      this.tipoProcedimiento, this.numeroProcedimiento, this.estadoContrato, this.convocante,
+      this.tipoContrato, this.tipoProcedimiento, this.numeroProcedimiento, this.estadoContrato, this.convocante,
       this.selectedEquipos, this.fechaInicio, this.fechaFin);
     this.saveContrato(this.contrato);
 
