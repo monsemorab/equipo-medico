@@ -7,7 +7,10 @@ import com.mantenimiento.equipomedico.app.repository.EquipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,15 +35,21 @@ public class ContratoServiceImpl implements ContratoService {
             Optional<Contrato> contrato1 = contratoRepository.findById(contrato.getId());
             if(contrato1.isPresent()){
                 contrato1.get().getEquipos().forEach(e -> {
-                    e.setContrato(null);
+                    e.getContratos().removeIf(cont -> cont.equals(contrato1.get().getId()));
                     equipoRepository.save(e);
                 });
             }
         }
+        Date current = Date.from((LocalDate.now().minusDays(1)).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+
+        if(contrato.getFechaFin()
+            .after(current)){
+            contrato.setEstadoContrato("Finalizado");
+        }
         Contrato cont = contratoRepository.save(contrato);
         contrato.getEquipos().forEach(equipo -> {
             Equipo eq = equipoRepository.findById(equipo.getId()).get();
-            eq.setContrato(cont);
+            eq.getContratos().add(cont);
             equipoRepository.save(eq);
         });
         return contrato;

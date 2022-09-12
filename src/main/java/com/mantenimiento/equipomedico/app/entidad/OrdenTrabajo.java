@@ -43,10 +43,9 @@ public class OrdenTrabajo implements Serializable {
     @JoinColumn(name="solicitud_repuesto_id")
     private SolicitudRepuesto solicitudRepuesto;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToOne()
-    @JoinColumn(name="mantenimiento_id")
-    private Mantenimiento mantenimiento;
+    @OneToMany(mappedBy="ordenTrabajo")
+    @JsonIgnoreProperties(value="ordenTrabajo", allowSetters = true)
+    private List<Mantenimiento> mantenimientos;
 
     // Para el tipo de servicio PREVENTIVO
     @Column(name = "fechaSolicitud")
@@ -157,26 +156,6 @@ public class OrdenTrabajo implements Serializable {
     }
 
     /**
-     * Gets mantenimiento
-     *
-     * @return value of mantenimiento
-     */
-    public Mantenimiento getMantenimiento()
-    {
-        return mantenimiento;
-    }
-
-    /**
-     * Set mantenimiento
-     *
-     * @param mantenimiento
-     */
-    public void setMantenimiento(Mantenimiento mantenimiento)
-    {
-        this.mantenimiento = mantenimiento;
-    }
-
-    /**
      * Gets fechaSolicitud
      *
      * @return value of fechaSolicitud
@@ -234,5 +213,25 @@ public class OrdenTrabajo implements Serializable {
     public void setEquipo(Equipo equipo)
     {
         this.equipo = equipo;
+    }
+
+    /**
+     * Gets mantenimientos
+     *
+     * @return value of mantenimientos
+     */
+    public List<Mantenimiento> getMantenimientos()
+    {
+        return mantenimientos;
+    }
+
+    /**
+     * Set mantenimientos
+     *
+     * @param mantenimientos
+     */
+    public void setMantenimientos(List<Mantenimiento> mantenimientos)
+    {
+        this.mantenimientos = mantenimientos;
     }
 }

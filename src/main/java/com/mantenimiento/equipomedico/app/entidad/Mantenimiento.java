@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Registro del mantenimiento.
  * Registro del servicio
@@ -21,6 +23,8 @@ public class Mantenimiento implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "numero_orden_servicio")
+    private Integer numeroOrdenServicio;
     @Column(name = "fecha_manteniminento")
     private Date fechaMantenimiento;
 
@@ -38,6 +42,11 @@ public class Mantenimiento implements Serializable {
 
     @Column(name = "estado")
     private String estadoEquipo;
+
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "orden_trabajo_id")
+    @JsonIgnoreProperties(value="mantenimientos", allowSetters = true)
+    private OrdenTrabajo ordenTrabajo;
 
     /**
      * Gets id
@@ -168,5 +177,45 @@ public class Mantenimiento implements Serializable {
     public void setEstadoEquipo(String estadoEquipo)
     {
         this.estadoEquipo = estadoEquipo;
+    }
+
+    /**
+     * Set ordenTrabajo
+     *
+     * @param ordenTrabajo
+     */
+    public void setOrdenTrabajo(OrdenTrabajo ordenTrabajo)
+    {
+        this.ordenTrabajo = ordenTrabajo;
+    }
+
+    /**
+     * Gets numeroOrdenServicio
+     *
+     * @return value of numeroOrdenServicio
+     */
+    public Integer getNumeroOrdenServicio()
+    {
+        return numeroOrdenServicio;
+    }
+
+    /**
+     * Set numeroOrdenServicio
+     *
+     * @param numeroOrdenServicio
+     */
+    public void setNumeroOrdenServicio(Integer numeroOrdenServicio)
+    {
+        this.numeroOrdenServicio = numeroOrdenServicio;
+    }
+
+    /**
+     * Gets ordenTrabajo
+     *
+     * @return value of ordenTrabajo
+     */
+    public OrdenTrabajo getOrdenTrabajo()
+    {
+        return ordenTrabajo;
     }
 }

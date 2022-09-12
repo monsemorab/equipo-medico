@@ -41,7 +41,7 @@ public class EquipoRepositoryCustomImpl implements EquipoRepositoryCustom
 			predicates.add(cb.equal(equipoRoot.get("estado"), estadoEquipo));
 		}
 		if(estadoContrato != null) {
-			predicates.add(cb.equal(equipoRoot.join("contrato")
+			predicates.add(cb.equal(equipoRoot.join("contratos")
 				.get("estadoContrato"), estadoContrato));
 		}
 		if(predicates.isEmpty()) {
