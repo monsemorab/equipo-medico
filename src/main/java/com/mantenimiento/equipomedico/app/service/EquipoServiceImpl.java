@@ -74,7 +74,7 @@ public class EquipoServiceImpl implements EquipoService
 	@Override
 	public List<Equipo> getSinContrato()
 	{
-		return equipoRepository.findAllByContratoIsNull();
+		return equipoRepository.findAllByContratos_Empty();
 	}
 
 	/**

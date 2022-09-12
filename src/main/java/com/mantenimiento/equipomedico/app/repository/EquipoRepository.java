@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface EquipoRepository extends CrudRepository<Equipo, Long> , EquipoRepositoryCustom{
 
-    List<Equipo> findAllByContratoIsNull();
+    List<Equipo> findAllByContratos_Empty();
 
     Equipo getById(Long id);
 
