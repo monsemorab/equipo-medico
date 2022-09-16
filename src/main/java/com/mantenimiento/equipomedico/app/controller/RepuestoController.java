@@ -105,4 +105,12 @@ public class RepuestoController {
         return repuestoService.getRepuestosByFilter(customQuery);
     }
 
+    @RequestMapping(value = "byDescripcion/{keyword}",
+        method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Repuesto> getByDescripcion(
+        @PathVariable String keyword)
+    {
+        return repuestoService.getRepuestosByKeyword(keyword);
+    }
+
 }

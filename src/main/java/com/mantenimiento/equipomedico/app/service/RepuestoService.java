@@ -49,4 +49,6 @@ public interface RepuestoService {
     Repuesto getByCodigo(String codigo);
 
     List<Repuesto> getRepuestosByFilter(Map<String, String> customQuery);
+
+    List<Repuesto> getRepuestosByKeyword(String keyword);
 }
