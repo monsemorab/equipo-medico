@@ -14,7 +14,6 @@ import {Marca} from "../../../domain/marca";
 import {MarcaService} from "../../../service/marca.service";
 import {SolicitudRepuestoDetalleService} from "../../../service/solicitud-repuesto-detalle.service";
 import {SolicitudRepuesto} from "../../../domain/solicitud-repuesto";
-import {Contrato} from "../../../domain/contrato";
 
 @Component({
   selector: 'app-solicitud-repuesto-detalle',
@@ -29,6 +28,12 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
 
   // Repuesto
   repuesto: Repuesto;
+
+  //repuestos existentes
+  repuestos = new Array<Repuesto>();
+  repExistenteId: any;
+  keyWord : string;
+  mostrarRep: boolean;
 
   //solicitud
   solicitud:SolicitudRepuesto;
@@ -322,27 +327,78 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     );
   }
 
-  /**
-   * Al presionar la tecla enter, se realiza la busqueda del repuesto por el campo código.
-   * @param value
-   */
-  onEnterCodigoRepuesto(value: string) {
-    this.info = false;
-    this.error = false;
-    if (value !== '' && value != null) {
-      this.codigo = value;
-      this.buscarRepuestoByCodigo(this.codigo);
-    }
+  onSelectRepuesto(): void {
+    this.repuestoService.getRepuestoById(this.repExistenteId).subscribe(
+      repuesto => {
+        const datepipe: DatePipe = new DatePipe('en-ES');
+        this.isEditRepuesto = true;
+        this.repuesto = repuesto;
+        this.repuestoId = repuesto.id;
+        this.codigo = repuesto.codigo;
+        this.descripcion = repuesto.descripcionArticulo;
+        this.precio = repuesto.precio;
+        this.cantAdquirida = repuesto.cantidadAdquirida;
+        this.cantExistente = repuesto.cantidadExistente;
+        this.fechaActualizacion = datepipe.transform(repuesto.fechaActualizacion, 'MM/dd/yyyy');
+        this.tipoEquipo = repuesto.tipoEquipo;
+        if (repuesto.tipoEquipo != null) {
+          this.tipoEqId = repuesto.tipoEquipo.id;
+        }
+        if (repuesto.marca != null) {
+          this.marcaSeleccionada = repuesto.marca;
+          this.marcaId = this.marcaSeleccionada.id;
+        }
+
+        if (repuesto.modelo != null) {
+          this.modeloSeleccionado = repuesto.modelo;
+          this.modeloId = this.modeloSeleccionado.id;
+        }
+        this.representante = repuesto.representante;
+        if (repuesto.representante != null) {
+          this.repreId = repuesto.representante.id;
+        }
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+      }
+    );
   }
 
   /**
-   * Se obtiene el valor introducido en el campo código repuesto.
+   * Al presionar la tecla enter, se realiza la busqueda del repuesto por el campo descripcion.
    * @param value
    */
-  onKeyCodigoRepuesto(value: string) {
-    this.info = false;
-    this.error = false;
-    this.codigo = value;
+  onEnterDescripcionRepuesto(value: string) {
+    if (value !== '' && value != null) {
+      this.keyWord = value;
+      this.buscarRepuestoBykeyWord(this.keyWord);
+    }
+  }
+
+  onKeyDescripcionRepuesto(value: string) {
+    this.keyWord = value;
+  }
+
+  buscarRepuestoBykeyWord(keyWord: string): void {
+    this.repuestoService.getRepuestoByKeyWord(keyWord).subscribe(
+      list => {
+        if(list.length > 0) {
+          this.repuestos = list;
+          this.mostrarRep = true;
+        }
+
+        this.addBtnHabilitado = true;
+        this.readonlyField = false;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
+        this.repuestos = [];
+        this.mostrarRep = false;
+        this.addBtnHabilitado = false;
+      }
+    );
   }
 
   /**
@@ -495,6 +551,7 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
    * Se inicializan los valores de los campos.
    */
   clearRepuestoField() {
+    this.repuestoId = null;
     this.codigo = '';
     this.descripcion = '';
     this.precio = null;
@@ -507,6 +564,8 @@ export class SolicitudRepuestoDetalleComponent implements OnInit {
     this.fechaActualizacion = '';
     this.readonlyField = false;
     this.addBtnHabilitado = false;
+    this.keyWord = '';
+    this.mostrarRep = false;
   }
 
 }

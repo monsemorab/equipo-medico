@@ -5,6 +5,8 @@ import {EquipoService} from '../../../service/equipo.service';
 import {ContratoService} from '../../../service/contrato.service';
 import {Router} from '@angular/router';
 import {DatePipe} from "@angular/common";
+import {Repuesto} from "../../../domain/repuesto";
+import {RepuestoService} from "../../../service/repuesto.service";
 
 @Component({
   selector: 'app-add-contrato',
@@ -40,6 +42,13 @@ export class AddContratoComponent implements OnInit {
   equipoId: any;
   isSelectedEquipo: boolean;
 
+  // repuesto
+  repuestos: Repuesto[];
+  selectedRepuestos = new Array<Repuesto>();
+  selectedRepuesto: Repuesto;
+  repuestoId: any;
+  isSelectedRepuesto: boolean;
+
   // error
   errorMessage: string;
   error: boolean;
@@ -47,16 +56,20 @@ export class AddContratoComponent implements OnInit {
 
   constructor(private router: Router,
               private contratoService: ContratoService,
-              private equipoService: EquipoService) {
+              private equipoService: EquipoService,
+              private repuestoService: RepuestoService) {
   }
 
   ngOnInit() {
     this.isSelectedEquipo = false;
+    this.isSelectedRepuesto = false;
     this.estadoContrato = 'Vigente';
     this.tipoContrato = 'De Adquisicion';
     this.isTipoMantenimiento = false;
     this.equipoId = 'Seleccionar Equipo';
+    this.repuestoId = 'Seleccionar Repuesto';
     this.getEquipos();
+    this.getAllRepuestos();
     this.getEstadoContratos();
     this.getTiposContratos();
   }
@@ -74,6 +87,18 @@ export class AddContratoComponent implements OnInit {
         this.errorMessage = error.error;
         console.log(this.errorMessage);
         this.equipos = [];
+      }
+    );
+  }
+
+  getAllRepuestos(): void {
+    this.repuestoService.getAllRepuestos().subscribe(
+      list => {
+        this.repuestos = list;
+      },
+      error => {
+        this.errorMessage = error.error;
+        this.repuestos = [];
       }
     );
   }
@@ -111,7 +136,7 @@ export class AddContratoComponent implements OnInit {
   }
 
   onSelectTipoContrato(): void {
-    if (this.tipoContrato === 'Mantenimientoa') {
+    if (this.tipoContrato === 'Mantenimiento') {
       this.isTipoMantenimiento = true;
     } else {
       this.isTipoMantenimiento = false;
@@ -189,6 +214,76 @@ export class AddContratoComponent implements OnInit {
     }
   }
 
+  /**
+   * Se selecciona un repuesto.
+   */
+  onSelectedRepuesto(): void {
+    this.getRepuestoById(+this.repuestoId);
+  }
+
+  /**
+   * Se obtiene el repuesto seleccionado por su Id.
+   * @param {number} id
+   */
+  getRepuestoById(id: number): void {
+    this.repuestoService.getRepuestoById(id).subscribe(
+      repuesto => {
+        this.selectedRepuesto = repuesto;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
+        this.selectedRepuesto = null;
+      }
+    );
+  }
+
+  /**
+   * Se agrega el repuesto seleccionado a una lista de repuestos para el contrato de tipo mantenimiento.
+   */
+  addRepuesto(): void {
+    this.selectedRepuestos.push(this.selectedRepuesto);
+    for (let i = 0; i < this.repuestos.length; i++) {
+      if (this.selectedRepuesto === this.repuestos[i]) {
+        this.repuestos.splice(i, 1);
+      }
+    }
+    this.formateoFechasRepuesto();
+    this.repuestoId = null;
+    this.selectedRepuesto = null;
+  }
+
+  formateoFechasRepuesto() {
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    for (let i = 0; i < this.selectedRepuestos.length; i++) {
+      this.selectedRepuestos[i].fechaActualizacion = datepipe.transform(this.selectedRepuestos[i].fechaActualizacion, 'dd-MM-yyyy');
+    }
+  }
+
+  /**
+   * Cuando se selecciona un repuesto de la lista de repuestos agregados.
+   * @param {Repuesto} repuesto
+   */
+  onSelectRepuesto(repuesto: Repuesto): void {
+    this.selectedRepuesto= repuesto;
+    this.isSelectedRepuesto = true;
+  }
+
+  /**
+   * Se elimina el repuesto seleccionado de la lista de repuestos agregados.
+   */
+  onDeleteRepuesto(): void {
+    for (let i = 0; i < this.selectedRepuestos.length; i++) {
+      if (this.selectedRepuestos[i] === this.selectedRepuesto) {
+        this.selectedRepuestos.splice(i, 1);
+        this.repuestos.push(this.selectedRepuesto);
+        this.isSelectedRepuesto = false;
+        this.selectedRepuesto = null;
+        break;
+      }
+    }
+  }
+
 
   /**
    * Se guarda la información del contrato creado o editado.
@@ -219,9 +314,18 @@ export class AddContratoComponent implements OnInit {
       }
     }
 
+    if(this.selectedRepuestos != null){
+      for (let i = 0; i < this.selectedRepuestos.length; i++) {
+        if (typeof this.selectedRepuestos[i].fechaActualizacion == 'string' || this.selectedRepuestos[i].fechaActualizacion instanceof String) {
+          const parts = this.selectedRepuestos[i].fechaActualizacion.split('-');
+          this.selectedRepuestos[i].fechaActualizacion = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+        }
+      }
+    }
+
     this.contrato = new Contrato(this.contratoId, this.numeroContrato, this.nombreLicitacion,
       this.tipoContrato, this.tipoProcedimiento, this.numeroProcedimiento, this.estadoContrato, this.convocante,
-      this.selectedEquipos, this.fechaInicio, this.fechaFin);
+      this.selectedEquipos, this.selectedRepuestos, this.fechaInicio, this.fechaFin);
     this.saveContrato(this.contrato);
 
   }

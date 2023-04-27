@@ -38,9 +38,12 @@ export class EditMantenimientoComponent implements OnInit {
   mantenimientoId: number;
   tareaRealizada: string;
   informeNro: number;
+  numeroOrdenServicio:number;
   nombreTecnico: string;
+  estadoEquipo:string;
   fechaMantenimiento: any;
   servicioRealizado: Mantenimiento;
+  servicioRealizadoList: Mantenimiento[];
   readOnlyField: boolean;
 
   // modal para agregar/editar detalle de repuesto a la solicitud
@@ -122,7 +125,7 @@ export class EditMantenimientoComponent implements OnInit {
     if (this.solicitudRepuesto != null) {
       this.solicitudRepuestoDetalles = this.solicitudRepuesto.solicitudRepuestoDetalles;
     }
-    this.servicioRealizado = orden.mantenimiento;
+    this.servicioRealizadoList = orden.mantenimiento;
     this.mantenimientoId = this.servicioRealizado.id;
     this.tareaRealizada = this.servicioRealizado.tareaRealizada;
     this.informeNro = this.servicioRealizado.informeNumero;
@@ -252,7 +255,7 @@ export class EditMantenimientoComponent implements OnInit {
         let parts = this.fechaRealizacion.split('/');
         this.fechaRealizacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
       }
-      this.servicioRealizado = new Mantenimiento(this.mantenimientoId, this.tareaRealizada, this.informeNro,
+      this.servicioRealizado = new Mantenimiento(this.mantenimientoId, this.numeroOrdenServicio, this.tareaRealizada, this.informeNro,
         this.nombreTecnico, this.servicioRealizado.tipoServicio, this.servicioRealizado.estadoEquipo, this.fechaMantenimiento);
       if (this.tareaRealizada != '' && this.nombreTecnico != '') {
         this.updateMantenimiento(this.servicioRealizado);
@@ -269,8 +272,9 @@ export class EditMantenimientoComponent implements OnInit {
     this.manteniminetoService.editarMantenimineto(servicioRealizado).subscribe(
       mantenimineto => {
         this.servicioRealizado = mantenimineto;
+        this.servicioRealizadoList.push(this.servicioRealizado);
         if(this.ordenTrabajo.estado === EstadoOrdenTrabajo.FINALIZADO) {
-          this.updateOrdenTrabajo(this.servicioRealizado);
+          this.updateOrdenTrabajo(this.servicioRealizadoList);
         }
       },
       error => {
@@ -281,7 +285,7 @@ export class EditMantenimientoComponent implements OnInit {
     );
   }
 
-  updateOrdenTrabajo(servcioRealizado: Mantenimiento) {
+  updateOrdenTrabajo(servcioRealizado: Mantenimiento[]) {
     this.ordenTrabajo.mantenimiento = servcioRealizado;
     this.ordenTrabajoService.editarOrdenTrabajo(this.ordenTrabajo).subscribe(
       orden => {

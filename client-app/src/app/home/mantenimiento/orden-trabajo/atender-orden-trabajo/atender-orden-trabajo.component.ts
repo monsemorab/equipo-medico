@@ -42,9 +42,12 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
   // mantenimiento
   tareaRealizada: string;
   informeNro: number;
+  numeroOrdenServicio:number;
   nombreTecnico: string;
+  estadoEquipo:string;
   fechaMantenimiento: any;
   servicioRealizado: Mantenimiento;
+  servicioRealizadoList: Mantenimiento[];
 
   // Errors
   error: boolean;
@@ -228,7 +231,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
 
     if(!this.error) {
       if (this.informeNro!= undefined && this.tareaRealizada != '' && this.nombreTecnico != '') {
-        this.servicioRealizado = new Mantenimiento(null, this.tareaRealizada, this.informeNro, this.nombreTecnico,
+        this.servicioRealizado = new Mantenimiento(null, this.numeroOrdenServicio, this.tareaRealizada, this.informeNro, this.nombreTecnico,
           this.ordenTrabajo.tipoServicio, this.equipo.estado, this.fechaMantenimiento);
         this.saveMantenimiento(this.servicioRealizado);
       }else {
@@ -246,8 +249,9 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.manteniminetoService.crearMantenimineto(servicioRealizado).subscribe(
       mantenimineto => {
         this.servicioRealizado = mantenimineto;
+        this.servicioRealizadoList.push(this.servicioRealizado);
         this.manteniminetoService.emitExisteOrdenTrabajoAtendida(true);
-        this.updateOrdenTrabajo(this.servicioRealizado);
+        this.updateOrdenTrabajo(this.servicioRealizadoList);
       },
       error => {
         this.errorMessage = error.error;
@@ -257,7 +261,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     );
   }
 
-  updateOrdenTrabajo(servcioRealizado: Mantenimiento) {
+  updateOrdenTrabajo(servcioRealizado: Mantenimiento[]) {
     this.ordenTrabajo.mantenimiento = servcioRealizado;
     this.ordenTrabajo.estado = this.estadoOT;
     this.ordenTrabajoService.editarOrdenTrabajo(this.ordenTrabajo).subscribe(
