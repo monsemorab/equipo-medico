@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -82,8 +83,9 @@ public class AppErrorController implements ErrorController
 	private Map<String, Object> getErrorAttributes(HttpServletRequest request,
 		boolean includeStackTrace) {
 		RequestAttributes requestAttributes = new ServletRequestAttributes(request);
+		WebRequest webRequest = new ServletWebRequest(request);
 		return this.errorAttributes.getErrorAttributes(
-			(WebRequest)requestAttributes,
+			webRequest,
 			includeStackTrace);
 	}
 

@@ -1,5 +1,6 @@
 package com.mantenimiento.equipomedico.app.entidad;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -65,6 +66,7 @@ public class Equipo implements Serializable {
     private Ubicacion ubicacion;
 
     @ManyToMany(mappedBy = "equipos")
+    @JsonIgnore
     List<Contrato> contratos;
 
     @Column(name = "licitacion_compra")
