@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -42,7 +43,8 @@ public class ContratoServiceImpl implements ContratoService {
         }
         Date current = Date.from((LocalDate.now().minusDays(1)).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 
-        if(contrato.getFechaFin()
+        if(Objects.nonNull(contrato.getFechaFin()) &&
+            contrato.getFechaFin()
             .after(current)){
             contrato.setEstadoContrato("Finalizado");
         }

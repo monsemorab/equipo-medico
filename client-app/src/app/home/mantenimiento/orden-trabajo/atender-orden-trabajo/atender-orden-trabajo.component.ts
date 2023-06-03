@@ -47,7 +47,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
   estadoEquipo:string;
   fechaMantenimiento: any;
   servicioRealizado: Mantenimiento;
-  servicioRealizadoList: Mantenimiento[];
+  servicioRealizadoList = new Array<Mantenimiento>();
 
   // Errors
   error: boolean;
@@ -69,7 +69,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
         switchMap((params: ParamMap) => this.ordenTrabajoService.getOrdenTrabajoById(+params.get('id')))
       ).subscribe(orden => {
         this.ordenTrabajo = new OrdenTrabajo(orden.id, orden.estado, orden.tipoServicio, orden.diagnostico,
-          orden.responsable, orden.equipo, orden.solicitudRepuesto, orden.mantenimiento, orden.fechaSolicitud);
+          orden.responsable, orden.equipo, orden.solicitudRepuesto, orden.mantenimientos, orden.fechaSolicitud);
         this.camposAEditar(this.ordenTrabajo);
       },
       error => {
@@ -127,6 +127,8 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     this.solicitudRepuesto = orden.solicitudRepuesto;
     if (this.solicitudRepuesto != null) {
       this.solicitudRepuestoDetalles = this.solicitudRepuesto.solicitudRepuestoDetalles;
+      console.log(this.solicitudRepuestoDetalles);
+      console.log(this.solicitudRepuestoDetalles[0].repuesto);
     }
   }
 
@@ -232,7 +234,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
     if(!this.error) {
       if (this.informeNro!= undefined && this.tareaRealizada != '' && this.nombreTecnico != '') {
         this.servicioRealizado = new Mantenimiento(null, this.numeroOrdenServicio, this.tareaRealizada, this.informeNro, this.nombreTecnico,
-          this.ordenTrabajo.tipoServicio, this.equipo.estado, this.fechaMantenimiento);
+          this.ordenTrabajo.tipoServicio, this.equipo.estado, this.ordenTrabajo, this.fechaMantenimiento);
         this.saveMantenimiento(this.servicioRealizado);
       }else {
         this.goBack();
@@ -262,7 +264,7 @@ export class AtenderOrdenTrabajoComponent implements OnInit {
   }
 
   updateOrdenTrabajo(servcioRealizado: Mantenimiento[]) {
-    this.ordenTrabajo.mantenimiento = servcioRealizado;
+    this.ordenTrabajo.mantenimientos = servcioRealizado;
     this.ordenTrabajo.estado = this.estadoOT;
     this.ordenTrabajoService.editarOrdenTrabajo(this.ordenTrabajo).subscribe(
       orden => {

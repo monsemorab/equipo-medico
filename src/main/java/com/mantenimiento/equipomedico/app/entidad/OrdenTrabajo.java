@@ -44,7 +44,7 @@ public class OrdenTrabajo implements Serializable {
     private SolicitudRepuesto solicitudRepuesto;
 
     @OneToMany(mappedBy="ordenTrabajo")
-    @JsonIgnoreProperties(value="ordenTrabajo", allowSetters = true)
+//    @JsonIgnoreProperties(value="ordenTrabajo", allowSetters = true)
     private List<Mantenimiento> mantenimientos;
 
     // Para el tipo de servicio PREVENTIVO

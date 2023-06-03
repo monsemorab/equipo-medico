@@ -151,7 +151,7 @@ export class EditContratoComponent implements OnInit {
   }
 
   onSelectTipoContrato(): void {
-    if (this.tipoContrato === 'Mantenimiento') {
+    if (this.tipoContrato === 'MANTENIMIENTO') {
       this.isTipoMantenimiento = true;
     } else {
       this.isTipoMantenimiento = false;
@@ -177,7 +177,7 @@ export class EditContratoComponent implements OnInit {
     this.selectedEquipos = contrato.equipos;
     this.selectedRepuestos = contrato.repuestos;
     this.tipoContrato = contrato.tipoContrato;
-    this.isTipoMantenimiento = this.tipoContrato === 'Mantenimiento';
+    this.isTipoMantenimiento = this.tipoContrato === 'MANTENIMIENTO';
     this.formateoFechas();
   }
 

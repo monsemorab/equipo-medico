@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Repuesto para el equipo.
  *
@@ -58,6 +60,7 @@ public class Repuesto implements Serializable {
     private Representante representante;
 
     @ManyToMany(mappedBy = "repuestos")
+    @JsonIgnore
     List<Contrato> contratos;
 
 

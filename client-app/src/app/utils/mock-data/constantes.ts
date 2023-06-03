@@ -19,8 +19,8 @@ export const ESTADO_CONTRATO: EstadoContrato[] = [
 ];
 
 export const TIPO_CONTRATO: TipoContrato[] = [
-  new TipoContrato('De Adquisicion'),
-  new TipoContrato('Mantenimiento')
+  new TipoContrato('DE ADQUISICION'),
+  new TipoContrato('MANTENIMIENTO')
 ];
 
 export const ESTADO_EDIT_SOLICITUD: EstadoSolicitud[] = [

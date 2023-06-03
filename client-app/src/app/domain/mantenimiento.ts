@@ -1,3 +1,4 @@
+import {OrdenTrabajo} from "./orden-trabajo";
 
 export class Mantenimiento {
   constructor(public id: number,
@@ -7,6 +8,7 @@ export class Mantenimiento {
               public nombreTecnico: string,
               public tipoServicio: string,
               public estadoEquipo: string,
+              public ordenTrabajo: OrdenTrabajo,
               public fechaMantenimiento: any) {
   }
 }

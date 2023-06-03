@@ -64,7 +64,7 @@ export class AddContratoComponent implements OnInit {
     this.isSelectedEquipo = false;
     this.isSelectedRepuesto = false;
     this.estadoContrato = 'Vigente';
-    this.tipoContrato = 'De Adquisicion';
+    this.tipoContrato = 'DE ADQUISICION';
     this.isTipoMantenimiento = false;
     this.equipoId = 'Seleccionar Equipo';
     this.repuestoId = 'Seleccionar Repuesto';
@@ -136,7 +136,7 @@ export class AddContratoComponent implements OnInit {
   }
 
   onSelectTipoContrato(): void {
-    if (this.tipoContrato === 'Mantenimiento') {
+    if (this.tipoContrato === 'MANTENIMIENTO') {
       this.isTipoMantenimiento = true;
     } else {
       this.isTipoMantenimiento = false;
