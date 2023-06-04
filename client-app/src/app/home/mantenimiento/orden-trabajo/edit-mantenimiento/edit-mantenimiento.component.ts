@@ -126,6 +126,7 @@ export class EditMantenimientoComponent implements OnInit {
       this.solicitudRepuestoDetalles = this.solicitudRepuesto.solicitudRepuestoDetalles;
     }
     this.servicioRealizadoList = orden.mantenimientos;
+    this.formateoFechasServicio();
     if(this.estadoOT === EstadoOrdenTrabajo.FINALIZADO) {
       this.readOnlyField = true;
     }
