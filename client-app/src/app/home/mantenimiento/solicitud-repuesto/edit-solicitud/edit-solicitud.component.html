@@ -3,7 +3,7 @@
   <div class="clr-col-6">
     <clr-select-container>
       <label>Estado:</label>
-      <select clrSelect name="estado" [(ngModel)]="estado" required #selectEstado
+      <select clrSelect name="estado" [(ngModel)]="estadoSeleccionado" required #selectEstado
               (change)="onSelectedEstadoSolicitud(selectEstado.value)">
         <option *ngFor="let estado of estados"
                 value={{estado.nombre}}>{{estado.nombre}}

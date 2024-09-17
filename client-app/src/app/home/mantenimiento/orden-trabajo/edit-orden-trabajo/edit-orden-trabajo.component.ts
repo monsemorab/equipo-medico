@@ -38,6 +38,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
   equipoSeleccionado: Equipo;
   numeroSerie: string;
   numeroPatrimonial: string;
+  estadoInicial:string;
   requestEquipo: ParamsBusquedaEquipo;
   selectedEquipo: boolean;
   selectedEquipoActualizada = false;
@@ -147,12 +148,13 @@ export class EditOrdenTrabajoComponent implements OnInit {
     this.equipoSeleccionado.fechaVenGarantia = datepipe.transform(this.equipoSeleccionado.fechaVenGarantia, 'dd-MM-yyyy');
     this.numeroPatrimonial = this.equipoSeleccionado.numeroPatrimonial;
     this.numeroSerie = this.equipoSeleccionado.numeroPatrimonial;
+    this.estadoInicial = this.equipoSeleccionado.estado;
     this.selectedEquipo = true;
-    this.solicitudRepuesto = orden.solicitudRepuesto;
-    if (this.solicitudRepuesto != null) {
-      this.solicitudRepId = this.solicitudRepuesto.id.toString();
-      this.solicitudRepuestoDetalles = this.solicitudRepuesto.solicitudRepuestoDetalles;
-    }
+    // this.solicitudRepuesto = orden.solicitudRepuesto;
+    // if (this.solicitudRepuesto != null) {
+    //   this.solicitudRepId = this.solicitudRepuesto.id.toString();
+    //   this.solicitudRepuestoDetalles = this.solicitudRepuesto.solicitudRepuestoDetalles;
+    // }
   }
 
   /**
@@ -218,6 +220,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
         this.numeroPatrimonial = equipo.numeroPatrimonial;
         this.numeroSerie = equipo.numeroSerie;
         this.selectedEquipo = this.equipoSeleccionado != null;
+        this.estadoInicial = equipo.estado;
         this.equipoWarning = false;
         this.equipoSuccess = true;
         this.selectedEquipoActualizada = true;
@@ -241,6 +244,7 @@ export class EditOrdenTrabajoComponent implements OnInit {
    */
   clearDatosEquipos() {
     this.equipoSeleccionado = null;
+    this.estadoInicial = "";
     this.onKeyNroSerie('');
     this.onKeyNroPatrimonial('');
     this.selectedEquipo = false;
@@ -369,22 +373,22 @@ export class EditOrdenTrabajoComponent implements OnInit {
    * Cuando se guarda la información introducida.
    */
   onSaveAddOrdenTrabajo() {
-    if (this.solicitudRepuestoDetalles != null && this.solicitudRepuestoDetalles.length > 0) {
-      // Si la solicitud de repuesto se crea a partir de la orden de trabajo
-      if (this.solicitudRepuesto == null) {
-        this.esNuevaSolicitudRepuesto = true;
-        this.solicitudRepuesto = new SolicitudRepuesto(null, EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO,
-          this.solicitudRepuestoDetalles, new Date());
-      } else {
-        // si se obtuvo una solicitud de repuesto buscando por su Id
-        this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO;
-        this.solicitudRepuesto.solicitudRepuestoDetalles = this.solicitudRepuestoDetalles;
-      }
-    } else {
-      if (this.solicitudRepuesto != null) {
-        this.solicitudRepuesto = null;
-      }
-    }
+    // if (this.solicitudRepuestoDetalles != null && this.solicitudRepuestoDetalles.length > 0) {
+    //   // Si la solicitud de repuesto se crea a partir de la orden de trabajo
+    //   if (this.solicitudRepuesto == null) {
+    //     this.esNuevaSolicitudRepuesto = true;
+    //     this.solicitudRepuesto = new SolicitudRepuesto(null, EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO,
+    //       this.solicitudRepuestoDetalles, new Date());
+    //   } else {
+    //     // si se obtuvo una solicitud de repuesto buscando por su Id
+    //     this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO;
+    //     this.solicitudRepuesto.solicitudRepuestoDetalles = this.solicitudRepuestoDetalles;
+    //   }
+    // } else {
+    //   if (this.solicitudRepuesto != null) {
+    //     this.solicitudRepuesto = null;
+    //   }
+    // }
 
     if (this.fechaRealizacion != null && (typeof this.fechaRealizacion === 'string' || this.fechaRealizacion instanceof String)) {
       let parts = this.fechaRealizacion.split('/');
@@ -394,18 +398,18 @@ export class EditOrdenTrabajoComponent implements OnInit {
     this.ordenTrabajo = new OrdenTrabajo(this.id, this.estado, this.tipoServicio, this.diagnostico, this.responsable,
       this.equipoSeleccionado, null, null, this.fechaRealizacion);
 
-    if (this.esNuevaSolicitudRepuesto) {
-      this.saveSolicitudRepuesto(this.solicitudRepuesto);
-    } else if (this.fueActualizada) {
-      // si hay elementos que eliminar de la solicitud de repuestos, se procede a eliminarlos y luego actualizar la solicitud.
-      if (this.detallesAEliminar != null && this.detallesAEliminar.length > 0) {
-        this.eliminarDetallesdelaSolicitudRepuesto();
-      }
-      this.updateSolicitudRepuesto(this.solicitudRepuesto, false, true);
-    } else {
-      this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
+    // if (this.esNuevaSolicitudRepuesto) {
+    //   this.saveSolicitudRepuesto(this.solicitudRepuesto);
+    // } else if (this.fueActualizada) {
+    //   // si hay elementos que eliminar de la solicitud de repuestos, se procede a eliminarlos y luego actualizar la solicitud.
+    //   if (this.detallesAEliminar != null && this.detallesAEliminar.length > 0) {
+    //     this.eliminarDetallesdelaSolicitudRepuesto();
+    //   }
+    //   this.updateSolicitudRepuesto(this.solicitudRepuesto, false, true);
+    // } else {
+    //   this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
       this.saveOrdenTrabajo(this.ordenTrabajo);
-    }
+    // }
   }
 
   /**
@@ -483,8 +487,9 @@ export class EditOrdenTrabajoComponent implements OnInit {
     this.ordenTrabajoService.editarOrdenTrabajo(ordenTrabajo).subscribe(
       orden => {
         this.ordenTrabajo = orden;
-        if (this.ordenTrabajo.equipo != null && this.selectedEquipoActualizada) {
-          this.ordenTrabajo.equipo.estado = EstadoEquipo.OPERATIVO;
+        if (this.ordenTrabajo.equipo != null &&
+          ((this.selectedEquipoActualizada && this.ordenTrabajo.equipo.estado != this.estadoInicial) ||
+            this.ordenTrabajo.equipo.estado != this.estadoInicial)) {
           this.updateEquipo(this.ordenTrabajo.equipo, false);
         } else {
           this.goBack();

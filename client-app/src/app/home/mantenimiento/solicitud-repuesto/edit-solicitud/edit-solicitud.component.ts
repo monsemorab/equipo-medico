@@ -17,7 +17,7 @@ export class EditSolicitudComponent implements OnInit {
 // Datos solicitud repuesto.
   solicitudRepuesto: SolicitudRepuesto;
   id: number;
-  estado: string;
+  estadoSeleccionado: string;
   fechaSolicitud: any;
   // estado solicitud
   estados: EstadoSolicitud[];
@@ -79,7 +79,7 @@ export class EditSolicitudComponent implements OnInit {
    * @param {string} value
    */
   onSelectedEstadoSolicitud(value: string): void {
-    this.estado = value;
+    this.estadoSeleccionado = value;
   }
 
   /**
@@ -89,7 +89,7 @@ export class EditSolicitudComponent implements OnInit {
   camposAEditar(solicitud: SolicitudRepuesto) {
     const datepipe: DatePipe = new DatePipe('en-ES');
     this.id = solicitud.id;
-    this.estado = solicitud.estado;
+    this.estadoSeleccionado = solicitud.estado;
     this.solicitudRepuestoDetalles = solicitud.solicitudRepuestoDetalles;
     this.fechaSolicitud = datepipe.transform(solicitud.fechaSolicitud, 'yyyy-MM-dd');
   }
@@ -149,7 +149,7 @@ export class EditSolicitudComponent implements OnInit {
       this.fechaSolicitud = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
-    this.solicitudRepuesto = new SolicitudRepuesto(this.id, this.estado, this.solicitudRepuestoDetalles, this.fechaSolicitud);
+    this.solicitudRepuesto = new SolicitudRepuesto(this.id, this.estadoSeleccionado, this.solicitudRepuestoDetalles, this.fechaSolicitud);
 
 
     // si hay elementos que eliminar de la solicitud de repuestos, se procede a eliminarlos y luego actualizar la solicitud.

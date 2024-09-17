@@ -3,7 +3,7 @@
 <form clrForm>
   <div class="clr-col-4">
     <clr-select-container>
-      <label>Estado:</label>
+      <label>Estado de la orden:</label>
       <select clrSelect name="estadoOT" #selectEstadoOT
               [(ngModel)]="estadoOT"
               (change)="onSelectedEstado(selectEstadoOT.value)">
@@ -36,6 +36,17 @@
   <hr>
   <!-- información del equipo-->
   <h4 class="form-mantenimiento-sub-title">Información del Equipo</h4>
+  <!--    estado del equipo-->
+  <div class="clr-col-3">
+    <clr-select-container>
+      <label>Estado</label>
+      <select clrSelect name="estado" [(ngModel)]="equipo.estado">
+        <option value="Operativo">Operativo</option>
+        <option value="Inoperativo">Inoperativo</option>
+        <option value="Irreparable">Irreparable</option>
+      </select>
+    </clr-select-container>
+  </div>
   <table class="table table-compact">
     <thead>
     <tr>

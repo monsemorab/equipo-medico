@@ -74,6 +74,19 @@
         </div>
       </div>
     </div>
+
+    <!--    estado del equipo-->
+    <div class="clr-col-3"  *ngIf="selectedEquipo">
+      <clr-select-container>
+        <label>Estado</label>
+        <select clrSelect name="estado" [(ngModel)]="equipoSeleccionado.estado">
+          <option value="Operativo">Operativo</option>
+          <option value="Inoperativo">Inoperativo</option>
+          <option value="Irreparable">Irreparable</option>
+        </select>
+      </clr-select-container>
+    </div>
+
     <!--    botón eliminar-->
     <div class="clr-col-1 clr-align-self-end" *ngIf="selectedEquipo">
       <a type="button" class="btn btn-sm btn-danger-outline"
