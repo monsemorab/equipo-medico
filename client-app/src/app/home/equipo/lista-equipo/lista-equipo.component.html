@@ -4,7 +4,7 @@
     <br/>
     <!--      tipo/ubicacion-->
     <div>
-      <label class="clr-col-1 clr-align-self-end">Tipo:</label>
+      <label class="clr-col-1 clr-align-self-end form-filter-label">Tipo:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-tipo" name="tipoId" [(ngModel)]="tipoId"
                 (ngModelChange)="onSelectTipo()">
@@ -15,7 +15,7 @@
         </select>
       </div>
 
-      <label class="clr-col-1 clr-align-self-end">Ubicacion:</label>
+      <label class="clr-col-1 clr-align-self-end form-filter-label">Ubicacion:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-ubi" name="selectUbi"
                 [(ngModel)]="ubicacionId"
@@ -28,7 +28,7 @@
       </div>
 
       <!-- estado equipo-->
-      <label class="clr-col-1 clr-align-self-end">Estado Equipo:</label>
+      <label class="clr-col-1 clr-align-self-end form-filter-label">Estado Equipo:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-estado-equipo" name="estado" [(ngModel)]="estadoEquipo"
                 (ngModelChange)="onSelectEstado()">
@@ -42,7 +42,7 @@
     <br/>
     <!--      marca/modelo-->
     <div>
-      <label class="clr-col-1 clr-align-self-end">Marca:</label>
+      <label class="clr-col-1 clr-align-self-end form-filter-label">Marca:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-marca" name="marcaId" [(ngModel)]="marcaId"
                 (ngModelChange)="onSelectMarca()">
@@ -53,7 +53,7 @@
         </select>
       </div>
 
-      <label class="clr-col-1 clr-align-self-end">Modelo:</label>
+      <label class="clr-col-1 clr-align-self-end form-filter-label">Modelo:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-modelo" name="modeloId" [(ngModel)]="modeloId"
                 (ngModelChange)="onSelectModelo()">
@@ -65,12 +65,13 @@
       </div>
 
       <!-- estado contrato-->
-      <label class="clr-col-1 clr-align-self-end">Estado Contrato:</label>
+      <label class="clr-col-1 clr-align-self-end form-filter-label">Estado Contrato:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-estado-contrato" name="estadoContrato"
                 [(ngModel)]="estadoContrato"
                 (change)="onSelectEstadoContrado()">
           <option>Filtrar por Estado Contrato</option>
+          <option>Sin Contrato</option>
           <option *ngFor="let estado of estadosContrato"
                   value={{estado.nombre}}>{{estado.nombre}}
           </option>
@@ -79,6 +80,9 @@
 
       <a class="btn btn-sm btn-primary filtro-btn " (click)="filtrarEquipo()">
         <clr-icon shape="search"></clr-icon>
+      </a>
+      <a class="btn btn-sm btn-primary filtro-btn " (click)="limpiarFiltros()">
+        Limpiar Filtros
       </a>
     </div>
     <br/>

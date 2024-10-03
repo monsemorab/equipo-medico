@@ -100,4 +100,12 @@ public class RepuestoServiceImpl implements RepuestoService
 		}
 		return repuestoRepository.getRepuestoByFilter(tipo, marca, modelo);
 	}
+
+	@Override
+	public List<Repuesto> getRepuestosByKeyword(String keyword)
+	{
+		return (ArrayList<Repuesto>)repuestoRepository.getRepuestoByKeyword(keyword);
+	}
+
+
 }

@@ -3,7 +3,6 @@ import {Equipo} from "../../../domain/equipo";
 import {Contrato} from "../../../domain/contrato";
 import {ContratoService} from "../../../service/contrato.service";
 import {DatePipe} from "@angular/common";
-import {MetricasDTO} from "../../../domain/metricas-dto";
 
 @Component({
   selector: 'app-informe-contratos',
@@ -14,7 +13,7 @@ export class InformeContratosComponent implements OnInit {
 
   // Datos Contrato
   contrato: Contrato;
-  numeroContrato: string;
+  idContrato: number;
   fechaInicio: any;
   fechaFin: any;
 
@@ -23,13 +22,13 @@ export class InformeContratosComponent implements OnInit {
 
   // Errors
   errorMessage: string;
-  error:boolean;
+  error: boolean;
   info: boolean;
 
   constructor(private contratoService: ContratoService) { }
 
   ngOnInit(): void {
-    this.numeroContrato = '';
+    this.idContrato = null;
   }
 
   /**
@@ -39,8 +38,8 @@ export class InformeContratosComponent implements OnInit {
   onEnterContrato(value: string) {
     this.info = false;
     if (value !== '' && value != null) {
-      this.numeroContrato = value;
-      this.buscarContrato(this.numeroContrato);
+      this.idContrato = +value;
+      this.buscarContrato(this.idContrato);
     }
   }
 
@@ -50,11 +49,11 @@ export class InformeContratosComponent implements OnInit {
    * @param value
    */
   onKeyNroContrato(value: string) {
-    this.numeroContrato = value;
+    this.idContrato = +value;
   }
 
-  buscarContrato(nroContrato: string) {
-    this.contratoService.getContratoByNroContrato(nroContrato).subscribe(
+  buscarContrato(idContrato: number) {
+    this.contratoService.getContratoById(idContrato).subscribe(
       contrato => {
         this.contrato = contrato;
         this.equipos = contrato.equipos;
@@ -65,12 +64,12 @@ export class InformeContratosComponent implements OnInit {
       error => {
         this.errorMessage = error.error;
         console.log(this.errorMessage);
-        if (this.errorMessage == null && error.status == '404') {
+        if (this.errorMessage == null && error.status === '404') {
           this.errorMessage = 'No existe el contrato buscado ';
           this.info = true;
           this.limpiarCamposInfo();
         } else {
-          console.log(this.errorMessage)
+          console.log(this.errorMessage);
           this.error = true;
         }
       }
@@ -79,9 +78,9 @@ export class InformeContratosComponent implements OnInit {
 
   limpiarCamposInfo() {
     this.contrato = null;
-    this.numeroContrato = "";
-    this.fechaInicio = "";
-    this.fechaFin = "";
+    this.idContrato = null;
+    this.fechaInicio = '';
+    this.fechaFin = '';
     this.equipos = [];
   }
 

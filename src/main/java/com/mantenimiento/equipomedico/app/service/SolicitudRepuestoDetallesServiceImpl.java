@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import com.mantenimiento.equipomedico.app.entidad.Repuesto;
+import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuesto;
 import com.mantenimiento.equipomedico.app.entidad.SolicitudRepuestoDetalles;
 import com.mantenimiento.equipomedico.app.repository.SolicitudRepuestoDetallesRepository;
+import com.mantenimiento.equipomedico.app.repository.SolicitudRepuestoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ public class SolicitudRepuestoDetallesServiceImpl implements SolicitudRepuestoDe
 
 	@Autowired
 	private SolicitudRepuestoDetallesRepository solicitudRepuestoDetallesRepository;
+	@Autowired
+	private SolicitudRepuestoRepository solicitudRepuestoRepository;
 
 	/**
 	 * Creación de una nueva solicitud de repuesto detalle.
@@ -93,7 +97,16 @@ public class SolicitudRepuestoDetallesServiceImpl implements SolicitudRepuestoDe
 	@Override
 	public void removeById(long id)
 	{
-		solicitudRepuestoDetallesRepository.deleteById(id);
+		Optional<SolicitudRepuestoDetalles> solicitudRepuestoDetalles = solicitudRepuestoDetallesRepository.findById(id);
+		if(solicitudRepuestoDetalles.isPresent()){
+			SolicitudRepuesto solicitud = solicitudRepuestoDetalles.get().getSolicitud();
+			List<SolicitudRepuestoDetalles> result = solicitud.getSolicitudRepuestoDetalles()
+				.stream()
+				.filter(solicitudRepuestoDetalles1 -> solicitudRepuestoDetalles1.getId() != id)
+				.collect(Collectors.toList());
+			solicitud.setSolicitudRepuestoDetalles(result);
+			solicitudRepuestoRepository.save(solicitud);
+			solicitudRepuestoDetallesRepository.deleteById(id);
+		}
 	}
-
 }

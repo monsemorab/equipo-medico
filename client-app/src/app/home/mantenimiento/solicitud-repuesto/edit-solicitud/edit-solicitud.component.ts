@@ -5,7 +5,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 import {DatePipe} from "@angular/common";
 import {SolicitudRepuestoDetalle} from "../../../../domain/solicitud-repuesto-detalle";
-import {Repuesto} from "../../../../domain/repuesto";
+import {SolicitudRepuestoDetalleService} from "../../../../service/solicitud-repuesto-detalle.service";
 
 @Component({
   selector: 'app-edit-solicitud',
@@ -17,7 +17,7 @@ export class EditSolicitudComponent implements OnInit {
 // Datos solicitud repuesto.
   solicitudRepuesto: SolicitudRepuesto;
   id: number;
-  estado: string;
+  estadoSeleccionado: string;
   fechaSolicitud: any;
   // estado solicitud
   estados: EstadoSolicitud[];
@@ -27,6 +27,7 @@ export class EditSolicitudComponent implements OnInit {
   detalleSeleccionado: SolicitudRepuestoDetalle;
   isEditDetalle: boolean;
   solicitudRepuestoDetalles = new Array<SolicitudRepuestoDetalle>();
+  detallesAEliminar = new Array<SolicitudRepuestoDetalle>();
 
   // error
   errorMessage: string;
@@ -34,7 +35,8 @@ export class EditSolicitudComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private solicitudRepuestoService: SolicitudRepuestoService) {
+              private solicitudRepuestoService: SolicitudRepuestoService,
+              private solicitudRepuestoDetalleService: SolicitudRepuestoDetalleService) {
   }
 
   ngOnInit() {
@@ -77,7 +79,7 @@ export class EditSolicitudComponent implements OnInit {
    * @param {string} value
    */
   onSelectedEstadoSolicitud(value: string): void {
-    this.estado = value;
+    this.estadoSeleccionado = value;
   }
 
   /**
@@ -87,7 +89,7 @@ export class EditSolicitudComponent implements OnInit {
   camposAEditar(solicitud: SolicitudRepuesto) {
     const datepipe: DatePipe = new DatePipe('en-ES');
     this.id = solicitud.id;
-    this.estado = solicitud.estado;
+    this.estadoSeleccionado = solicitud.estado;
     this.solicitudRepuestoDetalles = solicitud.solicitudRepuestoDetalles;
     this.fechaSolicitud = datepipe.transform(solicitud.fechaSolicitud, 'yyyy-MM-dd');
   }
@@ -108,16 +110,19 @@ export class EditSolicitudComponent implements OnInit {
   editRepuesto(repuesto: SolicitudRepuestoDetalle): void {
     this.detalleSeleccionado = repuesto;
     this.isEditDetalle = true;
-    this.eliminarDetalleRepuesto(this.detalleSeleccionado);
+    this.eliminarDetalleRepuesto(this.detalleSeleccionado, false);
     this.modalAddEditDetalleOpen = true;
   }
 
   /**
    * Se quita de la lista de detalles el repuesto que se quiere  editar.
    */
-  eliminarDetalleRepuesto(repuestoSeleccionado: SolicitudRepuestoDetalle): void {
+  eliminarDetalleRepuesto(repuestoSeleccionado: SolicitudRepuestoDetalle, isAccionEliminar: boolean): void {
     for (let i = 0; i < this.solicitudRepuestoDetalles.length; i++) {
       if (repuestoSeleccionado.id === this.solicitudRepuestoDetalles[i].id) {
+        if (isAccionEliminar && this.solicitudRepuesto != null) {
+          this.detallesAEliminar.push(this.solicitudRepuestoDetalles[i]);
+        }
         this.solicitudRepuestoDetalles.splice(i, 1);
         break;
       }
@@ -144,8 +149,34 @@ export class EditSolicitudComponent implements OnInit {
       this.fechaSolicitud = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     }
 
-    this.solicitudRepuesto = new SolicitudRepuesto(this.id, this.estado, this.solicitudRepuestoDetalles, this.fechaSolicitud);
+    this.solicitudRepuesto = new SolicitudRepuesto(this.id, this.estadoSeleccionado, this.solicitudRepuestoDetalles, this.fechaSolicitud);
+
+
+    // si hay elementos que eliminar de la solicitud de repuestos, se procede a eliminarlos y luego actualizar la solicitud.
+    if (this.detallesAEliminar != null && this.detallesAEliminar.length > 0) {
+      this.eliminarDetallesdelaSolicitudRepuesto();
+    }
     this.saveSolicitudRepuesto(this.solicitudRepuesto);
+  }
+
+
+
+  /**
+   * Se eliminan los detalles de la solicitud de repuestos, agregados anteriormente a la lista de eliminados
+   */
+  eliminarDetallesdelaSolicitudRepuesto(): void {
+    for (let i = 0; i < this.detallesAEliminar.length; i++) {
+      let detalle = this.detallesAEliminar[i];
+      this.solicitudRepuestoDetalleService.eliminarSolicitudRepuestoDetalle(detalle).subscribe(
+        // tslint:disable-next-line:no-shadowed-variable
+        respuesta => {
+          console.log("se eliminó el detalle: ", detalle);
+        },
+        error => {
+          console.log(error.error)
+        }
+      );
+    }
   }
 
   /**

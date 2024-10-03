@@ -1,10 +1,12 @@
 package com.mantenimiento.equipomedico.app.entidad;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Equipo
@@ -63,10 +65,9 @@ public class Equipo implements Serializable {
     @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
 
-    @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "contrato_id")
-    @JsonIgnoreProperties(value="equipos", allowSetters = true)
-    private Contrato contrato;
+    @ManyToMany(mappedBy = "equipos")
+    @JsonIgnore
+    List<Contrato> contratos;
 
     @Column(name = "licitacion_compra")
     private String licitacionCompra;
@@ -378,23 +379,6 @@ public class Equipo implements Serializable {
         this.id = id;
     }
 
-    /**
-     * Gets contrato
-     *
-     * @return value of contrato
-     */
-    public Contrato getContrato() {
-        return contrato;
-    }
-
-    /**
-     * Set contrato
-     *
-     * @param contrato
-     */
-    public void setContrato(Contrato contrato) {
-        this.contrato = contrato;
-    }
 
     /**
      * Gets horasUso
@@ -456,4 +440,26 @@ public class Equipo implements Serializable {
     {
         this.modelo = modelo;
     }
+
+    /**
+     * Gets contratos
+     *
+     * @return value of contratos
+     */
+    public List<Contrato> getContratos()
+    {
+        return contratos;
+    }
+
+    /**
+     * Set contratos
+     *
+     * @param contratos
+     */
+    public void setContratos(List<Contrato> contratos)
+    {
+        this.contratos = contratos;
+    }
+
+
 }

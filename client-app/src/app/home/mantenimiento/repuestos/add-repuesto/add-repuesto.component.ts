@@ -11,6 +11,7 @@ import {Modelo} from "../../../../domain/modelo";
 import {ModeloService} from "../../../../service/modelo.service";
 import {Marca} from "../../../../domain/marca";
 import {MarcaService} from "../../../../service/marca.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-add-repuesto',
@@ -19,6 +20,7 @@ import {MarcaService} from "../../../../service/marca.service";
 })
 export class AddRepuestoComponent implements OnInit {
   // Datos Repuesto
+  id: number;
   codigo: string;
   descripcion: string;
   precio: number;
@@ -29,6 +31,13 @@ export class AddRepuestoComponent implements OnInit {
   fechaActualizacion: any;
   readonlyField: boolean;
   repuesto: Repuesto;
+
+  //repuestos existentes
+  repuestos = new Array<Repuesto>();
+  repExistenteId: any;
+  isEdit: boolean;
+  keyWord : string;
+  mostrarRep: boolean;
 
   tipos = new Array<TipoEquipo>();
   representantes = new Array<Representante>();
@@ -234,49 +243,76 @@ export class AddRepuestoComponent implements OnInit {
   }
 
 
-  /**
-   * Al presionar la tecla enter, se realiza la busqueda del repuesto por el campo código.
-   * @param value
-   */
-  onEnterCodigoRepuesto(value: string) {
-    if (value !== '' && value != null) {
-      this.codigo = value;
-      this.buscarRepuestoByCodigo(this.codigo);
-    }
-  }
-
-  /**
-   * Se obtiene el valor introducido en el campo código repuesto.
-   * @param value
-   */
-  onKeyCodigoRepuesto(value: string) {
-    this.codigo = value;
-  }
-
-
-  /**
-   * Se busca el repuesto por el código introducido. Si existe, se notifica al usuario que ya existe ese repuesto,
-   * si no existe, se notifica al usuario y se habilitan los campos para ingresar los datos.
-   * @param codigo
-   */
-  buscarRepuestoByCodigo(codigo: string) {
-    this.repuestoService.getRepuestoByCodigo(codigo).subscribe(
+  onSelectRepuesto(): void {
+    this.repuestoService.getRepuestoById(this.repExistenteId).subscribe(
       repuesto => {
-        this.errorMessage = 'Ya existe un repuesto con código ' + codigo;
-        this.info = true;
-        this.addBtnHabilitado = false;
+        const datepipe: DatePipe = new DatePipe('en-ES');
+        this.isEdit = true;
+        this.repuesto = repuesto;
+        this.id = repuesto.id;
+        this.codigo = repuesto.codigo;
+        this.descripcion = repuesto.descripcionArticulo;
+        this.precio = repuesto.precio;
+        this.cantAdquirida = repuesto.cantidadAdquirida;
+        this.cantExistente = repuesto.cantidadExistente;
+        this.fechaActualizacion = datepipe.transform(repuesto.fechaActualizacion, 'MM/dd/yyyy');
+        this.tipoEquipo = repuesto.tipoEquipo;
+        if (repuesto.tipoEquipo != null) {
+          this.tipoEqId = repuesto.tipoEquipo.id;
+        }
+        if (repuesto.marca != null) {
+          this.marcaSeleccionada = repuesto.marca;
+          this.marcaId = this.marcaSeleccionada.id;
+        }
+
+        if (repuesto.modelo != null) {
+          this.modeloSeleccionado = repuesto.modelo;
+          this.modeloId = this.modeloSeleccionado.id;
+        }
+        this.representante = repuesto.representante;
+        if (repuesto.representante != null) {
+          this.repreId = repuesto.representante.id;
+        }
       },
       error => {
         this.errorMessage = error.error;
-        if (this.errorMessage == null && error.status == '404') {
-          this.errorMessage = 'No existe repuesto con código ' + codigo + " ingrese los datos requeridos para crearlo";
-          this.info = true;
-          this.readonlyField = false;
-          this.addBtnHabilitado = true;
-        } else {
-          console.log(this.errorMessage)
-          this.error = true;
+        console.log(this.errorMessage)
+      }
+    );
+  }
+
+  /**
+   * Al presionar la tecla enter, se realiza la busqueda del repuesto por el campo descripcion.
+   * @param value
+   */
+  onEnterDescripcionRepuesto(value: string) {
+    if (value !== '' && value != null) {
+      this.keyWord = value;
+      this.buscarRepuestoBykeyWord(this.keyWord);
+    }
+  }
+
+  onKeyDescripcionRepuesto(value: string) {
+    this.keyWord = value;
+  }
+
+  buscarRepuestoBykeyWord(keyWord: string): void {
+    this.repuestoService.getRepuestoByKeyWord(keyWord).subscribe(
+      list => {
+        if(list.length > 0) {
+          this.repuestos = list;
+          this.mostrarRep = true;
         }
+
+        this.addBtnHabilitado = true;
+        this.readonlyField = false;
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage);
+        this.repuestos = [];
+        this.mostrarRep = false;
+        this.addBtnHabilitado = false;
       }
     );
   }
@@ -289,11 +325,16 @@ export class AddRepuestoComponent implements OnInit {
       let parts = this.fechaActualizacion.split('/');
       this.fechaActualizacion =  new Date(+parts[2], +parts[0] - 1, +parts[1]);
     }
-    this.repuesto = new Repuesto(null, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
+
+    this.repuesto = new Repuesto(this.id, this.codigo, this.descripcion, this.precio, this.cantAdquirida,
       this.cantExistente, this.tipoEquipo, this.modeloSeleccionado, this.marcaSeleccionada, this.representante,
       this.fechaActualizacion);
-    this.crearRepuesto(this.repuesto);
 
+    if(this.isEdit) {
+      this.editarRepuesto(this.repuesto);
+    } else {
+      this.crearRepuesto(this.repuesto);
+    }
   }
 
   /**
@@ -315,6 +356,24 @@ export class AddRepuestoComponent implements OnInit {
     );
   }
 
+  /**
+   * Se guardan los datos editados del repuesto seleccionado.
+   * @param repuesto
+   */
+  editarRepuesto(repuesto: Repuesto) {
+    this.repuestoService.editarRepuesto(repuesto).subscribe(
+      repuesto => {
+        this.repuesto = repuesto;
+        this.goBack();
+      },
+      error => {
+        this.errorMessage = error.error;
+        console.log(this.errorMessage)
+        this.error = true;
+      }
+    );
+  }
+
   goBack(): void {
     this.router.navigate(['home/mantenimiento/repuestos/lista-repuestos']);
   }
@@ -323,6 +382,7 @@ export class AddRepuestoComponent implements OnInit {
    * Se inicializan los valores de los campos.
    */
   clearRepuestoField() {
+    this.id = null;
     this.codigo = '';
     this.descripcion = '';
     this.precio = null;
@@ -335,5 +395,8 @@ export class AddRepuestoComponent implements OnInit {
     this.fechaActualizacion = '';
     this.readonlyField = false;
     this.addBtnHabilitado = false;
+    this.isEdit = false;
+    this.keyWord = '';
+    this.mostrarRep = false;
   }
 }

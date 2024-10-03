@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SolicitudRepuesto} from '../../../../domain/solicitud-repuesto';
 import {Router} from '@angular/router';
-import {Location} from '@angular/common';
 import {SolicitudRepuestoService} from '../../../../service/solicitud-repuesto.service';
 import {SolicitudRepuestoDetalle} from "../../../../domain/solicitud-repuesto-detalle";
 import {EstadoSolicitudRepuesto} from "../../../../utils/estado-solicitud-repuesto";
@@ -30,7 +29,6 @@ export class AddSolicitudComponent implements OnInit {
   error: boolean;
 
   constructor(private router: Router,
-              private location: Location,
               private solicitudRepuestoService: SolicitudRepuestoService) {
   }
 

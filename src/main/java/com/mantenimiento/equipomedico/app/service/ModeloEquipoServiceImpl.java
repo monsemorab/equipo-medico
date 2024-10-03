@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,6 +24,17 @@ public class ModeloEquipoServiceImpl implements ModeloEquipoService {
      */
     @Override
     public Modelo create(Modelo modeloEquipo) {
+        // primero se controla que el modelo no exista
+        List<Modelo> modelos = modeloEquipoRepository.getAllByMarca_Id(modeloEquipo.getMarca().getId());
+        Modelo modeloExistente = modelos.stream()
+            .filter(modelo -> modelo.getModelo().equalsIgnoreCase(modeloEquipo.getModelo()))
+            .findFirst().orElse(null);
+
+        // si el modelo ya existe se envia los datos del mismo
+        if(Objects.nonNull(modeloExistente)) {
+            return modeloExistente;
+        }
+        // si el modelo no existe, se crea uno nuevo
         return modeloEquipoRepository.save(modeloEquipo);
     }
 

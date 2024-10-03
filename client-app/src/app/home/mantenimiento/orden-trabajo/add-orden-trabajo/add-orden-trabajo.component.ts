@@ -36,6 +36,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
   numeroPatrimonial: string;
   requestEquipo: ParamsBusquedaEquipo;
   selectedEquipo: boolean;
+  estadoInicial:string;
 
   // solicitud repuesto
   solicitudRepId: any;
@@ -70,7 +71,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
   ngOnInit() {
     this.limpiarCampos();
     this.selectedEquipo = false;
-    this.tipoServicio = 'OPERATIVO';
+    this.tipoServicio = 'CORRECTIVO';
     this.esNuevaSolicitudRepuesto = false;
     this.fueActualizada = false;
     this.equipoSuccess = false;
@@ -183,6 +184,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
         this.equipoSeleccionado = equipo;
         this.numeroPatrimonial = equipo.numeroPatrimonial;
         this.numeroSerie = equipo.numeroSerie;
+        this.estadoInicial = equipo.estado;
         this.selectedEquipo = this.equipoSeleccionado != null;
         this.equipoWarning = false;
         this.equipoSuccess = true;
@@ -201,6 +203,7 @@ export class AddOrdenTrabajoComponent implements OnInit {
    */
   clearDatosEquipos() {
     this.equipoSeleccionado = null;
+    this.estadoInicial = "";
     this.onKeyNroSerie('');
     this.onKeyNroPatrimonial('');
     this.selectedEquipo = false;
@@ -312,22 +315,22 @@ export class AddOrdenTrabajoComponent implements OnInit {
    */
   onSaveAddOrdenTrabajo() {
     if(this.selectedEquipo) {
-      if (this.solicitudRepuestoDetalles != null && this.solicitudRepuestoDetalles.length > 0) {
-        // Si la solicitud de repuesto se crea a partir de la orden de trabajo
-        if (this.solicitudRepuesto == null) {
-          this.esNuevaSolicitudRepuesto = true;
-          this.solicitudRepuesto = new SolicitudRepuesto(null, EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO,
-            this.solicitudRepuestoDetalles, new Date());
-        } else {
-          // si se obtuvo una solicitud de repuesto buscando por su Id
-          this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO;
-          this.solicitudRepuesto.solicitudRepuestoDetalles = this.solicitudRepuestoDetalles;
-        }
-      } else {
-        if (this.solicitudRepuesto != null) {
-          this.solicitudRepuesto = null;
-        }
-      }
+      // if (this.solicitudRepuestoDetalles != null && this.solicitudRepuestoDetalles.length > 0) {
+      //   // Si la solicitud de repuesto se crea a partir de la orden de trabajo
+      //   if (this.solicitudRepuesto == null) {
+      //     this.esNuevaSolicitudRepuesto = true;
+      //     this.solicitudRepuesto = new SolicitudRepuesto(null, EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO,
+      //       this.solicitudRepuestoDetalles, new Date());
+      //   } else {
+      //     // si se obtuvo una solicitud de repuesto buscando por su Id
+      //     this.solicitudRepuesto.estado = EstadoSolicitudRepuesto.PENDIENTE_EN_ORDEN_TRABAJO;
+      //     this.solicitudRepuesto.solicitudRepuestoDetalles = this.solicitudRepuestoDetalles;
+      //   }
+      // } else {
+      //   if (this.solicitudRepuesto != null) {
+      //     this.solicitudRepuesto = null;
+      //   }
+      // }
 
       if (this.fechaRealizacion != null && (typeof this.fechaRealizacion === 'string' || this.fechaRealizacion instanceof String)) {
         let parts = this.fechaRealizacion.split('/');
@@ -337,14 +340,14 @@ export class AddOrdenTrabajoComponent implements OnInit {
       this.ordenTrabajo = new OrdenTrabajo(null, this.estado, this.tipoServicio, this.diagnostico, this.responsable,
         this.equipoSeleccionado, null, null, this.fechaRealizacion);
 
-      if (this.esNuevaSolicitudRepuesto) {
-        this.saveSolicitudRepuesto(this.solicitudRepuesto);
-      } else if (this.fueActualizada) {
-        this.updateSolicitudRepuesto(this.solicitudRepuesto);
-      } else {
-        this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
+      // if (this.esNuevaSolicitudRepuesto) {
+      //   this.saveSolicitudRepuesto(this.solicitudRepuesto);
+      // } else if (this.fueActualizada) {
+      //   this.updateSolicitudRepuesto(this.solicitudRepuesto);
+      // } else {
+      //   this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
         this.saveOrdenTrabajo(this.ordenTrabajo);
-      }
+      // }
     } else {
       this.errorMessage = "Debe agregar un equipo a la orden";
       this.error = true;
@@ -355,42 +358,42 @@ export class AddOrdenTrabajoComponent implements OnInit {
    * Se crea una nueva solicitud de repuestos asociada a la orden de trabajo creada.
    * @param solicitud
    */
-  saveSolicitudRepuesto(solicitud: SolicitudRepuesto): void {
-    this.solicitudRepuestoService.crearSolicitudRepuesto(solicitud).subscribe(
-      // tslint:disable-next-line:no-shadowed-variable
-      solicitud => {
-        this.solicitudRepuesto = solicitud;
-        this.solicitudRepuestoService.emitExisteSolicitudRepuesto(true);
-        this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
-        this.saveOrdenTrabajo(this.ordenTrabajo);
-      },
-      error => {
-        this.errorMessage = error.error;
-        console.log(error.error + error.message)
-        this.error = true;
-      }
-    );
-  }
+  // saveSolicitudRepuesto(solicitud: SolicitudRepuesto): void {
+  //   this.solicitudRepuestoService.crearSolicitudRepuesto(solicitud).subscribe(
+  //     // tslint:disable-next-line:no-shadowed-variable
+  //     solicitud => {
+  //       this.solicitudRepuesto = solicitud;
+  //       this.solicitudRepuestoService.emitExisteSolicitudRepuesto(true);
+  //       this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
+  //       this.saveOrdenTrabajo(this.ordenTrabajo);
+  //     },
+  //     error => {
+  //       this.errorMessage = error.error;
+  //       console.log(error.error + error.message)
+  //       this.error = true;
+  //     }
+  //   );
+  // }
 
   /**
    * Se actualiza la solicitud de repuesto seleccionada para la ordend e trabajo y luego se crea la orden de trabajo
    * @param solicitud
    */
-  updateSolicitudRepuesto(solicitud: SolicitudRepuesto): void {
-    this.solicitudRepuestoService.editarSolicitudRepuesto(solicitud).subscribe(
-      // tslint:disable-next-line:no-shadowed-variable
-      solicitud => {
-        this.solicitudRepuesto = solicitud;
-        this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
-        this.saveOrdenTrabajo(this.ordenTrabajo);
-      },
-      error => {
-        this.errorMessage = error.error;
-        console.log(error.error + error.message)
-        this.error = true;
-      }
-    );
-  }
+  // updateSolicitudRepuesto(solicitud: SolicitudRepuesto): void {
+  //   this.solicitudRepuestoService.editarSolicitudRepuesto(solicitud).subscribe(
+  //     // tslint:disable-next-line:no-shadowed-variable
+  //     solicitud => {
+  //       this.solicitudRepuesto = solicitud;
+  //       this.ordenTrabajo.solicitudRepuesto = this.solicitudRepuesto;
+  //       this.saveOrdenTrabajo(this.ordenTrabajo);
+  //     },
+  //     error => {
+  //       this.errorMessage = error.error;
+  //       console.log(error.error + error.message)
+  //       this.error = true;
+  //     }
+  //   );
+  // }
 
   /**
    * Se guarda la orden de trabajo creada.
@@ -401,8 +404,8 @@ export class AddOrdenTrabajoComponent implements OnInit {
       orden => {
         this.ordenTrabajo = orden;
         this.ordenTrabajoService.emitExisteListaOrdenTrabajo(true);
-        if (this.ordenTrabajo.equipo != null) {
-          this.ordenTrabajo.equipo.estado = EstadoEquipo.INOPERATIVO;
+        if (this.ordenTrabajo.equipo != null &&
+          this.ordenTrabajo.equipo.estado != this.estadoInicial) {
           this.updateEquipo(this.ordenTrabajo.equipo);
         } else {
           this.goBack();

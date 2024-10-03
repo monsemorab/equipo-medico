@@ -43,4 +43,14 @@ export class SolicitudRepuestoDetalleService {
     return this.apiRequest.put(url, detalle);
   }
 
+
+  /**
+   * Se elimina un detalle de la solicitud de repuestos
+   * @param detalle detalle a ser eliminado
+   */
+  eliminarSolicitudRepuestoDetalle(detalle: SolicitudRepuestoDetalle) {
+    const url = this.urlRepuestosDet+'/'+detalle.id;
+    return this.apiRequest.delete(url);
+  }
+
 }

@@ -20,9 +20,16 @@
 <form clrForm>
   <div class="card">
     <br/>
+    <div class="clr-col-4">
+    <clr-input-container>
+      <label>Descripción:</label>
+      <input clrInput type="text" [(ngModel)]="descripcion" name="descripcion"/>
+    </clr-input-container>
+    </div>
+    <br/>
     <!-- tipo/estado-->
     <div>
-      <label class="clr-col-1 clr-align-self-end">Tipo:</label>
+      <label class="clr-col-1 clr-align-self-end form-filter-label">Tipo:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-tipo" name="tipoId" [(ngModel)]="tipoId"
                 (ngModelChange)="onSelectTipo()">
@@ -32,22 +39,11 @@
           </option>
         </select>
       </div>
-
-      <label class="clr-col-1 clr-align-self-end">Estado Equipo:</label>
-      <div class="clr-select-wrapper">
-        <select class="clr-select" id="select-estado-equipo" name="estado" [(ngModel)]="estadoEquipo"
-                (ngModelChange)="onSelectEstadoEquipo()">
-          <option>Filtrar por Estado Equipo</option>
-          <option value="Operativo">Operativo</option>
-          <option value="Inoperativo">Inoperativo</option>
-          <option value="Irreparable">Irreparable</option>
-        </select>
-      </div>
     </div>
     <br/>
     <!--      marca/modelo-->
     <div>
-      <label class="clr-col-1 clr-align-self-end">Marca:</label>
+      <label class="clr-col-1 clr-align-self-end form-filter-label">Marca:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-marca" name="marcaId" [(ngModel)]="marcaId"
                 (ngModelChange)="onSelectMarca()">
@@ -58,7 +54,7 @@
         </select>
       </div>
 
-      <label class="clr-col-1 clr-align-self-end">Modelo:</label>
+      <label class="clr-col-1 clr-align-self-end form-filter-label">Modelo:</label>
       <div class="clr-select-wrapper">
         <select class="clr-select" id="select-modelo" name="modeloId" [(ngModel)]="modeloId"
                 (ngModelChange)="onSelectModelo()">

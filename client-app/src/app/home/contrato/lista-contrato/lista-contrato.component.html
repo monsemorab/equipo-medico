@@ -52,15 +52,10 @@
     <a class="btn btn-sm btn-primary filtro-btn " (click)="filtrarContrato()">
       <clr-icon shape="search"></clr-icon>
     </a>
-    <clr-input-container>
-      <label>Tipo Procedimiento:</label>
-      <input class="tamanho-total clr-col-6" clrInput type="text" [(ngModel)]="tipoProcedimiento"
-             name="tipoProcedimiento"/>
-    </clr-input-container>
 
-    <clr-input-container>
-      <label>Nro. Contrato:</label>
-      <input clrInput type="text" [(ngModel)]="numeroContrato" name="numeroContrato"/>
+    <clr-input-container class="id-lic-filter">
+      <label>ID Licitación:</label>
+      <input clrInput type="text" [(ngModel)]="idContrato" name="idContrato"/>
     </clr-input-container>
 
   </div>

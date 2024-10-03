@@ -41,9 +41,19 @@ public class Contrato implements Serializable {
     @Column(name = "fecha_fin")
     private Date fechaFin;
 
-    @OneToMany(mappedBy="contrato")
-    @JsonIgnoreProperties(value="contrato", allowSetters = true)
+    @ManyToMany
+    @JoinTable(
+        name = "contrato_equipo",
+        joinColumns = @JoinColumn(name = "contrato_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "equipo_id", referencedColumnName = "id"))
     private List<Equipo> equipos;
+
+    @ManyToMany
+    @JoinTable(
+        name = "contrato_repuesto",
+        joinColumns = @JoinColumn(name = "contrato_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "repuesto_id", referencedColumnName = "id"))
+    private List<Repuesto> repuestos;
 
     @Column(name = "convocante")
     private String convocante;
@@ -57,6 +67,9 @@ public class Contrato implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "representante_id")
     private Representante representante;
+
+    @Column(name = "tipo_contratp")
+    private String tipoContrato;
 
 
     /**
@@ -279,5 +292,45 @@ public class Contrato implements Serializable {
     public void setRepresentante(Representante representante)
     {
         this.representante = representante;
+    }
+
+    /**
+     * Gets tipoContrato
+     *
+     * @return value of tipoContrato
+     */
+    public String getTipoContrato()
+    {
+        return tipoContrato;
+    }
+
+    /**
+     * Set tipoContrato
+     *
+     * @param tipoContrato
+     */
+    public void setTipoContrato(String tipoContrato)
+    {
+        this.tipoContrato = tipoContrato;
+    }
+
+    /**
+     * Gets repuestos
+     *
+     * @return value of repuestos
+     */
+    public List<Repuesto> getRepuestos()
+    {
+        return repuestos;
+    }
+
+    /**
+     * Set repuestos
+     *
+     * @param repuestos
+     */
+    public void setRepuestos(List<Repuesto> repuestos)
+    {
+        this.repuestos = repuestos;
     }
 }

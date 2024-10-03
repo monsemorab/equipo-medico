@@ -17,43 +17,8 @@
 </div>
 
 <form clrForm>
-  <div class="clr-col-8">
-    <clr-input-container>
-      <label>Estado:</label>
-      <input clrInput type="text" [(ngModel)]="estado" name="estado" required/>
-      <clr-control-error>El campo es obligatorio</clr-control-error>
-    </clr-input-container>
 
-    <clr-select-container>
-      <label>Tipo Mantenimiento:</label>
-      <select clrSelect name="tipoServicio" [(ngModel)]="tipoServicio" #selectServicio
-              (change)="onSelectedTipoMantinieminto(selectServicio.value)">
-        <option *ngFor="let servicio of tipoServicios"
-                value={{servicio.nombre}}>{{servicio.nombre}}
-        </option>
-      </select>
-    </clr-select-container>
 
-    <clr-input-container *ngIf="tipoServicio == 'PREVENTIVO'">
-      <label>Fecha:</label>
-      <input clrInput type="date" [(ngModel)]="fechaRealizacion" name="fechaInstalacion"
-             min="1990-01-01" max="2050-12-31"/>
-    </clr-input-container>
-    <br/>
-  </div>
-  <div class="clr-col-8">
-    <clr-input-container>
-      <label class="clr-col-8">Personal que reporta el problema:</label>
-      <input class="tamanho-medio" clrInput type="text" [(ngModel)]="responsable" name="responsable"/>
-    </clr-input-container>
-
-    <clr-textarea-container>
-      <label class="clr-col-8">Descripción del Problema:</label>
-      <textarea class="tamanho-total clr-col-6" clrTextarea [(ngModel)]="diagnostico" name="diagnostico"></textarea>
-    </clr-textarea-container>
-  </div>
-  <br/>
-  <hr>
   <!-- información del equipo-->
   <h4 class="form-orden-trabajo-sub-title">Información del Equipo</h4>
   <!-- errors -->
@@ -109,6 +74,19 @@
         </div>
       </div>
     </div>
+
+    <!--    estado del equipo-->
+    <div class="clr-col-3"  *ngIf="selectedEquipo">
+      <clr-select-container>
+        <label>Estado</label>
+        <select clrSelect name="estado" [(ngModel)]="equipoSeleccionado.estado">
+          <option value="Operativo">Operativo</option>
+          <option value="Inoperativo">Inoperativo</option>
+          <option value="Irreparable">Irreparable</option>
+        </select>
+      </clr-select-container>
+    </div>
+
     <!--    botón eliminar-->
     <div class="clr-col-1 clr-align-self-end" *ngIf="selectedEquipo">
       <a type="button" class="btn btn-sm btn-danger-outline"
@@ -128,7 +106,7 @@
       <th class=" table-header">Ubicación</th>
       <th class=" table-header">Representante</th>
       <th class=" table-header">Fecha Garantia</th>
-      <th class=" table-header left">Contrato</th>
+<!--      <th class=" table-header left">Contrato</th>-->
     </tr>
     </thead>
     <tbody>
@@ -143,7 +121,7 @@
         {{equipoSeleccionado?.ubicacion?.numeroSala ? equipoSeleccionado?.ubicacion?.numeroSala + ' ' : '' }}</td>
       <td class="table-column">{{equipoSeleccionado?.representante.nombre}}</td>
       <td class="table-column">{{equipoSeleccionado?.fechaVenGarantia}}</td>
-      <td class=" table-columnleft">{{equipoSeleccionado?.contrato.numeroContrato}}</td>
+<!--      <td class=" table-columnleft">{{equipoSeleccionado?.contrato.numeroContrato}}</td>-->
     </tr>
     </tbody>
   </table>
@@ -177,6 +155,10 @@
         </option>
       </select>
     </clr-select-container>
+    <div *ngIf="solicitudRepuesto != null">
+      <p class="label-input ">Solicitud Repuesto ID: {{solicitudRepuesto?.id}}</p>
+    </div>
+
   </div>
   <br/>
   <div class="card">
@@ -207,8 +189,8 @@
           <td class="table-column" style="text-align: center">{{detalle.repuesto?.codigo}}</td>
           <td class="table-column">{{detalle.repuesto?.descripcionArticulo}}</td>
           <td class="table-column">{{detalle.repuesto?.tipoEquipo?.tipo}}</td>
-          <td class="table-column">{{detalle.repuesto?.marca.marca}}</td>
-          <td class="table-column">{{detalle.repuesto?.modelo.modelo}}</td>
+          <td class="table-column">{{detalle.repuesto?.marca?.marca}}</td>
+          <td class="table-column">{{detalle.repuesto?.modelo?.modelo}}</td>
           <td class="table-column">{{detalle.repuesto?.representante?.nombre}}</td>
           <td class="table-column" style="text-align: right">{{detalle.repuesto?.precio}}</td>
           <td class="table-column" style="text-align: center">{{detalle.cantidadSolicitada}}</td>
@@ -221,6 +203,43 @@
         </tr>
       </ng-template>
     </p-table>
+  </div>
+  <br/>
+  <hr>
+  <div class="clr-col-8">
+    <clr-input-container>
+      <label>Estado:</label>
+      <input clrInput type="text" [(ngModel)]="estado" name="estado" required/>
+      <clr-control-error>El campo es obligatorio</clr-control-error>
+    </clr-input-container>
+
+    <clr-select-container>
+      <label>Tipo Mantenimiento:</label>
+      <select clrSelect name="tipoServicio" [(ngModel)]="tipoServicio" #selectServicio
+              (change)="onSelectedTipoMantinieminto(selectServicio.value)">
+        <option *ngFor="let servicio of tipoServicios"
+                value={{servicio.nombre}}>{{servicio.nombre}}
+        </option>
+      </select>
+    </clr-select-container>
+
+    <clr-input-container *ngIf="tipoServicio == 'PREVENTIVO'">
+      <label>Fecha:</label>
+      <input clrInput type="date" [(ngModel)]="fechaRealizacion" name="fechaInstalacion"
+             min="1990-01-01" max="2050-12-31"/>
+    </clr-input-container>
+    <br/>
+  </div>
+  <div class="clr-col-8">
+    <clr-input-container>
+      <label class="clr-col-8">Personal que reporta el problema:</label>
+      <input class="tamanho-medio" clrInput type="text" [(ngModel)]="responsable" name="responsable"/>
+    </clr-input-container>
+
+    <clr-textarea-container>
+      <label class="clr-col-8">Descripción del Problema:</label>
+      <textarea class="tamanho-total clr-col-6" clrTextarea [(ngModel)]="diagnostico" name="diagnostico"></textarea>
+    </clr-textarea-container>
   </div>
 
   <br/><br/>

@@ -6,12 +6,12 @@ export class OrdenTrabajo {
 
   constructor(public id: number,
               public estado: string,
-              public tipoServicio: string, // Operativo/preventivo
+              public tipoServicio: string, // correctivo/preventivo
               public diagnostico: string,
               public responsable: string,
               public equipo: Equipo,
               public solicitudRepuesto: SolicitudRepuesto,
-              public mantenimiento: Mantenimiento,
+              public mantenimientos: Mantenimiento[],
               // este campo es para el tipo preventivo
               public fechaSolicitud: any) {
 

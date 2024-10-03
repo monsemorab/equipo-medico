@@ -50,19 +50,19 @@
         </div>
       </div>
       <!--número patrimonial-->
-      <div class="clr-col-4">
-        <div class="clr-form-control">
-          <label class="tamanho-total clr-col-5 label-input">N. Patrimonial</label>
-          <div class="clr-control-container">
-            <div class="clr-input-wrapper">
-              <input type="text" class="clr-input" id="numeroPatrimonial" name="numeroPatrimonial" #nroPatrimonial
-                     (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"
-                     (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"
-                     [(ngModel)]="numeroPatrimonial"/>
-            </div>
-          </div>
-        </div>
-      </div>
+<!--      <div class="clr-col-4">-->
+<!--        <div class="clr-form-control">-->
+<!--          <label class="tamanho-total clr-col-5 label-input">N. Patrimonial</label>-->
+<!--          <div class="clr-control-container">-->
+<!--            <div class="clr-input-wrapper">-->
+<!--              <input type="text" class="clr-input" id="numeroPatrimonial" name="numeroPatrimonial" #nroPatrimonial-->
+<!--                     (keyup.enter)="onEnterNroPatrimonial(nroPatrimonial.value)"-->
+<!--                     (keyup)="onKeyNroPatrimonial(nroPatrimonial.value)"-->
+<!--                     [(ngModel)]="numeroPatrimonial"/>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <a class="btn btn-outline content-no-print btn-print"
          (click)="limpiarCamposInfo()">
@@ -204,7 +204,6 @@
       </button>
     </div>
   </div>
-  <label>Sin datos para la categoria</label>
 
   <div class="clr-row">
     <div class="clr-col-6">

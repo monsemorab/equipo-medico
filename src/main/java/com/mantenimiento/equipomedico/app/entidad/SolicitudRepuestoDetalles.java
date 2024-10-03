@@ -23,7 +23,7 @@ public class SolicitudRepuestoDetalles implements Serializable
 	@Column(name = "id")
 	private long id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "solicitud_id")
 	@JsonIgnoreProperties(value="solicitudRepuestoDetalles", allowSetters = true)
 	private SolicitudRepuesto solicitud;

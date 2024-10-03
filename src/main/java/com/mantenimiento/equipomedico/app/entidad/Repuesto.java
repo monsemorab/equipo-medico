@@ -4,6 +4,9 @@ package com.mantenimiento.equipomedico.app.entidad;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Repuesto para el equipo.
@@ -22,7 +25,7 @@ public class Repuesto implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "codigo")
+    @Column(name = "codigo", unique = true)
     private String codigo;
 
     @Column(name = "descripcion_articulo")
@@ -55,6 +58,10 @@ public class Repuesto implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="representante_id")
     private Representante representante;
+
+    @ManyToMany(mappedBy = "repuestos")
+    @JsonIgnore
+    List<Contrato> contratos;
 
 
     /**
@@ -259,5 +266,25 @@ public class Repuesto implements Serializable {
     public void setMarca(Marca marca)
     {
         this.marca = marca;
+    }
+
+    /**
+     * Gets contratos
+     *
+     * @return value of contratos
+     */
+    public List<Contrato> getContratos()
+    {
+        return contratos;
+    }
+
+    /**
+     * Set contratos
+     *
+     * @param contratos
+     */
+    public void setContratos(List<Contrato> contratos)
+    {
+        this.contratos = contratos;
     }
 }

@@ -33,16 +33,28 @@
   <div class="clr-row clr-justify-content-start">
     <!--columna izquierda-->
     <div class="clr-col-6">
-      <clr-input-container>
-        <label class="clr-col-8">Código:</label>
-        <input class="tamanho-total clr-col-6" clrInput id="codRepuesto"
-               name="codRepuesto" #codRep tabindex="1"
-               (keyup.enter)="onEnterCodigoRepuesto(codRep.value)"
-               (keyup)="onKeyCodigoRepuesto(codRep.value)"
-               [(ngModel)]="codigo" required/>
-        <clr-control-helper>Ingrese un codigo y presione enter para verificar existencia</clr-control-helper>
+      <div *ngIf="mostrarRep">
+        <label class="clr-col-5">Repuestos Existentes</label>
+        <select clrSelect name="repExistenteId" [(ngModel)]="repExistenteId"
+                (ngModelChange)="onSelectRepuesto()">
+          <option disabled>Seleccionar Repuesto</option>
+          <option *ngFor="let repuesto of repuestos"
+                  value={{repuesto.id}}>{{repuesto.descripcionArticulo}}
+          </option>
+        </select>
+      </div>
+
+      <clr-textarea-container>
+        <label class="clr-col-5">Descripción:</label>
+        <textarea class="tamanho-total" clrTextarea [(ngModel)]="descripcion"
+                  name="description" required tabindex="1"
+                  #despRep
+                  (keyup.enter)="onEnterDescripcionRepuesto(despRep.value)"
+                  (keyup)="onKeyDescripcionRepuesto(despRep.value)">
+            </textarea>
+        <clr-control-helper>Ingrese un keyword y presione enter para verificar existencia</clr-control-helper>
         <clr-control-error>El campo es obligatorio</clr-control-error>
-      </clr-input-container>
+      </clr-textarea-container>
 
       <clr-input-container>
         <label class="clr-col-8">Precio:</label>
@@ -66,28 +78,19 @@
           </option>
         </select>
       </clr-select-container>
-
-      <clr-select-container>
-        <label class="clr-col-5">Representante:</label>
-        <select clrSelect name="repreId" [(ngModel)]="repreId" [disabled]="readonlyField"
-                (ngModelChange)="onSelectRepresentante()" tabindex="5">
-          <option disabled>Seleccionar Representante</option>
-          <option *ngFor="let repre of representantes"
-                  value={{repre.id}}>{{repre.nombre}}
-          </option>
-        </select>
-      </clr-select-container>
     </div>
 
     <!--columna derecha-->
     <div class="clr-col-6">
-      <clr-textarea-container>
-        <label class="clr-col-5">Descripción:</label>
-        <textarea class="tamanho-total" clrTextarea [(ngModel)]="descripcion"
-                  name="description" required [disabled]="readonlyField" tabindex="6">
-            </textarea>
-        <clr-control-error>El campo es obligatorio</clr-control-error>
-      </clr-textarea-container>
+      <clr-input-container></clr-input-container>
+      <clr-input-container></clr-input-container>
+
+      <clr-input-container>
+        <label class="clr-col-8">Código:</label>
+        <input class="tamanho-total clr-col-6" clrInput id="codigo"
+               [disabled]="readonlyField"
+               name="codigo" [(ngModel)]="codigo" tabindex="6"/>
+      </clr-input-container>
 
       <clr-input-container>
         <label class="clr-col-8">Cant. Existente:</label>
@@ -113,6 +116,17 @@
           <option disabled>Seleccionar Modelo</option>
           <option *ngFor="let modelo of modelos"
                   value={{modelo.id}}>{{modelo.modelo}}
+          </option>
+        </select>
+      </clr-select-container>
+
+      <clr-select-container>
+        <label class="clr-col-5">Representante:</label>
+        <select clrSelect name="repreId" [(ngModel)]="repreId" [disabled]="readonlyField"
+                (ngModelChange)="onSelectRepresentante()" tabindex="5">
+          <option disabled>Seleccionar Representante</option>
+          <option *ngFor="let repre of representantes"
+                  value={{repre.id}}>{{repre.nombre}}
           </option>
         </select>
       </clr-select-container>

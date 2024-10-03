@@ -53,3 +53,7 @@ pre {
   font-size: 0.7rem !important;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
 }
+
+.descripcion-filter {
+  margin-left: 0% !important;
+}

@@ -42,6 +42,11 @@ export class RepuestoService {
     return this.apiRequest.get(url);
   }
 
+  getRepuestoByKeyWord(keyWord: string): Observable<Repuesto[]> {
+    const url = this.urlRepuesto + '/byDescripcion/' + keyWord;
+    return this.apiRequest.get(url);
+  }
+
   /**
    * Se obtiene la lista de repuestos filtrados
    * @param filtro

@@ -28,6 +28,16 @@
         <clr-control-error>El campo es obligatorio</clr-control-error>
       </clr-input-container>
 
+      <clr-select-container>
+        <label>Tipo de Contrato:</label>
+        <select clrSelect name="tipo" [(ngModel)]="tipoContrato"
+                (ngModelChange)="onSelectTipoContrato()" required>
+          <option *ngFor="let tipo of tiposContrato"
+                  value={{tipo.nombre}}>{{tipo.nombre}}
+          </option>
+        </select>
+      </clr-select-container>
+
       <clr-input-container>
         <label>Tipo Procedimiento:</label>
         <input class="tamanho-total clr-col-6" clrInput type="text" [(ngModel)]="tipoProcedimiento"
@@ -92,8 +102,8 @@
               (ngModelChange)="onSelectedEquipo()">
         <option>Seleccionar Equipo</option>
         <option *ngFor="let equipo of equipos"
-                value={{equipo.id}}>{{equipo.numeroSerie}}- {{equipo.descripcionEquipo}} - {{equipo.tipoEquipo.tipo}}
-          -{{equipo.marca.marca}}-{{equipo.modelo.modelo}}
+                value={{equipo.id}}>{{equipo.numeroSerie}}- {{equipo.descripcionEquipo}} - {{equipo.tipoEquipo?.tipo}}
+          -{{equipo.marca?.marca}}-{{equipo.modelo?.modelo}}
         </option>
       </select>
     </div>
@@ -137,6 +147,66 @@
       <clr-dg-cell class="table-column text-center">{{equipo.numeroPatrimonial}}</clr-dg-cell>
       <clr-dg-cell class="table-column text-center">{{equipo.fechaCompra}}</clr-dg-cell>
       <clr-dg-cell class="table-column text-center">{{equipo.estado}}</clr-dg-cell>
+    </clr-dg-row>
+  </clr-datagrid>
+
+  <br/><br/>
+  <div class="clr-row clr-justify-content-start" *ngIf="isTipoMantenimiento">
+    <label class="clr-col-1 clr-align-self-end form-add-equipo-label">Repuesto:</label>
+    <div class="clr-col-3 clr-align-self-end">
+      <select class="tamanho-total" name="repuestoId" [(ngModel)]="repuestoId"
+              (ngModelChange)="onSelectedRepuesto()">
+        <option>Seleccionar Repuesto</option>
+        <option *ngFor="let repuesto of repuestos"
+                value={{repuesto.id}}>{{repuesto?.codigo}}- {{repuesto?.descripcionArticulo}} - {{repuesto.tipoEquipo?.tipo}}
+          -{{repuesto.marca?.marca}}-{{repuesto.modelo?.modelo}}
+        </option>
+      </select>
+    </div>
+
+    <div class="clr-col-1" *ngIf="isTipoMantenimiento">
+      <button class=" btn btn-sm btn-success clr-align-self-end btn-add-equipo"
+              (click)="addRepuesto()" [disabled]="repuestoId == 'Seleccionar Repuesto' ">
+        <clr-icon shape="add"></clr-icon>
+        Add
+      </button>
+    </div>
+  </div>
+  <br/>
+  <!--  lista repuestos-->
+
+  <clr-datagrid *ngIf="isTipoMantenimiento">
+    <clr-dg-action-bar>
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-warning" [disabled]="!isSelectedRepuesto"
+                (click)="onDeleteRepuesto()">
+          <clr-icon shape="trash"></clr-icon>
+          Delete
+        </button>
+      </div>
+    </clr-dg-action-bar>
+    <clr-dg-column class="table-header">Tipo</clr-dg-column>
+    <clr-dg-column class="table-header">Marca</clr-dg-column>
+    <clr-dg-column class="table-header">Modelo</clr-dg-column>
+    <clr-dg-column class="table-header">Representante</clr-dg-column>
+    <clr-dg-column class="table-header">Código</clr-dg-column>
+    <clr-dg-column class="table-header">Descripción</clr-dg-column>
+    <clr-dg-column class="table-header">Precio</clr-dg-column>
+    <clr-dg-column class="table-header">Cantidad Adquirida</clr-dg-column>
+    <clr-dg-column class="table-header">Stock</clr-dg-column>
+
+    <clr-dg-row *ngFor="let repuesto of selectedRepuestos"
+                (click)="onSelectRepuesto(repuesto)"
+                [class.selectedRepuesto]="repuesto === selectedRepuesto">
+      <clr-dg-cell class="table-column">{{repuesto?.tipoEquipo?.tipo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto?.marca?.marca}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto?.modelo?.modelo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto?.representante?.nombre}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto?.codigo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto?.descripcionArticulo}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto?.precio}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto.cantidadAdquirida}}</clr-dg-cell>
+      <clr-dg-cell class="table-column">{{repuesto.cantidadExistente}}</clr-dg-cell>
     </clr-dg-row>
   </clr-datagrid>
 

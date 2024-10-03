@@ -2,7 +2,7 @@
 <form clrForm>
   <div class="clr-col-4">
     <clr-select-container>
-      <label>Estado:</label>
+      <label>Estado de la Orden:</label>
       <select clrSelect name="estadoOT" #selectEstadoOT
               [(ngModel)]="estadoOT"
               (change)="onSelectedEstado(selectEstadoOT.value)">
@@ -35,6 +35,17 @@
   <hr>
   <!-- información del equipo-->
   <h4 class="form-mantenimiento-sub-title">Información del Equipo</h4>
+  <!--    estado del equipo-->
+  <div class="clr-col-3">
+    <clr-select-container>
+      <label>Estado</label>
+      <select clrSelect name="estado" [(ngModel)]="equipo.estado">
+        <option value="Operativo">Operativo</option>
+        <option value="Inoperativo">Inoperativo</option>
+        <option value="Irreparable">Irreparable</option>
+      </select>
+    </clr-select-container>
+  </div>
   <table class="table table-compact">
     <thead>
     <tr>
@@ -47,7 +58,7 @@
       <th class=" table-header">Ubicación</th>
       <th class=" table-header">Representante</th>
       <th class=" table-header">Fecha Garantia</th>
-      <th class=" table-header left">Contrato</th>
+<!--      <th class=" table-header left">Contrato</th>-->
     </tr>
     </thead>
     <tbody>
@@ -64,7 +75,7 @@
         {{equipo?.ubicacion?.numeroSala ? equipo?.ubicacion?.numeroSala + ' ' : '' }}</td>
       <td class="table-column">{{equipo?.representante.nombre}}</td>
       <td class="table-column">{{equipo?.fechaVenGarantia}}</td>
-      <td class=" table-columnleft">{{equipo?.contrato.numeroContrato}}</td>
+<!--      <td class=" table-columnleft">{{equipo?.contrato.numeroContrato}}</td>-->
     </tr>
     </tbody>
   </table>
@@ -92,8 +103,8 @@
         <td class="table-column" style="text-align: center">{{detalle.repuesto?.codigo}}</td>
         <td class="table-column">{{detalle.repuesto?.descripcionArticulo}}</td>
         <td class="table-column">{{detalle.repuesto?.tipoEquipo?.tipo}}</td>
-        <td class="table-column">{{detalle.repuesto?.marca.marca}}</td>
-        <td class="table-column">{{detalle.repuesto?.modelo.modelo}}</td>
+        <td class="table-column">{{detalle.repuesto?.marca?.marca}}</td>
+        <td class="table-column">{{detalle.repuesto?.modelo?.modelo}}</td>
         <td class="table-column">{{detalle.repuesto?.representante?.nombre}}</td>
         <td class="table-column" style="text-align: right">{{detalle.repuesto?.precio}}</td>
         <td class="table-column" style="text-align: center">{{detalle.cantidadSolicitada}}</td>
@@ -125,7 +136,40 @@
     </div>
   </div>
 
+  <br/>
+  <p-table [value]="servicioRealizadoList">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="table-header">Fecha Servicio</th>
+        <th class="table-header">Nro Orden Servicio</th>
+        <th class="table-header">Informe Numero</th>
+        <th class="table-header">Nombre del Técnico</th>
+        <th class="table-header">Tipo Servicio</th>
+        <th class="table-header">Tarea Realizada</th>
+        <th class="table-header">Estado del Equipo</th>
+        <th style="width:6rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-servicio>
+      <tr>
+        <td class="table-column" style="text-align: center">{{servicio?.fechaMantenimiento}}</td>
+        <td class="table-column">{{servicio?.numeroOrdenServicio}}</td>
+        <td class="table-column">{{servicio?.informeNumero}}</td>
+        <td class="table-column">{{servicio?.nombreTecnico}}</td>
+        <td class="table-column">{{servicio?.tipoServicio}}</td>
+        <td class="table-column" style="text-align: right">{{servicio?.tareaRealizada}}</td>
+        <td class="table-column" style="text-align: center">{{servicio.estadoEquipo}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <br/>
+
   <div class="clr-col-5">
+    <clr-input-container>
+      <label class="clr-col-5">Nro Orden Servicio:</label>
+      <input clrInput type="text" [(ngModel)]="numeroOrdenServicio" name="nroOrdenServicio"/>
+    </clr-input-container>
+
     <clr-input-container>
       <label class="clr-col-5">Informe Nro:</label>
       <input clrInput type="text" [(ngModel)]="informeNro" name="informeNro" required/>
@@ -145,6 +189,15 @@
       <label class="clr-col-8">Nombre del Técnico:</label>
       <input class="tamanho-medio" clrInput type="text" [(ngModel)]="nombreTecnico" name="nombreTecnico"/>
     </clr-input-container>
+
+    <clr-select-container>
+      <label>Estado del Equipo</label>
+      <select clrSelect name="estadoEq" [(ngModel)]="estadoEquipo">
+        <option value="Operativo">Operativo</option>
+        <option value="Inoperativo">Inoperativo</option>
+        <option value="Irreparable">Irreparable</option>
+      </select>
+    </clr-select-container>
   </div>
 
   <br/><br/>

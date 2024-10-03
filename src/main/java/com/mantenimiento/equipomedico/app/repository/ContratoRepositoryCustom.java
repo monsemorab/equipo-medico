@@ -6,5 +6,5 @@ import com.mantenimiento.equipomedico.app.entidad.Contrato;
 
 public interface ContratoRepositoryCustom
 {
-	List<Contrato> getContratoByFilter(String numeroContrato, String tipoProcedimiento, String estadoContrato);
+	List<Contrato> getContratoByFilter(String id, String estadoContrato);
 }

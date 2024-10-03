@@ -38,9 +38,12 @@ export class EditMantenimientoComponent implements OnInit {
   mantenimientoId: number;
   tareaRealizada: string;
   informeNro: number;
+  numeroOrdenServicio:number;
   nombreTecnico: string;
+  estadoEquipo:string;
   fechaMantenimiento: any;
   servicioRealizado: Mantenimiento;
+  servicioRealizadoList: Mantenimiento[];
   readOnlyField: boolean;
 
   // modal para agregar/editar detalle de repuesto a la solicitud
@@ -68,7 +71,7 @@ export class EditMantenimientoComponent implements OnInit {
         switchMap((params: ParamMap) => this.ordenTrabajoService.getOrdenTrabajoById(+params.get('id')))
       ).subscribe(orden => {
         this.ordenTrabajo = new OrdenTrabajo(orden.id, orden.estado, orden.tipoServicio, orden.diagnostico,
-          orden.responsable, orden.equipo, orden.solicitudRepuesto, orden.mantenimiento, orden.fechaSolicitud);
+          orden.responsable, orden.equipo, orden.solicitudRepuesto, orden.mantenimientos, orden.fechaSolicitud);
         this.camposAEditar(this.ordenTrabajo);
       },
       error => {
@@ -117,18 +120,22 @@ export class EditMantenimientoComponent implements OnInit {
       this.fechaRealizacion = datepipe.transform(orden.fechaSolicitud, 'dd-MM-yyyy').toString();
     }
     this.equipo = orden.equipo;
+    this.equipo.fechaVenGarantia = datepipe.transform(this.equipo.fechaVenGarantia, 'dd-MM-yyyy');
     this.solicitudRepuesto = orden.solicitudRepuesto;
     if (this.solicitudRepuesto != null) {
       this.solicitudRepuestoDetalles = this.solicitudRepuesto.solicitudRepuestoDetalles;
     }
-    this.servicioRealizado = orden.mantenimiento;
-    this.mantenimientoId = this.servicioRealizado.id;
-    this.tareaRealizada = this.servicioRealizado.tareaRealizada;
-    this.informeNro = this.servicioRealizado.informeNumero;
-    this.nombreTecnico = this.servicioRealizado.nombreTecnico;
-
+    this.servicioRealizadoList = orden.mantenimientos;
+    this.formateoFechasServicio();
     if(this.estadoOT === EstadoOrdenTrabajo.FINALIZADO) {
       this.readOnlyField = true;
+    }
+  }
+
+  formateoFechasServicio() {
+    const datepipe: DatePipe = new DatePipe('en-ES');
+    for (let i = 0; i < this.servicioRealizadoList.length; i++) {
+      this.servicioRealizadoList[i].fechaMantenimiento = datepipe.transform(this.servicioRealizadoList[i].fechaMantenimiento, 'dd-MM-yyyy');
     }
   }
 
@@ -251,8 +258,8 @@ export class EditMantenimientoComponent implements OnInit {
         let parts = this.fechaRealizacion.split('/');
         this.fechaRealizacion = new Date(+parts[2], +parts[0] - 1, +parts[1]);
       }
-      this.servicioRealizado = new Mantenimiento(this.mantenimientoId, this.tareaRealizada, this.informeNro,
-        this.nombreTecnico, this.servicioRealizado.tipoServicio, this.servicioRealizado.estadoEquipo, this.fechaMantenimiento);
+      this.servicioRealizado = new Mantenimiento(this.mantenimientoId, this.numeroOrdenServicio, this.tareaRealizada, this.informeNro,
+        this.nombreTecnico, this.servicioRealizado.tipoServicio, this.servicioRealizado.estadoEquipo, this.ordenTrabajo, this.fechaMantenimiento);
       if (this.tareaRealizada != '' && this.nombreTecnico != '') {
         this.updateMantenimiento(this.servicioRealizado);
       }
@@ -268,8 +275,9 @@ export class EditMantenimientoComponent implements OnInit {
     this.manteniminetoService.editarMantenimineto(servicioRealizado).subscribe(
       mantenimineto => {
         this.servicioRealizado = mantenimineto;
+        this.servicioRealizadoList.push(this.servicioRealizado);
         if(this.ordenTrabajo.estado === EstadoOrdenTrabajo.FINALIZADO) {
-          this.updateOrdenTrabajo(this.servicioRealizado);
+          this.updateOrdenTrabajo(this.servicioRealizadoList);
         }
       },
       error => {
@@ -280,8 +288,8 @@ export class EditMantenimientoComponent implements OnInit {
     );
   }
 
-  updateOrdenTrabajo(servcioRealizado: Mantenimiento) {
-    this.ordenTrabajo.mantenimiento = servcioRealizado;
+  updateOrdenTrabajo(servcioRealizado: Mantenimiento[]) {
+    this.ordenTrabajo.mantenimientos = servcioRealizado;
     this.ordenTrabajoService.editarOrdenTrabajo(this.ordenTrabajo).subscribe(
       orden => {
         this.ordenTrabajo = orden;

@@ -7,9 +7,13 @@ import com.mantenimiento.equipomedico.app.repository.EquipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -32,15 +36,22 @@ public class ContratoServiceImpl implements ContratoService {
             Optional<Contrato> contrato1 = contratoRepository.findById(contrato.getId());
             if(contrato1.isPresent()){
                 contrato1.get().getEquipos().forEach(e -> {
-                    e.setContrato(null);
+                    e.getContratos().removeIf(cont -> cont.equals(contrato1.get().getId()));
                     equipoRepository.save(e);
                 });
             }
         }
+        Date current = Date.from((LocalDate.now().minusDays(1)).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+
+        if(Objects.nonNull(contrato.getFechaFin()) &&
+            contrato.getFechaFin()
+            .after(current)){
+            contrato.setEstadoContrato("Finalizado");
+        }
         Contrato cont = contratoRepository.save(contrato);
         contrato.getEquipos().forEach(equipo -> {
             Equipo eq = equipoRepository.findById(equipo.getId()).get();
-            eq.setContrato(cont);
+            eq.getContratos().add(cont);
             equipoRepository.save(eq);
         });
         return contrato;
@@ -78,21 +89,14 @@ public class ContratoServiceImpl implements ContratoService {
     public List<Contrato> getContratosByFilter(
         Map<String, String> customQuery)
     {
-        String numeroContrato = null;
-        String tipoProcedimiento = null;
+        String id = null;
         String estadoContrato = null;
-        if(customQuery.containsKey("tipo")) {
-            customQuery.get("tipo");
-        }
-        if(customQuery.containsKey("numeroContrato")) {
-            numeroContrato = customQuery.get("numeroContrato");
-        }
-        if(customQuery.containsKey("tipoProcedimiento")) {
-            tipoProcedimiento = customQuery.get("tipoProcedimiento");
+        if(customQuery.containsKey("id")) {
+            id = customQuery.get("id");
         }
         if(customQuery.containsKey("estadoContrato")) {
             estadoContrato = customQuery.get("estadoContrato");
         }
-        return contratoRepository.getContratoByFilter(numeroContrato, tipoProcedimiento,estadoContrato);
+        return contratoRepository.getContratoByFilter(id,estadoContrato);
     }
 }
